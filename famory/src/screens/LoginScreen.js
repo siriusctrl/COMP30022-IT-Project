@@ -27,9 +27,8 @@ class LoginScreen extends Component{
 
   render() {
     return (
-      <View style={styles.container}>
+      <KeyboardAvoidingView behavior={"padding"} style={styles.container}>
         <Image source={imageLogo} style={styles.logo}/>
-        <KeyboardAvoidingView behavior={"padding"} style={{flex: 1, justifyContent: 'center'}}>
           <View style={styles.form}>
             <BoxTextInput
               value={this.state.Email}
@@ -51,8 +50,7 @@ class LoginScreen extends Component{
               onPress={this.handleLoginPress}
             />
           </View>
-        </KeyboardAvoidingView>
-      </View>
+      </KeyboardAvoidingView>
     );
   }
 }
@@ -62,7 +60,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: colors.WHITE,
     alignItems: "center",
-    justifyContent: "center"
+    justifyContent: "space-between"
   },
   logo: {
     flex: 1,

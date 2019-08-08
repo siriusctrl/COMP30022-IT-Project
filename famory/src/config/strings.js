@@ -1,6 +1,6 @@
 const strings = {
     LOGIN: "Log In",
-    EMAIL_PLACEHOLDER: "Email address",
+    EMAIL_PLACEHOLDER: "email@example.com",
     PASSWORD_PLACEHOLDER: "Password",
   };
   

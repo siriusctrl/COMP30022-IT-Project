@@ -27,14 +27,16 @@ class BoxTextInput extends Component {
   const styles = StyleSheet.create({
     textInput: {
         width:"100%",
-        borderRadius: 4,//输入框边界圆角度数
+        borderRadius: 4,
         margin:10,
         paddingLeft: 4,
-        borderColor: 'transparent',
+        //borderColor: 'transparent',
+        borderColor: colors.BLACK,
         backgroundColor : colors.WHITE,
         padding:0,
         borderWidth: 1,
-        alignSelf:'center'//自身居中
+        alignSelf:'center',
+        height: "18%"
     }
   });
   
