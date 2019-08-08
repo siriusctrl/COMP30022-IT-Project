@@ -1,11 +1,52 @@
 import React, {Component} from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { Image, StyleSheet, View } from "react-native";
+import Button from "../components/Button";
+import FormTextInput from "../components/FormTextInput";
+import imageLogo from "../assets/images/logo.png";
+import colors from "../config/colors";
+import strings from "../config/strings";
 
-export default class LoginScreen extends Component {
+class LoginScreen extends Component{
+
+  state = {
+    username:"",
+    password:"",
+  }
+
+  handleUsernameChanges = (username) => {
+    this.setState({username : username});
+  }
+
+  handlePasswordChanges = (password) => {
+    this.setState({password : password});
+  }
+
+  handleLoginPress = () => {
+   console.log("Login Button Pressed");
+  }
+
   render() {
     return (
       <View style={styles.container}>
-        <Text>Welcome to the login screen!</Text>
+        <Image source={imageLogo} style={styles.logo} />
+        <View style={styles.form}>
+          <FormTextInput
+            value={this.state.username}
+            onChangeText={this.handleUsernameChange}
+            placeholder={strings.USERNAME_PLACEHOLDER}
+          />
+
+          <FormTextInput
+            value={this.state.password}
+            onChangeText={this.handlePasswordChange}
+            placeholder={strings.PASSWORD_PLACEHOLDER}
+          />
+          
+          <Button
+            label={strings.LOGIN}
+            onPress={this.handleLoginPress}
+          />
+        </View>
       </View>
     );
   }
@@ -14,8 +55,21 @@ export default class LoginScreen extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: colors.WHITE,
     alignItems: "center",
-    justifyContent: "center"
+    justifyContent: "space-between"
+  },
+  logo: {
+    flex: 1,
+    width: "100%",
+    resizeMode: "contain",
+    alignSelf: "center"
+  },
+  form: {
+    flex: 1,
+    justifyContent: "center",
+    width: "80%"
   }
 });
+
+export default LoginScreen;
