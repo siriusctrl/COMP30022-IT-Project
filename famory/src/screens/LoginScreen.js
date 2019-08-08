@@ -1,20 +1,20 @@
 import React, {Component} from "react";
-import { Image, StyleSheet, View } from "react-native";
+import { Image, StyleSheet, View , Alert, KeyboardAvoidingView, ImageBackground} from "react-native";
 import Button from "../components/Button";
 import FormTextInput from "../components/FormTextInput";
+import BoxTextInput from "../components/BoxTextInput";
 import imageLogo from "../assets/images/logo.png";
 import colors from "../config/colors";
 import strings from "../config/strings";
 
 class LoginScreen extends Component{
-
   state = {
-    username:"",
+    email:"",
     password:"",
   }
 
-  handleUsernameChanges = (username) => {
-    this.setState({username : username});
+  handleEmailChanges = (email) => {
+    this.setState({email : email});
   }
 
   handlePasswordChanges = (password) => {
@@ -22,31 +22,36 @@ class LoginScreen extends Component{
   }
 
   handleLoginPress = () => {
-   console.log("Login Button Pressed");
+    Alert.alert("Login Pressed with 0.5 opacity");
   }
 
   render() {
     return (
       <View style={styles.container}>
-        <Image source={imageLogo} style={styles.logo} />
-        <View style={styles.form}>
-          <FormTextInput
-            value={this.state.username}
-            onChangeText={this.handleUsernameChange}
-            placeholder={strings.USERNAME_PLACEHOLDER}
-          />
+        <Image source={imageLogo} style={styles.logo}/>
+        <KeyboardAvoidingView behavior={"padding"} style={{flex: 1, justifyContent: 'center'}}>
+          <View style={styles.form}>
+            <BoxTextInput
+              value={this.state.Email}
+              onChangeText={this.handleEmailChanges}
+              placeholder={strings.EMAIL_PLACEHOLDER}
+              keyboardType = {"email-address"}
+            />
 
-          <FormTextInput
-            value={this.state.password}
-            onChangeText={this.handlePasswordChange}
-            placeholder={strings.PASSWORD_PLACEHOLDER}
-          />
-          
-          <Button
-            label={strings.LOGIN}
-            onPress={this.handleLoginPress}
-          />
-        </View>
+            <BoxTextInput
+              value={this.state.password}
+              onChangeText={this.handlePasswordChanges}
+              placeholder={strings.PASSWORD_PLACEHOLDER}
+              secureTextEntry={true}
+              returnKeyType="send"
+            />
+            
+            <Button
+              label={strings.LOGIN}
+              onPress={this.handleLoginPress}
+            />
+          </View>
+        </KeyboardAvoidingView>
       </View>
     );
   }
@@ -57,18 +62,18 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: colors.WHITE,
     alignItems: "center",
-    justifyContent: "space-between"
+    justifyContent: "center"
   },
   logo: {
     flex: 1,
-    width: "100%",
+    width: "50%",
     resizeMode: "contain",
-    alignSelf: "center"
+    alignSelf: "center",
   },
   form: {
     flex: 1,
     justifyContent: "center",
-    width: "80%"
+    width: "80%",
   }
 });
 

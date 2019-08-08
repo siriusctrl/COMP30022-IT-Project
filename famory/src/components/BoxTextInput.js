@@ -2,7 +2,7 @@ import React, {Component} from "react";
 import { StyleSheet, TextInput, TextInputProps } from "react-native";
 import colors from "../config/colors";
 
-class FormTextInput extends Component {
+class BoxTextInput extends Component {
     render() {
       // We define our own custom style for the TextInput, but
       // we still want to allow the developer to supply its
@@ -26,11 +26,16 @@ class FormTextInput extends Component {
   
   const styles = StyleSheet.create({
     textInput: {
-      height: 40,
-      borderColor: colors.SILVER,
-      borderBottomWidth: StyleSheet.hairlineWidth,
-      marginBottom: 20
+        width:"100%",
+        borderRadius: 4,//输入框边界圆角度数
+        margin:10,
+        paddingLeft: 4,
+        borderColor: 'transparent',
+        backgroundColor : colors.WHITE,
+        padding:0,
+        borderWidth: 1,
+        alignSelf:'center'//自身居中
     }
   });
   
-  export default FormTextInput;
+  export default BoxTextInput;
