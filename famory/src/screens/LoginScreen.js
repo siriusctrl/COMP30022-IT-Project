@@ -30,11 +30,14 @@ class LoginScreen extends Component{
       <KeyboardAvoidingView behavior={"padding"} style={styles.container}>
         <Image source={imageLogo} style={styles.logo}/>
           <View style={styles.form}>
+            
             <BoxTextInput
               value={this.state.Email}
               onChangeText={this.handleEmailChanges}
               placeholder={strings.EMAIL_PLACEHOLDER}
-              keyboardType = {"email-address"}
+              keyboardType={"email-address"}
+              returnKeyType="next"
+              autoCorrect={false}
             />
 
             <BoxTextInput
@@ -42,7 +45,7 @@ class LoginScreen extends Component{
               onChangeText={this.handlePasswordChanges}
               placeholder={strings.PASSWORD_PLACEHOLDER}
               secureTextEntry={true}
-              returnKeyType="send"
+              returnKeyType= "done"
             />
             
             <Button
