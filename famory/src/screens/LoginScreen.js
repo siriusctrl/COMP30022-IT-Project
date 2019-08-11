@@ -2,16 +2,13 @@ import React, {Component} from "react";
 import { Text, Image, StyleSheet, View , Alert, KeyboardAvoidingView, ImageBackground} from "react-native";
 import Button from "../components/Button";
 import FormTextInput from "../components/FormTextInput";
-import BoxTextInput from "../components/BoxTextInput";
 
 import imageLogo from "../assets/images/glass.png";
 import backgroundimg from "../assets/images/Back.png"
-import logo from "../assets/images/glass.svg";
 import iconMail from "../assets/images/icon-mail.png";
 
 import colors from "../config/colors";
 import strings from "../config/strings";
-import SvgUri from 'react-native-svg-uri';
 
 class LoginScreen extends Component{
   state = {
@@ -78,7 +75,6 @@ class LoginScreen extends Component{
 
     </KeyboardAvoidingView>
     </ImageBackground>
-
     );
   }
 }
@@ -111,9 +107,11 @@ const styles = StyleSheet.create({
   },
   icon: {
     padding: 10,
-    margin: 5,
-    height: 25,
-    width: 25,
+    marginTop:15,
+    marginRight:10,
+    marginLeft:5,
+    height: 15,
+    width: 15,
     resizeMode: 'contain',
     alignItems: 'center',
   },
