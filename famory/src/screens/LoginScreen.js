@@ -3,9 +3,14 @@ import { Text, Image, StyleSheet, View , Alert, KeyboardAvoidingView, ImageBackg
 import Button from "../components/Button";
 import FormTextInput from "../components/FormTextInput";
 import BoxTextInput from "../components/BoxTextInput";
-import imageLogo from "../assets/images/logo.png";
+
+import imageLogo from "../assets/images/glass.png";
+import backgroundimg from "../assets/images/Back.png"
+import logo from "../assets/images/glass.svg";
+
 import colors from "../config/colors";
 import strings from "../config/strings";
+import SvgUri from 'react-native-svg-uri';
 
 class LoginScreen extends Component{
   state = {
@@ -27,11 +32,13 @@ class LoginScreen extends Component{
 
   render() {
     return (
-      <ImageBackground source={imageLogo} style={styles.background}>
+      <ImageBackground source={backgroundimg} style={styles.background}>
       <KeyboardAvoidingView behavior={"padding"} style={styles.container}>
+
         <Image source={imageLogo} style={styles.logo}/>
+        
         <View style={styles.form}>
-          <Text>
+          <Text  style={{fontSize:20, margin:5, fontFamily:"Roboto"}}>
             Log into your account
           </Text>
 
@@ -57,11 +64,13 @@ class LoginScreen extends Component{
             onPress={this.handleLoginPress}
           />
       </View>
+
       <View style={{margin:30}}>
-        <Text>
+        <Text style={{color:colors.WHITE}}>
           This is a bottom warning!
         </Text>
       </View>
+
     </KeyboardAvoidingView>
     </ImageBackground>
 
@@ -81,7 +90,7 @@ const styles = StyleSheet.create({
   },
   logo: {
     flex: 1,
-    width: "50%",
+    width: "25%",
     resizeMode: "contain",
     alignSelf: "center",
   },
@@ -91,7 +100,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
     width: "80%",
     backgroundColor: colors.WHITE,
-    borderRadius: 15
+    borderRadius: 15,
+    opacity: 0.95
   }
 });
 
