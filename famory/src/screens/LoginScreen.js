@@ -7,6 +7,7 @@ import BoxTextInput from "../components/BoxTextInput";
 import imageLogo from "../assets/images/glass.png";
 import backgroundimg from "../assets/images/Back.png"
 import logo from "../assets/images/glass.svg";
+import iconMail from "../assets/images/icon-mail.png";
 
 import colors from "../config/colors";
 import strings from "../config/strings";
@@ -38,18 +39,22 @@ class LoginScreen extends Component{
         <Image source={imageLogo} style={styles.logo}/>
         
         <View style={styles.form}>
-          <Text  style={{fontSize:20, margin:5, fontFamily:"Roboto"}}>
+          <Text  style={{fontSize:20, marginBottom:5}}>
             Log into your account
           </Text>
 
-          <FormTextInput
-            value={this.state.Email}
-            onChangeText={this.handleEmailChanges}
-            placeholder={strings.EMAIL_PLACEHOLDER}
-            keyboardType={"email-address"}
-            returnKeyType="next"
-            autoCorrect={false}
-          />
+          <View style={{flexDirection: 'row'}}>
+            <Image source={iconMail} style={styles.icon}/>
+            <FormTextInput
+              value={this.state.Email}
+              onChangeText={this.handleEmailChanges}
+              placeholder={strings.EMAIL_PLACEHOLDER}
+              keyboardType={"email-address"}
+              returnKeyType="next"
+              autoCorrect={false}
+              style={{flex:1}}
+            />
+          </View>
 
           <FormTextInput
             value={this.state.password}
@@ -82,27 +87,36 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: "center",
-    justifyContent: "space-between"
+    justifyContent: "center",
   },
   background:{
     flex:1,
     resizeMode: "center",
   },
   logo: {
-    flex: 1,
-    width: "25%",
+    width: "20%",
     resizeMode: "contain",
     alignSelf: "center",
+    marginBottom:40
   },
   form: {
-    flex: 1,
     justifyContent: "center",
     alignItems: "center",
     width: "80%",
     backgroundColor: colors.WHITE,
     borderRadius: 15,
-    opacity: 0.95
-  }
+    opacity: 0.95,
+    paddingHorizontal:"5%",
+    paddingTop:"25%",
+  },
+  icon: {
+    padding: 10,
+    margin: 5,
+    height: 25,
+    width: 25,
+    resizeMode: 'contain',
+    alignItems: 'center',
+  },
 });
 
 export default LoginScreen;

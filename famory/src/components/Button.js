@@ -19,7 +19,7 @@ const styles = StyleSheet.create({
         alignItems: "center",
         justifyContent: "center",
         backgroundColor: colors.ORANGE,
-        marginTop: 20,
+        marginTop: 12,
         paddingVertical: 12,
         borderRadius: 4,
         borderWidth: StyleSheet.hairlineWidth,
