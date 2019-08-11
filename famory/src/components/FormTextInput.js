@@ -29,7 +29,8 @@ class FormTextInput extends Component {
       height: 40,
       borderColor: colors.SILVER,
       borderBottomWidth: StyleSheet.hairlineWidth,
-      marginBottom: 20
+      marginBottom: 20,
+      width: "80%",
     }
   });
   

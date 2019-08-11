@@ -1,7 +1,7 @@
 const strings = {
-    LOGIN: "Log In",
+    LOGIN: "LOGIN",
     EMAIL_PLACEHOLDER: "email@example.com",
-    PASSWORD_PLACEHOLDER: "Password",
+    PASSWORD_PLACEHOLDER: "password",
   };
   
   export default strings;

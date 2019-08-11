@@ -19,11 +19,12 @@ const styles = StyleSheet.create({
         alignItems: "center",
         justifyContent: "center",
         backgroundColor: colors.ORANGE,
-        marginBottom: 12,
+        marginTop: 20,
         paddingVertical: 12,
         borderRadius: 4,
         borderWidth: StyleSheet.hairlineWidth,
-        borderColor: "rgba(255,255,255,0.7)"
+        borderColor: "rgba(255,255,255,0.7)",
+        width: "80%",
     },
     text: {
         color: colors.WHITE,
