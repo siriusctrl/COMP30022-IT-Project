@@ -31,7 +31,7 @@ class LoginScreen extends Component{
         <Image source={imageLogo} style={styles.logo}/>
           <View style={styles.form}>
             
-            <BoxTextInput
+            <FormTextInput
               value={this.state.Email}
               onChangeText={this.handleEmailChanges}
               placeholder={strings.EMAIL_PLACEHOLDER}
@@ -40,7 +40,7 @@ class LoginScreen extends Component{
               autoCorrect={false}
             />
 
-            <BoxTextInput
+            <FormTextInput
               value={this.state.password}
               onChangeText={this.handlePasswordChanges}
               placeholder={strings.PASSWORD_PLACEHOLDER}
