@@ -1,0 +1,18 @@
+FamilyMemberProfile {
+    "Avatar": image,
+    "Family Title": String,
+    "First Name": String,
+    "Middle Name": String,
+    "Family Name": String,
+    "Sex": Boolean,
+}
+
+
+
+Family {
+    "FamilyId": UUID,
+    "Family Name": String
+}
+
+
+# association of Family member profile and artefacts should be many to many
