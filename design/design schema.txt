@@ -1,17 +1,59 @@
-FamilyMemberProfile {
-    "Avatar": image,
-    "Family Title": String,
-    "First Name": String,
-    "Middle Name": String,
-    "Family Name": String,
-    "Sex": Boolean,
+# Community stores information about anonymous posts.
+# We store in database their true identity but they appear to be 'anonymous' in application.
+# In this way, family can track their uploads to community and modify them.
+Community {
+    "posts": [mongoose.Schema.Types.ObjectId], # ids of posts
+    # something more
+}
+
+# Posts in community will be visible to other families.
+Post {
+    "title": String,
+    "family": mongoose.Schema.Types.ObjectId,
+    "items": mongoose.Schema.Types.ObjectId, # this is artifact(s) a family shares.
+    "datePosted": Date,
+    "description": String,
+    "replies": [{
+      "alias": String, # e.g. Elephant, Lion etc.
+      "dateReplied": Date,
+      "content": String
+    }]
+}
+
+# Registry
+Registry {
+    "item": [ObjectId],
+    "description": String
+}
+
+# Item is the item uploaded by someone in some family.
+Item {
+    "name": String,
+    "dateAdded": Date,
+    "textDesc": String,
+    "voiceDesc": String, #id in Amazon S3
+    "image": image, # all images are String from Amazon S3
+    # add more?
+}
+
+FamilyMember {
+    "avatar": image,
+    "firstName": String,
+    "middleName": String,
+    "lastName": String,
+    "sex": Enum, # not boolean since more than 2 sex types?
+    "registry": mongoose.Schema.Types.ObjectId, # id of registry
 }
 
 
-
-Family {
-    "FamilyId": UUID,
-    "Family Name": String
+# UUID is not needed since MongoDB will automatically assign an ID to each entry.
+FamilyAccount {
+    "name": String
+    "profile": [ObjectId], # ids of profile
+    "password": String, # preferrably hashed
+    "dateCreated": Date,
+    "email": String,
+    # to be added: achievement etc.
 }
 
 
