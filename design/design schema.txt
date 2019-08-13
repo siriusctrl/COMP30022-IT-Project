@@ -2,15 +2,15 @@
 # We store in database their true identity but they appear to be 'anonymous' in application.
 # In this way, family can track their uploads to community and modify them.
 Community {
-    "posts": [mongoose.Schema.Types.ObjectId], # ids of posts
+    "posts": [ObjectId], # ids of posts
     # something more
 }
 
 # Posts in community will be visible to other families.
 Post {
     "title": String,
-    "family": mongoose.Schema.Types.ObjectId,
-    "items": mongoose.Schema.Types.ObjectId, # this is artifact(s) a family shares.
+    "family": ObjectId,
+    "items": ObjectId, # this is artifact(s) a family shares.
     "datePosted": Date,
     "description": String,
     "replies": [{
@@ -42,7 +42,7 @@ FamilyMember {
     "middleName": String,
     "lastName": String,
     "sex": Enum, # not boolean since more than 2 sex types?
-    "registry": mongoose.Schema.Types.ObjectId, # id of registry
+    "registry": ObjectId, # id of registry
 }
 
 
