@@ -6,7 +6,7 @@ class Button extends Component {
     render() {
       const { label, onPress } = this.props;
       return (
-        <TouchableOpacity activeOpacity={0.5} style={styles.container} onPress={onPress}>
+        <TouchableOpacity activeOpacity={0.7} style={styles.container} onPress={onPress}>
           <Text style={styles.text}> {label} </Text>
         </TouchableOpacity>
       );
