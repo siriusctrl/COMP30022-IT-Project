@@ -6,13 +6,16 @@ import colors from "../config/colors";
 import strings from "../config/strings";
 
 class WelcomeScreen extends Component{
+  static navigationOptions = {
+      header: null
+  }
 
   handleBeginPress = () => {
-    Alert.alert("Begin Pressed with 0.7 opacity");
+    this.props.navigation.navigate('Login');
   }
 
   handleNewJourneyPress = () => {
-      Alert.alert("Now effect at the moment");
+    Alert.alert("New Journey");
   }
     
   render() {

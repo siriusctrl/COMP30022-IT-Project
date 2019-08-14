@@ -1,6 +1,5 @@
 import React, {Component} from "react";
 import { Text, Image, StyleSheet, View , Alert, KeyboardAvoidingView, ImageBackground} from "react-native";
-import SvgUri from 'react-native-svg-uri';
 
 import Button from "../components/Button";
 import FormTextInput from "../components/FormTextInput";
@@ -8,12 +7,15 @@ import FormTextInput from "../components/FormTextInput";
 import imageLogo from "../assets/images/glass.png";
 import backgroundimg from "../assets/images/Back.png"
 import iconMail from "../assets/images/icon-mail.png";
-import svgt from "../assets/images/glass.svg";
 
 import colors from "../config/colors";
 import strings from "../config/strings";
 
 class LoginScreen extends Component{
+  static navigationOptions = {
+    header: null
+  }
+  
   state = {
     email:"",
     password:"",
@@ -37,7 +39,6 @@ class LoginScreen extends Component{
       <KeyboardAvoidingView behavior={"padding"} style={styles.container}>
 
         <Image source={imageLogo} style={styles.logo}/>
-        <SvgUri width="200" height="200" source={svgt} />
         
         <View style={styles.form}>
           <Text  style={{fontSize:20, marginTop:20, marginBottom:5}}>

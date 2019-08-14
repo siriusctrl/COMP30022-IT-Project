@@ -1,4 +1,13 @@
-import LoginScreen from "./src/screens/LoginScreen";
-import WelcomeScreen from "./src/screens/WelcomeScreen";
+import AppNavigator from "./src/screens/AppNavigator";
+import React from "react";
+import { createAppContainer, createStackNavigator, StackActions, NavigationActions } from 'react-navigation';
 
-export default WelcomeScreen;
+// export default class App extends React.Component {
+//   render() {
+//     return (
+//       <AppNavigator/>
+//     );
+//   }   
+// }
+
+export default createAppContainer(AppNavigator);
