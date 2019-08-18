@@ -15,7 +15,7 @@ class WelcomeScreen extends Component{
   }
 
   handleNewJourneyPress = () => {
-    this.props.navigate.navigate('SignIn');
+    this.props.navigation.navigate('SignIn');
   }
     
   render() {

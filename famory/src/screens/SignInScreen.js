@@ -84,12 +84,12 @@ class SignInScreen extends Component{
           />
       </View>
 
-      <View style={{margin:30}}>
+      <View style={{margin:30, alignItems:"center"}}>
         <Text style={{color:colors.WHITE}}>
           By creating an account, you accept Famory's
         </Text>
 
-        <Text>
+        <Text style={{color:colors.WHITE}}>
             Terms of Service and Privacy Policy
         </Text>
       </View>
