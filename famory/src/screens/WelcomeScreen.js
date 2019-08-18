@@ -5,7 +5,7 @@ import Button from "../components/Button";
 import colors from "../config/colors";
 import strings from "../config/strings";
 
-class WelcomeScreen extends Component{
+export default class WelcomeScreen extends Component{
   static navigationOptions = {
       header: null
   };
@@ -22,6 +22,7 @@ class WelcomeScreen extends Component{
   handleNewJourneyPress = () => {
     this.props.navigation.navigate('SignIn');
   }
+  //cao ni maldjflkajfiosjfioasjiofjwoifjiowejfoiwjfoiwjio
     
   render() {
       return (
@@ -34,7 +35,7 @@ class WelcomeScreen extends Component{
             </View>
 
             <View style={styles.container}>
-                <Button label={strings.BEGIN} onPress={this.handleBeginPress}/>
+                <Button label={strings.BEGIN} onPress={this.handleBeginPress} style={{width: "70%"}} />
 
                 <Text style={{color:colors.WHITE, marginBottom:8, marginTop:15}}>
                     Or
@@ -73,5 +74,3 @@ const styles = StyleSheet.create({
     italic: {fontStyle: 'italic'},
     underline: {textDecorationLine: 'underline'}
 });
-
-export default WelcomeScreen;

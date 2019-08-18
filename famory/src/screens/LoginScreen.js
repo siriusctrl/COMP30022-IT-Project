@@ -1,17 +1,18 @@
 import React, {Component} from "react";
 import { Text, Image, StyleSheet, View , Alert, KeyboardAvoidingView, ImageBackground} from "react-native";
+import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 import Button from "../components/Button";
 import FormTextInput from "../components/FormTextInput";
+import colors from "../config/colors";
+import strings from "../config/strings";
 
 import imageLogo from "../assets/images/glass.png";
 import backgroundimg from "../assets/images/Back.png"
 import iconMail from "../assets/images/icon-mail.png";
 
-import colors from "../config/colors";
-import strings from "../config/strings";
-
-class LoginScreen extends Component{
+export default class LoginScreen extends Component{
   static navigationOptions = {
     header: null
   }
@@ -19,7 +20,8 @@ class LoginScreen extends Component{
   state = {
     email:"",
     password:"",
-  }
+  };
+
 
   handleEmailChanges = (email) => {
     this.setState({email : email});
@@ -46,7 +48,7 @@ class LoginScreen extends Component{
           </Text>
 
           <View style={{flexDirection: 'row'}}>
-            <Image source={iconMail} style={styles.icon}/>
+            <FontAwesome5 name={'envelope'} solid style={{paddingTop:15, padding:10, fontSize:20}}/>
             <FormTextInput
               value={this.state.Email}
               onChangeText={this.handleEmailChanges}
@@ -103,11 +105,11 @@ const styles = StyleSheet.create({
   form: {
     justifyContent: "center",
     alignItems: "center",
-    width: "80%",
+    width: "85%",
     backgroundColor: colors.WHITE,
     borderRadius: 15,
     opacity: 0.95,
-    paddingHorizontal:"5%",
+    paddingHorizontal:"3%",
     paddingVertical:"5%",
   },
   icon: {
@@ -117,9 +119,6 @@ const styles = StyleSheet.create({
     marginLeft:5,
     height: 15,
     width: 15,
-    resizeMode: 'contain',
     alignItems: 'center',
   },
 });
-
-export default LoginScreen;

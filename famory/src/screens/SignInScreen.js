@@ -11,7 +11,7 @@ import iconMail from "../assets/images/icon-mail.png";
 import colors from "../config/colors";
 import strings from "../config/strings";
 
-class SignInScreen extends Component{
+export default class SignInScreen extends Component{
   static navigationOptions = {
     header: null
   }
@@ -139,7 +139,7 @@ const styles = StyleSheet.create({
   form: {
     justifyContent: "center",
     alignItems: "center",
-    width: "80%",
+    width: "85%",
     backgroundColor: colors.WHITE,
     borderRadius: 15,
     opacity: 0.95,
@@ -157,5 +157,3 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
 });
-
-export default SignInScreen;
