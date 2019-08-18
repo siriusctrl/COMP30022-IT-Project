@@ -1,18 +1,67 @@
 import React, {Component} from "react";
-import { Text, Image, StyleSheet, View , Alert, KeyboardAvoidingView, ImageBackground} from "react-native";
-
+import { Text, View , FlatList, Alert} from "react-native";
 import Button from "../components/Button";
-import FormTextInput from "../components/FormTextInput";
 import colors from "../config/colors";
-import strings from "../config/strings";
-import { FlatList } from "react-native-gesture-handler";
 
-export default class HomePageScreen extends Component{
+class MyListItem extends React.PureComponent {
+
+  _onPress = () => {
+    this.props.onPressItem(this.props.id);
+  };
+
   render() {
     return (
-      <FlatList>
-        
-      </FlatList>
+      <TouchableOpacity onPress={this._onPress}>
+        <View>
+          <Text>
+            {this.props.title}
+          </Text>
+        </View>
+      </TouchableOpacity>
+    );
+  }
+}
+
+export default class DebugScreen extends Component{
+  static navigationOptions = {
+    header: null
+  }
+
+  screens = [
+    {name: "Welcome"},
+    {name:"Login"},
+    {name:"SignIn"},
+  ];
+
+  FlatListItemSeparator = () => {
+    return (
+      //Item Separator
+      <View
+        style={{ height: 0.5, width: '100%', backgroundColor: '#C8C8C8' }}
+      />
+    );
+  };
+
+  _renderItem = ({item}) => {
+    <Text style={{height:20, fontSize:10}}>
+      {item.name}
+    </Text>
+  }
+
+  render() {
+    return (
+      <View>
+        <Text>
+          Fuck you!
+        </Text>
+
+          <FlatList 
+            data={this.screens}
+            renderItem={this._renderItem}
+            ItemSeparatorComponent={this.FlatListItemSeparator}
+            keyExtractor={(item) => item.name}
+          />
+      </View>
     );
   }
 }
