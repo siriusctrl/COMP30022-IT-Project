@@ -4,7 +4,7 @@ import { Text, Image, StyleSheet, View , Alert, KeyboardAvoidingView, ImageBackg
 import Button from "../components/Button";
 import FormTextInput from "../components/FormTextInput";
 
-import backgroundimg from "../assets/images/Back.png"
+import darkimg from "../assets/images/dark.png"
 import iconMail from "../assets/images/icon-mail.png";
 
 import colors from "../config/colors";
@@ -50,7 +50,7 @@ export default class SignInScreen extends Component{
     const component = SvgComponent(styles.logo);
 
     return (
-      <ImageBackground source={backgroundimg} style={styles.background}>
+      <ImageBackground source={darkimg} style={styles.background}>
       <KeyboardAvoidingView behavior={"padding"} style={styles.container}>
 
         <View style={styles.logo}>{component}</View>
@@ -129,7 +129,7 @@ const styles = StyleSheet.create({
   },
   background:{
     flex:1,
-    resizeMode: "center",
+    resizeMode: "cover",
   },
   logo: {
     width: "20%",

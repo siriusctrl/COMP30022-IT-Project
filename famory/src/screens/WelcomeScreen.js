@@ -1,6 +1,6 @@
 import React, {Component} from "react";
 import { Text, StyleSheet, View , TouchableWithoutFeedback, ImageBackground, StatusBar} from "react-native";
-import treebg from "../assets/images/treebg.png";
+import bgtree from "../assets/images/bgtree.jpg";
 import Button from "../components/Button";
 import colors from "../config/colors";
 import strings from "../config/strings";
@@ -22,11 +22,10 @@ export default class WelcomeScreen extends Component{
   handleNewJourneyPress = () => {
     this.props.navigation.navigate('SignIn');
   }
-  //cao ni maldjflkajfiosjfioasjiofjwoifjiowejfoiwjfoiwjio
     
   render() {
       return (
-        <ImageBackground source={treebg} style={styles.background}>
+        <ImageBackground source={bgtree} style={styles.background}>
 
             <View style={styles.container}>
                 <Text style={styles.title}>
@@ -58,7 +57,7 @@ export default class WelcomeScreen extends Component{
 const styles = StyleSheet.create({
     background:{
         flex:1,
-        resizeMode: "center",
+        resizeMode: "cover",
     },
     container: {
         alignItems: "center",

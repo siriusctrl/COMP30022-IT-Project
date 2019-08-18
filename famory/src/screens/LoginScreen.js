@@ -8,7 +8,7 @@ import FormTextInput from "../components/FormTextInput";
 import colors from "../config/colors";
 import strings from "../config/strings";
 
-import backgroundimg from "../assets/images/Back.png";
+import darkimg from "../assets/images/dark.png";
 import SvgComponent from "../assets/icons/glass";
 
 
@@ -38,7 +38,7 @@ export default class LoginScreen extends Component{
   render() {
     const component = SvgComponent(styles.logo);
     return (
-      <ImageBackground source={backgroundimg} style={styles.background}>
+      <ImageBackground source={darkimg} style={styles.background}>
       <KeyboardAvoidingView behavior={"padding"} style={styles.container}>
 
         <View style={styles.logo}>{component}</View>
@@ -95,7 +95,7 @@ const styles = StyleSheet.create({
   },
   background:{
     flex:1,
-    resizeMode: "center",
+    resizeMode: "cover",
   },
   logo: {
     width: "20%",
