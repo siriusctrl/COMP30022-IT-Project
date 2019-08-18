@@ -9,7 +9,7 @@ import colors from "../config/colors";
 import strings from "../config/strings";
 
 import backgroundimg from "../assets/images/Back.png";
-//import SvgComponent from "../assets/icons/glass";
+import SvgComponent from "../assets/icons/glass";
 
 
 export default class LoginScreen extends Component{

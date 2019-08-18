@@ -1,3 +1,5 @@
+import React from 'react';
+
 import Svg, {
   Defs,
   LinearGradient,
@@ -5,9 +7,9 @@ import Svg, {
   G,
   Path,
   Ellipse,
-} from 'react-native-svg'
+} from 'react-native-svg';
 
-export const SvgComponent = () => (
+const SvgComponent = () => (
   <Svg width="73px" height="101px" viewBox="0 0 73 101">
     <Defs>
       <LinearGradient
@@ -440,3 +442,5 @@ export const SvgComponent = () => (
     </G>
   </Svg>
 )
+
+export default SvgComponent;
