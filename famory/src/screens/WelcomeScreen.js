@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import { Text, StyleSheet, View , Alert, TouchableWithoutFeedback, ImageBackground} from "react-native";
+import { Text, StyleSheet, View , TouchableWithoutFeedback, ImageBackground, StatusBar} from "react-native";
 import treebg from "../assets/images/treebg.png";
 import Button from "../components/Button";
 import colors from "../config/colors";
@@ -8,6 +8,11 @@ import strings from "../config/strings";
 class WelcomeScreen extends Component{
   static navigationOptions = {
       header: null
+  };
+
+  // hide status bar for all the screens
+  componentDidMount() {
+    StatusBar.setHidden(true);
   }
 
   handleBeginPress = () => {
