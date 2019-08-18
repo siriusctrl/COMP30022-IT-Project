@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import { Text, Image, StyleSheet, View , Alert, KeyboardAvoidingView, ImageBackground} from "react-native";
+import { Text, Image, StyleSheet, View , Alert, KeyboardAvoidingView, ImageBackground, TouchableWithoutFeedback} from "react-native";
 
 import Button from "../components/Button";
 import FormTextInput from "../components/FormTextInput";
@@ -32,6 +32,14 @@ class SignInScreen extends Component{
 
   handleFamilyNameChanges = (familyName) => {
       this.setState({familyName: familyName});
+  }
+
+  handleTermsPress = () => {
+    Alert.alert("No Terms Now");
+  }
+
+  handlePolicyPress = () => {
+    Alert.alert("No Policy Now");
   }
 
   handleLoginPress = () => {
@@ -90,7 +98,19 @@ class SignInScreen extends Component{
         </Text>
 
         <Text style={{color:colors.WHITE}}>
-            Terms of Service and Privacy Policy
+            <TouchableWithoutFeedback onPress={this.handleTermsPress}>
+                <Text style={{textDecorationLine: 'underline'}}>
+                    Terms of Service
+                </Text>
+            </TouchableWithoutFeedback>
+
+            {" "} and {" "}
+
+            <TouchableWithoutFeedback onPress={this.handlePolicyPress}>
+                <Text style={{textDecorationLine: 'underline'}}>
+                    Privacy Policy
+                </Text>
+            </TouchableWithoutFeedback>
         </Text>
       </View>
 
