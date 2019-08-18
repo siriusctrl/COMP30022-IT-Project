@@ -11,7 +11,7 @@ const AppNavigator = createStackNavigator({
   Login: {screen: LoginScreen,},
   SignIn: {screen: SignInScreen},
 }, {
-      initialRouteName: 'Welcome',
+      initialRouteName: 'Debug',
 }, {
   defaultNavigationOptions:{
     header:null

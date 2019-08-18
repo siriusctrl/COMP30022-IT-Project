@@ -3,25 +3,6 @@ import { Text, View , FlatList, Alert} from "react-native";
 import Button from "../components/Button";
 import colors from "../config/colors";
 
-class MyListItem extends React.PureComponent {
-
-  _onPress = () => {
-    this.props.onPressItem(this.props.id);
-  };
-
-  render() {
-    return (
-      <TouchableOpacity onPress={this._onPress}>
-        <View>
-          <Text>
-            {this.props.title}
-          </Text>
-        </View>
-      </TouchableOpacity>
-    );
-  }
-}
-
 export default class DebugScreen extends Component{
   static navigationOptions = {
     header: null
@@ -33,34 +14,30 @@ export default class DebugScreen extends Component{
     {name:"SignIn"},
   ];
 
+  //Item 
   FlatListItemSeparator = () => {
     return (
-      //Item Separator
       <View
         style={{ height: 0.5, width: '100%', backgroundColor: '#C8C8C8' }}
       />
     );
   };
 
-  _renderItem = ({item}) => {
-    <Text style={{height:20, fontSize:10}}>
+  _renderItem = ({item}) => (
+    <Text style={{height:50, fontSize:30, textAlign:"center"}} onPress={() => this.props.navigation.navigate(item.name)}>
       {item.name}
     </Text>
-  }
+  );
 
   render() {
     return (
       <View>
-        <Text>
-          Fuck you!
-        </Text>
-
-          <FlatList 
-            data={this.screens}
-            renderItem={this._renderItem}
-            ItemSeparatorComponent={this.FlatListItemSeparator}
-            keyExtractor={(item) => item.name}
-          />
+        <FlatList 
+          data={this.screens}
+          renderItem={this._renderItem}
+          ItemSeparatorComponent={this.FlatListItemSeparator}
+          keyExtractor={(item) => item.name}
+        />
       </View>
     );
   }
