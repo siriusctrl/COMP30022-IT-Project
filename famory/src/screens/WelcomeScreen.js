@@ -9,93 +9,92 @@ import * as Font from 'expo-font';
 export default class WelcomeScreen extends Component{
 
   state = {
-    fontLoaded: false,
+  fontLoaded: false,
   };
 
   static navigationOptions = {
-      header: null
+    header: null
   };
 
   // hide status bar for all the screens
   async componentDidMount() {
-    StatusBar.setHidden(true);
-    await Font.loadAsync({
-        'dayland': require('../assets/fonts/Dayland.ttf'),
-      });
+  StatusBar.setHidden(true);
+  await Font.loadAsync({
+    'dayland': require('../assets/fonts/Dayland.ttf'),
+    });
   
-      this.setState({ fontLoaded: true });
+    this.setState({ fontLoaded: true });
   }
 
   handleBeginPress = () => {
-    this.props.navigation.navigate('Login');
+  this.props.navigation.navigate('Login');
   }
 
   handleNewJourneyPress = () => {
-    this.props.navigation.navigate('SignIn');
+  this.props.navigation.navigate('SignIn');
   }
-    
+  
   render() {
-      return (
-        <ImageBackground source={bgtree} style={styles.background}>
-          <View style={styles.container}>
-          {
+  return (
+      <ImageBackground source={bgtree} style={styles.background}>
+        <View style={styles.container}>
+        {
             this.state.fontLoaded ? (
-              <Text style={styles.title}>
+            <Text style={styles.title}>
                 Famory
-              </Text>
+            </Text>
             ) : (
-              <Text style={styles.titleNoFont}>
+            <Text style={styles.titleNoFont}>
                 {"  "}
-              </Text>
+            </Text>
             )
-          }
-          </View>
+        }
+        </View>
 
-            <View style={styles.container}>
-                <Button label={strings.BEGIN} onPress={this.handleBeginPress} style={{width: "60%"}} />
+        <View style={styles.container}>
+          <Button label={strings.BEGIN} onPress={this.handleBeginPress} style={{width: "60%"}} />
 
-                <Text style={{color:colors.WELCOMEBLUE, marginBottom:8, marginTop:15, fontStyle: 'italic'}}>
-                    Or
-                </Text>
+          <Text style={{color:colors.WELCOMEBLUE, marginBottom:8, marginTop:15, fontStyle: 'italic'}}>
+            Or
+          </Text>
 
-                <TouchableWithoutFeedback onPress={this.handleNewJourneyPress}>
-                    <View>
-                        <Text style={{color:colors.WELCOMEBLUE, textDecorationLine: 'underline'}}>
-                            Start your journey?
-                        </Text>
-                    </View>
-                </TouchableWithoutFeedback>
-
+          <TouchableWithoutFeedback onPress={this.handleNewJourneyPress}>
+            <View>
+              <Text style={{color:colors.WELCOMEBLUE, textDecorationLine: 'underline'}}>
+                Start your journey?
+              </Text>
             </View>
-        </ImageBackground>
-      );
+          </TouchableWithoutFeedback>
+        </View>
+      </ImageBackground>
+    );
   }
 }
 
 const styles = StyleSheet.create({
-    background:{
-        flex:1,
-        resizeMode: "cover",
-    },
-    container: {
-        alignItems: "center",
-        justifyContent: "space-between",
-    },
-    title:{
-        color: colors.WHITE,
-        marginTop: "35%",
-        marginBottom: "80%",
-        fontSize: 48,
-        fontFamily: 'dayland',
-        letterSpacing: 4
-    },
-    titleNoFont:{
-        color: colors.WHITE,
-        marginTop: "35%",
-        marginBottom: "80%",
-        fontSize: 48,
-    },
-    bold: {fontWeight: 'bold'},
-    italic: {fontStyle: 'italic'},
-    underline: {textDecorationLine: 'underline'}
+  background:{
+    flex:1,
+    resizeMode: "cover",
+  },
+  container: {
+    alignItems: "center",
+    justifyContent: "space-between",
+  },
+  title:{
+    color: colors.WHITE,
+    marginTop: "35%",
+    marginBottom: "80%",
+    fontSize: 48,
+    fontFamily: 'dayland',
+    letterSpacing: 4
+  },
+  titleNoFont:{
+    color: colors.WHITE,
+    marginTop: "35%",
+    marginBottom: "80%",
+    fontSize: 48,
+  },
+  bold: {fontWeight: 'bold'},
+  italic: {fontStyle: 'italic'},
+  underline: {textDecorationLine: 'underline'}
 });
