@@ -1,7 +1,5 @@
 import React, {Component} from "react";
-import { Text, Image, StyleSheet, View , Alert, KeyboardAvoidingView, ImageBackground} from "react-native";
-import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import { Text, Image, StyleSheet, View , Alert, KeyboardAvoidingView, ImageBackground, CheckBox} from "react-native";
 
 import Button from "../components/Button";
 import FormTextInput from "../components/FormTextInput";
@@ -9,7 +7,9 @@ import colors from "../config/colors";
 import strings from "../config/strings";
 
 import darkimg from "../assets/images/dark.png";
-import SvgComponent from "../assets/icons/glass";
+import Glass from "../assets/icons/glass";
+import Mail from "../assets/icons/mail";
+import PwdLock from "../assets/icons/pwdlock";
 
 
 export default class LoginScreen extends Component{
@@ -20,6 +20,7 @@ export default class LoginScreen extends Component{
   state = {
     email:"",
     password:"",
+    checked: false
   };
 
 
@@ -35,21 +36,27 @@ export default class LoginScreen extends Component{
     Alert.alert("Login Pressed with 0.5 opacity");
   }
 
+  handleCheckBox = () => {
+    this.setState((prevState) => ({ checked: !prevState.checked }));
+  }
+
   render() {
-    const component = SvgComponent(styles.logo);
+    const glass = Glass(styles.logo);
+    const mail = Mail(styles.mail);
+    const pwdlock = PwdLock(styles.lock);
     return (
       <ImageBackground source={darkimg} style={styles.background}>
       <KeyboardAvoidingView behavior={"padding"} style={styles.container}>
 
-        <View style={styles.logo}>{component}</View>
+        <View style={styles.logo}>{glass}</View>
         
         <View style={styles.form}>
           <Text  style={{fontSize:20, marginTop:20, marginBottom:5}}>
-            Log into your account
+          {"\n"}Log into your account{"\n"}
           </Text>
 
           <View style={{flexDirection: 'row'}}>
-            <FontAwesome5 name={'envelope'} solid style={{paddingTop:15, padding:10, fontSize:20}}/>
+            <Mail style={styles.mail}>{mail}</Mail>
             <FormTextInput
               value={this.state.Email}
               onChangeText={this.handleEmailChanges}
@@ -57,17 +64,32 @@ export default class LoginScreen extends Component{
               keyboardType={"email-address"}
               returnKeyType="next"
               autoCorrect={false}
-              style={{flex:1}}
+              style={{flex:1, paddingHorizontal: 10}}
             />
           </View>
 
-          <FormTextInput
-            value={this.state.password}
-            onChangeText={this.handlePasswordChanges}
-            placeholder={strings.PASSWORD_PLACEHOLDER}
-            secureTextEntry={true}
-            returnKeyType= "done"
-          />
+          <View style={{flexDirection: 'row'}}>
+            <PwdLock style={styles.lock}>{pwdlock}</PwdLock>
+            <FormTextInput
+              value={this.state.password}
+              onChangeText={this.handlePasswordChanges}
+              placeholder={strings.PASSWORD_PLACEHOLDER}
+              secureTextEntry={true}
+              returnKeyType= "done"
+              style={{flex:1, paddingHorizontal: 10}}
+            />
+          </View>
+
+          <View style={{flexDirection: 'row'}}>
+            <CheckBox
+              value = { this.state.checked }
+              onChange = { this.handleCheckBox }
+              style={{flex:1, marginLeft: 11, width: '80%'}}
+            />
+            <Text  style={{flex:5, marginTop: 7}}>
+              Keep me signed in{"\n"}{"\n"}
+            </Text>
+          </View>
           
           <Button
             label={strings.LOGIN}
@@ -77,7 +99,8 @@ export default class LoginScreen extends Component{
 
       <View style={{margin:30}}>
         <Text style={{color:colors.WHITE}}>
-          This is a bottom warning!
+          {"\n"}
+          Forgot Your Password?
         </Text>
       </View>
 
@@ -102,6 +125,22 @@ const styles = StyleSheet.create({
     resizeMode: "contain",
     alignSelf: "center",
     marginBottom:40
+  },
+  mail: {
+    width: "20%",
+    resizeMode: "contain",
+    alignSelf: "center",
+    marginBottom: 15,
+    marginRight: 11,
+    marginLeft: 19
+  },
+  lock: {
+    width: "20%",
+    resizeMode: "contain",
+    alignSelf: "center",
+    marginBottom: 15,
+    marginRight: 13,
+    marginLeft: 21
   },
   form: {
     justifyContent: "center",

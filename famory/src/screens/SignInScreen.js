@@ -9,7 +9,10 @@ import iconMail from "../assets/images/icon-mail.png";
 
 import colors from "../config/colors";
 import strings from "../config/strings";
-import SvgComponent from "../assets/icons/glass";
+import Glass from "../assets/icons/glass";
+import Mail from "../assets/icons/mail";
+import PwdLock from "../assets/icons/pwdlock";
+import Person from "../assets/icons/person";
 
 export default class SignInScreen extends Component{
   static navigationOptions = {
@@ -47,48 +50,59 @@ export default class SignInScreen extends Component{
   }
 
   render() {
-    const component = SvgComponent(styles.logo);
+    const glass = Glass(styles.logo);
+    const mail = Mail(styles.mail);
+    const pwdlock = PwdLock(styles.logo);
+    const person = Person(styles.logo);
 
     return (
       <ImageBackground source={darkimg} style={styles.background}>
       <KeyboardAvoidingView behavior={"padding"} style={styles.container}>
 
-        <View style={styles.logo}>{component}</View>
+        <View style={styles.logo}>{glass}</View>
         <View style={styles.form}>
           <Text  style={{fontSize:20, marginTop:20, marginBottom:5}}>
-            Create New Account
+          {"\n"}Create New Account{"\n"}
           </Text>
 
-          <FormTextInput
+          <View style={{flexDirection: 'row'}}>
+            <Person style={styles.person}>{person}</Person>
+            <FormTextInput
             value={this.state.familyName}
             onChangeText={this.handleFamilyNameChanges}
             placeholder={strings.FAMILYNAME_PLACEHOLDER}
             returnKeyType= "next"
+            style={{flex:1, paddingHorizontal: 10}}
           />
+          </View>
 
           <View style={{flexDirection: 'row'}}>
-            <Image source={iconMail} style={styles.icon}/>
+            <Mail style={styles.mail}>{mail}</Mail>
             <FormTextInput
               value={this.state.Email}
               onChangeText={this.handleEmailChanges}
-              placeholder={strings.EMAIL_PLACEHOLDER}
+              placeholder={"Email"}
               keyboardType={"email-address"}
               returnKeyType="next"
               autoCorrect={false}
-              style={{flex:1}}
+              style={{flex:1, paddingHorizontal: 10}}
             />
           </View>
 
-          <FormTextInput
-            value={this.state.password}
-            onChangeText={this.handlePasswordChanges}
-            placeholder={strings.PASSWORD_PLACEHOLDER}
-            secureTextEntry={true}
-            returnKeyType= "done"
-          />
+          <View style={{flexDirection: 'row'}}>
+            <PwdLock style={styles.lock}>{pwdlock}</PwdLock>
+            <FormTextInput
+              value={this.state.password}
+              onChangeText={this.handlePasswordChanges}
+              placeholder={strings.PASSWORD_PLACEHOLDER}
+              secureTextEntry={true}
+              returnKeyType= "done"
+              style={{flex:1, paddingHorizontal: 10}}
+            />
+          </View>
           
           <Button
-            label={strings.LOGIN}
+            label={strings.SIGNUP}
             onPress={this.handleLoginPress}
           />
       </View>
@@ -136,6 +150,30 @@ const styles = StyleSheet.create({
     resizeMode: "contain",
     alignSelf: "center",
     marginBottom:40
+  },
+  mail: {
+    width: "20%",
+    resizeMode: "contain",
+    alignSelf: "center",
+    marginBottom: 15,
+    marginRight: 11,
+    marginLeft: 19
+  },
+  lock: {
+    width: "20%",
+    resizeMode: "contain",
+    alignSelf: "center",
+    marginBottom: 15,
+    marginRight: 13,
+    marginLeft: 21
+  },
+  person: {
+    width: "20%",
+    resizeMode: "contain",
+    alignSelf: "center",
+    marginBottom: 15,
+    marginRight: 13,
+    marginLeft: 18
   },
   form: {
     justifyContent: "center",
