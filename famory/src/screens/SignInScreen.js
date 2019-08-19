@@ -65,46 +65,49 @@ export default class SignInScreen extends Component{
           {"\n"}Create New Account{"\n"}
           </Text>
 
-          <View style={{flexDirection: 'row'}}>
-            <Person style={styles.person}>{person}</Person>
-            <FormTextInput
-            value={this.state.familyName}
-            onChangeText={this.handleFamilyNameChanges}
-            placeholder={strings.FAMILYNAME_PLACEHOLDER}
-            returnKeyType= "next"
-            style={{flex:1, paddingHorizontal: 10}}
-          />
-          </View>
-
-          <View style={{flexDirection: 'row'}}>
-            <Mail style={styles.mail}>{mail}</Mail>
-            <FormTextInput
-              value={this.state.Email}
-              onChangeText={this.handleEmailChanges}
-              placeholder={"Email"}
-              keyboardType={"email-address"}
-              returnKeyType="next"
-              autoCorrect={false}
+          <View style={{width: "98%", paddingLeft: 16, paddingRight: 16, overflow: "visible"}}>
+            <View style={{flexDirection: 'row'}}>
+              <Person style={styles.person}>{person}</Person>
+              <FormTextInput
+              value={this.state.familyName}
+              onChangeText={this.handleFamilyNameChanges}
+              placeholder={strings.FAMILYNAME_PLACEHOLDER}
+              returnKeyType= "next"
               style={{flex:1, paddingHorizontal: 10}}
             />
-          </View>
+            </View>
 
-          <View style={{flexDirection: 'row'}}>
-            <PwdLock style={styles.lock}>{pwdlock}</PwdLock>
-            <FormTextInput
-              value={this.state.password}
-              onChangeText={this.handlePasswordChanges}
-              placeholder={strings.PASSWORD_PLACEHOLDER}
-              secureTextEntry={true}
-              returnKeyType= "done"
-              style={{flex:1, paddingHorizontal: 10}}
+            <View style={{flexDirection: 'row'}}>
+              <Mail style={styles.mail}>{mail}</Mail>
+              <FormTextInput
+                value={this.state.Email}
+                onChangeText={this.handleEmailChanges}
+                placeholder={"Email"}
+                keyboardType={"email-address"}
+                returnKeyType="next"
+                autoCorrect={false}
+                style={{flex:1, paddingHorizontal: 10}}
+              />
+            </View>
+
+            <View style={{flexDirection: 'row'}}>
+              <PwdLock style={styles.lock}>{pwdlock}</PwdLock>
+              <FormTextInput
+                value={this.state.password}
+                onChangeText={this.handlePasswordChanges}
+                placeholder={strings.PASSWORD_PLACEHOLDER}
+                secureTextEntry={true}
+                returnKeyType= "done"
+                style={{flex:1, paddingHorizontal: 10}}
+              />
+            </View>
+            
+            <Button
+              label={strings.SIGNUP}
+              onPress={this.handleLoginPress}
+              extraStyles={{width: "100%"}}
             />
           </View>
-          
-          <Button
-            label={strings.SIGNUP}
-            onPress={this.handleLoginPress}
-          />
       </View>
 
       <View style={{margin:30, alignItems:"center"}}>
@@ -157,23 +160,21 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     marginBottom: 15,
     marginRight: 11,
-    marginLeft: 19
   },
   lock: {
     width: "20%",
     resizeMode: "contain",
     alignSelf: "center",
     marginBottom: 15,
-    marginRight: 13,
-    marginLeft: 21
+    marginRight: 12,
+    marginLeft: 2
   },
   person: {
     width: "20%",
     resizeMode: "contain",
     alignSelf: "center",
     marginBottom: 15,
-    marginRight: 13,
-    marginLeft: 18
+    marginRight: 11,
   },
   form: {
     justifyContent: "center",
