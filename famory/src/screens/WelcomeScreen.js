@@ -9,7 +9,7 @@ import * as Font from 'expo-font';
 export default class WelcomeScreen extends Component{
 
   state = {
-  fontLoaded: false,
+    fontLoaded: false,
   };
 
   static navigationOptions = {
@@ -18,24 +18,23 @@ export default class WelcomeScreen extends Component{
 
   // hide status bar for all the screens
   async componentDidMount() {
-  StatusBar.setHidden(true);
-  await Font.loadAsync({
-    'dayland': require('../assets/fonts/Dayland.ttf'),
+    StatusBar.setHidden(true);
+    await Font.loadAsync({
+      'dayland': require('../assets/fonts/Dayland.ttf'),
     });
-  
     this.setState({ fontLoaded: true });
   }
 
   handleBeginPress = () => {
-  this.props.navigation.navigate('Login');
+    this.props.navigation.navigate('Login');
   }
 
   handleNewJourneyPress = () => {
-  this.props.navigation.navigate('SignIn');
+    this.props.navigation.navigate('SignIn');
   }
   
   render() {
-  return (
+    return (
       <ImageBackground source={bgtree} style={styles.background}>
         <View style={styles.container}>
         {
