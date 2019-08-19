@@ -2,7 +2,7 @@ const strings = {
     LOGIN: "LOGIN",
     EMAIL_PLACEHOLDER: "email@example.com",
     PASSWORD_PLACEHOLDER: "password",
-    BEGIN: "Begin",
+    BEGIN: "BEGIN",
     FAMILYNAME_PLACEHOLDER: "Family Name",
   };
   

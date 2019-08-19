@@ -11,6 +11,7 @@ export default class WelcomeScreen extends Component{
   state = {
     fontLoaded: false,
   };
+
   static navigationOptions = {
       header: null
   };
@@ -36,27 +37,30 @@ export default class WelcomeScreen extends Component{
   render() {
       return (
         <ImageBackground source={bgtree} style={styles.background}>
+          <View style={styles.container}>
+          {
+            this.state.fontLoaded ? (
+              <Text style={styles.title}>
+                Famory
+              </Text>
+            ) : (
+              <Text style={styles.titleNoFont}>
+                {"  "}
+              </Text>
+            )
+          }
+          </View>
 
             <View style={styles.container}>
-            {
-                this.state.fontLoaded ? (
-                    <Text style={styles.title}>
-                        Famory
-                    </Text>
-                ) : null
-            }
-            </View>
+                <Button label={strings.BEGIN} onPress={this.handleBeginPress} style={{width: "60%"}} />
 
-            <View style={styles.container}>
-                <Button label={strings.BEGIN} onPress={this.handleBeginPress} style={{width: "70%"}} />
-
-                <Text style={{color:colors.WHITE, marginBottom:8, marginTop:15}}>
+                <Text style={{color:colors.WELCOMEBLUE, marginBottom:8, marginTop:15, fontStyle: 'italic'}}>
                     Or
                 </Text>
 
                 <TouchableWithoutFeedback onPress={this.handleNewJourneyPress}>
                     <View>
-                        <Text style={{color:colors.WHITE, textDecorationLine: 'underline'}}>
+                        <Text style={{color:colors.WELCOMEBLUE, textDecorationLine: 'underline'}}>
                             Start your journey?
                         </Text>
                     </View>
@@ -84,6 +88,12 @@ const styles = StyleSheet.create({
         fontSize: 48,
         fontFamily: 'dayland',
         letterSpacing: 4
+    },
+    titleNoFont:{
+        color: colors.WHITE,
+        marginTop: "35%",
+        marginBottom: "80%",
+        fontSize: 48,
     },
     bold: {fontWeight: 'bold'},
     italic: {fontStyle: 'italic'},
