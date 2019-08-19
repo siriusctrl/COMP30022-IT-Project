@@ -7,7 +7,8 @@ const colors = {
     MISCHKA: "#E5E4E6",
     ORANGE:"#F7AA45",
     LIGHTBLUE:"#4E91C4",
-    WELCOMEBLUE:"#9EB1C9"
+    WELCOMEBLUE:"#9EB1C9",
+    HOMESCREENLIGHTBLUE:"#88B2D3",
   };
   
   export default colors;

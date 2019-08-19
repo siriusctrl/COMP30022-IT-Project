@@ -12,9 +12,10 @@ export default class DebugScreen extends Component{
     {name: "Welcome"},
     {name:"Login"},
     {name:"SignIn"},
+    {name:"HomePage"},
   ];
 
-  //Item 
+  //Item separator
   FlatListItemSeparator = () => {
     return (
       <View

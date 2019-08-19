@@ -5,6 +5,8 @@ const strings = {
     BEGIN: "BEGIN",
     FAMILYNAME_PLACEHOLDER: "Family Name",
     SIGNUP: "SIGN UP",
+    HOME_COMMUNITY: "Community",
+    HOME_ACCOUNT: "Account",
   };
   
   export default strings;
