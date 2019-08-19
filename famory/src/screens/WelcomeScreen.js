@@ -4,15 +4,25 @@ import bgtree from "../assets/images/bgtree.jpg";
 import Button from "../components/Button";
 import colors from "../config/colors";
 import strings from "../config/strings";
+import * as Font from 'expo-font';
 
 export default class WelcomeScreen extends Component{
+
+  state = {
+    fontLoaded: false,
+  };
   static navigationOptions = {
       header: null
   };
 
   // hide status bar for all the screens
-  componentDidMount() {
+  async componentDidMount() {
     StatusBar.setHidden(true);
+    await Font.loadAsync({
+        'dayland': require('../assets/fonts/Dayland.ttf'),
+      });
+  
+      this.setState({ fontLoaded: true });
   }
 
   handleBeginPress = () => {
@@ -28,9 +38,13 @@ export default class WelcomeScreen extends Component{
         <ImageBackground source={bgtree} style={styles.background}>
 
             <View style={styles.container}>
-                <Text style={styles.title}>
-                    Famory
-                </Text>
+            {
+                this.state.fontLoaded ? (
+                    <Text style={styles.title}>
+                        Famory
+                    </Text>
+                ) : null
+            }
             </View>
 
             <View style={styles.container}>
@@ -67,7 +81,9 @@ const styles = StyleSheet.create({
         color: colors.WHITE,
         marginTop: "35%",
         marginBottom: "80%",
-        fontSize: 30
+        fontSize: 48,
+        fontFamily: 'dayland',
+        letterSpacing: 4
     },
     bold: {fontWeight: 'bold'},
     italic: {fontStyle: 'italic'},
