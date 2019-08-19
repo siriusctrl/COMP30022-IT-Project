@@ -38,15 +38,15 @@ export default class WelcomeScreen extends Component{
       <ImageBackground source={bgtree} style={styles.background}>
         <View style={styles.container}>
         {
-            this.state.fontLoaded ? (
+          this.state.fontLoaded ? (
             <Text style={styles.title}>
                 Famory
             </Text>
-            ) : (
+          ) : (
             <Text style={styles.titleNoFont}>
                 {"  "}
             </Text>
-            )
+          )
         }
         </View>
 
