@@ -13,13 +13,10 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-from django.contrib import admin
+from Public import views as PublicViews
 from django.urls import path, re_path, include
-from commu import urls as CommunicateUrls
-from Public import urls as PublicUrls
+
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path("initial_test/", include(CommunicateUrls)),
-    path("", include(PublicUrls)),
+    path('', PublicViews.FuckIndexView.as_view(), name="fuckPage"),
 ]
