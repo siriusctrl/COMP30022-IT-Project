@@ -4,11 +4,11 @@ import colors from "../config/colors";
 
 class Button extends Component {
     render() {
-      const { label, onPress, extraStyles, ...otherProps} = this.props;
+      const { label, onPress, extraStyles, extraTextStyles,...otherProps} = this.props;
       //Alert.alert(extraStyles);
       return (
         <TouchableOpacity activeOpacity={0.7} style={[styles.container, extraStyles,]} onPress={onPress} {...otherProps}>
-          <Text style={styles.text}> {label} </Text>
+          <Text style={[styles.text, extraTextStyles]}> {label} </Text>
         </TouchableOpacity>
       );
     }
@@ -28,7 +28,7 @@ const styles = StyleSheet.create({
     text: {
         color: colors.WHITE,
         textAlign: "center",
-        height: 20
+        height: 20,
     }
 });
 

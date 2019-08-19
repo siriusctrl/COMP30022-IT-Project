@@ -1,10 +1,12 @@
 import React, {Component} from "react";
-import { Text, View, FlatList} from "react-native";
+import { Text, View, FlatList, StyleSheet} from "react-native";
 
-import Button from "../components/Button";
-import FormTextInput from "../components/FormTextInput";
 import colors from "../config/colors";
 import strings from "../config/strings";
+import IconButtonWithText from "../components/IconButtonWithText";
+import Empty from "../components/Empty";
+
+
 
 export default class HomePageScreen extends Component{
   static navigationOptions = {
@@ -59,15 +61,35 @@ export default class HomePageScreen extends Component{
         />
 
         <View style={{width: "100%", height: 76*2, position:'absolute', bottom:0}}>
+
           <View style={{flex:1, backgroundColor:colors.LIGHTBLUE}}>
+            <Text>
+              The family tag will be displayed here
+            </Text>
           </View>
 
-          <View style={{flex:1, backgroundColor:colors.HOMESCREENLIGHTBLUE, flexDirection:"row", padding:10}}>
-            <Button label={strings.HOME_ACCOUNT} extraStyles={{flex:1, marginRight:20, height:46, borderRadius:23}}/>
-            <Button label={strings.HOME_COMMUNITY} extraStyles={{flex:1, height:46, marginLeft: 20,borderRadius:23}}/>
+          <View style={{flex:1, backgroundColor:colors.HOMESCREENLIGHTBLUE, flexDirection:"row", padding:10, justifyContent:"space-between"}}>
+            <Empty/>
+            <IconButtonWithText label={strings.HOME_ACCOUNT} extraStyles={styles.extraStyles} extraTextStyles={styles.extraTextStyles} nameOfIcon="user"/>
+            <Empty/>
+            <IconButtonWithText label={strings.HOME_COMMUNITY} extraStyles={styles.extraStyles} extraTextStyles={styles.extraTextStyles} nameOfIcon="glasses"/>
+            <Empty/>
           </View>
         </View>
     </View>
     );
   }
 }
+
+
+const styles = StyleSheet.create({
+  extraStyles:{
+    width:"40%", 
+    height:46, 
+    borderRadius:23,
+  },
+  extraTextStyles:{
+    fontSize:17, 
+    height:23,
+  }
+});

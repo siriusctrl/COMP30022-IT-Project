@@ -11,4 +11,4 @@ const colors = {
     HOMESCREENLIGHTBLUE:"#88B2D3",
   };
   
-  export default colors;
+export default colors;
