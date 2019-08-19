@@ -13,11 +13,10 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-from django.contrib import admin
+from commu import views as commuViews
 from django.urls import path, re_path, include
-from commu import urls as CommunicateUrls
+
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path("initial_test/", include(CommunicateUrls)),
+    path('tt_data', commuViews.ttDataView.as_view(), name="dt"),
 ]
