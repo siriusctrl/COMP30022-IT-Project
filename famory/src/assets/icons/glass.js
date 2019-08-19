@@ -9,7 +9,7 @@ import Svg, {
   Ellipse,
 } from 'react-native-svg';
 
-const SvgComponent = () => (
+const Glass = () => (
   <Svg width="73px" height="101px" viewBox="0 0 73 101">
     <Defs>
       <LinearGradient
@@ -443,4 +443,4 @@ const SvgComponent = () => (
   </Svg>
 )
 
-export default SvgComponent;
+export default Glass;

@@ -51,7 +51,7 @@ export default class WelcomeScreen extends Component{
         </View>
 
         <View style={styles.container}>
-          <Button label={strings.BEGIN} onPress={this.handleBeginPress} style={{width: "60%"}} />
+          <Button label={strings.BEGIN} onPress={this.handleBeginPress} extraStyles={{width: "70%"}} />
 
           <Text style={{color:colors.WELCOMEBLUE, marginBottom:8, marginTop:15, fontStyle: 'italic'}}>
             Or
