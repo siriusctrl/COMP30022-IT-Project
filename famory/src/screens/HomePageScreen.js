@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import { Text, View, FlatList, StyleSheet} from "react-native";
+import { Text, View, FlatList, StyleSheet, Alert} from "react-native";
 
 import colors from "../config/colors";
 import strings from "../config/strings";
@@ -13,7 +13,7 @@ export default class HomePageScreen extends Component{
     header: null
   }
 
-  avator = [
+  avatar = [
     {name: " "},
     {name:"Shouyin"},
     {name:"Morry"},
@@ -49,12 +49,20 @@ export default class HomePageScreen extends Component{
       {item.name}
     </Text>
   );
+  
+  handleCommunityPress = () => {
+    Alert.alert("You pressed the community button");
+  }
+
+  handleAccountPress = () => {
+    Alert.alert("You pressed the account button");
+  }
 
   render() {
     return (
       <View>
         <FlatList 
-          data={this.avator}
+          data={this.avatar}
           renderItem={this._renderItem}
           ItemSeparatorComponent={this.FlatListItemSeparator}
           keyExtractor={(item) => item.name}
@@ -70,9 +78,19 @@ export default class HomePageScreen extends Component{
 
           <View style={{flex:1, backgroundColor:colors.HOMESCREENLIGHTBLUE, flexDirection:"row", padding:10, justifyContent:"space-between"}}>
             <Empty/>
-            <IconButtonWithText label={strings.HOME_ACCOUNT} extraStyles={styles.extraStyles} extraTextStyles={styles.extraTextStyles} nameOfIcon="user"/>
+            <IconButtonWithText 
+              onPress={this.handleAccountPress}
+              label={strings.HOME_ACCOUNT} 
+              extraStyles={styles.extraStyles} 
+              extraTextStyles={styles.extraTextStyles} 
+              nameOfIcon="user"/>
             <Empty/>
-            <IconButtonWithText label={strings.HOME_COMMUNITY} extraStyles={styles.extraStyles} extraTextStyles={styles.extraTextStyles} nameOfIcon="glasses"/>
+            <IconButtonWithText 
+              onPress={this.handleCommunityPress}
+              label={strings.HOME_COMMUNITY} 
+              extraStyles={styles.extraStyles} 
+              extraTextStyles={styles.extraTextStyles} 
+              nameOfIcon="glasses"/>
             <Empty/>
           </View>
         </View>
