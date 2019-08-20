@@ -21,9 +21,9 @@ export default class WelcomeScreen extends Component{
   async componentDidMount() {
     StatusBar.setHidden(true);
     await Font.loadAsync({
-      'dayland': require('../assets/fonts/Dayland.ttf'),
-      Roboto: require('../../node_modules/native-base/Fonts/Roboto.ttf'),
-      Roboto_medium: require('../../node_modules/native-base/Fonts/Roboto_medium.ttf'),
+      "dayland": require('../assets/fonts/Dayland.ttf'),
+      "Roboto": require('../../node_modules/native-base/Fonts/Roboto.ttf'),
+      "Roboto_medium": require('../../node_modules/native-base/Fonts/Roboto_medium.ttf'),
       ...Ionicons.font,
     });
     this.setState({ fontLoaded: true });

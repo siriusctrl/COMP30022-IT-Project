@@ -1,10 +1,15 @@
 import React, {Component} from "react";
-import { Text, View , FlatList, ImageBackground} from "react-native";
+import { Text, View , FlatList, ImageBackground, StatusBar} from "react-native";
 import cxk from "../assets/images/logo.png"
+import colors from "../config/colors";
 
 export default class DebugScreen extends Component{
   static navigationOptions = {
     header: null
+  }
+
+  componentDidMount() {
+    StatusBar.setHidden(true);
   }
 
   screens = [
@@ -26,7 +31,7 @@ export default class DebugScreen extends Component{
   };
 
   _renderItem = ({item}) => (
-    <Text style={{height:50, fontSize:30, textAlign:"center"}} onPress={() => this.props.navigation.navigate(item.name)}>
+    <Text style={{height:50, fontSize:30, textAlign:"center", color:colors.TORCH_RED}} onPress={() => this.props.navigation.navigate(item.name)}>
       {item.name}
     </Text>
   );

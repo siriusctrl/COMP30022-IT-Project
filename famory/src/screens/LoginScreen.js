@@ -5,6 +5,7 @@ import Button from "../components/Button";
 import FormTextInput from "../components/FormTextInput";
 import colors from "../config/colors";
 import strings from "../config/strings";
+import Empty from "../components/Empty";
 
 import darkimg from "../assets/images/dark.png";
 import Glass from "../assets/icons/glass";
@@ -82,14 +83,21 @@ export default class LoginScreen extends Component{
               />
             </View>
 
-            <View style={{flexDirection: 'row', marginTop: 12}}>
+            <View style={{flexDirection: 'row', marginTop: 10, justifyContent:"space-between"}}>
               <CheckBox
                 value = { this.state.checked }
                 onChange = { this.handleCheckBox }
-                style={{width: 12, height: 12, marginLeft: 2}}
+                style={{width: 12, height: 12, marginTop: 3}}
               />
-              <Text  style={{marginLeft: 12}}>
-                Keep me signed in{"\n"}{"\n"}
+              <Text>
+                Keep me signed in
+              </Text>
+              <Empty/>
+              <Empty/>
+              <Empty/>
+              <Empty/>
+              <Text>
+                {"\n"}{"\n"}
               </Text>
             </View>
             
