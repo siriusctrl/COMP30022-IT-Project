@@ -105,7 +105,7 @@ export default class SignInScreen extends Component{
             <Button
               label={strings.SIGNUP}
               onPress={this.handleLoginPress}
-              extraStyles={{width: "100%"}}
+              extraStyles={{width: "100%", marginTop: 26}}
             />
           </View>
       </View>

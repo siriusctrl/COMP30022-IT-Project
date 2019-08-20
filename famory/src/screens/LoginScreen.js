@@ -55,46 +55,50 @@ export default class LoginScreen extends Component{
           {"\n"}Log into your account{"\n"}
           </Text>
 
-          <View style={{flexDirection: 'row'}}>
-            <Mail style={styles.mail}>{mail}</Mail>
-            <FormTextInput
-              value={this.state.Email}
-              onChangeText={this.handleEmailChanges}
-              placeholder={strings.EMAIL_PLACEHOLDER}
-              keyboardType={"email-address"}
-              returnKeyType="next"
-              autoCorrect={false}
-              style={{flex:1, paddingHorizontal: 10}}
-            />
-          </View>
+          <View style={{width: "98%", paddingLeft: 16, paddingRight: 16, overflow: "visible"}}>
 
-          <View style={{flexDirection: 'row'}}>
-            <PwdLock style={styles.lock}>{pwdlock}</PwdLock>
-            <FormTextInput
-              value={this.state.password}
-              onChangeText={this.handlePasswordChanges}
-              placeholder={strings.PASSWORD_PLACEHOLDER}
-              secureTextEntry={true}
-              returnKeyType= "done"
-              style={{flex:1, paddingHorizontal: 10}}
-            />
-          </View>
+            <View style={{flexDirection: 'row'}}>
+              <Mail style={styles.mail}>{mail}</Mail>
+              <FormTextInput
+                value={this.state.Email}
+                onChangeText={this.handleEmailChanges}
+                placeholder={strings.EMAIL_PLACEHOLDER}
+                keyboardType={"email-address"}
+                returnKeyType="next"
+                autoCorrect={false}
+                style={{flex:1, paddingHorizontal: 10}}
+              />
+            </View>
 
-          <View style={{flexDirection: 'row'}}>
-            <CheckBox
-              value = { this.state.checked }
-              onChange = { this.handleCheckBox }
-              style={{flex:1, marginLeft: 11, width: '80%'}}
+            <View style={{flexDirection: 'row'}}>
+              <PwdLock style={styles.lock}>{pwdlock}</PwdLock>
+              <FormTextInput
+                value={this.state.password}
+                onChangeText={this.handlePasswordChanges}
+                placeholder={strings.PASSWORD_PLACEHOLDER}
+                secureTextEntry={true}
+                returnKeyType= "done"
+                style={{flex:1, paddingHorizontal: 10}}
+              />
+            </View>
+
+            <View style={{flexDirection: 'row', marginTop: 12}}>
+              <CheckBox
+                value = { this.state.checked }
+                onChange = { this.handleCheckBox }
+                style={{width: 12, height: 12, marginLeft: 2}}
+              />
+              <Text  style={{marginLeft: 12}}>
+                Keep me signed in{"\n"}{"\n"}
+              </Text>
+            </View>
+            
+            <Button
+              label={strings.LOGIN}
+              onPress={this.handleLoginPress}
+              extraStyles={{width: "100%", marginTop: 6}}
             />
-            <Text  style={{flex:5, marginTop: 7}}>
-              Keep me signed in{"\n"}{"\n"}
-            </Text>
           </View>
-          
-          <Button
-            label={strings.LOGIN}
-            onPress={this.handleLoginPress}
-          />
       </View>
 
       <View style={{margin:30}}>
@@ -132,15 +136,15 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     marginBottom: 15,
     marginRight: 11,
-    marginLeft: 19
   },
   lock: {
     width: "20%",
     resizeMode: "contain",
     alignSelf: "center",
     marginBottom: 15,
-    marginRight: 13,
-    marginLeft: 21
+    marginRight: 12,
+    marginLeft: 2
+    
   },
   form: {
     justifyContent: "center",

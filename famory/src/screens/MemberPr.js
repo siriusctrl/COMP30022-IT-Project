@@ -16,21 +16,17 @@ export default class MemberPr extends Component{
   static navigationOptions = {
     header: null
   }
-  
-  state = {
-    email:"",
-    password:"",
-  };
 
 
   render() {
     return (
-        <View style={{flex:1}}>
-            <View style={{width: 250, height: 250, position: "absolute", backgroundColor: colors.LIGHTBLUE}}></View>
-            <View style={{flex: 1, justifyContent: "center", alignItems: "center", backgroundColor: colors.DODGER_BLUE}}>
-                <Text>the profile page</Text>
-            </View>
+      <View style={{flex:1}}>
+        <View style={{flex: 1, justifyContent: "center", alignItems: "center", backgroundColor: colors.DODGER_BLUE}}>
+            <Text>the profile page</Text>
         </View>
+        <View style={{width: 250, height: 250, position: "absolute", backgroundColor: colors.LIGHTBLUE}}></View>
+
+      </View>
     );
   }
 }

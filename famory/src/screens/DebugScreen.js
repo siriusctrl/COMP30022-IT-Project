@@ -13,6 +13,7 @@ export default class DebugScreen extends Component{
     {name:"SignIn"},
     {name:"HomePage"},
     {name:"CommunityMain"}
+    {name: "MemberPr"}
   ];
 
   //Item separator
