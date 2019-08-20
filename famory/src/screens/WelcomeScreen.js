@@ -5,6 +5,7 @@ import Button from "../components/Button";
 import colors from "../config/colors";
 import strings from "../config/strings";
 import * as Font from 'expo-font';
+import { Ionicons } from '@expo/vector-icons';
 
 export default class WelcomeScreen extends Component{
 
@@ -21,6 +22,9 @@ export default class WelcomeScreen extends Component{
     StatusBar.setHidden(true);
     await Font.loadAsync({
       'dayland': require('../assets/fonts/Dayland.ttf'),
+      Roboto: require('../../node_modules/native-base/Fonts/Roboto.ttf'),
+      Roboto_medium: require('../../node_modules/native-base/Fonts/Roboto_medium.ttf'),
+      ...Ionicons.font,
     });
     this.setState({ fontLoaded: true });
   }

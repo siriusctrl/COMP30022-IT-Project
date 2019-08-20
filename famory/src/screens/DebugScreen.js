@@ -1,7 +1,6 @@
 import React, {Component} from "react";
-import { Text, View , FlatList, Alert} from "react-native";
-import Button from "../components/Button";
-import colors from "../config/colors";
+import { Text, View , FlatList, ImageBackground} from "react-native";
+import cxk from "../assets/images/logo.png"
 
 export default class DebugScreen extends Component{
   static navigationOptions = {
@@ -13,6 +12,7 @@ export default class DebugScreen extends Component{
     {name:"Login"},
     {name:"SignIn"},
     {name:"HomePage"},
+    {name:"CommunityMain"}
   ];
 
   //Item separator
@@ -32,14 +32,16 @@ export default class DebugScreen extends Component{
 
   render() {
     return (
-      <View>
-        <FlatList 
-          data={this.screens}
-          renderItem={this._renderItem}
-          ItemSeparatorComponent={this.FlatListItemSeparator}
-          keyExtractor={(item) => item.name}
-        />
-      </View>
+      <ImageBackground source={cxk} style={{flex:1,resizeMode: "cover"}}>
+        <View>
+          <FlatList 
+            data={this.screens}
+            renderItem={this._renderItem}
+            ItemSeparatorComponent={this.FlatListItemSeparator}
+            keyExtractor={(item) => item.name}
+          />
+        </View>
+      </ImageBackground>
     );
   }
 }

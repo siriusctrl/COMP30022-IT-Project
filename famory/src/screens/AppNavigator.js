@@ -3,6 +3,7 @@ import WelcomeScreen from "./WelcomeScreen";
 import SignInScreen from "./SignInScreen";
 import DebugScreen from "./DebugScreen";
 import HomePage from "./HomePageScreen";
+import CommunityMainScreen from "./CommunityMainScreen";
 import { createStackNavigator } from "react-navigation";
 
 
@@ -12,6 +13,7 @@ const AppNavigator = createStackNavigator({
   Login: {screen: LoginScreen,},
   SignIn: {screen: SignInScreen},
   HomePage: {screen: HomePage},
+  CommunityMain: {screen: CommunityMainScreen},
 }, {
       initialRouteName: 'Debug',
 }, {

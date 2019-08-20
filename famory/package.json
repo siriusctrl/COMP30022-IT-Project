@@ -9,6 +9,8 @@
   },
   "dependencies": {
     "expo": "^34.0.1",
+    "expo-font": "~6.0.1",
+    "native-base": "^2.13.5",
     "package.json": "^2.0.1",
     "react": "16.8.3",
     "react-dom": "^16.9.0",
