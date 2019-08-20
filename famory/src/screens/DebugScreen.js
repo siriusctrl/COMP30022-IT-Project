@@ -12,7 +12,7 @@ export default class DebugScreen extends Component{
     {name:"Login"},
     {name:"SignIn"},
     {name:"HomePage"},
-    {name:"CommunityMain"}
+    {name:"CommunityMain"},
     {name: "MemberPr"}
   ];
 
