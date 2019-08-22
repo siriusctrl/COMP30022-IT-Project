@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import { Text, Image, StyleSheet, View , Alert, KeyboardAvoidingView, ImageBackground, CheckBox} from "react-native";
+import { Text, Image, StyleSheet, View , Alert, KeyboardAvoidingView, ImageBackground} from "react-native";
 
 import Button from "../components/Button";
 import FormTextInput from "../components/FormTextInput";
@@ -11,6 +11,8 @@ import darkimg from "../assets/images/dark.png";
 import Glass from "../assets/icons/glass";
 import Mail from "../assets/icons/mail";
 import PwdLock from "../assets/icons/pwdlock";
+
+import {CheckBox} from 'native-base';
 
 
 export default class LoginScreen extends Component{
@@ -85,9 +87,9 @@ export default class LoginScreen extends Component{
 
             <View style={{flexDirection: 'row', marginTop: 10, justifyContent:"space-between"}}>
               <CheckBox
-                value = { this.state.checked }
-                onChange = { this.handleCheckBox }
-                style={{width: 12, height: 12, marginTop: 3}}
+                onPress = { this.handleCheckBox }
+                checked={this.state.checked}
+                style={{marginLeft: -10}}
               />
               <Text>
                 Keep me signed in

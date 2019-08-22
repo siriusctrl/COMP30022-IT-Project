@@ -1,60 +1,59 @@
-# Community stores information about anonymous posts.
-# We store in database their true identity but they appear to be 'anonymous' in application.
-# In this way, family can track their uploads to community and modify them.
-Community {
-    "posts": [ObjectId], # ids of posts
-    # something more
-}
-
 # Posts in community will be visible to other families.
+# We store in database their true identity but they appear to be 'anonymous' in application.
+# Since everything is anonymous, families do not need to track their uploads.
 Post {
     "title": String,
+    "location": String,
     "family": ObjectId,
-    "items": ObjectId, # this is artifact(s) a family shares.
+    "item": ObjectId, # This is artifact a family shares.
     "datePosted": Date,
     "description": String,
+    "like": Integer,
     "replies": [{
-      "alias": String, # e.g. Elephant, Lion etc.
       "dateReplied": Date,
       "content": String
-    }]
+    }] # At most 10 images shown.
 }
 
 # Registry
 Registry {
-    "item": [ObjectId],
-    "description": String
+    "text": [ObjectId],
+    "voice": [ObjectId],
+    "image": [ObjectId],
+    "video": [ObjectId]
 }
 
 # Item is the item uploaded by someone in some family.
 Item {
     "name": String,
     "dateAdded": Date,
-    "textDesc": String,
-    "voiceDesc": String, #id in Amazon S3
-    "image": image, # all images are String from Amazon S3
-    # add more?
+    "content": String, # GridFS id
+
 }
 
-FamilyMember {
-    "avatar": image,
-    "firstName": String,
-    "middleName": String,
-    "lastName": String,
-    "sex": Enum, # not boolean since more than 2 sex types?
-    "registry": ObjectId, # id of registry
-}
-
-
-# UUID is not needed since MongoDB will automatically assign an ID to each entry.
+# Main Account of each family
 FamilyAccount {
     "name": String
-    "profile": [ObjectId], # ids of profile
     "password": String, # preferrably hashed
     "dateCreated": Date,
     "email": String,
-    # to be added: achievement etc.
+    "avatar": String, # Amazon S3
+    "familyMember": [ObjectId], # Members
+    "achievement": [ObjectId] # Achievements
 }
 
+FamilyMember {
+    "profileImage": String, # Amazon S3
+    "firstName": String,
+    "lastName": String,
+    "gender": Enum,
+    "dob": Date,
+    "registry": ObjectId, # id of registry
+    "ringColor": String # RGB
+}
 
-# association of Family member profile and artefacts should be many to many
+# Achievement
+Achievement {
+    "name": String,
+    "completed": Boolean
+}
