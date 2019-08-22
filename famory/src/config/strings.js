@@ -7,6 +7,7 @@ const strings = {
     SIGNUP: "SIGN UP",
     HOME_COMMUNITY: "Community",
     HOME_ACCOUNT: "Account",
+    LOGOUT: "LOGOUT",
   };
   
   export default strings;

@@ -1,52 +1,65 @@
 import React, { Component } from 'react';
-import { Image } from 'react-native';
-import { Container, Header, View, DeckSwiper, Card, CardItem, Thumbnail, Text, Left, Body, Icon, Button } from 'native-base';
-import * as Font from 'expo-font';
-import { Ionicons } from '@expo/vector-icons';
-import { AppLoading } from 'expo';
+import {StyleSheet, Image, Alert} from 'react-native';
+import { Container, View} from 'native-base';
+import strings from "../config/strings";
+import Button from "../components/Button";
 
-import Mail from "../assets/icons/mail";
 
-const cards = [
-    {
-        text: 'Card One',
-        name: 'One',
-        image: require('../assets/images/Back.png'),
-    },
-    {
-        text: 'Card Two',
-        name: 'Two',
-        image: require('../assets/images/bgtree.jpg'),
-    },
-    {
-        text: 'Card Three',
-        name: 'Three',
-        image: require('../assets/images/glass.png'),
-    }
-];
-
-export default class DeckSwiperAdvancedExample extends Component {
+export default class AccountHold extends Component {
 
     static navigationOptions = {
-        title: 'Playground',
+        title: 'Profile',
         headerStyle: {
-            backgroundColor: '#E0836B',
+            backgroundColor: '#4E91C4',
+
         },
+
         headerTitleStyle: {
             fontWeight: 'bold',
-            alignSelf: 'center',
-            textAlign: 'center',
+            marginLeft:85,
             flex: 1,
         },
         headerTintColor: '#FFFFFF',
 
     }
 
+    handleLogOutPress = () => {
+        Alert.alert("LogOut Pressed with 0.5 opacity");
+    }
+
+    render() {
+
+        return (
+            <Container>
+                <View>
+                    <Image source={require('../assets/images/trump.jpg')}  style={styles.avatar} />
+
+                </View>
+                <View>
+
+                    <Button
+                        title="Log Out"
+                        label={strings.LOGOUT}
+                        onPress={this.handleLogOutPress}
+                        extraStyles={{width: "80%", marginTop: 6, alignSelf: 'center'}}/>
+                </View>
+            </Container>
+        );
+
+
+    }
+
 }
 
 
-render()
-{
+const styles = StyleSheet.create({
 
-    return ()
-}
+    avatar: {
+        width: "25%",
+        resizeMode: "contain",
+        alignSelf: "center",
+        paddingTop:10,
+        borderRadius: 40,
+
+    },
+});
