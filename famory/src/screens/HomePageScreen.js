@@ -5,6 +5,8 @@ import colors from "../config/colors";
 import strings from "../config/strings";
 import IconButtonWithText from "../components/IconButtonWithText";
 import Empty from "../components/Empty";
+import ImageButton from "../components/ImageButton";
+import cxk from "../assets/images/logo.png"
 
 
 
@@ -22,15 +24,6 @@ export default class HomePageScreen extends Component{
     {name:"Shouyin2"},
     {name:"Shouyin3"},
     {name:"Shouyin4"},
-    {name:"Shouyin5"},
-    {name:"Shouyin6"},
-    {name:"Shouyin7"},
-    {name:"Shouyin8"},
-    {name:"Shouyin9"},
-    {name:"Shouyin10"},
-    {name:"Shouyin11"},
-    {name:"Shouyin12"},
-    {name:"Shouyin13"},
     {name:" vending1"},
     {name:" vending2"},
   ];
@@ -58,6 +51,10 @@ export default class HomePageScreen extends Component{
     Alert.alert("You pressed the account button");
   }
 
+  handleEditPress = () => {
+    Alert.alert("You pressed the edit text");
+  }
+
   render() {
     return (
       <View>
@@ -70,9 +67,12 @@ export default class HomePageScreen extends Component{
 
         <View style={{width: "100%", height: 76*2, position:'absolute', bottom:0}}>
 
-          <View style={{flex:1, backgroundColor:colors.LIGHTBLUE}}>
-            <Text>
-              The family tag will be displayed here
+          <View style={{flex:1, backgroundColor:colors.LIGHTBLUE, flexDirection:"row"}}>
+            <Text style={{fontSize:25, backgroundColor:"transparent", top:17}}>
+              Family tag
+            </Text>
+            <Text style={{fontSize:15, top:25, left:230}} onPress={this.handleEditPress}>
+              Edit
             </Text>
           </View>
 
