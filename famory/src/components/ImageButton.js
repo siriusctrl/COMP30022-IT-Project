@@ -9,12 +9,12 @@ export default class ImageButton extends React.Component{
   }
 
   render(){
-    const { imageSource, onPressHandler,...otherProps} = this.props;
+    const { imageSource, onPressHandler, name, ...otherProps} = this.props;
     return(
       <Avatar
-        size="large"
+        size="medium"
         rounded
-        title="LW"
+        title={name?name:"CXK"}
         onPress={onPressHandler?onPressHandler:this._handleButtonPressed}
         activeOpacity={0.7}
         source={imageSource}
@@ -30,8 +30,8 @@ const styles = StyleSheet.create({
     borderColor:'rgba(0,0,0,0.2)',
     alignItems:'center',
     justifyContent:'center',
-    width:50,
-    height:50,
-    borderRadius:25
+    width:30,
+    height:30,
+    borderRadius:15
   }
 });

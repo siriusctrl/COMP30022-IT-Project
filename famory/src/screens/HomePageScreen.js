@@ -14,33 +14,55 @@ export default class HomePageScreen extends Component{
   static navigationOptions = {
     header: null
   }
+  // TODO: use for loop to generate avatar set before invoking renderItem
 
   avatar = [
-    {name: " "},
-    {name:"Shouyin"},
-    {name:"Morry"},
-    {name:"M"},
-    {name:"Shouyin1"},
-    {name:"Shouyin2"},
-    {name:"Shouyin3"},
-    {name:"Shouyin4"},
-    {name:" vending1"},
-    {name:" vending2"},
+    {empyt:"yes"},
+    {name:"Pending1", img:cxk, gen:"GEN 10"},
+    {name:"Pending2", img:cxk, gen:"GEN 9"},
+    {name:"Pending3", img:cxk, gen:"GEN 8"},
+    {name:"Pending4", img:cxk, gen:"GEN 7"},
+    {name:"Pending5", img:cxk, gen:"GEN 6"},
+    {name:"Pending6", img:cxk, gen:"GEN 5"},
+    {name:"Pending7", img:cxk, gen:"GEN 4"},
+    {name:"Pending8", img:cxk, gen:"GEN 3"},
+    {name:" vending1", img:cxk, gen:"GEN 2"},
+    {name:" vending2", img:cxk, gen:"GEN 1"},
   ];
 
   //Item separator
   FlatListItemSeparator = () => {
     return (
       <View
-        style={{ height: 0.5, width: '100%', backgroundColor: '#C8C8C8' }}
+        style={{height: 0.5, width: '100%', backgroundColor: '#C8C8C8'}}
       />
     );
   };
 
   _renderItem = ({item}) => (
-    <Text style={{height:76, fontSize:30, textAlign:"center", backgroundColor:"transparent"}}>
-      {item.name}
-    </Text>
+    item.name?
+      (
+        <View style={{height:76, backgroundColor:"transparent", flexDirection:"row", alignItems:'center'}}>
+          <Text style={{fontSize:15, backgroundColor:"transparent"}}>
+            {item.gen}
+          </Text>
+
+          <Empty/>
+          <Empty/>
+          <Empty/>
+          <ImageButton name={item.name} imageSource={item.img}/>
+          <Empty/>
+          <Empty/>
+          <Empty/>
+          <ImageButton name={item.name} imageSource={item.img}/>
+        </View>
+      )
+        :
+      (
+        <Text style={{height:76, fontSize:30, textAlign:"center", backgroundColor:"transparent"}}>
+          {" "}
+        </Text>
+      )
   );
   
   handleCommunityPress = () => {
@@ -52,21 +74,30 @@ export default class HomePageScreen extends Component{
   }
 
   handleEditPress = () => {
-    Alert.alert("You pressed the edit text");
+    Alert.alert(this.avatar.length.toString());
   }
 
   render() {
     return (
       <View>
-        <FlatList 
-          data={this.avatar}
-          renderItem={this._renderItem}
-          ItemSeparatorComponent={this.FlatListItemSeparator}
-          keyExtractor={(item) => item.name}
-        />
+        {this.avatar.length > 7?
+          (
+            <FlatList 
+              data={this.avatar}
+              renderItem={this._renderItem}
+              ItemSeparatorComponent={this.FlatListItemSeparator}
+              keyExtractor={(item) => item.name}
+            />
+          )
+            :
+          (
+            <View>
+
+            </View>
+          )
+        }
 
         <View style={{width: "100%", height: 76*2, position:'absolute', bottom:0}}>
-
           <View style={{flex:1, backgroundColor:colors.LIGHTBLUE, flexDirection:"row"}}>
             <Text style={{fontSize:25, backgroundColor:"transparent", top:17}}>
               Family tag
