@@ -4,12 +4,14 @@ import SignInScreen from "./SignInScreen";
 import DebugScreen from "./DebugScreen";
 import HomePage from "./HomePageScreen";
 import CommunityMainScreen from "./CommunityMainScreen";
+import TestScreen from "./TestScreen";
 import MemberPr from "./MemberPr";
 import { createStackNavigator } from "react-navigation";
 
 
 const AppNavigator = createStackNavigator({
   Debug: {screen: DebugScreen},
+  Test:{screen: TestScreen},
   Welcome: {screen: WelcomeScreen},
   Login: {screen: LoginScreen,},
   SignIn: {screen: SignInScreen},
