@@ -18,7 +18,7 @@ const AppNavigator = createStackNavigator({
   MemberPr: {screen: MemberPr},
 }, {
       // should be debug
-      initialRouteName: 'Debug',
+      initialRouteName: 'MemberPr',
 }, {
   defaultNavigationOptions:{
     header:null
