@@ -5,7 +5,6 @@ import Button from "../components/Button";
 import FormTextInput from "../components/FormTextInput";
 
 import darkimg from "../assets/images/dark.png"
-import iconMail from "../assets/images/icon-mail.png";
 
 import colors from "../config/colors";
 import strings from "../config/strings";
