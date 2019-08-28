@@ -10,12 +10,11 @@ export default class IconButtonWithText extends Component {
       //Alert.alert(extraStyles);
       return (
         <TouchableOpacity activeOpacity={0.7} style={[styles.container, extraStyles,]} onPress={onPress}>
-          <Empty/>
+          <Empty />
           <Text style={[styles.text, extraTextStyles]}> 
             {label} 
           </Text>
-          <FontAwesome5 name={nameOfIcon} size={20} color={colors.WHITE} {...otherProps}/>
-          <Empty/>
+          <FontAwesome5 name={nameOfIcon} size={17} color={colors.WHITE} {...otherProps}/>
         </TouchableOpacity>
       );
     }
@@ -26,15 +25,11 @@ const styles = StyleSheet.create({
         alignItems: "center",
         justifyContent: "space-between",
         backgroundColor: colors.LIGHTBLUE,
-        marginTop: 12,
         borderRadius: 10,
         elevation: 8,
-        width: "80%",
         flexDirection:"row",
     },
     text: {
         color: colors.WHITE,
-        textAlign: "center",
-        height: 20,
     }
 });
