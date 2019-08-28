@@ -6,6 +6,7 @@ import HomePage from "./HomePageScreen";
 import CommunityMainScreen from "./CommunityMainScreen";
 import AccountHold from "./AccountHold"
 import MemberPr from "./MemberPr";
+import TestScreen from "./TestScreen";
 import { createStackNavigator } from "react-navigation";
 
 
