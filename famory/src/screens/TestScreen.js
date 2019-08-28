@@ -13,9 +13,10 @@ export default class TestScreen extends Component{
     Alert.alert("Now it connected");
   }
 
+  //fucking shit
   render(){
     return(
-      <View style={{justifyContent:"center"}}>
+      <View style={{justifyContent:"center", alignItems:"center"}}>
         <Avatar icon={{name:"home", type:"font-awesome"}} rounded size={"medium"}/>
       </View>
     );
