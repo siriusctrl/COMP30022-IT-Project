@@ -11,6 +11,7 @@ import { createStackNavigator } from "react-navigation";
 
 const AppNavigator = createStackNavigator({
   Debug: {screen: DebugScreen},
+  Test:{screen: TestScreen},
   Welcome: {screen: WelcomeScreen},
   Login: {screen: LoginScreen,},
   SignIn: {screen: SignInScreen},

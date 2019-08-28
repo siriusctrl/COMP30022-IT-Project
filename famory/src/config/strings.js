@@ -5,9 +5,9 @@ const strings = {
     BEGIN: "BEGIN",
     FAMILYNAME_PLACEHOLDER: "Family Name",
     SIGNUP: "SIGN UP",
-    HOME_COMMUNITY: "Community",
-    HOME_ACCOUNT: "Account",
     LOGOUT: "LOGOUT",
+    HOME_COMMUNITY: "COMMUNITY",
+    HOME_ACCOUNT: "ACCOUNT",
   };
   
   export default strings;
