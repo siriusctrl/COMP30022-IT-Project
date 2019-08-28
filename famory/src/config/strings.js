@@ -5,6 +5,7 @@ const strings = {
     BEGIN: "BEGIN",
     FAMILYNAME_PLACEHOLDER: "Family Name",
     SIGNUP: "SIGN UP",
+    LOGOUT: "LOGOUT",
     HOME_COMMUNITY: "COMMUNITY",
     HOME_ACCOUNT: "ACCOUNT",
   };
