@@ -7,6 +7,7 @@ import IconButtonWithText from "../components/IconButtonWithText";
 import Empty from "../components/Empty";
 import ImageButton from "../components/ImageButton";
 import cxk from "../assets/images/logo.png"
+import { Avatar } from "react-native-elements";
 
 
 
@@ -49,6 +50,11 @@ export default class HomePageScreen extends Component{
       )
     }
 
+    jsx.push(
+      <View>
+        <Avatar icon={{name:"fas fa-arrows-alt-v", type:"font-awesome"}} rounded size={"medium"}/>
+      </View>
+    )
     return jsx;
   }
 
