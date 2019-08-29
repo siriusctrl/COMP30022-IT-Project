@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import { Image, StyleSheet, View } from 'react-native';
-import { Container, DeckSwiper, Card, CardItem, Text, Icon, Button } from 'native-base';
-import { AppLoading } from 'expo';
+import { Image, StyleSheet, View, Modal } from 'react-native';
+import { Container, DeckSwiper, Card, CardItem, Text, Button } from 'native-base';
+import LottieView from "lottie-react-native";
 import colors from "../config/colors";
 
 import AddNew from "../assets/icons/addNew";
@@ -73,6 +73,7 @@ export default class CommunityMainScreen extends Component {
   state = {
     currentid: 0,
     liked: [0, 0, 0, 0],
+    modalVisible: false,
   }
 
   handleSwipe = () => {
@@ -88,9 +89,11 @@ export default class CommunityMainScreen extends Component {
   }
 
   handleLike = () => {
+    this.setModalVisible(true);
     cards[this.state.currentid].likes += 1;
     this.state.liked[this.state.currentid] = 1;
     this.forceUpdate();
+    this.setModalVisible(true);
   }
 
   handleUnlike = () => {
@@ -103,6 +106,10 @@ export default class CommunityMainScreen extends Component {
     if (prevState.currentid !== this.state.currentid) {
       alert("From state " + prevState.currentid + " to state " + this.state.currentid);
     }
+  }
+
+  setModalVisible(visible) {
+    this.setState({modalVisible: visible});
   }
 
   render() {
@@ -157,6 +164,19 @@ export default class CommunityMainScreen extends Component {
         <View style={{ flex: 1, position: "absolute", bottom: 20, left: 255, justifyContent: 'space-between', padding: 15}}>
           <ChatIcon onPress={() => this._deckSwiper._root.swipeLeft()}></ChatIcon>
         </View>
+        <Modal style={styles.animationContainer} transparent={true} visible={this.state.modalVisible}
+          onShow={()=>{ 
+            this.animation.play();
+            setTimeout(() => this.setState({modalVisible:false}), 750);
+            }}>
+            <LottieView
+              ref={animation => {
+                this.animation = animation;
+              }}
+              loop={false}
+              source={require('../assets/animation/heart.json')}
+            />
+        </Modal>
       </Container>
     );
   }
@@ -187,5 +207,9 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     marginLeft: 15,
     height: "90%"
-  }
+  },
+  animationContainer: {
+    backgroundColor: '#fff',
+    flex: 1,
+  },
 });
