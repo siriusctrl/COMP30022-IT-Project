@@ -15,7 +15,6 @@ export default class HomePageScreen extends Component{
   static navigationOptions = {
     header: null
   }
-  // TODO: use for loop to generate avatar set before invoking renderItem
 
   avatar = [
     {empyt:"yes"},
@@ -42,19 +41,24 @@ export default class HomePageScreen extends Component{
 
   avatarConstructor = (item) => {
     let jsx = [];
-    for (im in item.img) {
+    for (index in item.img) {
       jsx.push(
         <View style={{marginRight: 11}}>
-          <ImageButton name={item.name[im]} imageSource={item.img[im]}/>
+          <ImageButton name={item.name[index]} imageSource={item.img[index]}/>
         </View>
       )
+
+      if(index >= 3){
+        alert(item.img.length);
+        jsx.push(
+          <View>
+            <Avatar icon={{name:"more-horiz", type:"material"}} rounded size={"medium"}/>
+          </View>
+        )
+        return jsx;
+      }
     }
 
-    jsx.push(
-      <View>
-        <Avatar icon={{name:"fas fa-arrows-alt-v", type:"font-awesome"}} rounded size={"medium"}/>
-      </View>
-    )
     return jsx;
   }
 
