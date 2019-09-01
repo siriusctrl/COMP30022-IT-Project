@@ -8,4 +8,19 @@ import ArtCard from "../components/ArtCard";
 import { TouchableNativeFeedback, TouchableHighlight } from "react-native-gesture-handler";
 
 
+export default class ArtGuide extends Component{
 
+  static navigationOptions = {
+    header: null
+  }
+
+  render(){
+    return(
+      <View>
+        <TouchableNativeFeedback>
+          <Text>click</Text>
+        </TouchableNativeFeedback>
+      </View>
+    )
+  }
+}
