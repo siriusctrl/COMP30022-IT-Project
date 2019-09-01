@@ -1,2 +1,6 @@
 
 .idea/
+
+famory/yarn.lock
+
+*.lock

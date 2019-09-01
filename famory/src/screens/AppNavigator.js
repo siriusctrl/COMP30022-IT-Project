@@ -7,6 +7,7 @@ import CommunityMainScreen from "./CommunityMainScreen";
 import AccountHold from "./AccountHold"
 import MemberPr from "./MemberPr";
 import TestScreen from "./TestScreen";
+import CommunityCommentScreen from "./CommunityCommentScreen";
 import ArtGuide from "./ArtGuide";
 import { createStackNavigator } from "react-navigation";
 
@@ -20,6 +21,7 @@ const AppNavigator = createStackNavigator({
   SignIn: {screen: SignInScreen},
   HomePage: {screen: HomePage},
   CommunityMain: {screen: CommunityMainScreen},
+  CommunityComment: {screen: CommunityCommentScreen},
   AccountHold: {screen: AccountHold},
   MemberPr: {screen: MemberPr},
   ArtGuide: {screen: ArtGuide}
