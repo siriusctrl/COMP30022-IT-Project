@@ -22,6 +22,7 @@ export default class DebugScreen extends Component{
     {name: "MemberPr"},
     {name: "AccountHold"},
     {name: "CommunityComment"}
+    {name: "EditProfile"}
   ];
 
   //Item separator

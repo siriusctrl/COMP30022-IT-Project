@@ -8,6 +8,7 @@ const strings = {
     LOGOUT: "LOGOUT",
     HOME_COMMUNITY: "COMMUNITY",
     HOME_ACCOUNT: "ACCOUNT",
+    CONTACT_SUPPORT: "CONTACTSUPPORT"
   };
   
   export default strings;
