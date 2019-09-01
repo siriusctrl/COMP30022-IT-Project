@@ -4632,13 +4632,6 @@ react-native-branch@~3.0.1:
   resolved "https://registry.yarnpkg.com/react-native-branch/-/react-native-branch-3.0.1.tgz#5b07b61cbd290168cd3c3662e017ebe0f356d2ca"
   integrity sha512-vbcYxPZlpF5f39GAEUF8kuGQqCNeD3E6zEdvtOq8oCGZunHXlWlKgAS6dgBKCvsHvXgHuMtpvs39VgOp8DaKig==
 
-react-native-coverflow@^0.1.7:
-  version "0.1.7"
-  resolved "https://registry.yarnpkg.com/react-native-coverflow/-/react-native-coverflow-0.1.7.tgz#f9cebbeb84601bc4fd623fda05d32aeae2ba3f38"
-  integrity sha512-sYKR4HYf+5cR+sOLiQUKRMQBu3uvJuaqankskdPDqNJNtNjFxBZh8B9PQee43YEuL84OgGXekgIvSQ94kjBQfQ==
-  dependencies:
-    prop-types "^15.6.0"
-
 react-native-drawer@2.5.1:
   version "2.5.1"
   resolved "https://registry.yarnpkg.com/react-native-drawer/-/react-native-drawer-2.5.1.tgz#08b9314184f48c724f1b467f8859797369798654"
