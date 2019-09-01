@@ -4,8 +4,9 @@ import SignInScreen from "./SignInScreen";
 import DebugScreen from "./DebugScreen";
 import HomePage from "./HomePageScreen";
 import CommunityMainScreen from "./CommunityMainScreen";
-import TestScreen from "./TestScreen";
+import AccountHold from "./AccountHold"
 import MemberPr from "./MemberPr";
+import TestScreen from "./TestScreen";
 import { createStackNavigator } from "react-navigation";
 
 
@@ -17,6 +18,7 @@ const AppNavigator = createStackNavigator({
   SignIn: {screen: SignInScreen},
   HomePage: {screen: HomePage},
   CommunityMain: {screen: CommunityMainScreen},
+  AccountHold: {screen: AccountHold},
   MemberPr: {screen: MemberPr},
 }, {
       // should be debug

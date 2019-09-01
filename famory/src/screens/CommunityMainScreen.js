@@ -1,31 +1,52 @@
 import React, { Component } from 'react';
-import { Image } from 'react-native';
-import { Container, Header, View, DeckSwiper, Card, CardItem, Thumbnail, Text, Left, Body, Icon, Button } from 'native-base';
-import * as Font from 'expo-font';
-import { Ionicons } from '@expo/vector-icons';
-import { AppLoading } from 'expo';
+import { Image, StyleSheet, View, Modal } from 'react-native';
+import { Container, DeckSwiper, Card, CardItem, Text, Button } from 'native-base';
+import LottieView from "lottie-react-native";
+import colors from "../config/colors";
 
-import Mail from "../assets/icons/mail";
+import AddNew from "../assets/icons/addNew";
+import ChatIcon from "../assets/icons/chat";
+import CrossIcon from "../assets/icons/cross";
+import Heart from "../assets/icons/heart";
+import SmallHeart from "../assets/icons/smallHeart";
+import Unlike from "../assets/icons/unlike";
 
-const cards = [
+let cards = [
   {
-    text: 'Card One',
-    name: 'One',
-    image: require('../assets/images/Back.png'),
+    id: 0,
+    text: 'Beloved Grandfather: Rest in peace. Last meal we had was truly amazing.',
+    name: 'Last Breakfast',
+    geo: 'Melbourne',
+    image: require('../assets/images/breakfast.png'),
+    likes: 120,
   },
   {
-    text: 'Card Two',
-    name: 'Two',
+    id: 1,
+    text: 'Finished building JavaScript bundle in 319 ms. Running application on HMA-AL00.',
+    name: 'Beautiful Tree.',
+    geo: 'Sydney',
     image: require('../assets/images/bgtree.jpg'),
+    likes: 1,
   },
   {
-    text: 'Card Three',
-    name: 'Three',
-    image: require('../assets/images/glass.png'),
+    id: 2,
+    text: 'ji ni tai mei',
+    name: 'ikun',
+    geo: 'Shanghai',
+    image: require('../assets/images/logo.png'),
+    likes: 1145,
+  },
+  {
+    id: 3,
+    text: 'Lottie is a mobile library for Android and iOS that parses Adobe After Effects animations.',
+    name: 'Crystalised World',
+    geo: 'Beijing',
+    image: require('../assets/images/Back.png'),
+    likes: 747,
   }
 ];
 
-export default class DeckSwiperAdvancedExample extends Component {
+export default class CommunityMainScreen extends Component {
 
   static navigationOptions = {
     title: 'Playground',
@@ -40,62 +61,155 @@ export default class DeckSwiperAdvancedExample extends Component {
     },
     headerTintColor: '#FFFFFF',
     headerRight: (
-      <Mail
-        onPress={() => alert('This is a button!')}
+      <AddNew
+        onPress={() => alert('Add new artefact!')}
         title="Info"
         color="#FFFFFF"
-        style={{marginRight: 11}}
-      ></Mail>
+        style={{marginRight: 12}}
+      ></AddNew>
     ),
   }
 
+  state = {
+    currentid: 0,
+    liked: [0, 0, 0, 0],
+    modalVisible: false,
+  }
+
+  handleSwipe = () => {
+    let old = this.state.currentid;
+    this.setState({
+      currentid: (old + 1) % 4
+    });
+  }
+
+  handleCross = () => {
+    this.handleSwipe();
+    this._deckSwiper._root.swipeLeft();
+  }
+
+  handleLike = () => {
+    this.setModalVisible(true);
+    cards[this.state.currentid].likes += 1;
+    this.state.liked[this.state.currentid] = 1;
+    this.forceUpdate();
+    this.setModalVisible(true);
+  }
+
+  handleUnlike = () => {
+    cards[this.state.currentid].likes -= 1;
+    this.state.liked[this.state.currentid] = 0;
+    this.forceUpdate();
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.currentid !== this.state.currentid) {
+      alert("From state " + prevState.currentid + " to state " + this.state.currentid);
+    }
+  }
+
+  setModalVisible(visible) {
+    this.setState({modalVisible: visible});
+  }
 
   render() {
 
     return (
       <Container>
-        <View>
+        <View style={styles.container}>
           <DeckSwiper
             ref={(c) => this._deckSwiper = c}
             dataSource={cards}
-            renderEmpty={() =>
-              <View style={{ alignSelf: "center" }}>
-                <Text>Over</Text>
-              </View>
-            }
+            onSwipeLeft={this.handleSwipe}
+            onSwipeRight={this.handleSwipe}
             renderItem={item =>
-              <Card style={{ elevation: 3 }}>
-                <CardItem>
-                  <Left>
-                    <Thumbnail source={item.image} />
-                    <Body>
-                      <Text>{item.text}</Text>
-                      <Text note>NativeBase</Text>
-                    </Body>
-                  </Left>
-                </CardItem>
+              <Card style={{ elevation: 7, borderRadius: 12 }}>
                 <CardItem cardBody>
-                  <Image style={{ height: 300, flex: 1 }} source={item.image} />
+                  <Image style={styles.image} source={item.image} />
                 </CardItem>
                 <CardItem>
-                  <Icon name="heart" style={{ color: '#ED4A6A' }} />
-                  <Text>{item.name}</Text>
+                  <Text style={{fontSize: 20, fontWeight: "bold"}}>{item.name}</Text>
+                  <View style={styles.location}>
+                    <Text style={{fontSize: 13, color: colors.WHITE, 
+                    flex: 1, alignItems: 'center', justifyContent: 'center',
+                    marginHorizontal: 7, marginTop: 3}}>{item.geo}</Text>
+                  </View>
+                </CardItem>
+                <CardItem style={styles.cardBottom}>
+                  <View style={{ flex: 4, marginTop: -25 }}>
+                    <Text style={{ fontSize: 14, letterSpacing: 0.5}}>{item.text}</Text>
+                  </View>
+                  <View
+                    style={{ flex: 1, marginTop: 30}}>
+                      <SmallHeart style={{marginLeft: 35}}></SmallHeart>
+                  </View>
+                  <View
+                    style={{ flex: 1, marginTop: 28}}>
+                      <Text style={{ fontSize: 12, fontWeight: 'bold', marginLeft: 20}}>{item.likes}</Text>
+                  </View>
                 </CardItem>
               </Card>
             }
           />
         </View>
-        <View style={{ flexDirection: "row", flex: 1, position: "absolute", bottom: 50, left: 0, right: 0, justifyContent: 'space-between', padding: 15 }}>
-          <Button iconLeft onPress={() => this._deckSwiper._root.swipeLeft()}>
-            <Icon name="arrow-back" />
-            <Text>Swipe Left</Text>
-          </Button>
-          <Button iconRight onPress={() => this._deckSwiper._root.swipeRight()}>
-            <Icon name="arrow-forward" />
-            <Text>Swipe Right</Text>
-          </Button>
+        <View style={{ flex: 1, position: "absolute", bottom: 20, left: 20, justifyContent: 'space-between', padding: 15}}>
+          <CrossIcon onPress={this.handleCross}></CrossIcon>
         </View>
+        <View style={{ flex: 1, position: "absolute", bottom: 40, left: 135, justifyContent: 'space-between', padding: 15}}>
+          {(this.state.liked[this.state.currentid] === 0) ? (
+          <Heart onPress={this.handleLike}></Heart>) : (
+          <Unlike onPress={this.handleUnlike}></Unlike>
+          )}
+        </View>
+        <View style={{ flex: 1, position: "absolute", bottom: 20, left: 255, justifyContent: 'space-between', padding: 15}}>
+          <ChatIcon onPress={() => this._deckSwiper._root.swipeLeft()}></ChatIcon>
+        </View>
+        <Modal style={styles.animationContainer} transparent={true} visible={this.state.modalVisible}
+          onShow={()=>{ 
+            this.animation.play();
+            setTimeout(() => this.setState({modalVisible:false}), 750);
+            }}>
+            <LottieView
+              ref={animation => {
+                this.animation = animation;
+              }}
+              loop={false}
+              source={require('../assets/animation/heart.json')}
+            />
+        </Modal>
       </Container>
     );
   }
 }
+
+const styles = StyleSheet.create({
+  container: {
+    justifyContent: "center",
+    width: "95%",
+    marginLeft: 9,
+    marginTop: 10,
+  },
+  image: {
+    height: 300,
+    flex: 1,
+    borderColor: "#C9C7C7",
+    borderTopLeftRadius: 12,
+    borderTopRightRadius: 12,
+    overflow: 'hidden',
+  },
+  cardBottom: {
+    borderBottomLeftRadius: 12, 
+    borderBottomRightRadius: 12, 
+    borderColor: "#C9C7C7",
+  },
+  location: {
+    backgroundColor: "#F99E54",
+    borderRadius: 5,
+    marginLeft: 15,
+    height: "90%"
+  },
+  animationContainer: {
+    backgroundColor: '#fff',
+    flex: 1,
+  },
+});

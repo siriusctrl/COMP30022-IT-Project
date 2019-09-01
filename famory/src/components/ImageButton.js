@@ -1,6 +1,7 @@
 import React from "react";
 import {StyleSheet, TouchableHighlight, Alert, Image} from "react-native";
 import { Avatar } from "react-native-elements";
+import cxk from "../assets/images/logo.png"
 
 export default class ImageButton extends React.Component{
 
