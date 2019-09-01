@@ -1,5 +1,6 @@
 import React, {Component} from "react";
 import { Text, View, FlatList, StyleSheet, Alert} from "react-native";
+import Modal from "react-native-modal";
 
 import colors from "../config/colors";
 import strings from "../config/strings";
@@ -7,18 +8,23 @@ import IconButtonWithText from "../components/IconButtonWithText";
 import Empty from "../components/Empty";
 import ImageButton from "../components/ImageButton";
 import cxk from "../assets/images/logo.png"
+import { Avatar } from "react-native-elements";
+import Button from "../components/Button";
 
 
 
 export default class HomePageScreen extends Component{
+  state = {
+    visibleModal: false,
+  };
+
   static navigationOptions = {
     header: null
   }
-  // TODO: use for loop to generate avatar set before invoking renderItem
 
   avatar = [
-    {empyt:"yes"},
-    {name:["Pending1"], img:[cxk, cxk], gen:"GEN 10"},
+    {empyt:"yes", gen:" "},
+    {name:["Pending1"], img:[cxk, cxk, cxk, cxk], gen:"GEN 10"},
     {name:["Pending2"], img:[cxk], gen:"GEN 9"},
     {name:["Pending3"], img:[cxk], gen:"GEN 8"},
     {name:["Pending4"], img:[cxk], gen:"GEN 7"},
@@ -41,14 +47,37 @@ export default class HomePageScreen extends Component{
 
   avatarConstructor = (item) => {
     let jsx = [];
-    for (im in item.img) {
+    for (index in item.img) {
+      if(index === 4){
+        alert(item.img.length);
+      }
+
       jsx.push(
         <View style={{marginRight: 11}}>
-          <ImageButton name={item.name[im]} imageSource={item.img[im]}/>
+          <ImageButton 
+            name={item.name[index]} 
+            imageSource={item.img[index]}
+            onPressHandler={this._handleAvatarPressed}
+          />
         </View>
       )
-    }
 
+      if(index >= 2){
+        jsx.push(
+          // add a more button to the line where there are too many users
+          <View>
+            <Avatar 
+              icon={{name:"more-horiz", type:"material"}} 
+              rounded
+              size={"medium"}
+              onPress={ this._toggleModal }
+              activeOpacity={0.7}
+            />
+          </View>
+        )
+        break;
+      }
+    }
     return jsx;
   }
 
@@ -68,7 +97,6 @@ export default class HomePageScreen extends Component{
         </View>
       )
     }else{
-     
       return (
         <Text style={{height:76, fontSize:30, textAlign:"center", backgroundColor:"transparent"}}>
           {" "}
@@ -76,7 +104,11 @@ export default class HomePageScreen extends Component{
       )
     }
   }
-      
+  
+  _toggleModal = () => {
+    this.setState({ visibleModal: !this.state.visibleModal });
+  };
+
   handleCommunityPress = () => {
     Alert.alert("You pressed the community button");
   }
@@ -86,29 +118,23 @@ export default class HomePageScreen extends Component{
   }
 
   handleEditPress = () => {
-    Alert.alert(this.avatar.length.toString());
+    Alert.alert("avatar length is " + this.avatar.length.toString());
+  }
+
+  _handleAvatarPressed = () => {
+    alert("Action Defined and not defined!");
   }
 
   render() {
     return (
       <View style={{height: "100%"}}>
-        {this.avatar.length > 7?
-          (
-            <FlatList 
-              data={this.avatar}
-              renderItem={this._renderItem}
-              ItemSeparatorComponent={this.FlatListItemSeparator}
-              keyExtractor={(item) => item.name}
-              style={{height: "100%", width: "100%"}}
-            />
-          )
-            :
-          (
-            <View>
-
-            </View>
-          )
-        }
+        <FlatList 
+          data={this.avatar}
+          renderItem={this._renderItem}
+          ItemSeparatorComponent={this.FlatListItemSeparator}
+          keyExtractor={(item) => item.gen}
+          style={{height: "100%", width: "100%"}}
+        />
 
         <View style={{width: "100%", height: 76*2, position:'absolute', bottom:0}}>
           <View style={{flex:1, backgroundColor:colors.LIGHTBLUE, flexDirection:"row", paddingLeft: 12, alignItems: "center"}}>
@@ -120,7 +146,7 @@ export default class HomePageScreen extends Component{
             </Text>
           </View>
 
-          <View style={{flex:1, backgroundColor:colors.HOMESCREENLIGHTBLUE, flexDirection:"row", padding:10, justifyContent:"space-between", alignItems: "center"}}>
+          <View style={styles.buttonContainer}>
             <Empty/>
             <IconButtonWithText 
               onPress={this.handleAccountPress}
@@ -144,7 +170,42 @@ export default class HomePageScreen extends Component{
             <Empty/>
           </View>
         </View>
-    </View>
+
+        <View style={{ flex: 1, alignItems:"center", justifyContent:"center"}}>
+          <Modal 
+            isVisible={this.state.visibleModal} 
+            style={styles.modal}
+            onBackdropPress={this._toggleModal}
+            onBackButtonPress={this._toggleModal}
+            animationInTiming={500}
+            animationOutTiming={500}
+            animationIn={'zoomInUp'}
+            animationOut={'zoomOutDown'}
+          >
+
+            <View style={{flex:1, justifyContent:"center", alignItems:"center"}}>
+              <View style={{flex:4, flexDirection:"row", marginVertical:10}}>
+
+                <View style={{marginHorizontal:10}}>
+                  <Avatar
+                  icon={{name:"more-horiz", type:"material"}} 
+                  rounded
+                  size={"medium"}/>
+                </View>
+
+                <Avatar
+                icon={{name:"more-horiz", type:"material"}} 
+                rounded
+                size={"medium"}/>
+
+              </View>
+              <View style={{flex:1}}>
+                <Button label="Hide modal" onPress={this._toggleModal} extraStyles={{backgroundColor:colors.TORCH_RED, marginVertical:10}}/>
+              </View>
+            </View>
+          </Modal>
+        </View>
+      </View>
     );
   }
 }
@@ -162,5 +223,18 @@ const styles = StyleSheet.create({
   extraTextStyles:{
     fontSize:14, 
     marginRight: 12
-  }
+  },
+  buttonContainer:{
+    flex:1, 
+    backgroundColor:colors.HOMESCREENLIGHTBLUE, 
+    flexDirection:"row", 
+    padding:10, 
+    justifyContent:"space-between", 
+    alignItems: "center"
+  }, modal:{
+    marginVertical:170, 
+    backgroundColor:colors.WHITE, 
+    borderRadius:15, 
+    justifyContent:"center"
+  },
 });
