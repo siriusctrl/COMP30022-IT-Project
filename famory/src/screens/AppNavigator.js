@@ -7,7 +7,9 @@ import CommunityMainScreen from "./CommunityMainScreen";
 import AccountHold from "./AccountHold"
 import MemberPr from "./MemberPr";
 import TestScreen from "./TestScreen";
+import ArtGuide from "./ArtGuide";
 import { createStackNavigator } from "react-navigation";
+
 
 
 const AppNavigator = createStackNavigator({
@@ -20,9 +22,10 @@ const AppNavigator = createStackNavigator({
   CommunityMain: {screen: CommunityMainScreen},
   AccountHold: {screen: AccountHold},
   MemberPr: {screen: MemberPr},
+  ArtGuide: {screen: ArtGuide}
 }, {
       // should be debug
-      initialRouteName: 'Debug',
+      initialRouteName: 'ArtGuide',
 }, {
   defaultNavigationOptions:{
     header:null
