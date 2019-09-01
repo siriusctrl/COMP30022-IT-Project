@@ -172,22 +172,33 @@ export default class HomePageScreen extends Component{
         </View>
 
         <View style={{ flex: 1, alignItems:"center", justifyContent:"center"}}>
-          <Modal isVisible={this.state.visibleModal} style={{marginVertical:170, backgroundColor:colors.WHITE, borderRadius:15, justifyContent:"center"}}>
+          <Modal 
+            isVisible={this.state.visibleModal} 
+            style={styles.modal}
+            onBackdropPress={this._toggleModal}
+            onBackButtonPress={this._toggleModal}
+            animationInTiming={500}
+            animationOutTiming={500}
+            animationIn={'zoomInUp'}
+            animationOut={'zoomOutDown'}
+          >
+
             <View style={{flex:1, justifyContent:"center", alignItems:"center"}}>
               <View style={{flex:4, flexDirection:"row", marginVertical:10}}>
+
                 <View style={{marginHorizontal:10}}>
                   <Avatar
                   icon={{name:"more-horiz", type:"material"}} 
                   rounded
                   size={"medium"}/>
                 </View>
-                
+
                 <Avatar
                 icon={{name:"more-horiz", type:"material"}} 
                 rounded
                 size={"medium"}/>
-              </View>
 
+              </View>
               <View style={{flex:1}}>
                 <Button label="Hide modal" onPress={this._toggleModal} extraStyles={{backgroundColor:colors.TORCH_RED, marginVertical:10}}/>
               </View>
@@ -220,5 +231,10 @@ const styles = StyleSheet.create({
     padding:10, 
     justifyContent:"space-between", 
     alignItems: "center"
+  }, modal:{
+    marginVertical:170, 
+    backgroundColor:colors.WHITE, 
+    borderRadius:15, 
+    justifyContent:"center"
   },
 });

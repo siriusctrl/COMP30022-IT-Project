@@ -33,7 +33,7 @@ export default class TestScreen extends Component{
                 rounded
                 size={"medium"}/>
               </View>
-
+              
               <Avatar
               icon={{name:"more-horiz", type:"material"}} 
               rounded
