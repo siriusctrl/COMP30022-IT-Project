@@ -5,7 +5,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import colors from "../config/colors";
 
 import ArtCard from "../components/ArtCard";
-import { TouchableNativeFeedback } from "react-native-gesture-handler";
+import { TouchableNativeFeedback, TouchableHighlight } from "react-native-gesture-handler";
 
 import Carousel from "react-native-snap-carousel";
 
@@ -80,7 +80,9 @@ export default class MemberPr extends Component{
   _renderRow({item, index}){
 
     return (
-      <ArtCard item={item} />
+      <TouchableNativeFeedback style={styles.artCard} background={TouchableNativeFeedback.Ripple(colors.WHITE,false)}>
+        <ArtCard item={item} style={styles.artCard}/>
+      </TouchableNativeFeedback>
     )
   }
 
@@ -146,7 +148,7 @@ export default class MemberPr extends Component{
                 inactiveSlideScale={0.85}
                 containerCustomStyle={{overflow: "visible", width: "100%"}}
                 contentContainerCustomStyle={{alignItems: "center", flexDirection: "column"}}
-                slideStyle={{width: "92%", elevation: 16, borderRadius: 6}}
+                slideStyle={{width: "95%", elevation: 16, borderRadius: 6}}
                 
                 
               />
@@ -172,5 +174,10 @@ const styles = StyleSheet.create({
     zIndex: 2,
     justifyContent: "flex-start",
     flexDirection: "column"
+  },
+  artCard: {
+    width: 380,
+    height: 350,
+    borderRadius: 6
   }
 });

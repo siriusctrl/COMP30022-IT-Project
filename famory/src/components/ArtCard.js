@@ -29,7 +29,7 @@ export default class ArtCard extends Component{
     this.height = this.props.cardHeight ? this.props.cardHeight: 350;
 
     return (
-      <View style={{width: "100%", height: this.height, backgroundColor: backgroundColorArtefact[item["type"]][0], flexDirection: "column", borderRadius: 6, overflow: "hidden"}}>
+      <View style={{backgroundColor: backgroundColorArtefact[item["type"]][0], flexDirection: "column", overflow: "hidden", ... this.props.style}}>
         <View style={{width: "100%", padding: 16, paddingTop: 22, flexDirection: "row", backgroundColor: backgroundColorArtefact[item["type"]][3]}}>
           <View style={{flex: 1, backgroundColor: colors.DODGER_BLUE}}>
           </View>
