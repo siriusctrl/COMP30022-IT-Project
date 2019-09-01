@@ -6,37 +6,54 @@ import strings from "../config/strings";
 import CheckButton from "../components/CheckButton"
 import Homeicon from "./AccountHold";
 
+const userProfile = {
+  firstName: 'Tom',
+  lastName: 'Ford',
+  dob: '1997/1/1',
+};
 
 export default class EditProfile extends Component {
 
-  static navigationOptions = {
-    title: 'Edit Profile',
-    headerStyle: {
-      backgroundColor: '#4E91C4',
-    },
+  static navigationOptions = ({ navigation }) => {
+    return {
+      title: 'Edit Profile',
+      headerStyle: {
+        backgroundColor: '#4E91C4',
+      },
 
-    headerTitleStyle: {
-      fontWeight: 'bold',
-      alignSelf: 'center',
-      textAlign: 'center',
-      flex: 1,
-    },
-    headerTintColor: '#FFFFFF',
-    headerRight: (
-      <CheckButton
-        onPress={() => alert('This is a button!')}
-        title="Info"
-        color="#FFFFFF"
-        style={{marginRight: 11}}
-      ></CheckButton>
-    ),
+      headerTitleStyle: {
+        fontWeight: 'bold',
+        alignSelf: 'center',
+        textAlign: 'center',
+        flex: 1,
+      },
+      headerTintColor: '#FFFFFF',
+      headerRight: (
+        <CheckButton
+          onPress={navigation.getParam('increaseCount')}
+          title="Info"
+          color="#FFFFFF"
+          style={{marginRight: 11}}
+        ></CheckButton>
+      ),
+    };
 
+  };
 
+  state = {
+    firstName: userProfile.firstName,
+    lastName: userProfile.lastName,
+    dob: userProfile.dob,
+  };
+
+  componentDidMount() {
+    this.props.navigation.setParams({ increaseCount: this._increaseCount });
   }
-  constructor(props) {
-    super(props);
-    this.state = { text: 'Nazarri' };
-  }
+
+  _increaseCount = () => {
+    alert(this.state.dob + "," + this.state.lastName + "," + this.state.firstName);
+  };
+
 
   render () {
     return (
@@ -52,7 +69,10 @@ export default class EditProfile extends Component {
             <Text style={styles.greyText}>First Name</Text>
             <TextInput
               style={styles.blackText}
-              onChangeText={(text) => this.setState({text})}
+              onChangeText={(text) => this.setState({firstName: text})}
+              placeholder={userProfile.firstName}
+              placeholderTextColor={"#D3D3D3"}
+              maxLength={20}
               value={this.state.text}
             />
             </Body>
@@ -63,7 +83,10 @@ export default class EditProfile extends Component {
             <Text style={styles.greyText}>Last Name</Text>
             <TextInput
               style={styles.blackText}
-              onChangeText={(text) => this.setState({text})}
+              onChangeText={(text) => this.setState({lastName: text})}
+              placeholder={userProfile.lastName}
+              placeholderTextColor={"#D3D3D3"}
+              maxLength={20}
               value={this.state.text}
             />
             </Body>
@@ -74,7 +97,10 @@ export default class EditProfile extends Component {
             <Text style={styles.greyText}>Date of Birth</Text>
             <TextInput
               style={styles.blackText}
-              onChangeText={(text) => this.setState({text})}
+              onChangeText={(text) => this.setState({dob: text})}
+              placeholder={userProfile.dob}
+              placeholderTextColor={"#D3D3D3"}
+              maxLength={20}
               value={this.state.text}
             />
             </Body>

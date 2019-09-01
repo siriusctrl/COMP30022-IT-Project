@@ -31,7 +31,7 @@ export default class AccountHold extends Component {
   }
 
   handleLogOutPress = () => {
-    Alert.alert("LogOut Pressed with 0.5 opacity");
+    this.props.navigation.navigate('Welcome');
   }
 
   state = {
