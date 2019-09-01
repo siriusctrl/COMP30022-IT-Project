@@ -1,8 +1,9 @@
 import React, {Component} from "react";
-import { Text, Image, StyleSheet, View , Alert, KeyboardAvoidingView, ImageBackground} from "react-native";
+import { Text, TextInput, Image, StyleSheet, View , Alert, KeyboardAvoidingView, ImageBackground} from "react-native";
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import colors from "../config/colors";
 import { Icon } from 'react-native-elements'
+import { Container, Header, Content, Item, Input } from 'native-base';
 
 import ArtCard from "../components/ArtCard";
 import { TouchableNativeFeedback, TouchableHighlight } from "react-native-gesture-handler";
@@ -23,8 +24,9 @@ export default class ArtGuide extends Component{
   }
 
   state = {
-    currentStage: "addMemberInitial",
-    currentPurpose: "addMember"
+    currentStage: "addMemberNameAndGender",
+    currentPurpose: "addMember",
+    memberName: "",
   }
 
   stages = {
@@ -53,13 +55,21 @@ export default class ArtGuide extends Component{
     "addMemberNameAndGender": {
       "title": "What's the Name and Gender?",
       "view": [
-        <View style={{flex: 4, flexDirection: "column", paddingTop: 75}}>
+        <View style={{flex: 4, flexDirection: "column", paddingTop: 69}}>
           <View style={{flex: 6}}>
-            <Text style={{fontSize: 18}}>You're adding a member for</Text>
-            <Text style={{fontSize: 18, color: colors.ORANGE}}>{this.par.memberAddFamily}'s family</Text>
+            <Text style={{fontSize: 18, width: "87%"}}>Write the name without the family name</Text>
+            <TextInput placeholder={"Name"} underlineColorAndroid={colors.SILVER} onChangeText={
+              (memberName) => {this._changeText(memberName)}
+            }
+             style={{width: "87%", height: 32, fontSize: 18, marginTop: 23, lineHeight: 26}} />
+             <Text style={{fontSize: 18, marginTop: 38, width: "87%"}}>We support any gender you like</Text>
+             <TextInput placeholder={"Gender"} underlineColorAndroid={colors.SILVER} onChangeText={
+              (memberName) => {this._changeText(memberName)}
+            }
+             style={{width: "87%", height: 32, fontSize: 18,  marginTop: 23, lineHeight: 26}} />
           </View>
           <View style={{flex: 1, flexDirection: "row", justifyContent: "flex-end", alignItems: "center"}}>
-            <TouchableNativeFeedback onPress={() => this._changeStage("addMemberNameAndGender")}>
+            <TouchableNativeFeedback>
               <Text style={{height: 42, width: 82, textAlign: "center", textAlignVertical: "center", color: colors.DODGER_BLUE, fontSize: 16}}>NEXT</Text>
             </TouchableNativeFeedback>
           </View>
@@ -70,11 +80,22 @@ export default class ArtGuide extends Component{
   }
 
   _changeStage(stageName){
-    this.state = {
+    this.setState(
+      {
+        ... this.state,
         currentStage: stageName,
-        currentPurpose: this.state.currentPurpose
-    };
-    this.forceUpdate();
+      }
+    );
+  }
+
+  _changeText = (memberName) => {
+    this.setState(
+      {
+        ... this.state,
+        memberName: memberName
+      }
+    );
+
   }
 
   render(){

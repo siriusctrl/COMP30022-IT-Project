@@ -21,7 +21,7 @@ export default class DebugScreen extends Component{
     {name: "Test"},
     {name: "MemberPr"},
     {name: "AccountHold"},
-    {name: "CommunityComment"}
+    {name: "CommunityComment"},
     {name: "ArtGuide"},
   ];
 
