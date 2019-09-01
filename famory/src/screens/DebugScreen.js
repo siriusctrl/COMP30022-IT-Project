@@ -20,7 +20,8 @@ export default class DebugScreen extends Component{
     {name:"CommunityMain"},
     {name: "Test"},
     {name: "MemberPr"},
-    {name: "AccountHold"}
+    {name: "AccountHold"},
+    {name: "CommunityComment"}
   ];
 
   //Item separator
