@@ -1,7 +1,7 @@
 import React from "react";
 import {StyleSheet, TouchableHighlight, Alert, Image} from "react-native";
 import { Avatar } from "react-native-elements";
-import cxk from "../assets/images/logo.png"
+import colors from "../config/colors";
 
 export default class ImageButton extends React.Component{
 
@@ -10,15 +10,17 @@ export default class ImageButton extends React.Component{
   }
 
   render(){
-    const { imageSource, onPressHandler, name, ...otherProps} = this.props;
+    const { imageSource, onPressHandler, name, showEditButton, boarderColor,...otherProps} = this.props;
     return(
       <Avatar
         size="medium"
         rounded
-        title={name?name:"CXK"}
+        title={name?name:" "}
         onPress={onPressHandler?onPressHandler:this._handleButtonPressed}
         activeOpacity={0.7}
         source={imageSource}
+        overlayContainerStyle={{padding:2, backgroundColor:boarderColor?boarderColor:colors.TORCH_RED}}
+        showEditButton={showEditButton==null?true:false}
       />
     );
   }

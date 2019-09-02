@@ -16,10 +16,19 @@ import Button from "../components/Button";
 export default class HomePageScreen extends Component{
   state = {
     visibleModal: false,
+    mode: "view",
   };
 
   static navigationOptions = {
     header: null
+  }
+  
+  //laod avatar info from server
+  async componentDidMount() {
+    if (this.avatar.length > 5){
+      this.avatar.push({empyt:"yes", gen:" "})
+      this.avatar.push({empyt:"yes", gen:" "})
+    }
   }
 
   avatar = [
@@ -32,8 +41,6 @@ export default class HomePageScreen extends Component{
     {name:["Pending6"], img:[cxk], gen:"GEN 5"},
     {name:["Pending7"], img:[cxk], gen:"GEN 4"},
     {name:["Pending8"], img:[cxk], gen:"GEN 3"},
-    {name:[" vending1"], img:[cxk], gen:"GEN 2"},
-    {name:[" vending2"], img:[cxk], gen:"GEN 1"},
   ];
 
   //Item separator
@@ -104,6 +111,22 @@ export default class HomePageScreen extends Component{
       )
     }
   }
+
+  _renderEditText = () => {
+    if (this.state.mode === "view"){
+      return(
+        <Text style={{fontSize:15, flex: 1, color: colors.WHITE}} onPress={this._handleEditPress}>
+          EDIT
+        </Text>
+      );
+    } else {
+      return(
+        <Text style={{fontSize:15, flex: 1, color: colors.WHITE}} onPress={this._handleEditPress}>
+          DONE
+        </Text>
+      );
+    }
+  }
   
   _toggleModal = () => {
     this.setState({ visibleModal: !this.state.visibleModal });
@@ -118,7 +141,13 @@ export default class HomePageScreen extends Component{
   }
 
   _handleEditPress = () => {
-    Alert.alert("avatar length is " + this.avatar.length.toString());
+    if(this.state.mode === "view"){
+      alert("enter edit mode");
+      this.setState({mode: "edit"});
+    } else {
+      alert("enter view mode");
+      this.setState({mode: "view"});
+    }
   }
 
   _handleAvatarPressed = () => {
@@ -127,23 +156,24 @@ export default class HomePageScreen extends Component{
 
   render() {
     return (
-      <View style={{height: "100%"}}>
-        <FlatList 
-          data={this.avatar}
-          renderItem={this._renderItem}
-          ItemSeparatorComponent={this.FlatListItemSeparator}
-          keyExtractor={(item) => item.gen}
-          style={{height: "100%", width: "100%"}}
-        />
+      <View style={{flex: 1}}>
+        <View>
+          <FlatList 
+            data={this.avatar}
+            renderItem={this._renderItem}
+            ItemSeparatorComponent={this.FlatListItemSeparator}
+            keyExtractor={(item) => item.gen}
+          />
+        </View>
         
         <View style={{width: "100%", height: 76*2, position:'absolute', bottom:0}}>
           <View style={{flex:1, backgroundColor:colors.LIGHTBLUE, flexDirection:"row", paddingLeft: 12, alignItems: "center"}}>
             <Text style={{fontSize:25, backgroundColor:"transparent", flex: 7, color: colors.WHITE}}>
               Family tag
             </Text>
-            <Text style={{fontSize:15, flex: 1, color: colors.WHITE}} onPress={this._handleEditPress}>
-              EDIT
-            </Text>
+
+            {this._renderEditText()}
+
           </View>
 
           <View style={styles.buttonContainer}>
