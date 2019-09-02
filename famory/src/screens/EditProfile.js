@@ -1,6 +1,11 @@
 import React, { Component } from 'react';
-import {StyleSheet, Image, Alert, View, Text, TextInput} from 'react-native';
+import {StyleSheet, Image, Alert, View, Text, TextInput, Button} from 'react-native';
 import { Container, Header, Content, ListItem, Icon, Left, Body, Right, Switch, Separator } from 'native-base';
+
+import * as ImagePicker from 'expo-image-picker';
+import Constants from 'expo-constants';
+import * as Permissions from 'expo-permissions';
+import DatePicker from 'react-native-datepicker';
 
 import strings from "../config/strings";
 import CheckButton from "../components/CheckButton"
@@ -44,6 +49,7 @@ export default class EditProfile extends Component {
     firstName: userProfile.firstName,
     lastName: userProfile.lastName,
     dob: userProfile.dob,
+    image: null,
   };
 
   componentDidMount() {
@@ -60,7 +66,8 @@ export default class EditProfile extends Component {
       <View style={{flex: 1}}>
         <View style={{alignItems: "center", }}>
           <Image source={require('../assets/images/trump.jpg')}  style={styles.avatar} />
-          <Text style={{fontSize: 14, color: '#347ED3'}}>Change Profile Photo</Text>
+          <Text style={{fontSize: 14, color: '#347ED3'}} onPress={this._pickImage}>Change Profile Photo
+        </Text>
         </View>
 
         <View>
@@ -103,6 +110,30 @@ export default class EditProfile extends Component {
               maxLength={20}
               value={this.state.text}
             />
+            <DatePicker
+              style={{width: 200}}
+              date={this.state.date}
+              mode="date"
+              placeholder="select date"
+              format="YYYY-MM-DD"
+              minDate="2016-05-01"
+              maxDate="2016-06-01"
+              confirmBtnText="Confirm"
+              cancelBtnText="Cancel"
+              customStyles={{
+                dateIcon: {
+                  position: 'absolute',
+                  left: 0,
+                  top: 4,
+                  marginLeft: 0
+                },
+                dateInput: {
+                  marginLeft: 36
+                }
+                // ... You can check the source to find the other keys.
+              }}
+              onDateChange={(date) => {this.setState({date: date})}}
+            />
             </Body>
           </ListItem>
         </View>
@@ -111,6 +142,33 @@ export default class EditProfile extends Component {
     );
 
   }
+
+  componentDidMount() {
+    this.getPermissionAsync();
+  }
+
+  getPermissionAsync = async () => {
+    if (Constants.platform.ios) {
+      const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
+      if (status !== 'granted') {
+        alert('Sorry, we need camera roll permissions to make this work!');
+      }
+    }
+  }
+
+  _pickImage = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [4, 3],
+    });
+
+    console.log(result);
+
+    if (!result.cancelled) {
+      this.setState({ image: result.uri });
+    }
+  };
 }
 
 const styles = StyleSheet.create({
