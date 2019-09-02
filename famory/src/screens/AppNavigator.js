@@ -9,8 +9,10 @@ import MemberPr from "./MemberPr";
 import TestScreen from "./TestScreen";
 import CommunityCommentScreen from "./CommunityCommentScreen";
 import EditProfile from "./EditProfile";
-import { createStackNavigator } from "react-navigation";
 import ContactSupport from "./ContactSupport";
+import Achievement from "./AchievementScreen";
+
+import { createStackNavigator } from "react-navigation";
 
 
 const AppNavigator = createStackNavigator({
@@ -25,7 +27,8 @@ const AppNavigator = createStackNavigator({
   AccountHold: {screen: AccountHold},
   MemberPr: {screen: MemberPr},
   EditProfile: {screen: EditProfile},
-  ContactSupport: {screen: ContactSupport}
+  ContactSupport: {screen: ContactSupport},
+  Achievement: {screen: Achievement}
 }, {
       // should be debug
       initialRouteName: 'Debug',

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {StyleSheet, Image, Alert, View, Text, FlatList} from 'react-native';
+import {StyleSheet, Image, Alert, View, Text, TouchableOpacity} from 'react-native';
 import { Container, Header, Content, ListItem, Icon, Left, Body, Right, Switch, Separator } from 'native-base';
 import Dialog, { DialogContent, DialogTitle, DialogFooter, DialogButton, SlideAnimation } from 'react-native-popup-dialog';
 
@@ -38,6 +38,9 @@ export default class AccountHold extends Component {
     visible: false,
   }
 
+  handleAchievementPress = () => {
+    this.props.navigation.navigate('Achievement');
+  }
 
   render() {
 
@@ -76,7 +79,7 @@ export default class AccountHold extends Component {
             </Right>
           </ListItem>
 
-          <ListItem icon noBorder>
+          <ListItem icon noBorder onPress={this.handleAchievementPress}>
             <Left>
               <Achievement title = "achievement" style={{marginLeft: 3}}>
               </Achievement>
