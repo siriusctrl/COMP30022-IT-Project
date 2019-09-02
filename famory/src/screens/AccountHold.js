@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import {StyleSheet, Image, Alert} from 'react-native';
-import { Container, Header, Content, ListItem, Text, Icon, Left, Body, Right, Switch, View, Separator } from 'native-base';
+import {StyleSheet, Image, Alert, View, Text, TouchableOpacity} from 'react-native';
+import { Container, Header, Content, ListItem, Icon, Left, Body, Right, Switch, Separator } from 'native-base';
+import Dialog, { DialogContent, DialogTitle, DialogFooter, DialogButton, SlideAnimation } from 'react-native-popup-dialog';
 
 import strings from "../config/strings";
 import Button from "../components/Button";
@@ -30,7 +31,15 @@ export default class AccountHold extends Component {
   }
 
   handleLogOutPress = () => {
-    Alert.alert("LogOut Pressed with 0.5 opacity");
+    this.props.navigation.navigate('Welcome');
+  }
+
+  state = {
+    visible: false,
+  }
+
+  handleAchievementPress = () => {
+    this.props.navigation.navigate('Achievement');
   }
 
   render() {
@@ -44,67 +53,84 @@ export default class AccountHold extends Component {
 
         <View>
 
-          <ListItem icon>
+          <ListItem icon noBorder>
             <Left>
-              <Homeicon
-                title="homeicon"
-              >
+              <Homeicon title="homeicon">
               </Homeicon>
             </Left>
             <Body>
-            <Text>Family Name</Text>
+            <Text style={{fontSize: 16}}>Family Name</Text>
             </Body>
             <Right>
               <Text>Nizaari</Text>
             </Right>
           </ListItem>
-          <ListItem icon>
+
+          <ListItem icon noBorder>
             <Left>
-              <Calendar title = "calender" >
+              <Calendar title = "calender" style={{marginLeft: 3}}>
               </Calendar>
             </Left>
             <Body>
-            <Text>Date of Creation</Text>
+            <Text style={{fontSize: 16, marginLeft: 3}}>Date of Creation</Text>
             </Body>
             <Right>
               <Text>07/08/2019</Text>
             </Right>
           </ListItem>
-          <Separator>
 
-          </Separator>
-          <ListItem icon>
+          <ListItem icon noBorder onPress={this.handleAchievementPress}>
             <Left>
-              <Achievement title = "achievement">
+              <Achievement title = "achievement" style={{marginLeft: 3}}>
               </Achievement>
             </Left>
             <Body>
-            <Text>Achievement</Text>
+            <Text style={{fontSize: 16, marginLeft: 4}}>Achievement</Text>
             </Body>
-            <Right>
-              <Icon active name="arrow-forward" />
-            </Right>
           </ListItem>
-          <Separator bordered>
-            <Text>Settings</Text>
-          </Separator>
-          <ListItem icon>
+
+          <View style={styles.separators}></View>
+
+          <ListItem icon noBorder>
             <Left>
               <Setting title = "setting" >
               </Setting>
             </Left>
             <Body>
-            <Text>Account & Security</Text>
+            <Text style={{fontSize: 16, marginLeft: 3}}>Account & Security</Text>
             </Body>
           </ListItem>
-          <ListItem icon>
+
+          <ListItem icon noBorder onPress={() => {this.setState({ visible: true });}}>
+
             <Left>
-              <Accountmail title = "mail" >
-              </Accountmail>
+              <Accountmail title = "mail" ></Accountmail>
             </Left>
+
             <Body>
-            <Text>Contact Support</Text>
+              <Text style={{fontSize: 16}}>Contact Support</Text>
             </Body>
+
+            <Dialog
+              visible={this.state.visible}
+              dialogAnimation={new SlideAnimation({
+                slideFrom: 'bottom',
+              })}
+              dialogTitle={<DialogTitle title="Contact Details" />}
+              footer={
+                <DialogFooter>
+                  <DialogButton style={{color: 'red'}}
+                    text="DISMISS"
+                    onPress={() => {this.setState({ visible: false });}}
+                  />
+                </DialogFooter>
+              }
+             >
+              <DialogContent>
+                <Text style={styles.contactText}>Name: <Text style={{color: '#347ED3'}}>Miley Zhang</Text></Text>
+                <Text style={styles.contactText}>E-mail: <Text style={{color: '#347ED3'}}>mileyzha@gmail.com</Text></Text>
+              </DialogContent>
+            </Dialog>
           </ListItem>
 
         </View>
@@ -113,14 +139,13 @@ export default class AccountHold extends Component {
             title="Log Out"
             label={strings.LOGOUT}
             onPress={this.handleLogOutPress}
-            extraStyles={{width: "80%", marginTop: 50, alignSelf: 'center'}}>
+            extraStyles={{width: "80%", marginTop: 60, alignSelf: 'center'}}>
           </Button>
         </View>
       </Container>
     );
   }
 }
-
 
 const styles = StyleSheet.create({
   avatar: {
@@ -130,4 +155,16 @@ const styles = StyleSheet.create({
     paddingTop: 10,
     borderRadius: 40,
   },
+  separators: {
+    flex:1,
+    flexDirection: 'row',
+    borderWidth: 7,
+    borderColor: "#fff",
+  },
+  contactText: {
+    fontSize: 17,
+    marginTop: 15,
+    marginLeft: 10,
+  }
+
 });
