@@ -66,8 +66,8 @@ export default class HomePageScreen extends Component{
         jsx.push(
           // add a more button to the line where there are too many users
           <View>
-            <Avatar 
-              icon={{name:"more-horiz", type:"material"}} 
+            <Avatar
+              icon={{name:"more-horiz", type:"material"}}
               rounded
               size={"medium"}
               onPress={ this._toggleModal }
@@ -114,7 +114,7 @@ export default class HomePageScreen extends Component{
   }
 
   _handleAccountPress = () => {
-    Alert.alert("You pressed the account button");
+    this.props.navigation.navigate("AccountHold");
   }
 
   _handleEditPress = () => {
@@ -179,9 +179,9 @@ export default class HomePageScreen extends Component{
             onBackdropPress={this._toggleModal}
             onBackButtonPress={this._toggleModal}
             animationInTiming={500}
-            animationOutTiming={500}
+            animationOutTiming={300}
             animationIn={'zoomInUp'}
-            animationOut={'zoomOutDown'}
+            animationOut={'fadeOut'}
           >
 
             <View style={{flex:1, justifyContent:"center", alignItems:"center"}}>
