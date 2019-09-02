@@ -109,15 +109,15 @@ export default class HomePageScreen extends Component{
     this.setState({ visibleModal: !this.state.visibleModal });
   };
 
-  handleCommunityPress = () => {
-    Alert.alert("You pressed the community button");
+  _handleCommunityPress = () => {
+    this.props.navigation.navigate("CommunityMain");
   }
 
-  handleAccountPress = () => {
+  _handleAccountPress = () => {
     Alert.alert("You pressed the account button");
   }
 
-  handleEditPress = () => {
+  _handleEditPress = () => {
     Alert.alert("avatar length is " + this.avatar.length.toString());
   }
 
@@ -135,25 +135,26 @@ export default class HomePageScreen extends Component{
           keyExtractor={(item) => item.gen}
           style={{height: "100%", width: "100%"}}
         />
-
+        
         <View style={{width: "100%", height: 76*2, position:'absolute', bottom:0}}>
           <View style={{flex:1, backgroundColor:colors.LIGHTBLUE, flexDirection:"row", paddingLeft: 12, alignItems: "center"}}>
             <Text style={{fontSize:25, backgroundColor:"transparent", flex: 7, color: colors.WHITE}}>
               Family tag
             </Text>
-            <Text style={{fontSize:15, flex: 1, color: colors.WHITE}} onPress={this.handleEditPress}>
+            <Text style={{fontSize:15, flex: 1, color: colors.WHITE}} onPress={this._handleEditPress}>
               EDIT
             </Text>
           </View>
 
           <View style={styles.buttonContainer}>
             <Empty/>
-            <IconButtonWithText 
-              onPress={this.handleAccountPress}
+            <IconButtonWithText
+              onPress={this._handleAccountPress}
               label={strings.HOME_ACCOUNT} 
               extraStyles={{...styles.extraStyles}} 
               extraTextStyles={styles.extraTextStyles} 
-              nameOfIcon="user"/>
+              nameOfIcon="user"
+            />
             <Empty/>
             <Empty/>
             <Empty/>
@@ -162,7 +163,7 @@ export default class HomePageScreen extends Component{
             <Empty/>
             <Empty/>
             <IconButtonWithText 
-              onPress={this.handleCommunityPress}
+              onPress={this._handleCommunityPress}
               label={strings.HOME_COMMUNITY} 
               extraStyles={{backgroundColor: colors.ORANGE, ... styles.extraStyles}} 
               extraTextStyles={styles.extraTextStyles} 

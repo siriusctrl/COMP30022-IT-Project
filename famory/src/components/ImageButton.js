@@ -23,16 +23,3 @@ export default class ImageButton extends React.Component{
     );
   }
 }
-
-const styles = StyleSheet.create({
-  imageContainer:{
-    borderWidth:1,
-    backgroundColor:"transparent",
-    borderColor:'rgba(0,0,0,0.2)',
-    alignItems:'center',
-    justifyContent:'center',
-    width:30,
-    height:30,
-    borderRadius:15
-  }
-});
