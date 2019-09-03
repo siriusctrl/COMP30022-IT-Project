@@ -3,6 +3,7 @@ import {StyleSheet, Image, Alert, View, Text, TouchableOpacity} from 'react-nati
 import { Container, Header, Content, ListItem, Icon, Left, Body, Right, Switch, Separator } from 'native-base';
 import Dialog, { DialogContent, DialogTitle, DialogFooter, DialogButton, SlideAnimation } from 'react-native-popup-dialog';
 
+
 import strings from "../config/strings";
 import Button from "../components/Button";
 
@@ -119,7 +120,7 @@ export default class AccountHold extends Component {
               dialogTitle={<DialogTitle title="Contact Details" />}
               footer={
                 <DialogFooter>
-                  <DialogButton style={{color: 'red'}}
+                  <DialogButton
                     text="DISMISS"
                     onPress={() => {this.setState({ visible: false });}}
                   />
