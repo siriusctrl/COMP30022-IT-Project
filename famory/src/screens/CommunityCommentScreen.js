@@ -4,7 +4,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import Empty from "../components/Empty";
 
 import Meteor from "../assets/icons/meteor";
-import SendMessage from "../assets/icons/sendMessage";
+import BigMeteor from "../assets/icons/bigMeteor";
 import Rocket from "../assets/icons/rocket";
 import Ufo from "../assets/icons/ufo";
 import Comet from "../assets/icons/comet";
@@ -26,6 +26,9 @@ let comments = [
   },
 ];
 
+let myComment = '';
+let submitted = false;
+
 export default class CommunityCommentScreen extends Component {
 
   static navigationOptions = {
@@ -43,14 +46,24 @@ export default class CommunityCommentScreen extends Component {
   }
 
   state = {
-    submitted: false,
     modalVisible: false,
   }
 
   handleSubmit = () => {
     this.setState({
       modalVisible: true,
-    })
+    });
+    submitted = true;
+    setTimeout(() => {
+      comments.push({
+        id: 3,
+        text: myComment,
+      });
+    }, 3000);
+  }
+
+  handleTimeout = () => {
+    this.setState({modalVisible:false});
   }
 
   render() {
@@ -59,24 +72,37 @@ export default class CommunityCommentScreen extends Component {
       <View style={styles.container}>
  
         <ScrollView style={styles.RectangleShapeView}>
+
+          {(comments.length === 4) ? (
+            <View style={styles.Comments}>
+              <BigMeteor></BigMeteor>
+              <View style={styles.CommentArea}>
+                <Text style={styles.TextStyle}>{comments[3].text}</Text>
+              </View>
+            </View>
+          ) : null}
+
           <View style={styles.Comments}>
             <Comet></Comet>
             <View style={styles.CommentArea}>
               <Text style={styles.TextStyle}>{comments[0].text}</Text>
             </View>
           </View>
+
           <View style={styles.Comments}>
             <Ufo></Ufo>
             <View style={styles.CommentArea}>
               <Text style={styles.TextStyle}>{comments[1].text}</Text>
             </View>
           </View>
+
           <View style={styles.Comments}>
             <Rocket></Rocket>
             <View style={styles.CommentArea}>
               <Text style={styles.TextStyle}>{comments[2].text}</Text>
             </View>
           </View>
+
         </ScrollView>
         <Empty/>
         <Empty/>
@@ -84,7 +110,7 @@ export default class CommunityCommentScreen extends Component {
         <Empty/>
         <View style={{ flex: 1, justifyContent: 'center', width: "100%", flexDirection: "row"}}>
           <Meteor style={{marginTop: 8}}></Meteor>
-          {(this.state.submitted) ? (
+          {(submitted === true) ? (
             <LinearGradient 
             colors={['#C0C0C0', '#808080']} 
             style={styles.LinearGradientStyle}
@@ -114,8 +140,9 @@ export default class CommunityCommentScreen extends Component {
                   underlineColorAndroid='transparent'
                   multiline
                   blurOnSubmit={true}
+                  onChangeText={(text) => {myComment = text}}
                   style={styles.TextInputStyleClass}
-                  onSubmitEditing={ () => this.handleSubmit() }
+                  onSubmitEditing={this.handleSubmit}
                 />
 
               </View>
@@ -127,7 +154,7 @@ export default class CommunityCommentScreen extends Component {
         <Modal style={styles.animationContainer} transparent={true} visible={this.state.modalVisible}
           onShow={()=>{ 
             this.animation.play();
-            setTimeout(() => this.setState({modalVisible:false, submitted: true}), 3000);
+            setTimeout(this.handleTimeout, 3000);
             }}>
             <LottieView
               ref={animation => {
