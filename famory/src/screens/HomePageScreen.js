@@ -88,6 +88,8 @@ export default class HomePageScreen extends Component{
     return jsx;
   }
 
+  //TODO: refine the renderItem function based on the current state which should fit the view and edit mode
+
   _renderItem = ({item}) => {
     if (item["name"]){
       return (
