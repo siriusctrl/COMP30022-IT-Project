@@ -32,7 +32,7 @@ const AppNavigator = createStackNavigator({
   ArtGuide: {screen: ArtGuide},
 }, {
       // should be debug
-      initialRouteName: 'ArtGuide',
+      initialRouteName: 'Debug',
 }, {
   defaultNavigationOptions:{
     header:null

@@ -3,6 +3,8 @@ import { Text, Image, StyleSheet, View , Alert, KeyboardAvoidingView, ImageBackg
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import colors from "../config/colors";
+import firebaseContainer from "../controller/firebaseConfig"
+import * as firebase from "firebase";
 
 import ArtCard from "../components/ArtCard";
 import { TouchableNativeFeedback, TouchableHighlight } from "react-native-gesture-handler";
