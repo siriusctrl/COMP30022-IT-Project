@@ -112,6 +112,10 @@ export default class CommunityMainScreen extends Component {
     this.setState({modalVisible: visible});
   }
 
+  handleCommentPress = () => {
+    this.props.navigation.navigate('CommunityComment');
+  }
+
   render() {
 
     return (
@@ -162,7 +166,7 @@ export default class CommunityMainScreen extends Component {
           )}
         </View>
         <View style={{ flex: 1, position: "absolute", bottom: 20, left: 255, justifyContent: 'space-between', padding: 15}}>
-          <ChatIcon onPress={() => this._deckSwiper._root.swipeLeft()}></ChatIcon>
+          <ChatIcon onPress={this.handleCommentPress}></ChatIcon>
         </View>
         <Modal style={styles.animationContainer} transparent={true} visible={this.state.modalVisible}
           onShow={()=>{ 
