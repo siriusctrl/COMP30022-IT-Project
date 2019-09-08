@@ -92,8 +92,7 @@ export default class MemberPr extends Component{
   }
 
   testFirebase(){
-    let baseContainer = new firebaseContainer();
-    FamilyModelManage.getInstance().setFamily("Cao");
+    
   }
 
   //eovniesbl 
