@@ -1,26 +1,71 @@
 import * as firebase from "firebase";
 
-const firebaseConfig = {
-  apiKey: "AIzaSyAUg74-P-HB6wyklgGFfuM61x4D77RJeq4",
-  authDomain: "fir-one-28de9.firebaseapp.com",
-  databaseURL: "https://fir-one-28de9.firebaseio.com/",
-  projectId: "fir-one-28de9",
-  storageBucket: "fir-one-28de9.appspot.com",
-  messagingSenderId: "609981049573"
-};
+export class FamilyModelManage{
 
-export default class firebaseContainer{
-  
+  static _managePart = null
+  _familyPath = "families"
 
-  firebaseCon = firebaseConfig;
-
-  constructor(){
-    if(!firebase.apps.length){
-      firebase.initializeApp(this.firebaseCon);
+  static getInstance(){
+    if(this._managePart == null){
+      this._managePart = new FamilyModelManage();
     }
+    return this._managePart;
   }
 
-  isInitialized(){
-    return firebase.apps.length;
+  getFamily(familyId){
+
   }
+
+  setFamily(familyName){
+    let setUpFamily = new Family(familyName);
+
+    let familyReference = firebase.database().ref(this._familyPath);
+    let familyPromise = familyReference.push();
+    familyPromise.set(
+      setUpFamily.toObject()
+    )
+
+    
+    let familyId = this._getFamilyId(familyPromise.parent.toString(), familyPromise.toString());
+
+    alert(familyId)
+
+    setUpFamily.setId(familyId)
+    
+    return setUpFamily;
+  }
+
+  _getFamilyId(promiseParent, promiseString){
+    return promiseString.slice((promiseParent.length + 1), promiseString.length)
+  }
+  
+  familyPath = ""
+}
+
+export class Family{
+
+  familyId = "-1";
+
+  constructor(familyName){
+    this.familyName = familyName
+  }
+
+  toObject(){
+    return {familyName: this.familyName}
+  }
+
+  setId(familyId){
+    this.familyId = familyId;
+  }
+
+  isValid(){
+    return !this.familyId == "-1";
+  }
+
+
+}
+
+
+export default familyModel = {
+  FamilyModelManage: FamilyModelManage
 }

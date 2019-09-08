@@ -4,6 +4,7 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import colors from "../config/colors";
 import firebaseContainer from "../controller/firebaseConfig"
+import { FamilyModelManage } from "../controller/FamilyModel"
 import * as firebase from "firebase";
 
 import ArtCard from "../components/ArtCard";
@@ -84,10 +85,15 @@ export default class MemberPr extends Component{
     let total = this.state.profileMemberArtefactItem.length;
 
     return (
-      <TouchableNativeFeedback style={{... styles.artCard, zIndex: total - index}} background={TouchableNativeFeedback.Ripple(colors.WHITE,false)}>
+      <TouchableNativeFeedback style={{... styles.artCard, zIndex: total - index}} background={TouchableNativeFeedback.Ripple(colors.WHITE,false)} onPress={this.testFirebase}>
         <ArtCard item={item} style={styles.artCard}/>
       </TouchableNativeFeedback>
     )
+  }
+
+  testFirebase(){
+    let baseContainer = new firebaseContainer();
+    FamilyModelManage.getInstance().setFamily("Cao");
   }
 
   //eovniesbl 
