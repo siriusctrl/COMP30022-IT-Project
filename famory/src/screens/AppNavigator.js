@@ -29,7 +29,7 @@ const AppNavigator = createStackNavigator({
   MemberPr: {screen: MemberPr},
   EditProfile: {screen: EditProfile},
   Achievement: {screen: Achievement},
-  ArtGuide: {screen: ArtGuide}
+  ArtGuide: {screen: ArtGuide},
 }, {
       // should be debug
       initialRouteName: 'ArtGuide',
