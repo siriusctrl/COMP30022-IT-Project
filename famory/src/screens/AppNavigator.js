@@ -11,7 +11,9 @@ import CommunityCommentScreen from "./CommunityCommentScreen";
 import EditProfile from "./EditProfile";
 import Achievement from "./AchievementScreen";
 
+import ArtGuide from "./ArtGuide";
 import { createStackNavigator } from "react-navigation";
+
 
 
 const AppNavigator = createStackNavigator({
@@ -26,10 +28,11 @@ const AppNavigator = createStackNavigator({
   AccountHold: {screen: AccountHold},
   MemberPr: {screen: MemberPr},
   EditProfile: {screen: EditProfile},
-  Achievement: {screen: Achievement}
+  Achievement: {screen: Achievement},
+  ArtGuide: {screen: ArtGuide},
 }, {
       // should be debug
-      initialRouteName: 'Debug',
+      initialRouteName: 'ArtGuide',
 }, {
   defaultNavigationOptions:{
     header:null
