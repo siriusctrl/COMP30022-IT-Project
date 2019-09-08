@@ -1,23 +1,26 @@
-import * as firebase from "firebase/app";
+import * as firebase from "firebase";
 
 const firebaseConfig = {
   apiKey: "AIzaSyAUg74-P-HB6wyklgGFfuM61x4D77RJeq4",
   authDomain: "fir-one-28de9.firebaseapp.com",
   databaseURL: "https://fir-one-28de9.firebaseio.com/",
-  storageBucket: "gs://fir-one-28de9.appspot.com"
+  projectId: "fir-one-28de9",
+  storageBucket: "fir-one-28de9.appspot.com",
+  messagingSenderId: "609981049573"
 };
 
 export default class firebaseContainer{
-
-
-  firebaseOn = false;
+  
 
   firebaseCon = firebaseConfig;
 
   constructor(){
-    if(!firebaseOn){
+    if(!firebase.apps.length){
       firebase.initializeApp(this.firebaseCon);
-      this.firebaseOn = true;
     }
+  }
+
+  isInitialized(){
+    return firebase.apps.length;
   }
 }
