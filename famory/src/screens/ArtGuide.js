@@ -1,9 +1,10 @@
 import React, {Component} from "react";
-import { Text, TextInput, Image, StyleSheet, View , Alert, KeyboardAvoidingView, ImageBackground} from "react-native";
+import { Text, TextInput, Image, StyleSheet, View , Alert, KeyboardAvoidingView, ImageBackground, FlatList} from "react-native";
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import colors from "../config/colors";
-import { Icon } from 'react-native-elements'
-import { Container, Header, Content, Item, Input } from 'native-base';
+import { Icon, ListItem } from 'react-native-elements'
+import { Container, Header, Content, Item, Input} from 'native-base';
+import Carousel from "react-native-snap-carousel";
 
 import ArtCard from "../components/ArtCard";
 import { TouchableNativeFeedback, TouchableHighlight } from "react-native-gesture-handler";
@@ -15,21 +16,174 @@ export default class ArtGuide extends Component{
     header: null
   }
 
+  state = {
+    member: {
+      memberColor: colors.HOMESCREENLIGHTBLUE,
+      memberName: "John",
+      memberFamily: "Nizaari",
+      memberFamilyId: "",
+      memberRole: "Son",
+      memberId: 2
+    },
+    family: {
+      member: [
+        {
+          memberId: 2,
+          memberColor: colors.HOMESCREENLIGHTBLUE,
+          memberName: "John",
+          memberFamily: "Nizaari",
+          memberFamilyId: "",
+          memberRole: "Son"
+        },
+        {
+          memberId: 3,
+          memberColor: colors.HOMESCREENLIGHTBLUE,
+          memberName: "Lina",
+          memberFamily: "Nizaari",
+          memberFamilyId: "",
+          memberRole: "A girl"
+        },
+        {
+          memberId: 4,
+          memberColor: colors.WELCOMEBLUE,
+          memberName: "Lina",
+          memberFamily: "Nizaari",
+          memberFamilyId: "",
+          memberRole: "A girl"
+        },
+        {
+          memberId: 4,
+          memberColor: colors.WELCOMEBLUE,
+          memberName: "Lina",
+          memberFamily: "Nizaari",
+          memberFamilyId: "",
+          memberRole: "A girl"
+        },
+        {
+          memberId: 4,
+          memberColor: colors.WELCOMEBLUE,
+          memberName: "Lina",
+          memberFamily: "Nizaari",
+          memberFamilyId: "",
+          memberRole: "A girl"
+        },
+        {
+          memberId: 4,
+          memberColor: colors.WELCOMEBLUE,
+          memberName: "Lina",
+          memberFamily: "Nizaari",
+          memberFamilyId: "",
+          memberRole: "A girl"
+        },
+        {
+          memberId: 4,
+          memberColor: colors.WELCOMEBLUE,
+          memberName: "Lina",
+          memberFamily: "Nizaari",
+          memberFamilyId: "",
+          memberRole: "A girl"
+        },
+        {
+          memberId: 4,
+          memberColor: colors.WELCOMEBLUE,
+          memberName: "Lina",
+          memberFamily: "Nizaari",
+          memberFamilyId: "",
+          memberRole: "A girl"
+        }
+      ]
+    },
+    memberArtefactItem: [
+      {
+        "type": "letter",
+        "title": "Letter from Bakka",
+        "description": "What are we watching last night? I can not remember.",
+        "main": "Lorem ipsum dolor sit amet, \n\nmagnis leo morbi viverra, enim curabitur massa amet libero sit, eu eros vitae orci, nam a semper elementum, integer maecenas. Vestibulum lorem dui nisl sed, pellentesque pellentesque primis sit vel luctus vel. Praesent adipiscing posuere lectus, metus imperdiet purus convallis amet condimentum, diam lacus. Commodo sed, pellentesque velit in. Hendrerit turpis vivamus ligula orci massa id, ut elementum eu ultrices nam. Pellentesque sodales elit risus libero, malesuada aptent a lectus dictum sed, fusce conubia luctus pede aliquam. Curae enim vitae, accumsan esse a quis quis, ullamcorper in nisl neque interdum sociosqu aliquam, a volutpat ipsum ante velit ut, consequat nec in quis penatibus. Orci wisi tortor, eros elit quisque donec, at donec ac. Velit nunc elit in risus nunc donec, justo erat, eu lacinia nulla id, amet pede lorem nisl in. Magna ac lectus vivamus faucibus vestibulum venenatis, nibh leo nunc, enim consectetuer dui eu hac aliquip. Ac aliquet eleifend a pede massa, ante nulla etiam vel in, aliquam consectetur, sit neque aliquet. Erat neque quam, dolor et tristique, lectus sit augue tortor, elementum cras sapien metus hendrerit. In malesuada mollis, lobortis tortor dignissim, consectetuer libero vivamus feugiat, habitasse ut arcu velit nec. Aliquet condimentum augue suspendisse pellentesque turpis, nisl faucibus nec consequat in, vehicula ac a suspendisse ornare, non aenean. Pellentesque vestibulum.",
+      },
+      {
+        "type": "picture",
+        "title": "80s kid born",
+        "description": "remember your birthday",
+        "main": "../assets/images/" + "dark.png"
+      },
+      {
+        "type": "picture",
+        "title": "80s kid born",
+        "description": "remember your birthday",
+        "main": "../assets/images/" + "dark.png"
+      },
+      {
+        "type": "picture",
+        "title": "80s kid born",
+        "description": "remember your birthday",
+        "main": "../assets/images/" + "dark.png"
+      },
+      {
+        "type": "picture",
+        "title": "80s kid born",
+        "description": "remember your birthday",
+        "main": "../assets/images/" + "dark.png"
+      },
+      {
+        "type": "picture",
+        "title": "80s kid born",
+        "description": "remember your birthday",
+        "main": "../assets/images/" + "dark.png"
+      },
+      {
+        "type": "picture",
+        "title": "80s kid born",
+        "description": "remember your birthday",
+        "main": "../assets/images/" + "dark.png"
+      },
+      {
+        "type": "picture",
+        "title": "80s kid born",
+        "description": "remember your birthday",
+        "main": "../assets/images/" + "dark.png"
+      }
+
+    ].reverse(),
+    currentStage: "addArtefactMemberIn",
+    currentPurpose: "addArtefact",
+    memberName: "",
+    gender: "",
+    role: "",
+  }
+
+  _renderRow = ({item, index}) => {
+
+    let total = this.state.memberArtefactItem.length;
+
+    return (
+      <TouchableNativeFeedback style={{... styles.artCard, zIndex: total - index}} background={TouchableNativeFeedback.Ripple(colors.WHITE,false)}>
+        <ArtCard item={item} style={styles.artCard}/>
+      </TouchableNativeFeedback>
+    )
+  }
+
   par = {
     "memberAddFamily": "Nizaari"
   }
 
   purpose = {
-    addMember: "addMember"
+    addMember: "addMember",
+    addArtefact: "addArtefact"
   }
 
-  state = {
-    currentStage: "addMemberNameAndGender",
-    currentPurpose: "addMember",
-    memberName: "",
-    gender: "",
-    role: "",
+  initialStage = {
+    addMember: "addMemberInitial",
+    addArtefact: "addArtefactInitial"
   }
+
+  _renderArtefactListItem = ({ item }) => (
+    <ListItem
+      title={item.memberName + " " + item.memberFamily}
+      subtitle={item.memberRole}
+      leftAvatar={{source: require("../assets/images/" + "dark.png")}}
+      onPress = {() => this._changeStage(false)}
+    />
+  )
 
   stages = {
     "addMemberInitial": {
@@ -139,6 +293,114 @@ export default class ArtGuide extends Component{
       "back": {
         "addMember": "addMemberRole",
       }
+    },
+    "addArtefactInitial": {
+      "title": "Adding artefact",
+      "view": [
+        <View style={{flex: 4, flexDirection: "column", paddingTop: 69}}>
+          <View style={{paddingHorizontal: 29, flex: 6, paddingLeft: 32}}>
+           <Text style={{flex: 1, fontSize: 18, width: "87%"}}>Adding artefact for</Text>
+           <View style={{flex: 8, width: "100%"}}>
+            <View style={{height: 72, width: "76%", backgroundColor: this.state.member.memberColor, borderRadius: 36, elevation: 3, flexDirection: "row", paddingLeft: 21, overflow: "hidden"}}>
+              <View style={{flex: 1, justifyContent: "center", alignItems: "center"}}>
+                <View style={{height: 64, width: 64, backgroundColor: colors.WHITE, borderRadius: 32}}></View>
+              </View>
+              <View style={{flex: 6, flexDirection: "column", paddingLeft: 23, justifyContent: "center"}}>
+                <Text style={{fontSize: 23, color: colors.WHITE}}>{this.state.member.memberName + " " + this.state.member.memberFamily}</Text>
+                <Text style={{fontSize: 18, color: colors.WHITE}}>{this.state.member.memberFamily} family</Text>
+
+              </View>
+            </View>
+           </View>
+          </View>
+          <View style={{... guideStyle.bottomButtonCn, justifyContent: "flex-end"}}>
+            <TouchableNativeFeedback background={TouchableNativeFeedback.Ripple(colors.MISCHKA, true)} onPress={() => this._changeStage(false)}>
+              <Text style={guideStyle.bottomButton}>NEXT</Text>
+            </TouchableNativeFeedback>
+          </View>
+        </View>
+      ],
+      "next": {
+        "addArtefact": "addArtefactMemberIn",
+      },
+    },
+    "addArtefactMemberIn": {
+      "title": "Is this from other member?",
+      "view": [
+        <View style={{flex: 4, flexDirection: "column", paddingTop: 36}}>
+          <View style={{paddingHorizontal: 29, flex: 6, justifyContent: "flex-start"}}>
+           <Text style={{flex: 1, fontSize: 18, width: "87%"}}>If this is from other family member, choose the member below</Text>
+           <View style={{flex: 6, elevation: 2}}>
+            <FlatList
+              data={this.state.family.member}
+              renderItem={this._renderArtefactListItem}
+              keyExtractor={(item, index) => index.toString()}
+            />
+           </View>
+          </View>
+          <View style={guideStyle.bottomButtonCn}>
+            <TouchableNativeFeedback background={TouchableNativeFeedback.Ripple(colors.MISCHKA, true)} onPress={() => this._changeStage(true)}>
+              <Text style={guideStyle.bottomButton}>BACK</Text>
+            </TouchableNativeFeedback>
+            <TouchableNativeFeedback background={TouchableNativeFeedback.Ripple(colors.MISCHKA, true)} onPress={() => this._changeStage(true)}>
+              <Text style={guideStyle.bottomButton}>NO, SKIP</Text>
+            </TouchableNativeFeedback>
+            <TouchableNativeFeedback background={TouchableNativeFeedback.Ripple(colors.MISCHKA, true)} onPress={() => this._changeStage(false)}>
+              <Text style={guideStyle.bottomButton}>NEXT</Text>
+            </TouchableNativeFeedback>
+          </View>
+        </View>
+      ],
+      "next": {
+        "addArtefact": "addArtefactMemberChoose",
+      },
+      "back": {
+        "addArtefact": "addArtefactInitial",
+      },
+    },
+    "addArtefactMemberChoose": {
+      "title": "Artefact itself",
+      "view": [
+        <View style={{flex: 4, flexDirection: "column", paddingTop: 36}}>
+          <View style={{paddingHorizontal: 29, flex: 6, justifyContent: "flex-start"}}>
+           <Text style={{flex: 1, fontSize: 18, width: "87%"}}>Choose the artefact</Text>
+           <View style={{flex: 6, width: "100%", backgroundColor: colors.BLACK, overflow: "hidden"}}>
+            <Carousel
+                  ref={(c) => { this._carousel = c; }}
+                  data={this.state.memberArtefactItem}
+                  renderItem={this._renderRow}
+                  sliderHeight={450}
+                  itemHeight={350}
+                  vertical={true}
+                  layout={"stack"}
+                  
+                  layoutCardOffset={`52`}
+                  firstItem={this.state.memberArtefactItem.length - 1}
+                  inactiveSlideScale={0.85}
+                  containerCustomStyle={{overflow: "visible", width: "100%"}}
+                  contentContainerCustomStyle={{alignItems: "center", flexDirection: "column"}}
+                  slideStyle={{width: "92%", elevation: 16, borderRadius: 6}}
+                  
+                  
+                />
+           </View>
+          </View>
+          <View style={guideStyle.bottomButtonCn}>
+            <TouchableNativeFeedback background={TouchableNativeFeedback.Ripple(colors.MISCHKA, true)} onPress={() => this._changeStage(true)}>
+              <Text style={guideStyle.bottomButton}>BACK</Text>
+            </TouchableNativeFeedback>
+            <TouchableNativeFeedback background={TouchableNativeFeedback.Ripple(colors.MISCHKA, true)} onPress={() => this._changeStage(false)}>
+              <Text style={guideStyle.bottomButton}>NEXT</Text>
+            </TouchableNativeFeedback>
+          </View>
+        </View>
+      ],
+      "next": {
+        "addArtefact": "",
+      },
+      "back": {
+        "addArtefact": "addArtefactMemberIn",
+      },
     }
   }
 
@@ -157,11 +419,13 @@ export default class ArtGuide extends Component{
         );
     }else if(ge == FINISH){
       this._finish(this.state.currentPurpose);
+    }else{
+      alert("WHAT STAGE NEXT?");
     }
   }
 
   _finish = (purpose) => {
-    
+    alert("finished" + purpose);
   }
 
   _changeText = (te) => {
@@ -173,6 +437,10 @@ export default class ArtGuide extends Component{
     );
 
   }
+
+  _renderArtefactListItem = ({ item }) => (
+    <Text>caoni</Text>
+  )
 
   render(){
     return(
@@ -197,7 +465,7 @@ const FINISH = "finish";
 const guideStyle = StyleSheet.create(
   {
     bottomButton: {
-      height: 42, 
+      height: 58, 
       width: 82, 
       textAlign: "center", 
       textAlignVertical: "center", 
@@ -214,3 +482,25 @@ const guideStyle = StyleSheet.create(
     }
   }
 )
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  tContainer: {
+    backgroundColor: colors.HOMESCREENLIGHTBLUE,
+    width: "100%",
+    height: 158,
+    elevation: 8,
+    zIndex: 2,
+    justifyContent: "flex-start",
+    flexDirection: "column"
+  },
+  artCard: {
+    width: 350,
+    height: 350,
+    borderRadius: 6
+  }
+});

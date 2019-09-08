@@ -74,13 +74,15 @@ export default class MemberPr extends Component{
         "main": "../assets/images/" + "dark.png"
       }
 
-    ]
+    ].reverse()
   }
 
-  _renderRow({item, index}){
+  _renderRow = ({item, index}) => {
+
+    let total = this.state.profileMemberArtefactItem.length;
 
     return (
-      <TouchableNativeFeedback style={styles.artCard} background={TouchableNativeFeedback.Ripple(colors.WHITE,false)}>
+      <TouchableNativeFeedback style={{... styles.artCard, zIndex: total - index}} background={TouchableNativeFeedback.Ripple(colors.WHITE,false)}>
         <ArtCard item={item} style={styles.artCard}/>
       </TouchableNativeFeedback>
     )
@@ -134,7 +136,7 @@ export default class MemberPr extends Component{
         
 
         <View style={{justifyContent: "center", alignItems: "center", zIndex: 1}}>
-          <View style={{justifyContent: "center", alignItems: "center", width: "100%", overflow: "visible", minHeight: 480}}>
+          <View style={{justifyContent: "center", alignItems: "center", width: "100%", overflow: "visible", minHeight: 480, paddingTop: 36}}>
               <Carousel
                 ref={(c) => { this._carousel = c; }}
                 data={(() => {return this.state.profileMemberArtefactItem;})()}
@@ -142,13 +144,14 @@ export default class MemberPr extends Component{
                 sliderHeight={450}
                 itemHeight={350}
                 vertical={true}
+                layout={"stack"}
                 
-                layoutCardOffset={18}
+                layoutCardOffset={`52`}
                 firstItem={this.state.profileMemberArtefactItem.length - 1}
                 inactiveSlideScale={0.85}
                 containerCustomStyle={{overflow: "visible", width: "100%"}}
                 contentContainerCustomStyle={{alignItems: "center", flexDirection: "column"}}
-                slideStyle={{width: "95%", elevation: 16, borderRadius: 6}}
+                slideStyle={{width: "92%", elevation: 16, borderRadius: 6}}
                 
                 
               />
