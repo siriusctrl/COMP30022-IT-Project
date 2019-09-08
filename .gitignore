@@ -6,5 +6,3 @@ famory/yarn.lock
 *.lock
 
 famory/src/assets/images/.DS_Store
-
-.DS_Store
