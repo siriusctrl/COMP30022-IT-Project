@@ -4,3 +4,5 @@
 famory/yarn.lock
 
 *.lock
+
+famory/src/assets/images/.DS_Store
