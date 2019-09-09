@@ -149,6 +149,12 @@ export default class ArtGuide extends Component{
     memberName: "",
     gender: "",
     role: "",
+    chosenArtefact: {
+      "type": "letter",
+      "title": "Letter from Bakka",
+      "description": "What are we watching last night? I can not remember.",
+      "main": "Lorem ipsum dolor sit amet, \n\nmagnis leo morbi viverra, enim curabitur massa amet libero sit, eu eros vitae orci, nam a semper elementum, integer maecenas. Vestibulum lorem dui nisl sed, pellentesque pellentesque primis sit vel luctus vel. Praesent adipiscing posuere lectus, metus imperdiet purus convallis amet condimentum, diam lacus. Commodo sed, pellentesque velit in. Hendrerit turpis vivamus ligula orci massa id, ut elementum eu ultrices nam. Pellentesque sodales elit risus libero, malesuada aptent a lectus dictum sed, fusce conubia luctus pede aliquam. Curae enim vitae, accumsan esse a quis quis, ullamcorper in nisl neque interdum sociosqu aliquam, a volutpat ipsum ante velit ut, consequat nec in quis penatibus. Orci wisi tortor, eros elit quisque donec, at donec ac. Velit nunc elit in risus nunc donec, justo erat, eu lacinia nulla id, amet pede lorem nisl in. Magna ac lectus vivamus faucibus vestibulum venenatis, nibh leo nunc, enim consectetuer dui eu hac aliquip. Ac aliquet eleifend a pede massa, ante nulla etiam vel in, aliquam consectetur, sit neque aliquet. Erat neque quam, dolor et tristique, lectus sit augue tortor, elementum cras sapien metus hendrerit. In malesuada mollis, lobortis tortor dignissim, consectetuer libero vivamus feugiat, habitasse ut arcu velit nec. Aliquet condimentum augue suspendisse pellentesque turpis, nisl faucibus nec consequat in, vehicula ac a suspendisse ornare, non aenean. Pellentesque vestibulum.",
+    },
   }
 
   _renderRow = ({item, index}) => {
@@ -156,7 +162,11 @@ export default class ArtGuide extends Component{
     let total = this.state.memberArtefactItem.length;
 
     return (
-      <TouchableNativeFeedback style={{... styles.artCard, zIndex: total - index}} background={TouchableNativeFeedback.Ripple(colors.WHITE,false)}>
+      <TouchableNativeFeedback style={{... styles.artCard, zIndex: total - index}} background={TouchableNativeFeedback.Ripple(colors.WHITE,false)} onPress={() => {
+          this.state.chosenArtefact = item;
+          alert(this.state.chosenArtefact.title);
+          this._changeStage(false);
+        }}>
         <ArtCard item={item} style={styles.artCard}/>
       </TouchableNativeFeedback>
     )
@@ -361,10 +371,10 @@ export default class ArtGuide extends Component{
     "addArtefactMemberChoose": {
       "title": "Artefact itself",
       "view": [
-        <View style={{flex: 4, flexDirection: "column", paddingTop: 36}}>
-          <View style={{paddingHorizontal: 29, flex: 6, justifyContent: "flex-start"}}>
-           <Text style={{flex: 1, fontSize: 18, width: "87%"}}>Choose the artefact</Text>
-           <View style={{flex: 6, width: "100%", backgroundColor: colors.BLACK, overflow: "hidden"}}>
+        <View style={{flex: 4, flexDirection: "column", paddingTop: 23}}>
+          <View style={{flex: 6, justifyContent: "flex-start"}}>
+           <Text style={{paddingHorizontal: 29, flex: 1, fontSize: 18, width: "87%"}}>Choose the artefact</Text>
+           <View style={{flex: 11, width: "100%", alignItems: "center", overflow: "hidden"}}>
             <Carousel
                   ref={(c) => { this._carousel = c; }}
                   data={this.state.memberArtefactItem}
@@ -374,12 +384,12 @@ export default class ArtGuide extends Component{
                   vertical={true}
                   layout={"stack"}
                   
-                  layoutCardOffset={`52`}
+                  layoutCardOffset={`26`}
                   firstItem={this.state.memberArtefactItem.length - 1}
                   inactiveSlideScale={0.85}
                   containerCustomStyle={{overflow: "visible", width: "100%"}}
                   contentContainerCustomStyle={{alignItems: "center", flexDirection: "column"}}
-                  slideStyle={{width: "92%", elevation: 16, borderRadius: 6}}
+                  slideStyle={{width: "93%", elevation: 16, borderRadius: 6}}
                   
                   
                 />
@@ -389,17 +399,39 @@ export default class ArtGuide extends Component{
             <TouchableNativeFeedback background={TouchableNativeFeedback.Ripple(colors.MISCHKA, true)} onPress={() => this._changeStage(true)}>
               <Text style={guideStyle.bottomButton}>BACK</Text>
             </TouchableNativeFeedback>
+          </View>
+        </View>
+      ],
+      "next": {
+        "addArtefact": "addArtefactMemberChosen",
+      },
+      "back": {
+        "addArtefact": "addArtefactMemberIn",
+      },
+    },
+    "addArtefactMemberChosen": {
+      "title": "Add this?",
+      "view": [
+        <View style={{flex: 4, flexDirection: "column", paddingTop: 29}}>
+          <View style={{paddingHorizontal: 29,flex: 6, justifyContent: "flex-start"}}>
+           <Text style={{flex: 1, fontSize: 18, width: "87%"}}>Choose the artefact</Text>
+            <ArtCard item={this.state.chosenArtefact} style={styles.artCardDisplay}/>
+          </View>
+          <View style={guideStyle.bottomButtonCn}>
+            <TouchableNativeFeedback background={TouchableNativeFeedback.Ripple(colors.MISCHKA, true)} onPress={() => this._changeStage(true)}>
+              <Text style={guideStyle.bottomButton}>NO</Text>
+            </TouchableNativeFeedback>
             <TouchableNativeFeedback background={TouchableNativeFeedback.Ripple(colors.MISCHKA, true)} onPress={() => this._changeStage(false)}>
-              <Text style={guideStyle.bottomButton}>NEXT</Text>
+              <Text style={guideStyle.bottomButton}>YES</Text>
             </TouchableNativeFeedback>
           </View>
         </View>
       ],
       "next": {
-        "addArtefact": "",
+        "addArtefact": FINISH,
       },
       "back": {
-        "addArtefact": "addArtefactMemberIn",
+        "addArtefact": "addArtefactMemberChoose",
       },
     }
   }
@@ -499,8 +531,13 @@ const styles = StyleSheet.create({
     flexDirection: "column"
   },
   artCard: {
-    width: 350,
+    width: "100%",
     height: 350,
     borderRadius: 6
+  },
+  artCardDisplay: {
+    borderRadius: 6,
+    elevation: 16,
+    flex: 6
   }
 });
