@@ -17,6 +17,8 @@ export class FamilyModelManage{
   }
 
   setFamily(familyName){
+
+    
     let setUpFamily = new Family(familyName);
 
     let familyReference = firebase.database().ref(this._familyPath);
@@ -25,10 +27,7 @@ export class FamilyModelManage{
       setUpFamily.toObject()
     )
 
-    
     let familyId = this._getFamilyId(familyPromise.parent.toString(), familyPromise.toString());
-
-    alert(familyId)
 
     setUpFamily.setId(familyId)
     
@@ -38,9 +37,8 @@ export class FamilyModelManage{
   _getFamilyId(promiseParent, promiseString){
     return promiseString.slice((promiseParent.length + 1), promiseString.length)
   }
-  
-  familyPath = ""
 }
+
 
 export class Family{
 
@@ -61,8 +59,6 @@ export class Family{
   isValid(){
     return !this.familyId == "-1";
   }
-
-
 }
 
 

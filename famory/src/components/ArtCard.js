@@ -27,6 +27,7 @@ export default class ArtCard extends Component{
 
     let {item} = this.props;
     this.height = this.props.cardHeight ? this.props.cardHeight: 350;
+    let numberOfLines = this.props.numberOfLines ? this.props.numberOfLines : 9;
 
     return (
       <View style={{backgroundColor: backgroundColorArtefact[item["type"]][0], flexDirection: "column", overflow: "hidden", ... this.props.style}}>
@@ -42,7 +43,10 @@ export default class ArtCard extends Component{
             <View style={{flex: 1}}>
             </View>
             <View style={{flex: 8, paddingLeft: 12, paddingRight: 12}}>
-              <Text style={{fontSize: 14, color: backgroundColorArtefact[item["type"]][1], marginTop: 17, height: "80%", width: "100%", overflow: "hidden"}} numberOfLines={9}>{item["main"]}</Text>
+            {numberOfLines == -1 ? 
+              <Text style={{fontSize: 14, color: backgroundColorArtefact[item["type"]][1], marginTop: 17, height: "80%", width: "100%", overflow: "hidden"}}>{item["main"]}</Text>:
+              <Text style={{fontSize: 14, color: backgroundColorArtefact[item["type"]][1], marginTop: 17, height: "80%", width: "100%", overflow: "hidden"}} numberOfLines={numberOfLines}>{item["main"]}</Text>}
+              
             </View>
         </View>
       </View>
