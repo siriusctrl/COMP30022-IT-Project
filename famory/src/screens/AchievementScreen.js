@@ -40,7 +40,6 @@ import AchievementBG from "../assets/icons/achievementBG";
 
 import Empty from "../components/Empty";
 import { LinearGradient } from 'expo-linear-gradient';
-import Share from 'react-native-share';
 
 export default class AchievementScreen extends Component {
 
@@ -61,7 +60,7 @@ export default class AchievementScreen extends Component {
   }
 
   state = {
-    unlocked: [1, 1, 1, 1, 1, 0, 1, 0, 0],
+    unlocked: [1, 1, 1, 1, 1, 1, 1, 1, 1],
     isVisible: [false, false, false, false, false, false, false, false, false],
     unlockDate: [
       new Date(), 
@@ -69,10 +68,11 @@ export default class AchievementScreen extends Component {
       new Date(1811, 6, 28, 14, 39, 7),
       new Date(2018, 6, 28, 14, 39, 7),
       new Date(2012, 6, 22, 14, 39, 7),
-      NaN,
+      new Date(2012, 6, 22, 14, 39, 7),
       new Date(2002, 3, 8, 14, 39, 7),
-      NaN,
-      NaN,
+      new Date(2012, 6, 22, 14, 39, 7),
+      new Date(2012, 6, 22, 14, 39, 7),
+
     ],
   };
 
@@ -133,16 +133,20 @@ export default class AchievementScreen extends Component {
                 <BadgeHBN style={styles.badge}></BadgeHBN>
               )}
             </TouchableOpacity>
-            {(this.state.unlocked[1] === 0) ? (
+            <TouchableOpacity onPress={() => this.toggleModal(1)}>
+              {(this.state.unlocked[1] === 0) ? (
               <BadgeHSL style={styles.badge}></BadgeHSL>
-            ) : (
+              ) : (
               <BadgeHSN style={styles.badge}></BadgeHSN>
-            )}
+              )}
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => this.toggleModal(2)}>
             {(this.state.unlocked[2] === 0) ? (
               <BadgeHGL style={styles.badge}></BadgeHGL>
             ) : (
               <BadgeHGN style={styles.badge}></BadgeHGN>
             )}
+            </TouchableOpacity>
           </View>
 
           <View style={{flexDirection: "row", padding: 10,}}>
@@ -157,21 +161,27 @@ export default class AchievementScreen extends Component {
             </Text>
           </View>
           <View style={{flexDirection: "row", padding: 10,}}>
+            <TouchableOpacity onPress={() => this.toggleModal(3)}>
             {(this.state.unlocked[3] === 0) ? (
               <BadgeCBL style={styles.badge}></BadgeCBL>
             ) : (
               <BadgeCBN style={styles.badge}></BadgeCBN>
             )}
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => this.toggleModal(4)}>
             {(this.state.unlocked[4] === 0) ? (
               <BadgeCSL style={styles.badge}></BadgeCSL>
             ) : (
               <BadgeCSN style={styles.badge}></BadgeCSN>
             )}
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => this.toggleModal(5)}>
             {(this.state.unlocked[5] === 0) ? (
-              <BadgeCGL style={styles.badge}></BadgeCGL>
+              <BadgeCGL style={styles.badge}></BadgeCGL> 
             ) : (
               <BadgeCGN style={styles.badge}></BadgeCGN>
             )}
+            </TouchableOpacity>
           </View>
 
           <View style={{flexDirection: "row", padding: 10,}}>
@@ -185,22 +195,29 @@ export default class AchievementScreen extends Component {
               {" "}/{" "}03
             </Text>
           </View>
+
           <View style={{flexDirection: "row", padding: 10,}}>
+            <TouchableOpacity onPress={() => this.toggleModal(6)}>
             {(this.state.unlocked[6] === 0) ? (
               <BadgeFBL style={styles.badge}></BadgeFBL>
             ) : (
               <BadgeFBN style={styles.badge}></BadgeFBN>
             )}
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => this.toggleModal(7)}>
             {(this.state.unlocked[7] === 0) ? (
               <BadgeFSL style={styles.badge}></BadgeFSL>
             ) : (
               <BadgeFSN style={styles.badge}></BadgeFSN>
             )}
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => this.toggleModal(8)}>
             {(this.state.unlocked[8] === 0) ? (
               <BadgeFGL style={styles.badge}></BadgeFGL>
             ) : (
               <BadgeFGN style={styles.badge}></BadgeFGN>
             )}
+            </TouchableOpacity>
           </View>
         </View>
 
@@ -230,11 +247,239 @@ export default class AchievementScreen extends Component {
           <Empty></Empty>
           <Empty></Empty>
           <View style={{flex:1, justifyContent:"center", alignItems:"center"}}>
-            <Text style={{fontSize: 22, fontWeight: "bold"}}>Hello World</Text>
-            <Text style={{fontSize: 16, marginTop: 15}}>Complete basic tutorial</Text>
+            <Text style={{fontSize: 22, fontWeight: "bold"}}>Explorer</Text>
+            <Text style={{fontSize: 16, marginTop: 15}}>Added first family member</Text>
             <Empty></Empty>
             <Empty></Empty>
             <Text style={{fontSize: 18, fontWeight: "bold"}}>Unlocked on:{" "}{this.getDateFormat(0)}</Text>
+          </View>
+          <View style={styles.share}>
+            <Text style={{fontSize: 12}}>Share on:{" "}</Text>
+            <Facebook style={{marginLeft: 5}}></Facebook>
+            <Twitter style={{marginLeft: 5}}></Twitter>
+          </View>
+        </Modal>
+
+        <Modal
+          isVisible={this.state.isVisible[1]}
+          onBackdropPress={() => this.toggleModal(1)}
+          animationIn="fadeInUp"
+          animationOut="fadeOutDown"
+          style={styles.modalStyle}
+        >
+          <View style={{flex:1, justifyContent:"center", alignItems:"center", marginLeft: 3}}>
+            <AchievementBG></AchievementBG>
+            <BadgeHSNB style={{marginTop: -75, marginLeft: -3}}></BadgeHSNB>
+          </View>
+          <Empty></Empty>
+          <Empty></Empty>
+          <Empty></Empty>
+          <View style={{flex:1, justifyContent:"center", alignItems:"center"}}>
+            <Text style={{fontSize: 22, fontWeight: "bold"}}>Identity Confirmed</Text>
+            <Text style={{fontSize: 16, marginTop: 15}}>Completed accont profile</Text>
+            <Empty></Empty>
+            <Empty></Empty>
+            <Text style={{fontSize: 18, fontWeight: "bold"}}>Unlocked on:{" "}{this.getDateFormat(1)}</Text>
+          </View>
+          <View style={styles.share}>
+            <Text style={{fontSize: 12}}>Share on:{" "}</Text>
+            <Facebook style={{marginLeft: 5}}></Facebook>
+            <Twitter style={{marginLeft: 5}}></Twitter>
+          </View>
+        </Modal>
+
+        <Modal
+          isVisible={this.state.isVisible[2]}
+          onBackdropPress={() => this.toggleModal(2)}
+          animationIn="fadeInUp"
+          animationOut="fadeOutDown"
+          style={styles.modalStyle}
+        >
+          <View style={{flex:1, justifyContent:"center", alignItems:"center", marginLeft: 3}}>
+            <AchievementBG></AchievementBG>
+            <BadgeHGNB style={{marginTop: -75, marginLeft: -3}}></BadgeHGNB>
+          </View>
+          <Empty></Empty>
+          <Empty></Empty>
+          <Empty></Empty>
+          <View style={{flex:1, justifyContent:"center", alignItems:"center"}}>
+            <Text style={{fontSize: 22, fontWeight: "bold"}}>Official Resident</Text>
+            <Text style={{fontSize: 16, marginTop: 15}}>Created 3 generations</Text>
+            <Empty></Empty>
+            <Empty></Empty>
+            <Text style={{fontSize: 18, fontWeight: "bold"}}>Unlocked on:{" "}{this.getDateFormat(2)}</Text>
+          </View>
+          <View style={styles.share}>
+            <Text style={{fontSize: 12}}>Share on:{" "}</Text>
+            <Facebook style={{marginLeft: 5}}></Facebook>
+            <Twitter style={{marginLeft: 5}}></Twitter>
+          </View>
+        </Modal>
+
+        <Modal
+          isVisible={this.state.isVisible[3]}
+          onBackdropPress={() => this.toggleModal(3)}
+          animationIn="fadeInUp"
+          animationOut="fadeOutDown"
+          style={styles.modalStyle}
+        >
+          <View style={{flex:1, justifyContent:"center", alignItems:"center", marginLeft: 3}}>
+            <AchievementBG></AchievementBG>
+            <BadgeCBNB style={{marginTop: -75, marginLeft: -3}}></BadgeCBNB>
+          </View>
+          <Empty></Empty>
+          <Empty></Empty>
+          <Empty></Empty>
+          <View style={{flex:1, justifyContent:"center", alignItems:"center"}}>
+            <Text style={{fontSize: 22, fontWeight: "bold"}}>First Step</Text>
+            <Text style={{fontSize: 16, marginTop: 15}}>Uploaded first artefact to</Text>
+            <Text style={{fontSize: 16}}>the Community</Text>
+            <Empty></Empty>
+            <Empty></Empty>
+            <Text style={{fontSize: 18, fontWeight: "bold"}}>Unlocked on:{" "}{this.getDateFormat(3)}</Text>
+          </View>
+          <View style={styles.share}>
+            <Text style={{fontSize: 12}}>Share on:{" "}</Text>
+            <Facebook style={{marginLeft: 5}}></Facebook>
+            <Twitter style={{marginLeft: 5}}></Twitter>
+          </View>
+        </Modal>
+
+        <Modal
+          isVisible={this.state.isVisible[4]}
+          onBackdropPress={() => this.toggleModal(4)}
+          animationIn="fadeInUp"
+          animationOut="fadeOutDown"
+          style={styles.modalStyle}
+        >
+          <View style={{flex:1, justifyContent:"center", alignItems:"center", marginLeft: 3}}>
+            <AchievementBG></AchievementBG>
+            <BadgeCSNB style={{marginTop: -75, marginLeft: -3}}></BadgeCSNB>
+          </View>
+          <Empty></Empty>
+          <Empty></Empty>
+          <Empty></Empty>
+          <View style={{flex:1, justifyContent:"center", alignItems:"center"}}>
+            <Text style={{fontSize: 22, fontWeight: "bold"}}>Kudos Giver</Text>
+            <Text style={{fontSize: 16, marginTop: 15}}>Liked 50 posts</Text>
+            <Empty></Empty>
+            <Empty></Empty>
+            <Text style={{fontSize: 18, fontWeight: "bold"}}>Unlocked on:{" "}{this.getDateFormat(4)}</Text>
+          </View>
+          <View style={styles.share}>
+            <Text style={{fontSize: 12}}>Share on:{" "}</Text>
+            <Facebook style={{marginLeft: 5}}></Facebook>
+            <Twitter style={{marginLeft: 5}}></Twitter>
+          </View>
+        </Modal>
+
+        <Modal
+          isVisible={this.state.isVisible[5]}
+          onBackdropPress={() => this.toggleModal(5)}
+          animationIn="fadeInUp"
+          animationOut="fadeOutDown"
+          style={styles.modalStyle}
+        >
+          <View style={{flex:1, justifyContent:"center", alignItems:"center", marginLeft: 3}}>
+            <AchievementBG></AchievementBG>
+            <BadgeCGNB style={{marginTop: -75, marginLeft: -3}}></BadgeCGNB>
+          </View>
+          <Empty></Empty>
+          <Empty></Empty>
+          <Empty></Empty>
+          <View style={{flex:1, justifyContent:"center", alignItems:"center"}}>
+            <Text style={{fontSize: 22, fontWeight: "bold"}}>Elite Commentator</Text>
+            <Text style={{fontSize: 16, marginTop: 15}}>Made 100 comments</Text>
+            <Empty></Empty>
+            <Empty></Empty>
+            <Text style={{fontSize: 18, fontWeight: "bold"}}>Unlocked on:{" "}{this.getDateFormat(5)}</Text>
+          </View>
+          <View style={styles.share}>
+            <Text style={{fontSize: 12}}>Share on:{" "}</Text>
+            <Facebook style={{marginLeft: 5}}></Facebook>
+            <Twitter style={{marginLeft: 5}}></Twitter>
+          </View>
+        </Modal>
+
+        <Modal
+          isVisible={this.state.isVisible[6]}
+          onBackdropPress={() => this.toggleModal(6)}
+          animationIn="fadeInUp"
+          animationOut="fadeOutDown"
+          style={styles.modalStyle}
+        >
+          <View style={{flex:1, justifyContent:"center", alignItems:"center", marginLeft: 3}}>
+            <AchievementBG></AchievementBG>
+            <BadgeFBNB style={{marginTop: -75, marginLeft: -3}}></BadgeFBNB>
+          </View>
+          <Empty></Empty>
+          <Empty></Empty>
+          <Empty></Empty>
+          <View style={{flex:1, justifyContent:"center", alignItems:"center"}}>
+            <Text style={{fontSize: 22, fontWeight: "bold"}}>Register Beginner</Text>
+            <Text style={{fontSize: 16, marginTop: 15}}>Uploaded first artefact to</Text>
+            <Text style={{fontSize: 16, marginTop: 3}}>the Register</Text>
+            <Empty></Empty>
+            <Empty></Empty>
+            <Text style={{fontSize: 18, fontWeight: "bold"}}>Unlocked on:{" "}{this.getDateFormat(6)}</Text>
+          </View>
+          <View style={styles.share}>
+            <Text style={{fontSize: 12}}>Share on:{" "}</Text>
+            <Facebook style={{marginLeft: 5}}></Facebook>
+            <Twitter style={{marginLeft: 5}}></Twitter>
+          </View>
+        </Modal>
+
+        <Modal
+          isVisible={this.state.isVisible[7]}
+          onBackdropPress={() => this.toggleModal(7)}
+          animationIn="fadeInUp"
+          animationOut="fadeOutDown"
+          style={styles.modalStyle}
+        >
+          <View style={{flex:1, justifyContent:"center", alignItems:"center", marginLeft: 3}}>
+            <AchievementBG></AchievementBG>
+            <BadgeFSNB style={{marginTop: -75, marginLeft: -3}}></BadgeFSNB>
+          </View>
+          <Empty></Empty>
+          <Empty></Empty>
+          <Empty></Empty>
+          <View style={{flex:1, justifyContent:"center", alignItems:"center"}}>
+            <Text style={{fontSize: 22, fontWeight: "bold"}}>Register Hunter</Text>
+            <Text style={{fontSize: 16, marginTop: 15}}>Uploaded 50 artefacts to</Text>
+            <Text style={{fontSize: 16, marginTop: 3}}>the Register</Text>
+            <Empty></Empty>
+            <Empty></Empty>
+            <Text style={{fontSize: 18, fontWeight: "bold"}}>Unlocked on:{" "}{this.getDateFormat(7)}</Text>
+          </View>
+          <View style={styles.share}>
+            <Text style={{fontSize: 12}}>Share on:{" "}</Text>
+            <Facebook style={{marginLeft: 5}}></Facebook>
+            <Twitter style={{marginLeft: 5}}></Twitter>
+          </View>
+        </Modal>
+
+        <Modal
+          isVisible={this.state.isVisible[8]}
+          onBackdropPress={() => this.toggleModal(8)}
+          animationIn="fadeInUp"
+          animationOut="fadeOutDown"
+          style={styles.modalStyle}
+        >
+          <View style={{flex:1, justifyContent:"center", alignItems:"center", marginLeft: 3}}>
+            <AchievementBG></AchievementBG>
+            <BadgeFGNB style={{marginTop: -75, marginLeft: -3}}></BadgeFGNB>
+          </View>
+          <Empty></Empty>
+          <Empty></Empty>
+          <Empty></Empty>
+          <View style={{flex:1, justifyContent:"center", alignItems:"center"}}>
+            <Text style={{fontSize: 22, fontWeight: "bold"}}>Register Master</Text>
+            <Text style={{fontSize: 16, marginTop: 15}}>Upload 200 artefacts to</Text>
+            <Text style={{fontSize: 16, marginTop: 3}}>the Register</Text>
+            <Empty></Empty>
+            <Empty></Empty>
+            <Text style={{fontSize: 18, fontWeight: "bold"}}>Unlocked on:{" "}{this.getDateFormat(8)}</Text>
           </View>
           <View style={styles.share}>
             <Text style={{fontSize: 12}}>Share on:{" "}</Text>

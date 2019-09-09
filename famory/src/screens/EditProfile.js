@@ -47,7 +47,7 @@ export default class EditProfile extends Component {
     firstName: userProfile.firstName,
     lastName: userProfile.lastName,
     dob: userProfile.dob,
-    image: null,
+    image: "https://image.shutterstock.com/image-photo/colorful-hot-air-balloons-flying-600w-1033306540.jpg",
   };
 
   componentDidMount() {
@@ -63,9 +63,10 @@ export default class EditProfile extends Component {
     return (
       <View style={{flex: 1}}>
         <View style={{alignItems: "center", }}>
-          <Image source={require('../assets/images/trump.jpg')}  style={styles.avatar} />
-          <Text style={{fontSize: 14, color: '#347ED3'}} onPress={this._pickImage}>Change Profile Photo
-        </Text>
+          <Image source={{uri: this.state.image}}  style={styles.avatar} />
+          <Text style={{fontSize: 15, color: '#347ED3'}} onPress={this._pickImage}>
+            Change Profile Photo
+          </Text>
         </View>
 
         <View>
@@ -100,37 +101,24 @@ export default class EditProfile extends Component {
           <ListItem noBorder>
             <Body>
             <Text style={styles.greyText}>Date of Birth</Text>
-            <TextInput
-              style={styles.blackText}
-              onChangeText={(text) => this.setState({dob: text})}
-              placeholder={userProfile.dob}
-              placeholderTextColor={"#D3D3D3"}
-              maxLength={20}
-              value={this.state.text}
-            />
+
             <DatePicker
-              style={{width: 200}}
-              date={this.state.date}
+              style={{width:200, marginTop: 15,}}
+              date={this.state.dob}
               mode="date"
               placeholder="select date"
               format="YYYY-MM-DD"
-              minDate="2016-05-01"
-              maxDate="2016-06-01"
+              minDate="1900-05-01"
+              maxDate="2020-06-01"
               confirmBtnText="Confirm"
               cancelBtnText="Cancel"
               customStyles={{
-                dateIcon: {
-                  position: 'absolute',
-                  left: 0,
-                  top: 4,
-                  marginLeft: 0
-                },
                 dateInput: {
-                  marginLeft: 36
+                  marginLeft: 10,
                 }
                 // ... You can check the source to find the other keys.
               }}
-              onDateChange={(date) => {this.setState({date: date})}}
+              onDateChange={(date) => {this.setState({dob: date})}}
             />
             </Body>
           </ListItem>
@@ -143,9 +131,9 @@ export default class EditProfile extends Component {
 
   _pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
-      aspect: [4, 3],
+      aspect: [4, 4],
     });
 
     console.log(result);
@@ -158,26 +146,28 @@ export default class EditProfile extends Component {
 
 const styles = StyleSheet.create({
   avatar: {
-    width: "25%",
+    width: 120,
+    height: 120,
     resizeMode: "contain",
     alignSelf: "center",
-    paddingTop: 10,
-    borderRadius: 40,
+    marginTop: 15,
+    marginBottom: 15,
+    borderRadius: 100,
     overflow: "hidden",
   },
   greyText: {
     marginLeft: 10,
     marginTop:10,
-    fontSize: 16,
+    fontSize: 18,
     color: "#878B90",
   },
   blackText: {
     marginLeft: 10,
     marginTop:10,
     paddingBottom:4,
-    fontSize: 15,
+    fontSize: 16,
     height: 30,
-    borderBottomColor: 'lightgray',
+    borderBottomColor: "lightgrey",
     borderBottomWidth: 1
   }
 });
