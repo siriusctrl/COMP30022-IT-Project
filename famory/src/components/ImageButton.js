@@ -10,7 +10,7 @@ export default class ImageButton extends React.Component{
   }
 
   render(){
-    const { imageSource, onPressHandler, name, showEditButton, boarderColor,...otherProps} = this.props;
+    const { imageSource, onPressHandler, name, showEditButton, boarderColor, ...otherProps} = this.props;
     return(
       <Avatar
         size="medium"

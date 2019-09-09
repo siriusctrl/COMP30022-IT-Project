@@ -8,3 +8,8 @@ describe('<Empty />', () => {
     expect(tree.children.length).toBe(1);
   });
 });
+
+it('renders correctly', () => {
+  const tree = renderer.create(<Empty />).toJSON();
+  expect(tree).toMatchSnapshot();
+});

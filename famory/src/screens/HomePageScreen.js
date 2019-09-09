@@ -7,7 +7,7 @@ import strings from "../config/strings";
 import IconButtonWithText from "../components/IconButtonWithText";
 import Empty from "../components/Empty";
 import ImageButton from "../components/ImageButton";
-import cxk from "../assets/images/logo.png"
+import cxk from "../assets/images/cxk-circle.png";
 import { Avatar } from "react-native-elements";
 import Button from "../components/Button";
 
@@ -33,14 +33,14 @@ export default class HomePageScreen extends Component{
 
   avatar = [
     {empyt:"yes", gen:" "},
-    {name:["Pending1"], img:[cxk, cxk, cxk, cxk], gen:"GEN 10"},
-    {name:["Pending2"], img:[cxk], gen:"GEN 9"},
-    {name:["Pending3"], img:[cxk], gen:"GEN 8"},
-    {name:["Pending4"], img:[cxk], gen:"GEN 7"},
-    {name:["Pending5"], img:[cxk], gen:"GEN 6"},
-    {name:["Pending6"], img:[cxk], gen:"GEN 5"},
-    {name:["Pending7"], img:[cxk], gen:"GEN 4"},
-    {name:["Pending8"], img:[cxk], gen:"GEN 3"},
+    {name:["Pending1"], img:[cxk, cxk, cxk, cxk, cxk], boarderColor:[colors.DODGER_BLUE, colors.ORANGE, colors.SILVER, colors.WHITE, colors.BLACK], gen:"GEN 1"},
+    {name:["Pending2"], img:[cxk], boarderColor:[], gen:"GEN 2"},
+    {name:["Pending3"], img:[cxk], boarderColor:[], gen:"GEN 3"},
+    // {name:["Pending4"], img:[cxk], gen:"GEN 4"},
+    // {name:["Pending5"], img:[cxk], gen:"GEN 5"},
+    // {name:["Pending6"], img:[cxk], gen:"GEN 6"},
+    // {name:["Pending7"], img:[cxk], gen:"GEN 7"},
+    // {name:["Pending8"], img:[cxk], gen:"GEN 8"},
   ];
 
   //Item separator
@@ -50,42 +50,72 @@ export default class HomePageScreen extends Component{
         style={{height: 0.5, width: '100%', backgroundColor: '#C8C8C8'}}
       />
     );
-  };
+  }
 
   avatarConstructor = (item) => {
     let jsx = [];
+    let temp = [];
+    let res = [];
     for (index in item.img) {
-      if(index === 4){
-        alert(item.img.length);
-      }
 
-      jsx.push(
+      temp.push(
         <View style={{marginRight: 11}}>
-          <ImageButton 
-            name={item.name[index]} 
+          <ImageButton
+            name={" "}
             imageSource={item.img[index]}
             onPressHandler={this._handleAvatarPressed}
+            boarderColor={item.boarderColor[index]}
+          />
+        </View>
+      );
+
+      if(temp.length % 4 == 0){
+        jsx.push(temp);
+        temp = [];
+      }
+
+      // if(index >= 2){
+      //   jsx.push(
+      //     <View>
+      //       <Avatar
+      //         icon={{name:"more-horiz", type:"material"}}
+      //         rounded
+      //         size={"medium"}
+      //         onPress={this._toggleModal}
+      //         activeOpacity={0.7}
+      //       />
+      //     </View>
+      //   )
+      //   return jsx;
+      // }
+    }
+
+    jsx.push(temp);
+
+
+    for (i of jsx) {
+      res.push(
+        <View style={{flex: 1, flexDirection: "row", justifyContent: "flex-start"}}>
+          {i}
+        </View>
+      );
+    }
+
+    if (this.state.mode === "edit"){
+      jsx.push(
+        <View>
+          <Avatar
+            icon={{name:"plus", type:"font-awesome"}}
+            rounded
+            size={"medium"}
+            onPress={() => {alert(item.gen)}}
+            activeOpacity={0.7}
           />
         </View>
       )
-
-      if(index >= 2){
-        jsx.push(
-          // add a more button to the line where there are too many users
-          <View>
-            <Avatar
-              icon={{name:"more-horiz", type:"material"}}
-              rounded
-              size={"medium"}
-              onPress={ this._toggleModal }
-              activeOpacity={0.7}
-            />
-          </View>
-        )
-        break;
-      }
     }
-    return jsx;
+
+    return res;
   }
 
   //TODO: refine the renderItem function based on the current state which should fit the view and edit mode
@@ -93,15 +123,25 @@ export default class HomePageScreen extends Component{
   _renderItem = ({item}) => {
     if (item["name"]){
       return (
-        <View style={{height:76, backgroundColor: "transparent", flexDirection:"row", alignItems:'center', paddingLeft: 12}}>
+        <View style={{height:76*Math.ceil(item['img'].length/4), backgroundColor: "transparent", flexDirection:"row", alignItems:'center', paddingLeft: 12}}>
           <View style={{flex: 1}}>
             <Text style={{fontSize:15, backgroundColor:"transparent"}}>
               {item.gen}
             </Text>
           </View>
 
-          <View style={{flex: 4, flexDirection: "row", justifyContent: "flex-start"}}>
-            {this.avatarConstructor(item)}
+          <View style={{flex: 4, flexDirection: "column", justifyContent: "flex-start"}}>
+            
+            <View style={{flex: 1, justifyContent: "flex-start"}}>
+              <Text>
+                shit1
+              </Text>
+            </View>
+            <View style={{flex: 1, justifyContent: "flex-start"}}>
+              <Text>
+                shit2
+              </Text>
+            </View>
           </View>
         </View>
       )
@@ -132,7 +172,7 @@ export default class HomePageScreen extends Component{
   
   _toggleModal = () => {
     this.setState({ visibleModal: !this.state.visibleModal });
-  };
+  }
 
   _handleCommunityPress = () => {
     this.props.navigation.navigate("CommunityMain");
@@ -144,10 +184,10 @@ export default class HomePageScreen extends Component{
 
   _handleEditPress = () => {
     if(this.state.mode === "view"){
-      alert("enter edit mode");
+      alert("Edit Mode");
       this.setState({mode: "edit"});
     } else {
-      alert("enter view mode");
+      alert("View Mode");
       this.setState({mode: "view"});
     }
   }
@@ -162,6 +202,7 @@ export default class HomePageScreen extends Component{
         <View>
           <FlatList 
             data={this.avatar}
+            extraData={this.state}
             renderItem={this._renderItem}
             ItemSeparatorComponent={this.FlatListItemSeparator}
             keyExtractor={(item) => item.gen}
