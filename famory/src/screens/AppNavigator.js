@@ -10,6 +10,7 @@ import TestScreen from "./TestScreen";
 import CommunityCommentScreen from "./CommunityCommentScreen";
 import EditProfile from "./EditProfile";
 import Achievement from "./AchievementScreen";
+import ArtefactItem from "./ArtefactItem";
 
 import ArtGuide from "./ArtGuide";
 import { createStackNavigator } from "react-navigation";
@@ -30,9 +31,10 @@ const AppNavigator = createStackNavigator({
   EditProfile: {screen: EditProfile},
   Achievement: {screen: Achievement},
   ArtGuide: {screen: ArtGuide},
+  ArtefactItem: {screen: ArtefactItem}
 }, {
       // should be debug
-      initialRouteName: 'ArtGuide',
+      initialRouteName: 'ArtefactItem',
 }, {
   defaultNavigationOptions:{
     header:null

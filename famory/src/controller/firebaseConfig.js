@@ -14,7 +14,7 @@ export default class firebaseContainer{
 
   firebaseCon = firebaseConfig;
 
-  constructor(){
+  static justStart(){
     if(!firebase.apps.length){
       firebase.initializeApp(this.firebaseCon);
     }
