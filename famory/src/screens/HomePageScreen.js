@@ -54,12 +54,10 @@ export default class HomePageScreen extends Component{
 
   avatarConstructor = (item) => {
     let jsx = [];
-    let temp = [];
-    let res = [];
-    for (index in item.img) {
 
-      temp.push(
-        <View style={{marginRight: 11}}>
+    for (index in item.img) {
+      jsx.push(
+        <View style={{marginRight: 11, marginBottom: 16}}>
           <ImageButton
             name={" "}
             imageSource={item.img[index]}
@@ -68,40 +66,9 @@ export default class HomePageScreen extends Component{
           />
         </View>
       );
-
-      if(temp.length % 4 == 0){
-        jsx.push(temp);
-        temp = [];
-      }
-
-      // if(index >= 2){
-      //   jsx.push(
-      //     <View>
-      //       <Avatar
-      //         icon={{name:"more-horiz", type:"material"}}
-      //         rounded
-      //         size={"medium"}
-      //         onPress={this._toggleModal}
-      //         activeOpacity={0.7}
-      //       />
-      //     </View>
-      //   )
-      //   return jsx;
-      // }
     }
 
-    jsx.push(temp);
-
-
-    for (i of jsx) {
-      res.push(
-        <View style={{flex: 1, flexDirection: "row", justifyContent: "flex-start"}}>
-          {i}
-        </View>
-      );
-    }
-
-    if (this.state.mode === "edit"){
+    if(this.state.mode==="edit"){
       jsx.push(
         <View>
           <Avatar
@@ -112,10 +79,10 @@ export default class HomePageScreen extends Component{
             activeOpacity={0.7}
           />
         </View>
-      )
+      );
     }
 
-    return res;
+    return jsx;
   }
 
   //TODO: refine the renderItem function based on the current state which should fit the view and edit mode
@@ -123,34 +90,38 @@ export default class HomePageScreen extends Component{
   _renderItem = ({item}) => {
     if (item["name"]){
       return (
-        <View style={{height:76*Math.ceil(item['img'].length/4), backgroundColor: "transparent", flexDirection:"row", alignItems:'center', paddingLeft: 12}}>
+        <View style={styles.flatListContainer}>
           <View style={{flex: 1}}>
             <Text style={{fontSize:15, backgroundColor:"transparent"}}>
               {item.gen}
             </Text>
           </View>
 
-          <View style={{flex: 4, flexDirection: "column", justifyContent: "flex-start"}}>
-            
-            <View style={{flex: 1, justifyContent: "flex-start"}}>
-              <Text>
-                shit1
-              </Text>
-            </View>
-            <View style={{flex: 1, justifyContent: "flex-start"}}>
-              <Text>
-                shit2
-              </Text>
+          <View style={{flex: 4, flexDirection: "row", justifyContent: "flex-start", flexWrap:"wrap", alignContent:"space-around"}}>
+           {this.avatarConstructor(item)}
+          </View>
+        </View>
+      );
+    }else{
+      return (
+        <View style={styles.flatListContainer}>
+          <View style={{flex: 1}}>
+            <Text style={{fontSize:15, backgroundColor:"transparent"}}>
+              <Empty/>
+            </Text>
+          </View>
+
+          <View style={{flex: 4, flexDirection: "row", justifyContent: "flex-start", flexWrap:"wrap", alignContent:"space-around"}}>
+            <View style={{marginRight: 11, marginBottom: 16}}>
+              <ImageButton
+                name={" "}
+                boarderColor={colors.WHITE}
+                showEditButton={false}
+              />
             </View>
           </View>
         </View>
-      )
-    }else{
-      return (
-        <Text style={{height:76, fontSize:30, textAlign:"center", backgroundColor:"transparent"}}>
-          {" "}
-        </Text>
-      )
+      );
     }
   }
 
@@ -310,5 +281,11 @@ const styles = StyleSheet.create({
     backgroundColor:colors.WHITE, 
     borderRadius:15, 
     justifyContent:"center"
+  }, flatListContainer:{
+    backgroundColor: "transparent", 
+    flexDirection:"row", 
+    alignItems:'center', 
+    paddingLeft: 12, 
+    paddingTop: 16
   },
 });
