@@ -59,6 +59,10 @@ export class Family{
   isValid(){
     return !this.familyId == "-1";
   }
+
+  
+
+
 }
 
 
