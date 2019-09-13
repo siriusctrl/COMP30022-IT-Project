@@ -414,7 +414,7 @@ export default class ArtGuide extends Component{
       "view": [
         <View style={{flex: 4, flexDirection: "column", paddingTop: 29}}>
           <View style={{paddingHorizontal: 29,flex: 6, justifyContent: "flex-start"}}>
-           <Text style={{flex: 1, fontSize: 18, width: "87%"}}>Choose the artefact</Text>
+           <Text style={{flex: 1, fontSize: 18, width: "87%"}}>Click YES to add this</Text>
             <ArtCard item={this.state.chosenArtefact} style={styles.artCardDisplay}/>
           </View>
           <View style={guideStyle.bottomButtonCn}>
