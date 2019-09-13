@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import {StyleSheet, Text, TouchableOpacity, Alert} from "react-native";
+import {StyleSheet, Text, TouchableOpacity} from "react-native";
 import colors from "../config/colors";
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import Empty from "./Empty";

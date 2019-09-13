@@ -14,7 +14,16 @@ export default class firebaseContainer{
 
   firebaseCon = firebaseConfig;
 
-  static justStart(){
+  static _managePart = null
+
+  static getInstance(){
+    if(this._managePart == null){
+      this._managePart = new firebaseContainer();
+    }
+    return this._managePart;
+  }
+
+  justStart(){
     if(!firebase.apps.length){
       firebase.initializeApp(this.firebaseCon);
     }
