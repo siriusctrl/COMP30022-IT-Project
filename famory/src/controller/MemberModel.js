@@ -1,8 +1,9 @@
 import * as firebase from "firebase";
+import firebaseContainer from "./firebaseConfig";
 
 export class MemberModelManage{
   static _managePart = null
-  _path = "Family_Member"
+  _path = "FamilyMember"
 
   static getInstance(){
     if(this._managePart == null){
@@ -11,46 +12,65 @@ export class MemberModelManage{
     return this._managePart;
   }
 
+  getMember(cb, id){
+    let returned = {}
+    let memberRef = firebase.database().ref(this._path + "/" + id);
+    memberRef.once("value").then((snapshota) => {
+
+      snapshot = snapshota.val();
+
+      let member = new Member(snapshot, id);
+
+      
+      cb(member);
+
+    });
+  }
+
   setModel(memberName){
-    
-    let setUpMember = new Member(memberName);
-    let memberReference = firebase.database().ref(this._path);
-    let memberPromise = memberReference.push();
-    memberPromise.set(
-      setUpMember.toObject()
-    )
-
-    let memberId = this._getFamilyId(memberPromise.parent.toString(), memberPromise.toString());
-
-    setUpMember.setId(memberId);
-    
-    return setUpMember;
+  
   }
 }
 
 
 export class Member{
 
-  id = "-1";
 
-  constructor(memberName){
-    this.memberName = memberName
+  constructor(snapshot, id){
+    this.dob = snapshot["dob"];
+    this.firstName = snapshot["firstName"];
+    this.gender = snapshot["gender"];
+    this.generation = snapshot["generation"];
+    this.item = snapshot["item"];
+    this.lastName = snapshot["lastName"];
+    this.profileImage = snapshot["profileImage"];
+    this.ringColor = snapshot["ringColor"];
+    this.memberId = id;
+    this._path = "FamilyMember" + "/" + id;
   }
 
   toObject(){
-    return {memberName: this.memberName}
+    return {
+      dob: this.dob,
+      firstName: this.firstName,
+      gender: this.gender,
+      generation: this.generation,
+      item: this.item,
+      lastName: this.lastName,
+      profileImage: this.profileImage,
+      ringColor: this.ringColor,
+      id: this.id,
+    }
   }
 
-  setId(id){
-    this.id = id;
-  }
-
-  isValid(){
-    return !this.id == "-1";
+  updateFirstName = (newFirstName) => {
+    firebaseContainer.getInstance().justStart();
+    let MemberReference = firebase.database().ref(this._path + "/firstName");
+    MemberReference.set(newFirstName);
   }
 }
 
 
-export default familyModel = {
-  FamilyModelManage: FamilyModelManage
+export default memberModel = {
+  MemberModelManage: MemberModelManage
 }
