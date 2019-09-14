@@ -1,4 +1,6 @@
 import * as firebase from "firebase";
+// REVIEW : firebase is a global namespace which you can access all the facilities in firebase, so remove '* as'
+// I did this for you for all the page and tested well.
 
 export class FamilyModelManage{
 
