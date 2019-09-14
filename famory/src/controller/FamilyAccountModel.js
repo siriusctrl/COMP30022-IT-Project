@@ -1,4 +1,5 @@
 import firebase from "firebase";
+// REVIEW : remove wasted import
 import firebaseContainer from "./firebaseConfig";
 
 export class FamilyAccountModelManage{
@@ -27,6 +28,7 @@ export class FamilyAccountModelManage{
     });
   }
 
+  // REVIEW : remove unimplemented functions
   setFamilyAccount(familyName){
 
   }
