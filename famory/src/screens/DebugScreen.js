@@ -24,6 +24,8 @@ export default class DebugScreen extends Component{
     {name: "CommunityComment"},
     {name: "EditProfile"},
     {name: "ArtGuide"},
+    {name: "ArtefactItem"},
+    {name: "TestFirebase"},
   ];
 
   //Item separator
