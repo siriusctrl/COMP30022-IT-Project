@@ -16,24 +16,26 @@ export default class ArtefactItem extends Component{
   }
 
   state = {
-    artefactItem: {
-      "type": "letter",
-      "title": "A letter",
-      "description": "test letter",
-      "main": "Lorem ipsum dolor sit amet, mi sit wisi nesciunt interdum in. Id imperdiet rutrum, dolor aenean nunc, massa maecenas neque rutrum at eu, vel condimentum amet hymenaeos. Adipiscing tincidunt magna et hendrerit viverra ut, sollicitudin nulla suscipit ac, magna ac. Amet tincidunt purus luctus elit, nec auctor tincidunt dapibus, elit lobortis ornare nunc in etiam sodales, tristique vitae aliquam id parturient. Tortor volutpat, leo ligula maecenas officiis voluptas, risus nullam nulla.\n Hymenaeos imperdiet tristique lorem interdum pede, eget wisi dolor est suspendisse a consequat, purus incidunt felis. Dolor ut per sit aliquet integer, at mi. Facilisis conubia neque, dui sed pellentesque ut. Velit odio, in laoreet, gravida eget nibh odio."
-    }
+    artefactItem: this.props.navigation.getParam("item", null)
   }
 
   render() {
 
     return(
       <View style={{flex: 1}}>
-        <View style={{paddingTop: 26, paddingHorizontal: 26, flex: 1, justifyContent: "flex-start", alignItems: "center", flexDirection: "row"}}>
-          <Icon name='clear' />
+        <View style={{paddingTop: 26, paddingHorizontal: 12, flex: 1, justifyContent: "flex-start", alignItems: "center", flexDirection: "row"}}>
+          <TouchableNativeFeedback style={{width: 50, height: 50, justifyContent: "center", alignItems: "center"}} background={TouchableNativeFeedback.Ripple(colors.MISCHKA, true)} onPress={this.props.navigation.goBack}>
+            <Icon name='clear' />
+          </TouchableNativeFeedback>
         </View>
-        <View style={{flex: 7, paddingHorizontal: 29}}>
-        <ScrollView>
-          <ArtCard item={this.state.artefactItem} style={styles.artCard} numberOfLines={-1}/>
+        <View style={{flex: 7, overflow: "visible"}}>
+        <ScrollView style={{flex: 1, overflow: "visible"}}>
+          <View style={{marginHorizontal: 29, marginVertical: 19, flexDirection: "column", minHeight: 870, overflow: "visible"}}>
+            <ArtCard item={this.state.artefactItem} style={styles.artCard}/>
+            <View style={{marginTop: 58}}>
+              <Text>Owner</Text>
+            </View>
+          </View>
         </ScrollView>
         </View>
       </View>
@@ -59,8 +61,8 @@ const styles = StyleSheet.create({
   },
   artCard: {
     width: "100%",
-    height: "100%",
-    borderRadius: 6
+    borderRadius: 6,
+    elevation: 16
   },
   artCardDisplay: {
     borderRadius: 6,

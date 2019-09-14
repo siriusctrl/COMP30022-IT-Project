@@ -13,6 +13,7 @@ export class MemberModelManage{
   }
 
   getMember(cb, id){
+    firebaseContainer.getInstance().justStart();
     let returned = {}
     let memberRef = firebase.database().ref(this._path + "/" + id);
     memberRef.once("value").then((snapshota) => {
@@ -37,6 +38,7 @@ export class Member{
 
 
   constructor(snapshot, id){
+    this.role = snapshot["role"];
     this.dob = snapshot["dob"];
     this.firstName = snapshot["firstName"];
     this.gender = snapshot["gender"];

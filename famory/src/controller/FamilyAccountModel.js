@@ -69,6 +69,10 @@ export class FamilyAccount{
     return this.email != "";
   }
 
+  delMember(memberId){
+    
+  }
+
   
 
 
