@@ -36,7 +36,7 @@ const AppNavigator = createStackNavigator({
   TestFirebase: {screen: TestFirebase}
 }, {
       // should be debug
-      initialRouteName: "TestFirebase",
+      initialRouteName: "MemberPr",
 }, {
   defaultNavigationOptions:{
     header:null
