@@ -8,3 +8,5 @@ famory/yarn.lock
 famory/src/assets/images/.DS_Store
 
 famory/coverage/
+
+famory/package-lock.json

@@ -1,4 +1,4 @@
-import Empty from "./Empty";
+import Empty from "../Empty";
 import React from 'react';
 import renderer from 'react-test-renderer';
 
