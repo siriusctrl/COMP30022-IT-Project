@@ -14,12 +14,12 @@ export class FamilyModelManage{
     return this._managePart;
   }
 
+  // REVIEW : Never push functions that you haven't implemented yet to the main branch, or comment it with further usage.
   getFamily(familyId){
     
   }
 
   setFamily(familyName){
-
     
     let setUpFamily = new Family(familyName);
 
@@ -61,9 +61,6 @@ export class Family{
   isValid(){
     return !this.familyId == "-1";
   }
-
-  
-
 
 }
 
