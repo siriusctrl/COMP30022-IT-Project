@@ -1,7 +1,6 @@
 import React, {Component} from "react";
 import { Text, Image, StyleSheet, View , Alert, KeyboardAvoidingView, ImageBackground} from "react-native";
-import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import { Icon } from 'react-native-elements'
 import colors from "../config/colors";
 
 import { TouchableNativeFeedback } from "react-native-gesture-handler";
@@ -33,7 +32,8 @@ export default class ArtCard extends Component{
     return (
       <View style={{backgroundColor: backgroundColorArtefact[item["type"]][0], flexDirection: "column", overflow: "hidden", minHeight: 350, ... this.props.style}}>
         <View style={{width: "100%", padding: 16, paddingTop: 22, flexDirection: "row", backgroundColor: backgroundColorArtefact[item["type"]][3]}}>
-          <View style={{flex: 1, backgroundColor: colors.DODGER_BLUE}}>
+          <View style={{flex: 1, backgroundColor: colors.DODGER_BLUE, justifyContent: "center"}}>
+            <Icon name="videocam"/>
           </View>
           <View style={{flex: 8, paddingLeft: 12, paddingRight: 12}}>
             <Text style={{fontSize: 22, marginTop: 3, color: backgroundColorArtefact[item["type"]][2]}}>{item["name"]}</Text>
