@@ -4,10 +4,9 @@ import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import colors from "../config/colors";
 import firebaseContainer from "../controller/firebaseConfig"
-import { FamilyAccountModelManage } from "../controller/FamilyAccountModel"
-import { MemberModelManage } from "../controller/MemberModel"
-import { ItemModelManage } from "../controller/ItemModel"
-import firebase from "firebase";
+import FamilyAccountModelManage from "../controller/FamilyAccountModel"
+import MemberModelManage from "../controller/MemberModel"
+import ItemModelManage from "../controller/ItemModel"
 
 import ArtCard from "../components/ArtCard";
 import { TouchableNativeFeedback, TouchableHighlight } from "react-native-gesture-handler";

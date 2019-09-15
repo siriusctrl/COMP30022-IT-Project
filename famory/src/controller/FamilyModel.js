@@ -1,6 +1,4 @@
-import * as firebase from "firebase";
-// REVIEW : firebase is a global namespace which you can access all the facilities in firebase, so remove '* as'
-// I did this for you for all the page and tested well.
+import firebase from "firebase";
 
 export class FamilyModelManage{
 
@@ -14,7 +12,7 @@ export class FamilyModelManage{
     return this._managePart;
   }
 
-  // REVIEW : Never push functions that you haven't implemented yet to the main branch, or comment it with further usage.
+  // TODO create family when signing up
   getFamily(familyId){
     
   }
@@ -65,6 +63,4 @@ export class Family{
 }
 
 
-export default familyModel = {
-  FamilyModelManage: FamilyModelManage
-}
+export default FamilyModelManage;
