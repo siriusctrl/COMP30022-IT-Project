@@ -11,29 +11,36 @@ import cxk from "../assets/images/cxk-circle.png";
 import { Avatar } from "react-native-elements";
 import Button from "../components/Button";
 
-import { FamilyAccountModelManage } from "../controller/FamilyAccountModel";
-import { MemberModelManage } from "../controller/MemberModel";
+import FamilyAccountModelManage from "../controller/FamilyAccountModel";
+import MemberModelManage from "../controller/MemberModel";
 
-
+cxk_new = "https://firebasestorage.googleapis.com/v0/b/fir-one-28de9.appspot.com/o/post-5.jpg?alt=media&token=025a8387-8f63-4196-bce1-a44fee70047b";
 
 export default class HomePageScreen extends Component{
   state = {
     visibleModal: false,
     mode: "view",
     familyAccount: null,
-    memberModel: null,
+    memberModel: [{id:1, empty:true, gen:" "},],
+    memberRdy : false,
+    familyName: "Family Tag",
   };
 
+  // static navigationOptions = {
+  //   header: null
+  // }
+  
   static navigationOptions = {
     header: null
   }
-  
+
   //load avatar info from server
   async componentDidMount() {
-    if (this.avatar.length > 5){
-      this.avatar.push({empty:true, gen:" "})
-      this.avatar.push({empty:true, gen:" "})
-    }
+    this.getMembers();
+    this.props.navigation.setParams({
+      state: this.state,
+      edit:this._renderEditText(),
+    });
   }
 
 
@@ -41,11 +48,23 @@ export default class HomePageScreen extends Component{
     FamilyAccountModelManage.getInstance().getFamilyAccount((familyAccount) => {
       this.setState({familyAccount: familyAccount});
 
-      for(i in this.state.familyAccount.familyMember){
-        alert(i);
+      for(i of Object.values(this.state.familyAccount.familyMember)){
+        // alert(i);
         MemberModelManage.getInstance().getMember((member) => {
-          this.setState({memberModel: member});
-        }, this.state.familyAccount.familyMember[i]);
+          // NOTE : it might be necessary to handle the case where flatlist goes out side of the screen
+          while (this.state.memberModel.length <= member.generation){              
+            this.state.memberModel.push({});
+          }
+          
+          temp = this.state.memberModel[member.generation];
+          temp.id==null?temp.id=[i]:temp.id.push(i);
+          temp.img==null?temp.img=[member.profileImage]:temp.img.push(member.profileImage);
+          temp.boarderColor==null?temp.boarderColor = [member.ringColor]:temp.boarderColor.push(member.ringColor);
+          temp.gen = "GEN " + member.generation;
+
+          this.setState({memberRdy:true});
+          // alert(this.state.memberModel[1].img[0]);
+        }, i);
       }
     });
   }
@@ -57,9 +76,9 @@ export default class HomePageScreen extends Component{
     return (
       [
         {empty:true, gen:" "},
-        {name:["Pending1"], img:[cxk, cxk, cxk, cxk, cxk], boarderColor:[colors.DODGER_BLUE, colors.ORANGE, colors.SILVER, colors.WHITE, colors.BLACK], gen:"GEN 1"},
-        {name:["Pending2"], img:[cxk], boarderColor:[], gen:"GEN 2"},
-        {name:["Pending3"], img:[cxk], boarderColor:[], gen:"GEN 3"},
+        {img:[cxk_new, cxk_new, cxk_new, cxk_new, cxk_new], boarderColor:[colors.DODGER_BLUE, colors.ORANGE, colors.SILVER, colors.WHITE, colors.BLACK], gen:"GEN 1"},
+        {img:[cxk_new], boarderColor:[], gen:"GEN 2"},
+        {img:[cxk_new], boarderColor:[], gen:"GEN 3"},
         // {name:["Pending4"], img:[cxk], gen:"GEN 4"},
         // {name:["Pending5"], img:[cxk], gen:"GEN 5"},
         // {name:["Pending6"], img:[cxk], gen:"GEN 6"},
@@ -68,8 +87,6 @@ export default class HomePageScreen extends Component{
       ]
     );
   }
-
-  avatar = this._loadMembers();
 
   // Item separator
   FlatListItemSeparator = () => {
@@ -87,12 +104,13 @@ export default class HomePageScreen extends Component{
     let jsx = [];
 
     for (index in item.img) {
+      // alert("constructor: " + item.boarderColor[index]);
       jsx.push(
         <View style={{marginRight: 11, marginBottom: 16}}>
           <ImageButton
             name={" "}
-            imageSource={item.img[index]}
-            onPressHandler={this._handleAvatarPressed}
+            imageSource={{uri:item.img[index]}}
+            onPressHandler={() => {this._handleAvatarPressed(item.id[index])}}
             boarderColor={item.boarderColor[index]}
           />
         </View>
@@ -119,7 +137,7 @@ export default class HomePageScreen extends Component{
 
   // a render function to render each column in FlatList based on the current state
   _renderItem = ({item}) => {
-    if (item["name"]){
+    if (item.img){
       return (
         <View style={styles.flatListContainer}>
           <View style={{flex: 1}}>
@@ -143,10 +161,11 @@ export default class HomePageScreen extends Component{
           </View>
 
           <View style={{flex: 4, flexDirection: "row", justifyContent: "flex-start", flexWrap:"wrap", alignContent:"space-around"}}>
-            <View style={{marginRight: 11, marginBottom: 16}}>
+            {/* the marginbotton to align the separator with the bottom of family tag */}
+            <View style={{marginRight: 11, marginBottom: 10}}>
               <ImageButton
                 name={" "}
-                boarderColor={colors.WHITE}
+                boarderColor="transparent"
                 showEditButton={false}
               />
             </View>
@@ -192,31 +211,35 @@ export default class HomePageScreen extends Component{
     }
   }
 
-  _handleAvatarPressed = () => {
-    alert("Action Defined and not defined!");
+  _handleAvatarPressed = (id) => {
+    alert("The id is: " + id);
   }
 
   // the entire JSX to render the whole screen
   render() {
     return (
       <View style={{flex: 1}}>
+
         <View>
           <FlatList 
-            data={this.avatar}
+            //data={this.avatar}
+            data={this.state.memberModel}
             extraData={this.state}
             renderItem={this._renderItem}
             ItemSeparatorComponent={this.FlatListItemSeparator}
-            keyExtractor={(item) => item.gen}
           />
         </View>
-        
-        <View style={{width: "100%", height: 76*2, position:'absolute', bottom:0}}>
+
+        <View style={{width: "100%", height: 76, position:'absolute', top:0}}>
           <View style={{flex:1, backgroundColor:colors.LIGHTBLUE, flexDirection:"row", paddingLeft: 12, alignItems: "center"}}>
             <Text style={{fontSize:25, backgroundColor:"transparent", flex: 7, color: colors.WHITE}}>
-              Family tag
+              {this.state.familyName}
             </Text>
             {this._renderEditText()}
           </View>
+        </View>
+        
+        <View style={{width: "100%", height: 76, position:'absolute', bottom:0}}>
 
           <View style={styles.buttonContainer}>
             <Empty/>
