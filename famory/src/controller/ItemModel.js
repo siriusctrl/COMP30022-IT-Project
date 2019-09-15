@@ -72,6 +72,4 @@ export class Item{
 }
 
 
-export default itemModel = {
-  ItemModelManage: ItemModelManage
-}
+export default ItemModelManage

@@ -62,7 +62,7 @@ export class FamilyAccount{
       avatar: this.avatar,
       dateCreated: this.dateCreated,
       email: this.email,
-      familyMemberAll: this.familyMemberAll,
+      familyMember: this.familyMember,
       name: this.name
     }
   }

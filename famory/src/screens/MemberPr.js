@@ -3,10 +3,10 @@ import { Text, Image, StyleSheet, View , Alert, KeyboardAvoidingView, ImageBackg
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import colors from "../config/colors";
-import firebaseContainer from "../controller/firebaseConfig"
-import FamilyAccountModelManage from "../controller/FamilyAccountModel"
-import MemberModelManage from "../controller/MemberModel"
-import ItemModelManage from "../controller/ItemModel"
+import firebaseContainer from "../controller/firebaseConfig";
+import FamilyAccountModelManage from "../controller/FamilyAccountModel";
+import MemberModelManage from "../controller/MemberModel";
+import ItemModelManage from "../controller/ItemModel";
 
 import ArtCard from "../components/ArtCard";
 import { TouchableNativeFeedback, TouchableHighlight } from "react-native-gesture-handler";
@@ -14,27 +14,22 @@ import { TouchableNativeFeedback, TouchableHighlight } from "react-native-gestur
 import Carousel from "react-native-snap-carousel";
 
 const getAssetImagePath = (imagePh) => {
-  return ("../assets/images/" + imagePh)
+  return ("../assets/images/" + imagePh);
 };
 
 export default class MemberPr extends Component{
   static navigationOptions = {
-    header: null
+    headerStyle: {backgroundColor: colors.HOMESCREENLIGHTBLUE, height: 52},
+    headerTitle: "Member Profile",
+    headerTitleStyle: {color: colors.LIGHTERBLUE, fontWeight: "100"}
   }
 
   state = {
-    
     profileMemberArtefactItem: [
-      
-
+    
     ].reverse(),
-
     itemAll: -1,
-
     itemHas: 0
-
-
-
   }
 
   componentDidMount(){
@@ -52,7 +47,6 @@ export default class MemberPr extends Component{
           this.setState(
             {
               itemHas: this.state.itemHas + 1
-
             }
           )
         }, memberModela.item[itemDescri])
@@ -84,10 +78,7 @@ export default class MemberPr extends Component{
     return (
       <View style={{flex:1}}>
         <View style={styles.tContainer}>
-          <View style={{width: "100%", flex: 1, backgroundColor: colors.SILVER}}>
-            <Text>Top</Text>
-          </View>
-          <View style={{flex: 2, width: "100%", flexDirection: "row"}}>
+          <View style={{flex: 1, width: "100%", flexDirection: "row"}}>
             <View style={{height: "100%", flex: 8, padding:12}}>
                 {
                   this.state.isMemberReady? 
@@ -121,22 +112,19 @@ export default class MemberPr extends Component{
                     </View>
                   </View>
                 }
-              
             </View>
 
 
             <View style={{height: "100%", flex: 1}}>
               <TouchableNativeFeedback></TouchableNativeFeedback>
-
             </View>
 
           </View>
-
         </View>
         
 
         <View style={{justifyContent: "center", alignItems: "center", zIndex: 1}}>
-          <View style={{justifyContent: "center", alignItems: "center", width: "100%", overflow: "visible", minHeight: 480, paddingTop: 36}}>
+          <View style={{justifyContent: "center", alignItems: "center", width: "100%", overflow: "visible", minHeight: 480, paddingTop: 65}}>
             {this.state.itemAll == this.state.itemHas? 
               <Carousel
                 ref={(c) => { this._carousel = c; }}
@@ -157,11 +145,9 @@ export default class MemberPr extends Component{
                 
               />: <View></View>
             }
-
             {
               this.state.itemAll == 0? <Text>Nope</Text>:[]
             }
-            
           </View>
         </View>
 
@@ -179,8 +165,7 @@ const styles = StyleSheet.create({
   tContainer: {
     backgroundColor: colors.HOMESCREENLIGHTBLUE,
     width: "100%",
-    height: 158,
-    elevation: 8,
+    height: 104,
     zIndex: 2,
     justifyContent: "flex-start",
     flexDirection: "column"
