@@ -43,6 +43,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 
 export default class AchievementScreen extends Component {
 
+  // navigation header here
   static navigationOptions = {
     title: 'Achievements',
     headerStyle: {
@@ -59,6 +60,10 @@ export default class AchievementScreen extends Component {
 
   }
 
+  /* state used to record achievement information, including whether the budge
+  is locked or not, whether it is visible or not and the creation date of each
+  badge
+   */
   state = {
     unlocked: [1, 1, 1, 1, 1, 1, 1, 1, 1],
     isVisible: [false, false, false, false, false, false, false, false, false],
@@ -76,6 +81,7 @@ export default class AchievementScreen extends Component {
     ],
   };
 
+  // update the locking state of badges
   toggleModal = (id) => {
     if (this.state.unlocked[id] === 1) {
       this.state.isVisible[id] = !this.state.isVisible[id];
@@ -83,11 +89,13 @@ export default class AchievementScreen extends Component {
     }
   };
 
+  // count how many badges are locked in one community
   sumCount = (i, j, k) => {
     let unlockedItem = this.state.unlocked;
     return unlockedItem[i] + unlockedItem[j] + unlockedItem[k];
   };
 
+  // update the creation date with correct format
   getDateFormat = (id) => {
     let d = this.state.unlockDate[id];
     let format = d.toDateString().split(" ");
@@ -492,6 +500,7 @@ export default class AchievementScreen extends Component {
     );
   }
 }
+
 
 const styles = StyleSheet.create({
   container: {

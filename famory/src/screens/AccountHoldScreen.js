@@ -14,8 +14,9 @@ import Setting from "../assets/icons/setting";
 import Accountmail from "../assets/icons/accountmail";
 
 
-export default class AccountHold extends Component {
+export default class AccountHoldScreen extends Component {
 
+  // navigation header here
   static navigationOptions = {
     title: 'Profile',
     headerStyle: {
@@ -31,14 +32,17 @@ export default class AccountHold extends Component {
 
   }
 
+  // function for log out, jumps to Welcome page
   handleLogOutPress = () => {
     this.props.navigation.navigate('Welcome');
   }
 
+  // state to control pop up menu
   state = {
     visible: false,
   }
 
+  // navigations to achievement page
   handleAchievementPress = () => {
     this.props.navigation.navigate('Achievement');
   }
