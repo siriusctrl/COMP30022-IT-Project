@@ -1,4 +1,4 @@
-import * as firebase from "firebase";
+import firebase from "firebase";
 import firebaseContainer from "./firebaseConfig";
 
 export class MemberModelManage{
@@ -13,21 +13,23 @@ export class MemberModelManage{
   }
 
   getMember(cb, id){
+    // REVIEW : Delete if you don't want to use it
     firebaseContainer.getInstance().justStart();
     let returned = {}
     let memberRef = firebase.database().ref(this._path + "/" + id);
+    // REVIEW : use a better input name
     memberRef.once("value").then((snapshota) => {
-
+      // REVIEW : use a better input name
       snapshot = snapshota.val();
 
       let member = new Member(snapshot, id);
-
-      
+      // REVIEW : use a better input name
       cb(member);
 
     });
   }
 
+  // REVIEW : function?
   setModel(memberName){
   
   }
@@ -35,7 +37,6 @@ export class MemberModelManage{
 
 
 export class Member{
-
 
   constructor(snapshot, id){
     this.role = snapshot["role"];
@@ -51,6 +52,7 @@ export class Member{
     this._path = "FamilyMember" + "/" + id;
   }
 
+  // REVIEW :  toJson is better from my point of view
   toObject(){
     return {
       dob: this.dob,
@@ -65,6 +67,7 @@ export class Member{
     }
   }
 
+
   updateFirstName = (newFirstName) => {
     firebaseContainer.getInstance().justStart();
     let MemberReference = firebase.database().ref(this._path + "/firstName");
@@ -72,7 +75,7 @@ export class Member{
   }
 }
 
-
+// REVIEW : why don't simply export the class?
 export default memberModel = {
   MemberModelManage: MemberModelManage
 }
