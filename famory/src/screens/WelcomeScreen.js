@@ -17,7 +17,7 @@ export default class WelcomeScreen extends Component{
     header: null
   };
 
-  // hide status bar for all the screens
+  // hide status bar for all the screens and load the font assets
   async componentDidMount() {
     StatusBar.setHidden(true);
     await Font.loadAsync({
