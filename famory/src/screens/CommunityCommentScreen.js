@@ -10,7 +10,10 @@ import Ufo from "../assets/icons/ufo";
 import Comet from "../assets/icons/comet";
 
 import LottieView from "lottie-react-native";
+import firebaseContainer from "../controller/firebaseConfig"
+import { CommunityModelManage } from "../controller/CommunityModel";
 
+/*
 let comments = [
   {
     id: 0,
@@ -24,7 +27,9 @@ let comments = [
     id: 2,
     text: 'It is a component to solve the common problem of views that need to move out of the way of the virtual keyboard. It can automatically adjust either its position or bottom padding based on the position of the keyboard.It is a component to solve the common problem of views that need to move out of the way of the virtual keyboard. It can automatically adjust either its position or bottom padding based on the position of the keyboard.',
   },
-];
+];*/
+
+let comments = "";
 
 let myComment = '';
 let submitted = false;
@@ -47,6 +52,7 @@ export default class CommunityCommentScreen extends Component {
 
   state = {
     modalVisible: false,
+    ready: false,
   }
 
   handleSubmit = () => {
@@ -55,10 +61,7 @@ export default class CommunityCommentScreen extends Component {
     });
     submitted = true;
     setTimeout(() => {
-      comments.push({
-        id: 3,
-        text: myComment,
-      });
+      comments.push(myComment);
     }, 3000);
   }
 
@@ -66,7 +69,15 @@ export default class CommunityCommentScreen extends Component {
     this.setState({modalVisible:false});
   }
 
+  componentDidMount () {
+    comments = this.props.navigation.state.params.replies;
+    this.state.ready = true;
+    this.forceUpdate();
+  }
+
   render() {
+
+    if (this.state.ready === false) return null;
 
     return (
       <View style={styles.container}>
@@ -77,7 +88,7 @@ export default class CommunityCommentScreen extends Component {
             <View style={styles.Comments}>
               <BigMeteor></BigMeteor>
               <View style={styles.CommentArea}>
-                <Text style={styles.TextStyle}>{comments[3].text}</Text>
+                <Text style={styles.TextStyle}>{comments[3]}</Text>
               </View>
             </View>
           ) : null}
@@ -85,21 +96,21 @@ export default class CommunityCommentScreen extends Component {
           <View style={styles.Comments}>
             <Comet></Comet>
             <View style={styles.CommentArea}>
-              <Text style={styles.TextStyle}>{comments[0].text}</Text>
+              <Text style={styles.TextStyle}>{comments[0]}</Text>
             </View>
           </View>
 
           <View style={styles.Comments}>
             <Ufo></Ufo>
             <View style={styles.CommentArea}>
-              <Text style={styles.TextStyle}>{comments[1].text}</Text>
+              <Text style={styles.TextStyle}>{comments[1]}</Text>
             </View>
           </View>
 
           <View style={styles.Comments}>
             <Rocket></Rocket>
             <View style={styles.CommentArea}>
-              <Text style={styles.TextStyle}>{comments[2].text}</Text>
+              <Text style={styles.TextStyle}>{comments[2]}</Text>
             </View>
           </View>
 
