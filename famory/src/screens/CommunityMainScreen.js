@@ -11,7 +11,6 @@ import Heart from "../assets/icons/heart";
 import SmallHeart from "../assets/icons/smallHeart";
 import Unlike from "../assets/icons/unlike";
 
-import firebaseContainer from "../controller/firebaseConfig"
 import { CommunityModelManage } from "../controller/CommunityModel";
 
 let cards = [];
@@ -22,6 +21,7 @@ export default class CommunityMainScreen extends Component {
     title: 'Playground',
     headerStyle: {
       backgroundColor: '#E0836B',
+      height: 46,
     },
     headerTitleStyle: {
       fontWeight: 'bold',
@@ -67,6 +67,7 @@ export default class CommunityMainScreen extends Component {
     this.state.liked[this.state.currentid] = 1;
     this.forceUpdate();
     this.setModalVisible(true);
+    CommunityModelManage.getInstance().increaseLike(() => {}, (this.state.currentid + 1).toString());
   }
 
   // handle unlike
@@ -74,17 +75,19 @@ export default class CommunityMainScreen extends Component {
     cards[this.state.currentid].likes -= 1;
     this.state.liked[this.state.currentid] = 0;
     this.forceUpdate();
+    CommunityModelManage.getInstance().decreaseLike(() => {}, (this.state.currentid + 1).toString());
   }
 
+  /*
   componentDidUpdate(prevProps, prevState) {
     if (prevState.currentid !== this.state.currentid) {
       alert("From state " + prevState.currentid + " to state " + this.state.currentid);
     }
   }
+  */
 
   async componentDidMount () {
     // make cards the posts from firebase
-    firebaseContainer.getInstance().justStart();
     this.getCommunity();
     // load data
     await new Promise(resolve => { setTimeout(resolve, 3600); });
@@ -111,7 +114,8 @@ export default class CommunityMainScreen extends Component {
   }
 
   handleCommentPress = () => {
-    this.props.navigation.navigate('CommunityComment');
+    // pass comments to comment page
+    this.props.navigation.navigate('CommunityComment', {replies: cards[this.state.currentid].replies});
   }
 
   render() {
