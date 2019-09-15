@@ -1,4 +1,4 @@
-import * as firebase from "firebase";
+import firebase from "firebase";
 
 export class FamilyModelManage{
 
@@ -12,12 +12,12 @@ export class FamilyModelManage{
     return this._managePart;
   }
 
+  // TODO create family when signing up
   getFamily(familyId){
     
   }
 
   setFamily(familyName){
-
     
     let setUpFamily = new Family(familyName);
 
@@ -60,12 +60,7 @@ export class Family{
     return !this.familyId == "-1";
   }
 
-  
-
-
 }
 
 
-export default familyModel = {
-  FamilyModelManage: FamilyModelManage
-}
+export default FamilyModelManage;

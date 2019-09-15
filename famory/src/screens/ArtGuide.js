@@ -456,10 +456,12 @@ export default class ArtGuide extends Component{
     }
   }
 
+
   _finish = (purpose) => {
     alert("finished" + purpose);
   }
 
+  
   _changeText = (te) => {
     this.setState(
       {
