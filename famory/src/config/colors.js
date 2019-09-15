@@ -9,7 +9,8 @@ const colors = {
     LIGHTBLUE:"#4E91C4",
     WELCOMEBLUE:"#9EB1C9",
     HOMESCREENLIGHTBLUE:"#88B2D3",
-    DTPURPLE: "#9A3DD0"
+    DTPURPLE: "#9A3DD0",
+    LIGHTERBLUE: "#b9d6ed",
   };
   
 export default colors;
