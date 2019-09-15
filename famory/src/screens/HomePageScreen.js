@@ -21,7 +21,7 @@ export default class HomePageScreen extends Component{
     visibleModal: false,
     mode: "view",
     familyAccount: null,
-    memberModel: [{id:"1", img:[cxk_new], boarderColor:[colors.DODGER_BLUE], gen:"GEN 10"},],
+    memberModel: [{id:1, empty:true, gen:" "},],
     memberRdy : false,
   };
 
@@ -31,11 +31,7 @@ export default class HomePageScreen extends Component{
   
   //load avatar info from server
   async componentDidMount() {
-    //this.getMembers();
-    // if (this.avatar.length > 5){
-    //   this.avatar.push({empty:true, gen:" "})
-    //   this.avatar.push({empty:true, gen:" "})
-    // }
+    this.getMembers();
   }
 
 
@@ -67,7 +63,7 @@ export default class HomePageScreen extends Component{
   // the function will be load here
   _loadMembers = () => {
     this.getMembers();
-
+    
     return (
       [
         {empty:true, gen:" "},
@@ -82,8 +78,6 @@ export default class HomePageScreen extends Component{
       ]
     );
   }
-
-  avatar = this._loadMembers();
 
   // Item separator
   FlatListItemSeparator = () => {
