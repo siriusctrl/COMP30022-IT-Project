@@ -11,40 +11,9 @@ import Heart from "../assets/icons/heart";
 import SmallHeart from "../assets/icons/smallHeart";
 import Unlike from "../assets/icons/unlike";
 
-let cards = [
-  {
-    id: 0,
-    text: 'Beloved Grandfather: Rest in peace. Last meal we had was truly amazing.',
-    name: 'Last Breakfast',
-    geo: 'Melbourne',
-    image: require('../assets/images/breakfast.png'),
-    likes: 120,
-  },
-  {
-    id: 1,
-    text: 'Finished building JavaScript bundle in 319 ms. Running application on HMA-AL00.',
-    name: 'Beautiful Tree.',
-    geo: 'Sydney',
-    image: require('../assets/images/bgtree.jpg'),
-    likes: 1,
-  },
-  {
-    id: 2,
-    text: 'ji ni tai mei',
-    name: 'ikun',
-    geo: 'Shanghai',
-    image: require('../assets/images/logo.png'),
-    likes: 1145,
-  },
-  {
-    id: 3,
-    text: 'Lottie is a mobile library for Android and iOS that parses Adobe After Effects animations.',
-    name: 'Crystalised World',
-    geo: 'Beijing',
-    image: require('../assets/images/Back.png'),
-    likes: 747,
-  }
-];
+import { CommunityModelManage } from "../controller/CommunityModel";
+
+let cards = [];
 
 export default class CommunityMainScreen extends Component {
 
@@ -52,6 +21,7 @@ export default class CommunityMainScreen extends Component {
     title: 'Playground',
     headerStyle: {
       backgroundColor: '#E0836B',
+      height: 46,
     },
     headerTitleStyle: {
       fontWeight: 'bold',
@@ -72,14 +42,16 @@ export default class CommunityMainScreen extends Component {
 
   state = {
     currentid: 0,
-    liked: [0, 0, 0, 0],
+    liked: [],
     modalVisible: false,
+    postCount: 0,
+    ready: false,
   }
 
   handleSwipe = () => {
     let old = this.state.currentid;
     this.setState({
-      currentid: (old + 1) % 4
+      currentid: (old + 1) % this.state.postCount,
     });
   }
 
@@ -88,24 +60,53 @@ export default class CommunityMainScreen extends Component {
     this._deckSwiper._root.swipeLeft();
   }
 
+  // handle like animation
   handleLike = () => {
     this.setModalVisible(true);
     cards[this.state.currentid].likes += 1;
     this.state.liked[this.state.currentid] = 1;
     this.forceUpdate();
     this.setModalVisible(true);
+    CommunityModelManage.getInstance().increaseLike(() => {}, (this.state.currentid + 1).toString());
   }
 
+  // handle unlike
   handleUnlike = () => {
     cards[this.state.currentid].likes -= 1;
     this.state.liked[this.state.currentid] = 0;
     this.forceUpdate();
+    CommunityModelManage.getInstance().decreaseLike(() => {}, (this.state.currentid + 1).toString());
   }
 
+  /*
   componentDidUpdate(prevProps, prevState) {
     if (prevState.currentid !== this.state.currentid) {
       alert("From state " + prevState.currentid + " to state " + this.state.currentid);
     }
+  }
+  */
+
+  async componentDidMount () {
+    // make cards the posts from firebase
+    this.getCommunity();
+    // load data
+    await new Promise(resolve => { setTimeout(resolve, 3600); });
+    this.setState({postCount: cards.length});
+    // update likes in state
+    let likeArray = [];
+    for (let i = 0; i < this.state.postCount; i++) {
+      likeArray.push(0);
+    }
+    this.state.liked = likeArray;
+    this.state.ready = true;
+    this.forceUpdate();
+  }
+
+  // get community posts
+  getCommunity = () => {
+    CommunityModelManage.getInstance().getCommunity((posts) => {
+      cards = posts;
+    })
   }
 
   setModalVisible(visible) {
@@ -113,10 +114,28 @@ export default class CommunityMainScreen extends Component {
   }
 
   handleCommentPress = () => {
-    this.props.navigation.navigate('CommunityComment');
+    // pass comments to comment page
+    this.props.navigation.navigate('CommunityComment', {replies: cards[this.state.currentid].replies});
   }
 
   render() {
+
+    if (this.state.ready === false) return (
+      <Container>
+        <Modal style={styles.animationContainer} transparent={true} visible={true}
+          onShow={()=>{ 
+            this.animation.play();
+            }}>
+            <LottieView
+              ref={animation => {
+                this.animation = animation;
+              }}
+              loop={true}
+              source={require('../assets/animation/loading.json')}
+            />
+        </Modal>
+      </Container>
+    )
 
     return (
       <Container>
@@ -129,19 +148,19 @@ export default class CommunityMainScreen extends Component {
             renderItem={item =>
               <Card style={{ elevation: 7, borderRadius: 12 }}>
                 <CardItem cardBody>
-                  <Image style={styles.image} source={item.image} />
+                  <Image style={styles.image} source={{uri: item.item}} />
                 </CardItem>
                 <CardItem>
-                  <Text style={{fontSize: 20, fontWeight: "bold"}}>{item.name}</Text>
+                  <Text style={{fontSize: 20, fontWeight: "bold"}}>{item.title}</Text>
                   <View style={styles.location}>
                     <Text style={{fontSize: 13, color: colors.WHITE, 
                     flex: 1, alignItems: 'center', justifyContent: 'center',
-                    marginHorizontal: 7, marginTop: 3}}>{item.geo}</Text>
+                    marginHorizontal: 7, marginTop: 3}}>{item.location}</Text>
                   </View>
                 </CardItem>
                 <CardItem style={styles.cardBottom}>
-                  <View style={{ flex: 4, marginTop: -25 }}>
-                    <Text style={{ fontSize: 14, letterSpacing: 0.5}}>{item.text}</Text>
+                  <View style={{ flex: 4, marginTop: -20 }}>
+                    <Text style={{ fontSize: 14, letterSpacing: 0.5}}>{item.description}</Text>
                   </View>
                   <View
                     style={{ flex: 1, marginTop: 30}}>
@@ -156,16 +175,16 @@ export default class CommunityMainScreen extends Component {
             }
           />
         </View>
-        <View style={{ flex: 1, position: "absolute", bottom: 20, left: 20, justifyContent: 'space-between', padding: 15}}>
+        <View style={{ flex: 1, position: "absolute", bottom: 10, left: 20, justifyContent: 'space-between', padding: 15}}>
           <CrossIcon onPress={this.handleCross}></CrossIcon>
         </View>
-        <View style={{ flex: 1, position: "absolute", bottom: 40, left: 135, justifyContent: 'space-between', padding: 15}}>
+        <View style={{ flex: 1, position: "absolute", bottom: 30, left: 135, justifyContent: 'space-between', padding: 15}}>
           {(this.state.liked[this.state.currentid] === 0) ? (
           <Heart onPress={this.handleLike}></Heart>) : (
           <Unlike onPress={this.handleUnlike}></Unlike>
           )}
         </View>
-        <View style={{ flex: 1, position: "absolute", bottom: 20, left: 255, justifyContent: 'space-between', padding: 15}}>
+        <View style={{ flex: 1, position: "absolute", bottom: 10, left: 255, justifyContent: 'space-between', padding: 15}}>
           <ChatIcon onPress={this.handleCommentPress}></ChatIcon>
         </View>
         <Modal style={styles.animationContainer} transparent={true} visible={this.state.modalVisible}
