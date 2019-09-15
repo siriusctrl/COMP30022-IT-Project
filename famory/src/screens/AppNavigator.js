@@ -4,7 +4,7 @@ import SignInScreen from "./SignInScreen";
 import DebugScreen from "./DebugScreen";
 import HomePage from "./HomePageScreen";
 import CommunityMainScreen from "./CommunityMainScreen";
-import AccountHoldScreen from "./AccountHoldScreen"
+import AccountHoldScreen from "./AccountHoldScreen";
 import MemberPr from "./MemberPr";
 import TestScreen from "./TestScreen";
 import CommunityCommentScreen from "./CommunityCommentScreen";
