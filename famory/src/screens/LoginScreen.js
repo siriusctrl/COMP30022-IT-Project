@@ -16,6 +16,7 @@ import {CheckBox} from 'native-base';
 
 
 export default class LoginScreen extends Component{
+  // hide navigation header
   static navigationOptions = {
     header: null
   }
@@ -26,7 +27,6 @@ export default class LoginScreen extends Component{
     checked: false
   };
 
-
   handleEmailChanges = (email) => {
     this.setState({email : email});
   }
@@ -34,7 +34,7 @@ export default class LoginScreen extends Component{
   handlePasswordChanges = (password) => {
     this.setState({password : password});
   }
-
+  
   handleLoginPress = () => {
     Alert.alert("Login Pressed with 0.5 opacity");
   }
