@@ -31,19 +31,26 @@ export default class HomePageScreen extends Component{
     }
   }
 
-  avatar = [
-    {empyt:"yes", gen:" "},
-    {name:["Pending1"], img:[cxk, cxk, cxk, cxk, cxk], boarderColor:[colors.DODGER_BLUE, colors.ORANGE, colors.SILVER, colors.WHITE, colors.BLACK], gen:"GEN 1"},
-    {name:["Pending2"], img:[cxk], boarderColor:[], gen:"GEN 2"},
-    {name:["Pending3"], img:[cxk], boarderColor:[], gen:"GEN 3"},
-    // {name:["Pending4"], img:[cxk], gen:"GEN 4"},
-    // {name:["Pending5"], img:[cxk], gen:"GEN 5"},
-    // {name:["Pending6"], img:[cxk], gen:"GEN 6"},
-    // {name:["Pending7"], img:[cxk], gen:"GEN 7"},
-    // {name:["Pending8"], img:[cxk], gen:"GEN 8"},
-  ];
+  // the function will be load here
+  _loadMembers = () => {
+    return (
+      [
+        {empyt:"yes", gen:" "},
+        {name:["Pending1"], img:[cxk, cxk, cxk, cxk, cxk], boarderColor:[colors.DODGER_BLUE, colors.ORANGE, colors.SILVER, colors.WHITE, colors.BLACK], gen:"GEN 1"},
+        {name:["Pending2"], img:[cxk], boarderColor:[], gen:"GEN 2"},
+        {name:["Pending3"], img:[cxk], boarderColor:[], gen:"GEN 3"},
+        // {name:["Pending4"], img:[cxk], gen:"GEN 4"},
+        // {name:["Pending5"], img:[cxk], gen:"GEN 5"},
+        // {name:["Pending6"], img:[cxk], gen:"GEN 6"},
+        // {name:["Pending7"], img:[cxk], gen:"GEN 7"},
+        // {name:["Pending8"], img:[cxk], gen:"GEN 8"},
+      ]
+    );
+  }
 
-  //Item separator
+  avatar = this._loadMembers();
+
+  // Item separator
   FlatListItemSeparator = () => {
     return (
       <View
@@ -52,6 +59,9 @@ export default class HomePageScreen extends Component{
     );
   }
 
+  /* construct avatar for each column in flexList
+   * will be called at _renderItem
+   */
   avatarConstructor = (item) => {
     let jsx = [];
 
@@ -85,8 +95,8 @@ export default class HomePageScreen extends Component{
     return jsx;
   }
 
-  //TODO: refine the renderItem function based on the current state which should fit the view and edit mode
 
+  // a render function to render each column in FlatList based on the current state
   _renderItem = ({item}) => {
     if (item["name"]){
       return (
@@ -125,6 +135,8 @@ export default class HomePageScreen extends Component{
     }
   }
 
+  // render the "Edit" button at the section bottom bar, 
+  // which based on current state either view or edit
   _renderEditText = () => {
     if (this.state.mode === "view"){
       return(
@@ -141,10 +153,6 @@ export default class HomePageScreen extends Component{
     }
   }
   
-  _toggleModal = () => {
-    this.setState({ visibleModal: !this.state.visibleModal });
-  }
-
   _handleCommunityPress = () => {
     this.props.navigation.navigate("CommunityMain");
   }
@@ -167,6 +175,7 @@ export default class HomePageScreen extends Component{
     alert("Action Defined and not defined!");
   }
 
+  // the entire JSX to render the whole screen
   render() {
     return (
       <View style={{flex: 1}}>
@@ -185,9 +194,7 @@ export default class HomePageScreen extends Component{
             <Text style={{fontSize:25, backgroundColor:"transparent", flex: 7, color: colors.WHITE}}>
               Family tag
             </Text>
-
             {this._renderEditText()}
-
           </View>
 
           <View style={styles.buttonContainer}>
