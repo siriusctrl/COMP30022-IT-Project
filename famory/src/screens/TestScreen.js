@@ -7,6 +7,9 @@ import cxk from "../assets/images/logo.png"
 import colors from "../config/colors";
 import Button from "../components/Button";
 
+clock = {uri:"https://firebasestorage.googleapis.com/v0/b/fir-one-28de9.appspot.com/o/post-5.jpg?alt=media&token=025a8387-8f63-4196-bce1-a44fee70047b"};
+
+
 export default class TestScreen extends Component{
   static navigationOptions = {
     header: null
@@ -16,35 +19,23 @@ export default class TestScreen extends Component{
     isModalVisible: false
   };
 
-  toggleModal = () => {
-    this.setState({ isModalVisible: !this.state.isModalVisible });
-  };
-  //sadfafasfas
   render() {
     return (
-      <View style={{ flex: 1, alignItems:"center", justifyContent:"center"}}>
-        <Button label="Show modal" onPress={this.toggleModal} />
-        <Modal isVisible={this.state.isModalVisible} style={{marginVertical:170, backgroundColor:colors.WHITE, borderRadius:15, justifyContent:"center"}}>
-          <View style={{flex:1, justifyContent:"center", alignItems:"center"}}>
-            <View style={{flex:4, flexDirection:"row", marginVertical:10}}>
-              <View style={{marginHorizontal:10}}>
-                <Avatar
-                icon={{name:"more-horiz", type:"material"}} 
-                rounded
-                size={"medium"}/>
-              </View>
-              
-              <Avatar
-              icon={{name:"more-horiz", type:"material"}} 
-              rounded
-              size={"medium"}/>
-            </View>
+      <View>
+        <ImageButton
+            name={" "}
+            imageSource={clock}
+            boarderColor={colors.TORCH_RED}
+        />
 
-            <View style={{flex:1}}>
-              <Button label="Hide modal" onPress={this.toggleModal} extraStyles={{backgroundColor:colors.TORCH_RED, marginVertical:10}}/>
-            </View>
-          </View>
-        </Modal>
+        <Avatar
+          size="medium"
+          rounded
+          title={" "}
+          source={clock}
+          overlayContainerStyle={{padding:2}}
+          placeholderStyle={{backgroundColor:colors.BLACK}}
+        />
       </View>
     );
   }
