@@ -31,8 +31,6 @@ export default class HomePageScreen extends Component{
     }
   }
 
-  avatar = _loadMembers();
-
   // the function will be load here
   _loadMembers = () => {
     return (
@@ -49,6 +47,8 @@ export default class HomePageScreen extends Component{
       ]
     );
   }
+
+  avatar = this._loadMembers();
 
   // Item separator
   FlatListItemSeparator = () => {
