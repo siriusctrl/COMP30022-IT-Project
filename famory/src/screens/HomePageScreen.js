@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import { Text, View, FlatList, StyleSheet, Alert} from "react-native";
+import { Text, View, FlatList, StyleSheet} from "react-native";
 import Modal from "react-native-modal";
 
 import colors from "../config/colors";
@@ -11,31 +11,52 @@ import cxk from "../assets/images/cxk-circle.png";
 import { Avatar } from "react-native-elements";
 import Button from "../components/Button";
 
+import { FamilyAccountModelManage } from "../controller/FamilyAccountModel";
+import { MemberModelManage } from "../controller/MemberModel";
+
 
 
 export default class HomePageScreen extends Component{
   state = {
     visibleModal: false,
     mode: "view",
+    familyAccount: null,
+    memberModel: null,
   };
 
   static navigationOptions = {
     header: null
   }
   
-  //laod avatar info from server
+  //load avatar info from server
   async componentDidMount() {
     if (this.avatar.length > 5){
-      this.avatar.push({empyt:"yes", gen:" "})
-      this.avatar.push({empyt:"yes", gen:" "})
+      this.avatar.push({empty:true, gen:" "})
+      this.avatar.push({empty:true, gen:" "})
     }
+  }
+
+
+  getMembers = () => {
+    FamilyAccountModelManage.getInstance().getFamilyAccount((familyAccount) => {
+      this.setState({familyAccount: familyAccount});
+
+      for(i in this.state.familyAccount.familyMember){
+        alert(i);
+        MemberModelManage.getInstance().getMember((member) => {
+          this.setState({memberModel: member});
+        }, this.state.familyAccount.familyMember[i]);
+      }
+    });
   }
 
   // the function will be load here
   _loadMembers = () => {
+    this.getMembers();
+
     return (
       [
-        {empyt:"yes", gen:" "},
+        {empty:true, gen:" "},
         {name:["Pending1"], img:[cxk, cxk, cxk, cxk, cxk], boarderColor:[colors.DODGER_BLUE, colors.ORANGE, colors.SILVER, colors.WHITE, colors.BLACK], gen:"GEN 1"},
         {name:["Pending2"], img:[cxk], boarderColor:[], gen:"GEN 2"},
         {name:["Pending3"], img:[cxk], boarderColor:[], gen:"GEN 3"},
