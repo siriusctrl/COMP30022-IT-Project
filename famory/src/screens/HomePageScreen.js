@@ -23,15 +23,24 @@ export default class HomePageScreen extends Component{
     familyAccount: null,
     memberModel: [{id:1, empty:true, gen:" "},],
     memberRdy : false,
+    familyName: "Family Tag",
   };
 
+  // static navigationOptions = {
+  //   header: null
+  // }
+  
   static navigationOptions = {
     header: null
   }
-  
+
   //load avatar info from server
   async componentDidMount() {
     this.getMembers();
+    this.props.navigation.setParams({
+      state: this.state,
+      edit:this._renderEditText(),
+    });
   }
 
 
@@ -63,7 +72,7 @@ export default class HomePageScreen extends Component{
   // the function will be load here
   _loadMembers = () => {
     this.getMembers();
-    
+
     return (
       [
         {empty:true, gen:" "},
@@ -152,10 +161,11 @@ export default class HomePageScreen extends Component{
           </View>
 
           <View style={{flex: 4, flexDirection: "row", justifyContent: "flex-start", flexWrap:"wrap", alignContent:"space-around"}}>
-            <View style={{marginRight: 11, marginBottom: 16}}>
+            {/* the marginbotton to align the separator with the bottom of family tag */}
+            <View style={{marginRight: 11, marginBottom: 10}}>
               <ImageButton
                 name={" "}
-                boarderColor={colors.WHITE}
+                boarderColor="transparent"
                 showEditButton={false}
               />
             </View>
@@ -209,6 +219,7 @@ export default class HomePageScreen extends Component{
   render() {
     return (
       <View style={{flex: 1}}>
+
         <View>
           <FlatList 
             //data={this.avatar}
@@ -218,14 +229,17 @@ export default class HomePageScreen extends Component{
             ItemSeparatorComponent={this.FlatListItemSeparator}
           />
         </View>
-        
-        <View style={{width: "100%", height: 76*2, position:'absolute', bottom:0}}>
+
+        <View style={{width: "100%", height: 76, position:'absolute', top:0}}>
           <View style={{flex:1, backgroundColor:colors.LIGHTBLUE, flexDirection:"row", paddingLeft: 12, alignItems: "center"}}>
             <Text style={{fontSize:25, backgroundColor:"transparent", flex: 7, color: colors.WHITE}}>
-              Family tag
+              {this.state.familyName}
             </Text>
             {this._renderEditText()}
           </View>
+        </View>
+        
+        <View style={{width: "100%", height: 76, position:'absolute', bottom:0}}>
 
           <View style={styles.buttonContainer}>
             <Empty/>
