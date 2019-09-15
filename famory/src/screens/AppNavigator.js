@@ -16,8 +16,6 @@ import TestFirebase from "./TestFirebase";
 import ArtGuide from "./ArtGuide";
 import { createStackNavigator } from "react-navigation";
 
-
-
 const AppNavigator = createStackNavigator({
   Debug: {screen: DebugScreen},
   Test:{screen: TestScreen},

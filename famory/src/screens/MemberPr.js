@@ -7,7 +7,7 @@ import firebaseContainer from "../controller/firebaseConfig"
 import { FamilyAccountModelManage } from "../controller/FamilyAccountModel"
 import { MemberModelManage } from "../controller/MemberModel"
 import { ItemModelManage } from "../controller/ItemModel"
-import * as firebase from "firebase";
+import firebase from "firebase";
 
 import ArtCard from "../components/ArtCard";
 import { TouchableNativeFeedback, TouchableHighlight } from "react-native-gesture-handler";

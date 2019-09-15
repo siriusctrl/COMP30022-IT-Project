@@ -17,22 +17,23 @@ export default class TestFirebase extends Component{
   componentDidMount(){
   }
 
+  static navigationOptions = {
+    header: null
+  };
+
   getFamilyAccount = () => {
     
     FamilyAccountModelManage.getInstance().getFamilyAccount((familyAccount) => {
       this.setState({familyAccount: familyAccount, familyAccountRdy: true});
       alert(familyAccount.name)
     });
-
   }
 
   getMembr = () => {
-    
     MemberModelManage.getInstance().getMember((member) => {
       this.setState({memberModel: member, memberModelRdy: true});
       alert(member.generation)
     }, this.state.familyAccount.familyMember["0"]);
-
   }
 
 
@@ -62,19 +63,18 @@ export default class TestFirebase extends Component{
         }}></Button>
 
         {this.state.memberModelRdy? 
-        <View>
+        <View style={{flexDirection:"row"}}>
           <Text>{this.state.memberModel.firstName}</Text>
+          <Text>{" "}</Text>
           <Text>{this.state.memberModel.lastName}</Text>
         </View>
           : <Text></Text>
         }
 
-        <Button title="chenge member name to Jibaruan" onPress={() => {
+        <Button title="chenge member name to Niubi" onPress={() => {
           firebaseContainer.getInstance().justStart();
-          this.state.memberModel.updateFirstName("Jibaruan");
-
+          this.state.memberModel.updateFirstName("Niubi");
         }}></Button>
-
 
       </View>
     );
