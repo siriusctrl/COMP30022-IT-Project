@@ -15,7 +15,7 @@ import Accountmail from "../assets/icons/accountmail";
 
 
 export default class AccountHoldScreen extends Component {
-
+ 
   // navigation header here
   static navigationOptions = {
     title: 'Profile',
