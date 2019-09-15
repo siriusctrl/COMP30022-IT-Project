@@ -12,6 +12,7 @@ export class ItemModelManage{
   }
 
   static getInstance(){
+    firebaseContainer.getInstance().justStart();
     if(this._managePart == null){
       this._managePart = new ItemModelManage();
     }

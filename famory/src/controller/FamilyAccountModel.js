@@ -1,5 +1,4 @@
 import firebase from "firebase";
-// REVIEW : remove wasted import
 import firebaseContainer from "./firebaseConfig";
 
 export class FamilyAccountModelManage{
@@ -8,6 +7,7 @@ export class FamilyAccountModelManage{
   _path = "FamilyAccount"
 
   static getInstance(){
+    firebaseContainer.getInstance().justStart();
     if(this._managePart == null){
       this._managePart = new FamilyAccountModelManage();
     }
@@ -28,9 +28,9 @@ export class FamilyAccountModelManage{
     });
   }
 
-  // REVIEW : remove unimplemented functions
+  // TODO when sign up a account then use this to push to the database
   setFamilyAccount(familyName){
-
+    
   }
 
   _getFamilyId(promiseParent, promiseString){
@@ -81,6 +81,4 @@ export class FamilyAccount{
 }
 
 
-export default familyModel = {
-  FamilyAccountModelManage: FamilyAccountModelManage
-}
+export default FamilyAccountModelManage;

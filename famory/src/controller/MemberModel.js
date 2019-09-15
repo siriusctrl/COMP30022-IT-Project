@@ -6,31 +6,24 @@ export class MemberModelManage{
   _path = "FamilyMember"
 
   static getInstance(){
+    firebaseContainer.getInstance().justStart();
     if(this._managePart == null){
       this._managePart = new MemberModelManage();
     }
     return this._managePart;
   }
 
-  getMember(cb, id){
-    // REVIEW : Delete if you don't want to use it
-    firebaseContainer.getInstance().justStart();
-    let returned = {}
+  getMember(callBack, id){
     let memberRef = firebase.database().ref(this._path + "/" + id);
-    // REVIEW : use a better input name
-    memberRef.once("value").then((snapshota) => {
-      // REVIEW : use a better input name
-      snapshot = snapshota.val();
-
+    memberRef.once("value").then((snapshotGot) => {
+      snapshot = snapshotGot.val();
       let member = new Member(snapshot, id);
-      // REVIEW : use a better input name
-      cb(member);
-
+      callBack(member);
     });
   }
 
-  // REVIEW : function?
-  setModel(memberName){
+  // TODO add member
+  setMember(memberName){
   
   }
 }
@@ -52,7 +45,6 @@ export class Member{
     this._path = "FamilyMember" + "/" + id;
   }
 
-  // REVIEW :  toJson is better from my point of view
   toObject(){
     return {
       dob: this.dob,
@@ -75,7 +67,4 @@ export class Member{
   }
 }
 
-// REVIEW : why don't simply export the class?
-export default memberModel = {
-  MemberModelManage: MemberModelManage
-}
+export default MemberModelManage;
