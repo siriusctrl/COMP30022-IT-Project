@@ -96,52 +96,24 @@ export default class ArtGuide extends Component{
     memberArtefactItem: [
       {
         "type": "letter",
-        "title": "Letter from Bakka",
+        "name": "Letter from Bakka",
         "description": "What are we watching last night? I can not remember.",
-        "main": "Lorem ipsum dolor sit amet, \n\nmagnis leo morbi viverra, enim curabitur massa amet libero sit, eu eros vitae orci, nam a semper elementum, integer maecenas. Vestibulum lorem dui nisl sed, pellentesque pellentesque primis sit vel luctus vel. Praesent adipiscing posuere lectus, metus imperdiet purus convallis amet condimentum, diam lacus. Commodo sed, pellentesque velit in. Hendrerit turpis vivamus ligula orci massa id, ut elementum eu ultrices nam. Pellentesque sodales elit risus libero, malesuada aptent a lectus dictum sed, fusce conubia luctus pede aliquam. Curae enim vitae, accumsan esse a quis quis, ullamcorper in nisl neque interdum sociosqu aliquam, a volutpat ipsum ante velit ut, consequat nec in quis penatibus. Orci wisi tortor, eros elit quisque donec, at donec ac. Velit nunc elit in risus nunc donec, justo erat, eu lacinia nulla id, amet pede lorem nisl in. Magna ac lectus vivamus faucibus vestibulum venenatis, nibh leo nunc, enim consectetuer dui eu hac aliquip. Ac aliquet eleifend a pede massa, ante nulla etiam vel in, aliquam consectetur, sit neque aliquet. Erat neque quam, dolor et tristique, lectus sit augue tortor, elementum cras sapien metus hendrerit. In malesuada mollis, lobortis tortor dignissim, consectetuer libero vivamus feugiat, habitasse ut arcu velit nec. Aliquet condimentum augue suspendisse pellentesque turpis, nisl faucibus nec consequat in, vehicula ac a suspendisse ornare, non aenean. Pellentesque vestibulum.",
+        "content": "Lorem ipsum dolor sit amet, \n\nmagnis leo morbi viverra, enim curabitur massa amet libero sit, eu eros vitae orci, nam a semper elementum, integer maecenas. Vestibulum lorem dui nisl sed, pellentesque pellentesque primis sit vel luctus vel. Praesent adipiscing posuere lectus, metus imperdiet purus convallis amet condimentum, diam lacus. Commodo sed, pellentesque velit in. Hendrerit turpis vivamus ligula orci massa id, ut elementum eu ultrices nam. Pellentesque sodales elit risus libero, malesuada aptent a lectus dictum sed, fusce conubia luctus pede aliquam. Curae enim vitae, accumsan esse a quis quis, ullamcorper in nisl neque interdum sociosqu aliquam, a volutpat ipsum ante velit ut, consequat nec in quis penatibus. Orci wisi tortor, eros elit quisque donec, at donec ac. Velit nunc elit in risus nunc donec, justo erat, eu lacinia nulla id, amet pede lorem nisl in. Magna ac lectus vivamus faucibus vestibulum venenatis, nibh leo nunc, enim consectetuer dui eu hac aliquip. Ac aliquet eleifend a pede massa, ante nulla etiam vel in, aliquam consectetur, sit neque aliquet. Erat neque quam, dolor et tristique, lectus sit augue tortor, elementum cras sapien metus hendrerit. In malesuada mollis, lobortis tortor dignissim, consectetuer libero vivamus feugiat, habitasse ut arcu velit nec. Aliquet condimentum augue suspendisse pellentesque turpis, nisl faucibus nec consequat in, vehicula ac a suspendisse ornare, non aenean. Pellentesque vestibulum.",
       },
       {
-        "type": "picture",
-        "title": "80s kid born",
+        "type": "image",
+        "name": "80s kid born",
         "description": "remember your birthday",
-        "main": "../assets/images/" + "dark.png"
+        "content": "../assets/images/" + "dark.png"
       },
+      
       {
-        "type": "picture",
-        "title": "80s kid born",
+        "type": "image",
+        "name": "80s kid born",
         "description": "remember your birthday",
-        "main": "../assets/images/" + "dark.png"
+        "content": "../assets/images/" + "dark.png"
       },
-      {
-        "type": "picture",
-        "title": "80s kid born",
-        "description": "remember your birthday",
-        "main": "../assets/images/" + "dark.png"
-      },
-      {
-        "type": "picture",
-        "title": "80s kid born",
-        "description": "remember your birthday",
-        "main": "../assets/images/" + "dark.png"
-      },
-      {
-        "type": "picture",
-        "title": "80s kid born",
-        "description": "remember your birthday",
-        "main": "../assets/images/" + "dark.png"
-      },
-      {
-        "type": "picture",
-        "title": "80s kid born",
-        "description": "remember your birthday",
-        "main": "../assets/images/" + "dark.png"
-      },
-      {
-        "type": "picture",
-        "title": "80s kid born",
-        "description": "remember your birthday",
-        "main": "../assets/images/" + "dark.png"
-      }
+      
 
     ].reverse(),
     currentStage: "addArtefactMemberIn",
