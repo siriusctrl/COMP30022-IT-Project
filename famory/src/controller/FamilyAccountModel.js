@@ -1,4 +1,4 @@
-import * as firebase from "firebase";
+import firebase from "firebase";
 import firebaseContainer from "./firebaseConfig";
 
 export class FamilyAccountModelManage{
@@ -7,6 +7,7 @@ export class FamilyAccountModelManage{
   _path = "FamilyAccount"
 
   static getInstance(){
+    firebaseContainer.getInstance().justStart();
     if(this._managePart == null){
       this._managePart = new FamilyAccountModelManage();
     }
@@ -27,8 +28,9 @@ export class FamilyAccountModelManage{
     });
   }
 
+  // TODO when sign up a account then use this to push to the database
   setFamilyAccount(familyName){
-
+    
   }
 
   _getFamilyId(promiseParent, promiseString){
@@ -60,7 +62,7 @@ export class FamilyAccount{
       avatar: this.avatar,
       dateCreated: this.dateCreated,
       email: this.email,
-      familyMemberAll: this.familyMemberAll,
+      familyMember: this.familyMember,
       name: this.name
     }
   }
@@ -69,12 +71,14 @@ export class FamilyAccount{
     return this.email != "";
   }
 
+  delMember(memberId){
+    
+  }
+
   
 
 
 }
 
 
-export default familyModel = {
-  FamilyAccountModelManage: FamilyAccountModelManage
-}
+export default FamilyAccountModelManage;

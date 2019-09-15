@@ -1,4 +1,4 @@
-import * as firebase from "firebase";
+import firebase from "firebase";
 import firebaseContainer from "./firebaseConfig";
 
 export class MemberModelManage{
@@ -6,28 +6,24 @@ export class MemberModelManage{
   _path = "FamilyMember"
 
   static getInstance(){
+    firebaseContainer.getInstance().justStart();
     if(this._managePart == null){
       this._managePart = new MemberModelManage();
     }
     return this._managePart;
   }
 
-  getMember(cb, id){
-    let returned = {}
+  getMember(callBack, id){
     let memberRef = firebase.database().ref(this._path + "/" + id);
-    memberRef.once("value").then((snapshota) => {
-
-      snapshot = snapshota.val();
-
+    memberRef.once("value").then((snapshotGot) => {
+      snapshot = snapshotGot.val();
       let member = new Member(snapshot, id);
-
-      
-      cb(member);
-
+      callBack(member);
     });
   }
 
-  setModel(memberName){
+  // TODO add member
+  setMember(memberName){
   
   }
 }
@@ -35,8 +31,8 @@ export class MemberModelManage{
 
 export class Member{
 
-
   constructor(snapshot, id){
+    this.role = snapshot["role"];
     this.dob = snapshot["dob"];
     this.firstName = snapshot["firstName"];
     this.gender = snapshot["gender"];
@@ -63,6 +59,7 @@ export class Member{
     }
   }
 
+
   updateFirstName = (newFirstName) => {
     firebaseContainer.getInstance().justStart();
     let MemberReference = firebase.database().ref(this._path + "/firstName");
@@ -70,7 +67,4 @@ export class Member{
   }
 }
 
-
-export default memberModel = {
-  MemberModelManage: MemberModelManage
-}
+export default MemberModelManage;
