@@ -16,6 +16,11 @@ export default class ArtGuide extends Component{
     header: null
   }
 
+  componentDidMount(){
+
+    this.state.currentPurpose = this.props.navigation.getParam("currentPurpose", "addArtefact");
+  }
+
   state = {
     member: {
       memberColor: colors.HOMESCREENLIGHTBLUE,
@@ -96,55 +101,27 @@ export default class ArtGuide extends Component{
     memberArtefactItem: [
       {
         "type": "letter",
-        "title": "Letter from Bakka",
+        "name": "Letter from Bakka",
         "description": "What are we watching last night? I can not remember.",
-        "main": "Lorem ipsum dolor sit amet, \n\nmagnis leo morbi viverra, enim curabitur massa amet libero sit, eu eros vitae orci, nam a semper elementum, integer maecenas. Vestibulum lorem dui nisl sed, pellentesque pellentesque primis sit vel luctus vel. Praesent adipiscing posuere lectus, metus imperdiet purus convallis amet condimentum, diam lacus. Commodo sed, pellentesque velit in. Hendrerit turpis vivamus ligula orci massa id, ut elementum eu ultrices nam. Pellentesque sodales elit risus libero, malesuada aptent a lectus dictum sed, fusce conubia luctus pede aliquam. Curae enim vitae, accumsan esse a quis quis, ullamcorper in nisl neque interdum sociosqu aliquam, a volutpat ipsum ante velit ut, consequat nec in quis penatibus. Orci wisi tortor, eros elit quisque donec, at donec ac. Velit nunc elit in risus nunc donec, justo erat, eu lacinia nulla id, amet pede lorem nisl in. Magna ac lectus vivamus faucibus vestibulum venenatis, nibh leo nunc, enim consectetuer dui eu hac aliquip. Ac aliquet eleifend a pede massa, ante nulla etiam vel in, aliquam consectetur, sit neque aliquet. Erat neque quam, dolor et tristique, lectus sit augue tortor, elementum cras sapien metus hendrerit. In malesuada mollis, lobortis tortor dignissim, consectetuer libero vivamus feugiat, habitasse ut arcu velit nec. Aliquet condimentum augue suspendisse pellentesque turpis, nisl faucibus nec consequat in, vehicula ac a suspendisse ornare, non aenean. Pellentesque vestibulum.",
+        "content": "Lorem ipsum dolor sit amet, \n\nmagnis leo morbi viverra, enim curabitur massa amet libero sit, eu eros vitae orci, nam a semper elementum, integer maecenas. Vestibulum lorem dui nisl sed, pellentesque pellentesque primis sit vel luctus vel. Praesent adipiscing posuere lectus, metus imperdiet purus convallis amet condimentum, diam lacus. Commodo sed, pellentesque velit in. Hendrerit turpis vivamus ligula orci massa id, ut elementum eu ultrices nam. Pellentesque sodales elit risus libero, malesuada aptent a lectus dictum sed, fusce conubia luctus pede aliquam. Curae enim vitae, accumsan esse a quis quis, ullamcorper in nisl neque interdum sociosqu aliquam, a volutpat ipsum ante velit ut, consequat nec in quis penatibus. Orci wisi tortor, eros elit quisque donec, at donec ac. Velit nunc elit in risus nunc donec, justo erat, eu lacinia nulla id, amet pede lorem nisl in. Magna ac lectus vivamus faucibus vestibulum venenatis, nibh leo nunc, enim consectetuer dui eu hac aliquip. Ac aliquet eleifend a pede massa, ante nulla etiam vel in, aliquam consectetur, sit neque aliquet. Erat neque quam, dolor et tristique, lectus sit augue tortor, elementum cras sapien metus hendrerit. In malesuada mollis, lobortis tortor dignissim, consectetuer libero vivamus feugiat, habitasse ut arcu velit nec. Aliquet condimentum augue suspendisse pellentesque turpis, nisl faucibus nec consequat in, vehicula ac a suspendisse ornare, non aenean. Pellentesque vestibulum.",
       },
       {
-        "type": "picture",
-        "title": "80s kid born",
+        "type": "image",
+        "name": "80s kid born",
         "description": "remember your birthday",
-        "main": "../assets/images/" + "dark.png"
+        "content": "../assets/images/" + "dark.png"
       },
+      
       {
-        "type": "picture",
-        "title": "80s kid born",
+        "type": "image",
+        "name": "80s kid born",
         "description": "remember your birthday",
-        "main": "../assets/images/" + "dark.png"
+        "content": "../assets/images/" + "dark.png"
       },
-      {
-        "type": "picture",
-        "title": "80s kid born",
-        "description": "remember your birthday",
-        "main": "../assets/images/" + "dark.png"
-      },
-      {
-        "type": "picture",
-        "title": "80s kid born",
-        "description": "remember your birthday",
-        "main": "../assets/images/" + "dark.png"
-      },
-      {
-        "type": "picture",
-        "title": "80s kid born",
-        "description": "remember your birthday",
-        "main": "../assets/images/" + "dark.png"
-      },
-      {
-        "type": "picture",
-        "title": "80s kid born",
-        "description": "remember your birthday",
-        "main": "../assets/images/" + "dark.png"
-      },
-      {
-        "type": "picture",
-        "title": "80s kid born",
-        "description": "remember your birthday",
-        "main": "../assets/images/" + "dark.png"
-      }
+      
 
     ].reverse(),
-    currentStage: "addArtefactMemberIn",
+    currentStage: "addArtefactInitial",
     currentPurpose: "addArtefact",
     memberName: "",
     gender: "",
@@ -176,13 +153,7 @@ export default class ArtGuide extends Component{
     "memberAddFamily": "Nizaari"
   }
 
-  purpose = {
-    addMember: "addMember",
-    addArtefact: "addArtefact"
-  }
-
   initialStage = {
-    addMember: "addMemberInitial",
     addArtefact: "addArtefactInitial"
   }
 
@@ -196,114 +167,7 @@ export default class ArtGuide extends Component{
   )
 
   stages = {
-    "addMemberInitial": {
-      "title": "Add a member to your family",
-      "view": [
-        <View style={{flex: 4, flexDirection: "column", paddingTop: 75}}>
-          <View style={{paddingHorizontal: 26, flex: 6, paddingLeft: 27}}>
-            <Text style={{fontSize: 18}}>You're adding a member for</Text>
-            <Text style={{fontSize: 18, color: colors.ORANGE}}>{this.par.memberAddFamily}'s family</Text>
-          </View>
-          <View style={{... guideStyle.bottomButtonCn, justifyContent: "flex-end"}}>
-            <TouchableNativeFeedback background={TouchableNativeFeedback.Ripple(colors.MISCHKA, true)} onPress={() => {
-              alert("cao");
-              this._changeStage(false);
-            }}>
-              <Text style={{height: 42, width: 82, textAlign: "center", textAlignVertical: "center", color: colors.DODGER_BLUE, fontSize: 16}}>NEXT</Text>
-            </TouchableNativeFeedback>
-          </View>
-        </View>
-      ],
-      "next": {
-        "addMember": "addMemberNameAndGender"
-      }
-    },
-    "addMemberNameAndGender": {
-      "title": "What's the Name and Gender?",
-      "view": [
-        <View style={{flex: 4, flexDirection: "column", paddingTop: 69}}>
-          <View style={{paddingHorizontal: 26, flex: 6, paddingLeft: 27}}>
-            <Text style={{fontSize: 18, width: "87%"}}>Write the name without the family name</Text>
-            <TextInput placeholder={"Name"} underlineColorAndroid={colors.SILVER} onChangeText={
-              (member) => {this._changeText({memberName: member})}
-            }
-             style={{width: "87%", height: 32, fontSize: 18, marginTop: 23, lineHeight: 26}} />
-             <Text style={{fontSize: 18, marginTop: 38, width: "87%"}}>We support any gender you like</Text>
-             <TextInput placeholder={"Gender"} underlineColorAndroid={colors.SILVER} onChangeText={
-              (gr) => {this._changeText({gender: gr})}
-            }
-             style={{width: "87%", height: 32, fontSize: 18,  marginTop: 23, lineHeight: 26}} />
-          </View>
-          <View style={guideStyle.bottomButtonCn}>
-            <TouchableNativeFeedback background={TouchableNativeFeedback.Ripple(colors.MISCHKA, true)} onPress={() => this._changeStage(true)}>
-              <Text style={guideStyle.bottomButton}>BACK</Text>
-            </TouchableNativeFeedback>
-            <TouchableNativeFeedback background={TouchableNativeFeedback.Ripple(colors.MISCHKA, true)} onPress={() => this._changeStage(false)}>
-              <Text style={guideStyle.bottomButton}>NEXT</Text>
-            </TouchableNativeFeedback>
-          </View>
-        </View>
-      ],
-      "next": {
-        "addMember": "addMemberRole",
-      },
-      "back": {
-        "addMember": "addMemberInitial",
-      }
-
-    },
-    "addMemberRole": {
-      "title": "What's the Role?",
-      "view": [
-        <View style={{flex: 4, flexDirection: "column", paddingTop: 69}}>
-          <View style={{paddingHorizontal: 29, flex: 6, paddingLeft: 32}}>
-           <Text style={{fontSize: 18, width: "87%"}}>The role</Text>
-            <TextInput placeholder={"Role"} underlineColorAndroid={colors.SILVER} onChangeText={
-              (rl) => {this._changeText({role: rl})}
-            }
-             style={{width: "87%", height: 32, fontSize: 18, marginTop: 21, lineHeight: 26}} />
-          </View>
-          <View style={guideStyle.bottomButtonCn}>
-            <TouchableNativeFeedback background={TouchableNativeFeedback.Ripple(colors.MISCHKA, true)} onPress={() => this._changeStage(true)}>
-              <Text style={guideStyle.bottomButton}>BACK</Text>
-            </TouchableNativeFeedback>
-            <TouchableNativeFeedback background={TouchableNativeFeedback.Ripple(colors.MISCHKA, true)} onPress={() => this._changeStage(false)}>
-              <Text style={guideStyle.bottomButton}>NEXT</Text>
-            </TouchableNativeFeedback>
-          </View>
-        </View>
-      ],
-      "next": {
-        "addMember": "addMemberAvatar",
-      },
-      "back": {
-        "addMember": "addMemberNameAndGender",
-      }
-    },
-    "addMemberAvatar": {
-      "title": "How does the member look like?",
-      "view": [
-        <View style={{flex: 4, flexDirection: "column", paddingTop: 69}}>
-          <View style={{paddingHorizontal: 29, flex: 6, paddingLeft: 32}}>
-           <Text style={{fontSize: 18, width: "87%"}}>The role</Text>
-          </View>
-          <View style={guideStyle.bottomButtonCn}>
-            <TouchableNativeFeedback background={TouchableNativeFeedback.Ripple(colors.MISCHKA, true)} onPress={() => this._changeStage(true)}>
-              <Text style={guideStyle.bottomButton}>BACK</Text>
-            </TouchableNativeFeedback>
-            <TouchableNativeFeedback background={TouchableNativeFeedback.Ripple(colors.MISCHKA, true)} onPress={() => this._changeStage(false)}>
-              <Text style={guideStyle.bottomButton}>FINISH</Text>
-            </TouchableNativeFeedback>
-          </View>
-        </View>
-      ],
-      "next": {
-        "addMember": FINISH,
-      },
-      "back": {
-        "addMember": "addMemberRole",
-      }
-    },
+    
     "addArtefactInitial": {
       "title": "Adding artefact",
       "view": [
@@ -335,7 +199,7 @@ export default class ArtGuide extends Component{
       },
     },
     "addArtefactMemberIn": {
-      "title": "Is this from other member?",
+      "title": "Choose the member",
       "view": [
         <View style={{flex: 4, flexDirection: "column", paddingTop: 36}}>
           <View style={{paddingHorizontal: 29, flex: 6, justifyContent: "flex-start"}}>
@@ -471,10 +335,6 @@ export default class ArtGuide extends Component{
     );
 
   }
-
-  _renderArtefactListItem = ({ item }) => (
-    <Text>caoni</Text>
-  )
 
   render(){
     return(
