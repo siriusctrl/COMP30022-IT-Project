@@ -19,7 +19,7 @@ export default class ArtCard extends Component{
 
   _renderContent(type, content){
 
-    alert(content)
+
 
     if (type == "image"){
       return (<Image source={{uri: content}} style={{flex: 1}}/>)
