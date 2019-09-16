@@ -19,9 +19,10 @@ const getAssetImagePath = (imagePh) => {
 
 export default class MemberPr extends Component{
   static navigationOptions = {
-    headerStyle: {backgroundColor: colors.HOMESCREENLIGHTBLUE, height: 52},
+    headerStyle: {backgroundColor: colors.HOMESCREENLIGHTBLUE, height: 52, elevation: 0},
     headerTitle: "Member Profile",
-    headerTitleStyle: {color: colors.LIGHTERBLUE, fontWeight: "100"}
+    headerTitleStyle: {color: colors.WHITE, fontWeight: "100"},
+    headerTintColor: colors.WHITE
   }
 
   state = {
@@ -140,7 +141,7 @@ export default class MemberPr extends Component{
                 inactiveSlideScale={0.85}
                 containerCustomStyle={{overflow: "visible", width: "100%"}}
                 contentContainerCustomStyle={{alignItems: "center", flexDirection: "column"}}
-                slideStyle={{width: "92%", elevation: 16, borderRadius: 6}}
+                slideStyle={{width: "87%", elevation: 32, borderRadius: 6}}
                 
                 
               />: <View></View>
@@ -171,7 +172,6 @@ const styles = StyleSheet.create({
     flexDirection: "column"
   },
   artCard: {
-    width: 380,
     height: 350,
     borderRadius: 6
   }

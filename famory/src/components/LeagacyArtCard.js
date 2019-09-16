@@ -30,7 +30,7 @@ export default class ArtCard extends Component{
     let numberOfLines = this.props.numberOfLines ? this.props.numberOfLines : 9;
 
     return (
-      <View style={{backgroundColor: backgroundColorArtefact[item["type"]][0], flexDirection: "column", overflow: "hidden", minHeight: 350, ... this.props.style, borderRadius: 0, borderWidth: 17, borderColor: colors.WHITE}}>
+      <View style={{backgroundColor: backgroundColorArtefact[item["type"]][0], flexDirection: "column", overflow: "hidden", minHeight: 350, ... this.props.style}}>
         <View style={{width: "100%", padding: 16, paddingTop: 22, flexDirection: "row", backgroundColor: backgroundColorArtefact[item["type"]][3]}}>
           <View style={{flex: 1, paddingTop: 3}}>
             <Icon name={backgroundColorArtefact[item["type"]][4]} color={backgroundColorArtefact[item["type"]][2]} size={32}/>
