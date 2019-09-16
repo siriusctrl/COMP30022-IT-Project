@@ -54,25 +54,14 @@ export default class HomePageScreen extends Component{
         // alert(i);
         ((k) => {
           return MemberModelManage.getInstance().getMember((member) => {
-            // NOTE : it might be necessary to handle the case where flatlist goes out side of the screen
             while (this.state.avatars.length <= member.generation){              
               this.state.avatars.push({});
             }
-  
-            //console.log("--------------------------\n");
-            //console.log("this time member is "+ k + "\n");
-  
-            temp = this.state.avatars[member.generation];
-  
-            this.state.memberModel[k] = member;
 
-            //console.log("member Model is " + this.state.memberModel[k].memberId + " lenght of member " + Object.keys(this.state.memberModel).length);
-            //console.log("before " + temp.id);
-            temp.id == null ? temp.id = [k] : temp.id.push(k);
-            //console.log("after " + temp.id);
-            temp.img == null ? temp.img = [member.profileImage] : temp.img.push(member.profileImage);
-            temp.boarderColor == null ? temp.boarderColor = [member.ringColor] : temp.boarderColor.push(member.ringColor);
+            temp = this.state.avatars[member.generation];
             temp.gen = "GEN " + member.generation;
+            // add member objects to each columns
+            temp.members == null ? temp.members = [member] : temp.members.push(member);
   
             this.setState({memberRdy:true});
             // console.log(this.state.avatars);
@@ -85,15 +74,6 @@ export default class HomePageScreen extends Component{
   // the function will be load here
   _loadMembers = () => {
     this.getMembers();
-
-    return (
-      [
-        {empty:true, gen:" "},
-        {img:[cxk_new, cxk_new, cxk_new, cxk_new, cxk_new], boarderColor:[colors.DODGER_BLUE, colors.ORANGE, colors.SILVER, colors.WHITE, colors.BLACK], gen:"GEN 1"},
-        {img:[cxk_new], boarderColor:[], gen:"GEN 2"},
-        {img:[cxk_new], boarderColor:[], gen:"GEN 3"},
-      ]
-    );
   }
 
   // Item separator
@@ -111,15 +91,14 @@ export default class HomePageScreen extends Component{
   avatarConstructor = (item) => {
     let jsx = [];
     console.log(" ----------------------\n");
-    for (index in item.img) {
-      console.log("item id is " + item.id[index]);
+    for (m of item.members) {
       jsx.push(
         <View style={{marginRight: 11, marginBottom: 16}}>
           <ImageButton
             name={" "}
-            imageSource={{uri:item.img[index]}}
-            onPressHandler={((id) => () => {this._handleAvatarPressed(id)})(item.id[index])}
-            boarderColor={item.boarderColor[index]}
+            imageSource={{uri:m.profileImage}}
+            onPressHandler={((id, member) => () => {this._handleAvatarPressed(id, member)})(m.memberId, m)}
+            boarderColor={m.ringColor}
           />
         </View>
       );
@@ -145,7 +124,7 @@ export default class HomePageScreen extends Component{
 
   // a render function to render each column in FlatList based on the current state
   _renderItem = ({item}) => {
-    if (item.img){
+    if (item.members){
       return (
         <View style={styles.flatListContainer}>
           <View style={{flex: 1}}>
@@ -219,10 +198,10 @@ export default class HomePageScreen extends Component{
     }
   }
 
-  _handleAvatarPressed = (id) => {
-    let currentModel = this.state.memberModel[id];
+  _handleAvatarPressed = (id, member) => {
+    alert(member.memberId);
     this.props.navigation.navigate('MemberPr', {
-      model: currentModel
+      model: member
     });
   }
 
