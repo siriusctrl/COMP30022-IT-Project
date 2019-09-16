@@ -1,9 +1,7 @@
 import React, {Component} from "react";
 import { Text, Image, StyleSheet, View , Alert, KeyboardAvoidingView, ImageBackground, ScrollView} from "react-native";
-import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
 import colors from "../config/colors";
-import { Icon, ListItem } from 'react-native-elements'
-import firebaseContainer from "../controller/firebaseConfig"
+import { Icon } from 'react-native-elements'
 import FamilyModelManage from "../controller/FamilyModel"
 
 import ArtCard from "../components/ArtCard";

@@ -27,6 +27,7 @@
   },
   "dependencies": {
     "expo": "^34.0.1",
+    "expo-av": "~6.0.0",
     "expo-font": "~6.0.1",
     "expo-image-picker": "~6.0.0",
     "expo-linear-gradient": "~6.0.0",
@@ -48,6 +49,7 @@
     "react-native-svg": "~9.5.1",
     "react-native-svg-uri": "^1.2.3",
     "react-native-swiper": "^1.6.0-nightly.3",
+    "react-native-tab-view": "^2.10.0",
     "react-native-vector-icons": "^6.6.0",
     "react-native-web": "^0.11.6",
     "react-navigation": "^3.11.1"
