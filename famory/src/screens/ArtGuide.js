@@ -16,6 +16,11 @@ export default class ArtGuide extends Component{
     header: null
   }
 
+  componentDidMount(){
+
+    this.state.currentPurpose = this.props.navigation.getParam("currentPurpose", "addArtefact");
+  }
+
   state = {
     member: {
       memberColor: colors.HOMESCREENLIGHTBLUE,

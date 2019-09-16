@@ -13,6 +13,7 @@ import Achievement from "./AchievementScreen";
 import ArtefactItem from "./ArtefactItem";
 import TestFirebase from "./TestFirebase";
 
+import ArtefactGuide from "./ArtefactGuide";
 import ArtGuide from "./ArtGuide";
 import { createStackNavigator } from "react-navigation";
 
@@ -31,10 +32,12 @@ const AppNavigator = createStackNavigator({
   Achievement: {screen: Achievement},
   ArtGuide: {screen: ArtGuide},
   ArtefactItem: {screen: ArtefactItem},
-  TestFirebase: {screen: TestFirebase}
+  TestFirebase: {screen: TestFirebase},
+  ArtefactGuide: {screen: ArtefactGuide}
+
 }, {
       // should be debug
-      initialRouteName: "Debug",
+      initialRouteName: "ArtefactGuide",
 }, {
   defaultNavigationOptions:{
     header:null
