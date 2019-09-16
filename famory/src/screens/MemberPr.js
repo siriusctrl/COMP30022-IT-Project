@@ -243,7 +243,7 @@ const styles = StyleSheet.create({
   tContainer: {
     backgroundColor: "rgba(106, 84, 166, 0)",
     width: "100%",
-    height: 104,
+    height: 96,
     zIndex: 2,
     justifyContent: "flex-start",
     flexDirection: "column"
