@@ -21,7 +21,8 @@ export default class HomePageScreen extends Component{
     visibleModal: false,
     mode: "view",
     familyAccount: null,
-    memberModel: [{id:1, empty:true, gen:" "},],
+    avatars: [{id:1, empty:true, gen:" "},],
+    memberModel: {},
     memberRdy : false,
     familyName: "Family Tag",
   };
@@ -47,24 +48,36 @@ export default class HomePageScreen extends Component{
   getMembers = () => {
     FamilyAccountModelManage.getInstance().getFamilyAccount((familyAccount) => {
       this.setState({familyAccount: familyAccount});
+      this.setState({familyName: familyAccount.name + "'s Family"});
 
       for(i of Object.values(this.state.familyAccount.familyMember)){
         // alert(i);
-        MemberModelManage.getInstance().getMember((member) => {
-          // NOTE : it might be necessary to handle the case where flatlist goes out side of the screen
-          while (this.state.memberModel.length <= member.generation){              
-            this.state.memberModel.push({});
-          }
-          
-          temp = this.state.memberModel[member.generation];
-          temp.id==null?temp.id=[i]:temp.id.push(i);
-          temp.img==null?temp.img=[member.profileImage]:temp.img.push(member.profileImage);
-          temp.boarderColor==null?temp.boarderColor = [member.ringColor]:temp.boarderColor.push(member.ringColor);
-          temp.gen = "GEN " + member.generation;
+        ((k) => {
+          return MemberModelManage.getInstance().getMember((member) => {
+            // NOTE : it might be necessary to handle the case where flatlist goes out side of the screen
+            while (this.state.avatars.length <= member.generation){              
+              this.state.avatars.push({});
+            }
+  
+            //console.log("--------------------------\n");
+            //console.log("this time member is "+ k + "\n");
+  
+            temp = this.state.avatars[member.generation];
+  
+            this.state.memberModel[k] = member;
 
-          this.setState({memberRdy:true});
-          // alert(this.state.memberModel[1].img[0]);
-        }, i);
+            //console.log("member Model is " + this.state.memberModel[k].memberId + " lenght of member " + Object.keys(this.state.memberModel).length);
+            //console.log("before " + temp.id);
+            temp.id == null ? temp.id = [k] : temp.id.push(k);
+            //console.log("after " + temp.id);
+            temp.img == null ? temp.img = [member.profileImage] : temp.img.push(member.profileImage);
+            temp.boarderColor == null ? temp.boarderColor = [member.ringColor] : temp.boarderColor.push(member.ringColor);
+            temp.gen = "GEN " + member.generation;
+  
+            this.setState({memberRdy:true});
+            // console.log(this.state.avatars);
+          }, k);
+        })(i);
       }
     });
   }
@@ -79,11 +92,6 @@ export default class HomePageScreen extends Component{
         {img:[cxk_new, cxk_new, cxk_new, cxk_new, cxk_new], boarderColor:[colors.DODGER_BLUE, colors.ORANGE, colors.SILVER, colors.WHITE, colors.BLACK], gen:"GEN 1"},
         {img:[cxk_new], boarderColor:[], gen:"GEN 2"},
         {img:[cxk_new], boarderColor:[], gen:"GEN 3"},
-        // {name:["Pending4"], img:[cxk], gen:"GEN 4"},
-        // {name:["Pending5"], img:[cxk], gen:"GEN 5"},
-        // {name:["Pending6"], img:[cxk], gen:"GEN 6"},
-        // {name:["Pending7"], img:[cxk], gen:"GEN 7"},
-        // {name:["Pending8"], img:[cxk], gen:"GEN 8"},
       ]
     );
   }
@@ -102,15 +110,15 @@ export default class HomePageScreen extends Component{
    */
   avatarConstructor = (item) => {
     let jsx = [];
-
+    console.log(" ----------------------\n");
     for (index in item.img) {
-      // alert("constructor: " + item.boarderColor[index]);
+      console.log("item id is " + item.id[index]);
       jsx.push(
         <View style={{marginRight: 11, marginBottom: 16}}>
           <ImageButton
             name={" "}
             imageSource={{uri:item.img[index]}}
-            onPressHandler={() => {this._handleAvatarPressed(item.id[index])}}
+            onPressHandler={((id) => () => {this._handleAvatarPressed(id)})(item.id[index])}
             boarderColor={item.boarderColor[index]}
           />
         </View>
@@ -212,7 +220,10 @@ export default class HomePageScreen extends Component{
   }
 
   _handleAvatarPressed = (id) => {
-    alert("The id is: " + id);
+    let currentModel = this.state.memberModel[id];
+    this.props.navigation.navigate('MemberPr', {
+      model: currentModel
+    });
   }
 
   // the entire JSX to render the whole screen
@@ -223,7 +234,7 @@ export default class HomePageScreen extends Component{
         <View>
           <FlatList 
             //data={this.avatar}
-            data={this.state.memberModel}
+            data={this.state.avatars}
             extraData={this.state}
             renderItem={this._renderItem}
             ItemSeparatorComponent={this.FlatListItemSeparator}
