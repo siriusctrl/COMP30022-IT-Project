@@ -1,10 +1,9 @@
 import React, {Component} from "react";
 import { Text, Image, StyleSheet, View , Alert, KeyboardAvoidingView, ImageBackground} from "react-native";
-import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
-import Icon from 'react-native-vector-icons/FontAwesome';
 import colors from "../config/colors";
 import firebaseContainer from "../controller/firebaseConfig";
 import FamilyAccountModelManage from "../controller/FamilyAccountModel";
+import { Icon } from 'react-native-elements';
 import MemberModelManage from "../controller/MemberModel";
 import ItemModelManage from "../controller/ItemModel";
 
@@ -19,9 +18,10 @@ const getAssetImagePath = (imagePh) => {
 
 export default class MemberPr extends Component{
   static navigationOptions = {
-    headerStyle: {backgroundColor: colors.HOMESCREENLIGHTBLUE, height: 52},
+    headerStyle: {backgroundColor: colors.HOMESCREENLIGHTBLUE, height: 52, elevation: 0},
     headerTitle: "Member Profile",
-    headerTitleStyle: {color: colors.LIGHTERBLUE, fontWeight: "100"}
+    headerTitleStyle: {color: colors.WHITE, fontWeight: "100"},
+    headerTintColor: colors.WHITE
   }
 
   state = {
@@ -33,15 +33,16 @@ export default class MemberPr extends Component{
   }
 
   componentDidMount(){
-    MemberModelManage.getInstance().getMember((memberModela) => {
+    let model = this.props.navigation.getParam("model", null);
+    if (model){
       this.setState(
         {
-          memberModel: memberModela,
+          memberModel: model,
           isMemberReady: true,
-          itemAll: Object.keys(memberModela.item).length
+          itemAll: Object.keys(model.item).length
         }
       )
-      for (let itemDescri of Object.keys(memberModela.item)) {
+      for (let itemDescri of Object.keys(model.item)) {
         ItemModelManage.getInstance().getItem((itemModelb) => {
           this.state.profileMemberArtefactItem.push(itemModelb)
           this.setState(
@@ -51,7 +52,27 @@ export default class MemberPr extends Component{
           )
         }, memberModela.item[itemDescri])
       }
-    }, "member_1");
+    }else{
+      MemberModelManage.getInstance().getMember((memberModela) => {
+        this.setState(
+          {
+            memberModel: memberModela,
+            isMemberReady: true,
+            itemAll: Object.keys(memberModela.item).length
+          }
+        )
+        for (let itemDescri of Object.keys(memberModela.item)) {
+          ItemModelManage.getInstance().getItem((itemModelb) => {
+            this.state.profileMemberArtefactItem.push(itemModelb)
+            this.setState(
+              {
+                itemHas: this.state.itemHas + 1
+              }
+            )
+          }, memberModela.item[itemDescri])
+        }
+      }, "member_1");
+    }
 
 
   }
@@ -140,7 +161,7 @@ export default class MemberPr extends Component{
                 inactiveSlideScale={0.85}
                 containerCustomStyle={{overflow: "visible", width: "100%"}}
                 contentContainerCustomStyle={{alignItems: "center", flexDirection: "column"}}
-                slideStyle={{width: "92%", elevation: 16, borderRadius: 6}}
+                slideStyle={{width: "87%", elevation: 5, borderRadius: 6}}
                 
                 
               />: <View></View>
@@ -149,6 +170,13 @@ export default class MemberPr extends Component{
               this.state.itemAll == 0? <Text>Nope</Text>:[]
             }
           </View>
+        </View>
+
+        <View style={{height: 72, width: 72, borderRadius: 36, position: "absolute", bottom: 32, right: 23, zIndex:5, backgroundColor: colors.HOMESCREENLIGHTBLUE, elevation: 7, justifyContent: "center", alignItems:"center"}}>
+          <TouchableNativeFeedback style={{height: 72, width: 72, borderRadius: 36, justifyContent: "center", alignItems:"center"}} background={TouchableNativeFeedback.Ripple(colors.WHITE, true)}>
+            <Icon name="add" size={32} color={colors.WHITE} />
+          </TouchableNativeFeedback>
+
         </View>
 
       </View>
@@ -171,7 +199,6 @@ const styles = StyleSheet.create({
     flexDirection: "column"
   },
   artCard: {
-    width: 380,
     height: 350,
     borderRadius: 6
   }
