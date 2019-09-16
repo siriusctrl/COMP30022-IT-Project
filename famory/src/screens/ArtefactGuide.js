@@ -57,7 +57,8 @@ export default class ArtefactGuide extends Component{
     
   }
 
-  // for change the state, back == true then back
+  // for change the state,
+  // back == true then back
   _changeStage(back){
     let now = "next";
     if (back) {
@@ -81,12 +82,12 @@ export default class ArtefactGuide extends Component{
   }
 
 
-  // after finish
+  // after finish, just fill this.FINISH to the "next" stage
   _finish = (purpose) => {
     alert("finished" + purpose);
   }
 
-  // change text, give a object and the update specific 
+  // change text, give a object and the update specific text
   _changeText = (te) => {
     this.setState(
       {
