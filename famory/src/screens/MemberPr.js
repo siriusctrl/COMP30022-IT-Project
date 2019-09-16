@@ -12,16 +12,18 @@ import { TouchableNativeFeedback, TouchableHighlight } from "react-native-gestur
 
 import Carousel from "react-native-snap-carousel";
 
+import getInputRangeFromIndexes from "react-native-snap-carousel";
+
 const getAssetImagePath = (imagePh) => {
   return ("../assets/images/" + imagePh);
 };
 
 export default class MemberPr extends Component{
   static navigationOptions = {
-    headerStyle: {backgroundColor: colors.HOMESCREENLIGHTBLUE, height: 52, elevation: 0},
+    headerStyle: {backgroundColor: "rgba(106, 84, 166, 0)", height: 52, elevation: 0, zIndex: 2},
     headerTitle: "Member Profile",
-    headerTitleStyle: {color: colors.WHITE, fontWeight: "100"},
-    headerTintColor: colors.WHITE
+    headerTitleStyle: {color:colors.LIGHTERBLUE, fontWeight: "100"},
+    headerTintColor: colors.LIGHTERBLUE
   }
 
   state = {
@@ -108,7 +110,7 @@ export default class MemberPr extends Component{
                       <Image source={require("../assets/images/" + "dark.png")} style={{width: 68, height: 68, borderRadius: 34}}></Image>
                     </View>
                     <View style={{flex: 7, paddingLeft: 12, flexDirection: "column", marginTop: 6}}>
-                      <Text style={{marginTop: 6, fontSize: 26, color: colors.WHITE, marginLeft: 2}}>{this.state.memberModel.firstName + " " + this.state.memberModel.lastName}</Text>
+                      <Text style={{marginTop: 6, fontSize: 26, color: colors.HOMESCREENLIGHTBLUE, marginLeft: 2}}>{this.state.memberModel.firstName + " " + this.state.memberModel.lastName}</Text>
                       <View style={{flexDirection: "row", alignItems: "flex-start", marginTop: 3}}>
                         <View style={{backgroundColor: colors.LIGHTBLUE, height: 22, borderRadius: 11, paddingLeft: 8, paddingRight: 8, marginRight: 6}}>
                           <Text style={{fontSize: 13, color: colors.WHITE, marginTop: 2}}>{this.state.memberModel.gender}</Text>
@@ -145,7 +147,7 @@ export default class MemberPr extends Component{
         
 
         <View style={{justifyContent: "center", alignItems: "center", zIndex: 1}}>
-          <View style={{justifyContent: "center", alignItems: "center", width: "100%", overflow: "visible", minHeight: 480, paddingTop: 65}}>
+          <View style={{justifyContent: "center", alignItems: "center", width: "100%", overflow: "visible", minHeight: 480, paddingTop: 38}}>
             {this.state.itemAll == this.state.itemHas? 
               <Carousel
                 ref={(c) => { this._carousel = c; }}
@@ -155,8 +157,56 @@ export default class MemberPr extends Component{
                 itemHeight={350}
                 vertical={true}
                 layout={"stack"}
+
                 
-                layoutCardOffset={`52`}
+
+                slideInterpolatedStyle={(index, animatedValue, carouselProps) => {
+                  const sizeRef = carouselProps.vertical ? carouselProps.itemHeight : carouselProps.itemWidth;
+                  const translateProp = carouselProps.vertical ? 'translateY' : 'translateX';
+                  return (
+                    {
+                      // zIndex: carouselProps.data.length - index,
+                      opacity: animatedValue.interpolate({
+                          inputRange: [-3, -2, -1, 0, 1, 2],
+                          outputRange: [0.1, 0.5, 0.8, 1, 0.3, 0]
+                      }),
+                      transform: [
+                        {rotate: animatedValue.interpolate({
+                          inputRange: [-2, -1, 0, 1],
+                          outputRange: ["-2deg","3deg", "0deg", "-5deg"],
+                          extrapolate: 'clamp'
+                        })},{
+                          [translateProp]: animatedValue.interpolate({
+                              inputRange: [-3, -2, -1, 0, 1],
+                              outputRange: [
+                                  sizeRef * 3,
+                                  sizeRef * 1.8,
+                                  sizeRef * 0.9,
+                                  0,
+                                  -sizeRef*0.0000003,
+                              ],
+                              extrapolate: 'clamp'
+                          }),
+                          
+                        },
+                        {["translateX"]: animatedValue.interpolate({
+                              inputRange: [-2, -1, 0, 1],
+                              outputRange: [
+                                  -36,
+                                  7,
+                                  0,
+                                  -sizeRef * 0.01,
+                              ],
+                              extrapolate: 'clamp'
+                          })
+                      }
+                      ]
+                    }
+                  )
+                }}
+                
+                
+                layoutCardOffset={`18`}
                 firstItem={this.state.profileMemberArtefactItem.length - 1}
                 inactiveSlideScale={0.85}
                 containerCustomStyle={{overflow: "visible", width: "100%"}}
@@ -191,7 +241,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   tContainer: {
-    backgroundColor: colors.HOMESCREENLIGHTBLUE,
+    backgroundColor: "rgba(106, 84, 166, 0)",
     width: "100%",
     height: 104,
     zIndex: 2,
@@ -201,5 +251,11 @@ const styles = StyleSheet.create({
   artCard: {
     height: 350,
     borderRadius: 6
+  },
+  artContainer: {
+    transform: [
+      { rotateZ: '45deg' }
+    ]
   }
+
 });

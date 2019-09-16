@@ -12,8 +12,20 @@ const getAssetImagePath = (imagePh) => {
 };
 
 export default class ArtCard extends Component{
+
   static navigationOptions = {
     header: null
+  }
+
+  _renderContent(type, content){
+
+    alert(content)
+
+    if (type == "image"){
+      return (<Image source={{uri: content}} style={{flex: 1}}/>)
+    }else{
+      return
+    }
   }
 
   height = 350;
@@ -32,7 +44,8 @@ export default class ArtCard extends Component{
     return (
       <View style={{backgroundColor: backgroundColorArtefact[item["type"]][0], flexDirection: "column", overflow: "hidden", minHeight: 350, ... this.props.style, borderRadius: 0, borderWidth: 17, borderBottomWidth: 0, borderColor: colors.WHITE}}>
         <View style={{flex: 4}}>
-
+          
+          {this._renderContent(item["type"], item["content"])}
         </View>
         <View style={{width: "100%", backgroundColor: colors.WHITE, flex: 1, justifyContent: "center", alignItems: "center"}}>
           <Text style={{color: backgroundColorArtefact[item["type"]][1], fontSize: 23}}>{item["name"]}</Text>
