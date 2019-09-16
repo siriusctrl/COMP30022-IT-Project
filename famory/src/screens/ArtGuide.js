@@ -121,7 +121,7 @@ export default class ArtGuide extends Component{
       
 
     ].reverse(),
-    currentStage: "addArtefactMemberIn",
+    currentStage: "addArtefactInitial",
     currentPurpose: "addArtefact",
     memberName: "",
     gender: "",
@@ -153,13 +153,7 @@ export default class ArtGuide extends Component{
     "memberAddFamily": "Nizaari"
   }
 
-  purpose = {
-    addMember: "addMember",
-    addArtefact: "addArtefact"
-  }
-
   initialStage = {
-    addMember: "addMemberInitial",
     addArtefact: "addArtefactInitial"
   }
 
@@ -173,114 +167,7 @@ export default class ArtGuide extends Component{
   )
 
   stages = {
-    "addMemberInitial": {
-      "title": "Add a member to your family",
-      "view": [
-        <View style={{flex: 4, flexDirection: "column", paddingTop: 75}}>
-          <View style={{paddingHorizontal: 26, flex: 6, paddingLeft: 27}}>
-            <Text style={{fontSize: 18}}>You're adding a member for</Text>
-            <Text style={{fontSize: 18, color: colors.ORANGE}}>{this.par.memberAddFamily}'s family</Text>
-          </View>
-          <View style={{... guideStyle.bottomButtonCn, justifyContent: "flex-end"}}>
-            <TouchableNativeFeedback background={TouchableNativeFeedback.Ripple(colors.MISCHKA, true)} onPress={() => {
-              alert("cao");
-              this._changeStage(false);
-            }}>
-              <Text style={{height: 42, width: 82, textAlign: "center", textAlignVertical: "center", color: colors.DODGER_BLUE, fontSize: 16}}>NEXT</Text>
-            </TouchableNativeFeedback>
-          </View>
-        </View>
-      ],
-      "next": {
-        "addMember": "addMemberNameAndGender"
-      }
-    },
-    "addMemberNameAndGender": {
-      "title": "What's the Name and Gender?",
-      "view": [
-        <View style={{flex: 4, flexDirection: "column", paddingTop: 69}}>
-          <View style={{paddingHorizontal: 26, flex: 6, paddingLeft: 27}}>
-            <Text style={{fontSize: 18, width: "87%"}}>Write the name without the family name</Text>
-            <TextInput placeholder={"Name"} underlineColorAndroid={colors.SILVER} onChangeText={
-              (member) => {this._changeText({memberName: member})}
-            }
-             style={{width: "87%", height: 32, fontSize: 18, marginTop: 23, lineHeight: 26}} />
-             <Text style={{fontSize: 18, marginTop: 38, width: "87%"}}>We support any gender you like</Text>
-             <TextInput placeholder={"Gender"} underlineColorAndroid={colors.SILVER} onChangeText={
-              (gr) => {this._changeText({gender: gr})}
-            }
-             style={{width: "87%", height: 32, fontSize: 18,  marginTop: 23, lineHeight: 26}} />
-          </View>
-          <View style={guideStyle.bottomButtonCn}>
-            <TouchableNativeFeedback background={TouchableNativeFeedback.Ripple(colors.MISCHKA, true)} onPress={() => this._changeStage(true)}>
-              <Text style={guideStyle.bottomButton}>BACK</Text>
-            </TouchableNativeFeedback>
-            <TouchableNativeFeedback background={TouchableNativeFeedback.Ripple(colors.MISCHKA, true)} onPress={() => this._changeStage(false)}>
-              <Text style={guideStyle.bottomButton}>NEXT</Text>
-            </TouchableNativeFeedback>
-          </View>
-        </View>
-      ],
-      "next": {
-        "addMember": "addMemberRole",
-      },
-      "back": {
-        "addMember": "addMemberInitial",
-      }
-
-    },
-    "addMemberRole": {
-      "title": "What's the Role?",
-      "view": [
-        <View style={{flex: 4, flexDirection: "column", paddingTop: 69}}>
-          <View style={{paddingHorizontal: 29, flex: 6, paddingLeft: 32}}>
-           <Text style={{fontSize: 18, width: "87%"}}>The role</Text>
-            <TextInput placeholder={"Role"} underlineColorAndroid={colors.SILVER} onChangeText={
-              (rl) => {this._changeText({role: rl})}
-            }
-             style={{width: "87%", height: 32, fontSize: 18, marginTop: 21, lineHeight: 26}} />
-          </View>
-          <View style={guideStyle.bottomButtonCn}>
-            <TouchableNativeFeedback background={TouchableNativeFeedback.Ripple(colors.MISCHKA, true)} onPress={() => this._changeStage(true)}>
-              <Text style={guideStyle.bottomButton}>BACK</Text>
-            </TouchableNativeFeedback>
-            <TouchableNativeFeedback background={TouchableNativeFeedback.Ripple(colors.MISCHKA, true)} onPress={() => this._changeStage(false)}>
-              <Text style={guideStyle.bottomButton}>NEXT</Text>
-            </TouchableNativeFeedback>
-          </View>
-        </View>
-      ],
-      "next": {
-        "addMember": "addMemberAvatar",
-      },
-      "back": {
-        "addMember": "addMemberNameAndGender",
-      }
-    },
-    "addMemberAvatar": {
-      "title": "How does the member look like?",
-      "view": [
-        <View style={{flex: 4, flexDirection: "column", paddingTop: 69}}>
-          <View style={{paddingHorizontal: 29, flex: 6, paddingLeft: 32}}>
-           <Text style={{fontSize: 18, width: "87%"}}>The role</Text>
-          </View>
-          <View style={guideStyle.bottomButtonCn}>
-            <TouchableNativeFeedback background={TouchableNativeFeedback.Ripple(colors.MISCHKA, true)} onPress={() => this._changeStage(true)}>
-              <Text style={guideStyle.bottomButton}>BACK</Text>
-            </TouchableNativeFeedback>
-            <TouchableNativeFeedback background={TouchableNativeFeedback.Ripple(colors.MISCHKA, true)} onPress={() => this._changeStage(false)}>
-              <Text style={guideStyle.bottomButton}>FINISH</Text>
-            </TouchableNativeFeedback>
-          </View>
-        </View>
-      ],
-      "next": {
-        "addMember": FINISH,
-      },
-      "back": {
-        "addMember": "addMemberRole",
-      }
-    },
+    
     "addArtefactInitial": {
       "title": "Adding artefact",
       "view": [
@@ -312,7 +199,7 @@ export default class ArtGuide extends Component{
       },
     },
     "addArtefactMemberIn": {
-      "title": "Is this from other member?",
+      "title": "Choose the member",
       "view": [
         <View style={{flex: 4, flexDirection: "column", paddingTop: 36}}>
           <View style={{paddingHorizontal: 29, flex: 6, justifyContent: "flex-start"}}>
@@ -448,10 +335,6 @@ export default class ArtGuide extends Component{
     );
 
   }
-
-  _renderArtefactListItem = ({ item }) => (
-    <Text>caoni</Text>
-  )
 
   render(){
     return(

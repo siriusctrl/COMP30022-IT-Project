@@ -30,25 +30,13 @@ export default class ArtCard extends Component{
     let numberOfLines = this.props.numberOfLines ? this.props.numberOfLines : 9;
 
     return (
-      <View style={{backgroundColor: backgroundColorArtefact[item["type"]][0], flexDirection: "column", overflow: "hidden", minHeight: 350, ... this.props.style, borderRadius: 0, borderWidth: 17, borderColor: colors.WHITE}}>
-        <View style={{width: "100%", padding: 16, paddingTop: 22, flexDirection: "row", backgroundColor: backgroundColorArtefact[item["type"]][3]}}>
-          <View style={{flex: 1, paddingTop: 3}}>
-            <Icon name={backgroundColorArtefact[item["type"]][4]} color={backgroundColorArtefact[item["type"]][2]} size={32}/>
-          </View>
-          <View style={{flex: 8, paddingLeft: 12, paddingRight: 12}}>
-            <Text style={{fontSize: 22, marginTop: 3, color: backgroundColorArtefact[item["type"]][2]}}>{item["name"]}</Text>
-            <Text style={{fontSize: 16, color: backgroundColorArtefact[item["type"]][2]}} >{item["description"]}</Text>
-          </View>
+      <View style={{backgroundColor: backgroundColorArtefact[item["type"]][0], flexDirection: "column", overflow: "hidden", minHeight: 350, ... this.props.style, borderRadius: 0, borderWidth: 17, borderBottomWidth: 0, borderColor: colors.WHITE}}>
+        <View style={{flex: 4}}>
+
         </View>
-        <View style={{width: "100%", padding: 16, flexDirection: "row"}}>
-            <View style={{flex: 1}}>
-            </View>
-            <View style={{flex: 8, paddingLeft: 12, paddingRight: 12}}>
-            {numberOfLines == -1 ? 
-              <Text style={{fontSize: 14, color: backgroundColorArtefact[item["type"]][1], marginTop: 17, width: "100%", overflow: "hidden"}}>{item["content"]}</Text>:
-              <Text style={{fontSize: 14, color: backgroundColorArtefact[item["type"]][1], marginTop: 17, width: "100%", overflow: "hidden"}} numberOfLines={numberOfLines}>{item["content"]}</Text>}
-              
-            </View>
+        <View style={{width: "100%", backgroundColor: colors.WHITE, flex: 1, justifyContent: "center", alignItems: "center"}}>
+          <Text style={{color: backgroundColorArtefact[item["type"]][1], fontSize: 23}}>{item["name"]}</Text>
+          <Text style={{color: backgroundColorArtefact[item["type"]][1]}}>{item["description"]}</Text>
         </View>
       </View>
     )
