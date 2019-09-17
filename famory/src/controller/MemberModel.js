@@ -1,14 +1,15 @@
 import firebase from "firebase";
 import firebaseContainer from "./firebaseConfig";
+import ItemModelManage from "./ItemModel"
 
-export class MemberModelManage{
+export class itemModelManage{
   static _managePart = null
   _path = "FamilyMember"
 
   static getInstance(){
     firebaseContainer.getInstance().justStart();
     if(this._managePart == null){
-      this._managePart = new MemberModelManage();
+      this._managePart = new itemModelManage();
     }
     return this._managePart;
   }
@@ -41,7 +42,7 @@ export class Member{
     this.lastName = snapshot["lastName"];
     this.profileImage = snapshot["profileImage"];
     this.ringColor = snapshot["ringColor"];
-    this.memberId = id;
+    this.itemsId = id;
     this._path = "FamilyMember" + "/" + id;
   }
 
@@ -59,12 +60,32 @@ export class Member{
     }
   }
 
+  items = {}
+
 
   updateFirstName = (newFirstName) => {
     firebaseContainer.getInstance().justStart();
     let MemberReference = firebase.database().ref(this._path + "/firstName");
     MemberReference.set(newFirstName);
   }
+
+  getItems(callback){
+    if(Object.keys(this.items).length != this.item.length){
+      for (let item of Object.keys(this.item)) {
+        ItemModelManage.getInstance().getItem((itemModel) => {
+          this.items[item] = itemModel
+          
+          if(Object.keys(this.items).length == Object.keys(this.item).length){
+            
+            callback(this.items)
+          }
+
+        }, this.item[item])
+      }
+    }else{
+      callback(this.items)
+    }
+  }
 }
 
-export default MemberModelManage;
+export default itemModelManage;

@@ -20,10 +20,9 @@ const getAssetImagePath = (imagePh) => {
 
 export default class MemberPr extends Component{
   static navigationOptions = {
-    headerStyle: {backgroundColor: "rgba(106, 84, 166, 0)", height: 52, elevation: 0, zIndex: 2},
-    headerTitle: "Member Profile",
+    headerStyle: {backgroundColor: "rgba(106, 84, 166, 0)", height: 38, elevation: 0, zIndex: 2},
     headerTitleStyle: {color:colors.LIGHTERBLUE, fontWeight: "100"},
-    headerTintColor: colors.LIGHTERBLUE
+    headerTintColor: colors.HOMESCREENLIGHTBLUE
   }
 
   state = {
@@ -55,7 +54,26 @@ export default class MemberPr extends Component{
         }, memberModela.item[itemDescri])
       }
     }else{
-      MemberModelManage.getInstance().getMember((memberModela) => {
+      FamilyAccountModelManage.getInstance().getFamilyAccount(
+        (m) => {
+          m.getMembers((o) => {
+            this.setState({isMemberReady: true, memberModel: o["member_1"]})
+            
+            this.state.itemAll = Object.keys(o["member_1"].item).length
+            o["member_1"].getItems((k) => {
+
+                this.setState(
+                  {
+                    profileMemberArtefactItem: Object.values(k),
+                    itemHas: Object.keys(k).length
+                  }
+                )
+              })
+
+          })
+        }
+      )
+      /*MemberModelManage.getInstance().getMember((memberModela) => {
         this.setState(
           {
             memberModel: memberModela,
@@ -73,7 +91,9 @@ export default class MemberPr extends Component{
             )
           }, memberModela.item[itemDescri])
         }
-      }, "member_1");
+      }, "member_1");*/
+
+
     }
 
 
@@ -102,7 +122,7 @@ export default class MemberPr extends Component{
       <View style={{flex:1}}>
         <View style={styles.tContainer}>
           <View style={{flex: 1, width: "100%", flexDirection: "row"}}>
-            <View style={{height: "100%", flex: 8, padding:12}}>
+            <View style={{height: "100%", flex: 8, padding:12, elevation: 6}}>
                 {
                   this.state.isMemberReady? 
                   <View style={{height: "100%", flex: 1, flexDirection: "row"}}>
@@ -168,22 +188,22 @@ export default class MemberPr extends Component{
                       // zIndex: carouselProps.data.length - index,
                       opacity: animatedValue.interpolate({
                           inputRange: [-3, -2, -1, 0, 1, 2],
-                          outputRange: [0.1, 0.5, 0.8, 1, 0.3, 0]
+                          outputRange: [0, 0.5, 0.8, 1, 0.3, 0]
                       }),
                       transform: [
                         {rotate: animatedValue.interpolate({
                           inputRange: [-2, -1, 0, 1],
-                          outputRange: ["-2deg","3deg", "0deg", "-5deg"],
+                          outputRange: ["2deg","-3deg", "0deg", "-5deg"],
                           extrapolate: 'clamp'
                         })},{
                           [translateProp]: animatedValue.interpolate({
                               inputRange: [-3, -2, -1, 0, 1],
                               outputRange: [
                                   sizeRef * 3,
-                                  sizeRef * 1.8,
+                                  sizeRef * 1.9,
                                   sizeRef * 0.9,
                                   0,
-                                  -sizeRef*0.0000003,
+                                  -sizeRef*0.000003,
                               ],
                               extrapolate: 'clamp'
                           }),
@@ -192,7 +212,7 @@ export default class MemberPr extends Component{
                         {["translateX"]: animatedValue.interpolate({
                               inputRange: [-2, -1, 0, 1],
                               outputRange: [
-                                  -36,
+                                  0,
                                   7,
                                   0,
                                   -sizeRef * 0.01,
@@ -206,7 +226,7 @@ export default class MemberPr extends Component{
                 }}
                 
                 
-                layoutCardOffset={`18`}
+                
                 firstItem={this.state.profileMemberArtefactItem.length - 1}
                 inactiveSlideScale={0.85}
                 containerCustomStyle={{overflow: "visible", width: "100%"}}
@@ -223,7 +243,7 @@ export default class MemberPr extends Component{
         </View>
 
         <View style={{height: 72, width: 72, borderRadius: 36, position: "absolute", bottom: 32, right: 23, zIndex:5, backgroundColor: colors.HOMESCREENLIGHTBLUE, elevation: 7, justifyContent: "center", alignItems:"center"}}>
-          <TouchableNativeFeedback style={{height: 72, width: 72, borderRadius: 36, justifyContent: "center", alignItems:"center"}} background={TouchableNativeFeedback.Ripple(colors.WHITE, true)}>
+          <TouchableNativeFeedback style={{height: 72, width: 72, borderRadius: 36, justifyContent: "center", alignItems:"center"}} background={TouchableNativeFeedback.Ripple(colors.WHITE, true)} onPress={() => {alert(this.state.itemAll == this.state.itemHas)}}>
             <Icon name="add" size={32} color={colors.WHITE} />
           </TouchableNativeFeedback>
 
