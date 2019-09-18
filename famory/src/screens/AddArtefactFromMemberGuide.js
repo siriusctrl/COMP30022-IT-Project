@@ -305,17 +305,17 @@ export default class ArtGuide extends Component{
     }
 
     // get next stage that needs to be shown up
-    ge = this.stages[this.state.currentStage][now][this.state.currentPurpose]
+    nextStage = this.stages[this.state.currentStage][now][this.state.currentPurpose]
 
     // if not finish then change stage
-    if(ge && ge != FINISH){
+    if(nextStage && nextStage != FINISH){
         this.setState(
           {
             ... this.state,
-            currentStage: ge,
+            currentStage: nextStage,
           }
         );
-    }else if(ge == FINISH){
+    }else if(nextStage == FINISH){
       //else then do something after
       this._finish(this.state.currentPurpose);
     }else{
@@ -343,12 +343,12 @@ export default class ArtGuide extends Component{
     return(
       <View style={{flexDirection: "column", flex: 1}}>
 
-        <View style={{paddingTop: 26, paddingHorizontal: 26, flex: 1, justifyContent: "flex-start", alignItems: "center", flexDirection: "row"}}>
+        <View style={guideStyle.guideNavigationBox}>
           <Icon name='clear' />
         </View>
         <View style={{flex: 8, width: "100%", flexDirection: "column", paddingLeft: 2}}>
-          <View style={{paddingHorizontal: 28, flex: 1, flexDirection:"column", justifyConytent: "flex-end", alignItems: "flex-start", paddingBottom: 16}}>
-            <Text style={{flex: 1, width: "85%", textAlignVertical: "bottom", fontSize: 32, color: colors.HOMESCREENLIGHTBLUE}}>
+          <View style={guideStyle.titleContainer}>
+            <Text style={guideStyle.bigTitle}>
               {this.stages[this.state.currentStage]["title"]}
             </Text>
           </View>
@@ -378,7 +378,15 @@ const guideStyle = StyleSheet.create(
       flexDirection: "row", 
       justifyContent: "space-between", 
       alignItems: "center"
-    }
+    },
+    bigTitle: 
+      {flex: 1, width: "85%", textAlignVertical: "bottom", fontSize: 32, color: colors.HOMESCREENLIGHTBLUE},
+    titleContainer: 
+      {paddingHorizontal: 28, flex: 1, flexDirection:"column", justifyConytent: "flex-end", alignItems: "flex-start", paddingBottom: 16},
+    guideNavigationBox: 
+      {paddingTop: 26, paddingHorizontal: 26, flex: 1, justifyContent: "flex-start", alignItems: "center", flexDirection: "row"}
+
+    
   }
 )
 
