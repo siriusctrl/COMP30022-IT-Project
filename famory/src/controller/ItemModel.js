@@ -29,13 +29,13 @@ export class ItemModelManage{
   // get a item using its description store in member
   // cb is callback function that is called after getting the item
   // cb should take a itemModel
-  getItem(cb, memberDescri){
+  getItem(callback, memberDescri){
     let returned = {}
     let memberRef = firebase.database().ref(this._path + "/" + this.type[memberDescri["type"]] + "/" + memberDescri["id"]);
     memberRef.once("value").then((snapshota) => {
       snapshot = snapshota.val();
       let member = new Item(snapshot, memberDescri["type"], memberDescri["id"]);
-      cb(member);
+      callback(member);
 
     })
   }

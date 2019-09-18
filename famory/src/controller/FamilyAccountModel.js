@@ -22,7 +22,7 @@ export class FamilyAccountModelManage{
 
   // get family account
   // cb is the callback when get the data, takes a familyAccountModel
-  getFamilyAccount(cb){
+  getFamilyAccount(callback){
     let returned = {}
     let familyAccountRef = firebase.database().ref(this._path);
     familyAccountRef.once("value").then((snapshota) => {
@@ -30,7 +30,7 @@ export class FamilyAccountModelManage{
       snapshot = snapshota.val();
       let familyAccoun = new FamilyAccount(snapshot);
 
-      cb(familyAccoun);
+      callback(familyAccoun);
 
     });
   }
