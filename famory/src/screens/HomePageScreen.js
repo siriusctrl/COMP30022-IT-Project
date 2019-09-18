@@ -21,7 +21,8 @@ export default class HomePageScreen extends Component{
     visibleModal: false,
     mode: "view",
     familyAccount: null,
-    memberModel: [{id:1, empty:true, gen:" "},],
+    avatars: [{id:1, empty:true, gen:" "},],
+    memberModel: {},
     memberRdy : false,
     familyName: "Family Tag",
   };
@@ -47,24 +48,25 @@ export default class HomePageScreen extends Component{
   getMembers = () => {
     FamilyAccountModelManage.getInstance().getFamilyAccount((familyAccount) => {
       this.setState({familyAccount: familyAccount});
+      this.setState({familyName: familyAccount.name + "'s Family"});
 
       for(i of Object.values(this.state.familyAccount.familyMember)){
         // alert(i);
-        MemberModelManage.getInstance().getMember((member) => {
-          // NOTE : it might be necessary to handle the case where flatlist goes out side of the screen
-          while (this.state.memberModel.length <= member.generation){              
-            this.state.memberModel.push({});
-          }
-          
-          temp = this.state.memberModel[member.generation];
-          temp.id==null?temp.id=[i]:temp.id.push(i);
-          temp.img==null?temp.img=[member.profileImage]:temp.img.push(member.profileImage);
-          temp.boarderColor==null?temp.boarderColor = [member.ringColor]:temp.boarderColor.push(member.ringColor);
-          temp.gen = "GEN " + member.generation;
+        ((k) => {
+          return MemberModelManage.getInstance().getMember((member) => {
+            while (this.state.avatars.length <= member.generation){              
+              this.state.avatars.push({});
+            }
 
-          this.setState({memberRdy:true});
-          // alert(this.state.memberModel[1].img[0]);
-        }, i);
+            temp = this.state.avatars[member.generation];
+            temp.gen = "GEN " + member.generation;
+            // add member objects to each columns
+            temp.members == null ? temp.members = [member] : temp.members.push(member);
+  
+            this.setState({memberRdy:true});
+            // console.log(this.state.avatars);
+          }, k);
+        })(i);
       }
     });
   }
@@ -72,20 +74,6 @@ export default class HomePageScreen extends Component{
   // the function will be load here
   _loadMembers = () => {
     this.getMembers();
-
-    return (
-      [
-        {empty:true, gen:" "},
-        {img:[cxk_new, cxk_new, cxk_new, cxk_new, cxk_new], boarderColor:[colors.DODGER_BLUE, colors.ORANGE, colors.SILVER, colors.WHITE, colors.BLACK], gen:"GEN 1"},
-        {img:[cxk_new], boarderColor:[], gen:"GEN 2"},
-        {img:[cxk_new], boarderColor:[], gen:"GEN 3"},
-        // {name:["Pending4"], img:[cxk], gen:"GEN 4"},
-        // {name:["Pending5"], img:[cxk], gen:"GEN 5"},
-        // {name:["Pending6"], img:[cxk], gen:"GEN 6"},
-        // {name:["Pending7"], img:[cxk], gen:"GEN 7"},
-        // {name:["Pending8"], img:[cxk], gen:"GEN 8"},
-      ]
-    );
   }
 
   // Item separator
@@ -102,16 +90,15 @@ export default class HomePageScreen extends Component{
    */
   avatarConstructor = (item) => {
     let jsx = [];
-
-    for (index in item.img) {
-      // alert("constructor: " + item.boarderColor[index]);
+    console.log(" ----------------------\n");
+    for (m of item.members) {
       jsx.push(
         <View style={{marginRight: 11, marginBottom: 16}}>
           <ImageButton
             name={" "}
-            imageSource={{uri:item.img[index]}}
-            onPressHandler={() => {this._handleAvatarPressed(item.id[index])}}
-            boarderColor={item.boarderColor[index]}
+            imageSource={{uri:m.profileImage}}
+            onPressHandler={((id, member) => () => {this._handleAvatarPressed(id, member)})(m.memberId, m)}
+            boarderColor={m.ringColor}
           />
         </View>
       );
@@ -137,7 +124,7 @@ export default class HomePageScreen extends Component{
 
   // a render function to render each column in FlatList based on the current state
   _renderItem = ({item}) => {
-    if (item.img){
+    if (item.members){
       return (
         <View style={styles.flatListContainer}>
           <View style={{flex: 1}}>
@@ -198,7 +185,7 @@ export default class HomePageScreen extends Component{
   }
 
   _handleAccountPress = () => {
-    this.props.navigation.navigate("AccountHold");
+    this.props.navigation.navigate("AccountHoldScreen");
   }
 
   _handleEditPress = () => {
@@ -211,8 +198,11 @@ export default class HomePageScreen extends Component{
     }
   }
 
-  _handleAvatarPressed = (id) => {
-    alert("The id is: " + id);
+  _handleAvatarPressed = (id, member) => {
+    alert(member.memberId);
+    this.props.navigation.navigate('MemberPr', {
+      model: member
+    });
   }
 
   // the entire JSX to render the whole screen
@@ -223,7 +213,7 @@ export default class HomePageScreen extends Component{
         <View>
           <FlatList 
             //data={this.avatar}
-            data={this.state.memberModel}
+            data={this.state.avatars}
             extraData={this.state}
             renderItem={this._renderItem}
             ItemSeparatorComponent={this.FlatListItemSeparator}
