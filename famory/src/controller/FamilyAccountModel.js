@@ -4,11 +4,14 @@ import ItemModelManage from "./ItemModel";
 
 import MemberModelManage from "./MemberModel";
 
+// manage class
+// singleton, call getInstance() to get an instace
 export class FamilyAccountModelManage{
 
   static _managePart = null
   _path = "FamilyAccount"
 
+  // get instance
   static getInstance(){
     firebaseContainer.getInstance().justStart();
     if(this._managePart == null){
@@ -17,7 +20,8 @@ export class FamilyAccountModelManage{
     return this._managePart;
   }
 
-  // cb is the callback when get the data
+  // get family account
+  // cb is the callback when get the data, takes a familyAccountModel
   getFamilyAccount(cb){
     let returned = {}
     let familyAccountRef = firebase.database().ref(this._path);
@@ -35,13 +39,11 @@ export class FamilyAccountModelManage{
   setFamilyAccount(familyName){
     
   }
-
-  _getFamilyId(promiseParent, promiseString){
-    return promiseString.slice((promiseParent.length + 1), promiseString.length)
-  }
 }
 
 
+// family account model
+// contains information for family account and the function to modify
 export class FamilyAccount{
 
   avatar = "-1";
@@ -61,6 +63,7 @@ export class FamilyAccount{
 
   member = {}
 
+  // to normal javascript object with only information
   toObject(){
     return {
       achievement: this.achievement,
@@ -72,6 +75,10 @@ export class FamilyAccount{
     }
   }
 
+
+  // get all members
+  // callback is called after getting them
+  // callback should be a function that takes a list of memberModel
   getMembers(callback){
     if(Object.keys(this.member).length != this.familyMember.length){
       for (let member of Object.keys(this.familyMember)) {
@@ -90,23 +97,12 @@ export class FamilyAccount{
     }
   }
 
+  // del member
   delMember(memberId){
     if(this.member[memberId]){
       
     }
   }
-
-  isValid(){
-    return this.email != "";
-  }
-
-  delMember(memberId){
-    
-  }
-
-  
-
-
 }
 
 

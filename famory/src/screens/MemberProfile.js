@@ -1,41 +1,39 @@
 import React, {Component} from "react";
-import { Text, Image, StyleSheet, View , Alert, KeyboardAvoidingView, ImageBackground} from "react-native";
+import { Text, Image, StyleSheet, View} from "react-native";
 import colors from "../config/colors";
-import firebaseContainer from "../controller/firebaseConfig";
 import FamilyAccountModelManage from "../controller/FamilyAccountModel";
 import { Icon } from 'react-native-elements';
-import MemberModelManage from "../controller/MemberModel";
-import ItemModelManage from "../controller/ItemModel";
-
 import ArtCard from "../components/ArtCard";
-import { TouchableNativeFeedback, TouchableHighlight } from "react-native-gesture-handler";
-
+import { TouchableNativeFeedback } from "react-native-gesture-handler";
 import Carousel from "react-native-snap-carousel";
 
-import getInputRangeFromIndexes from "react-native-snap-carousel";
 
-const getAssetImagePath = (imagePh) => {
-  return ("../assets/images/" + imagePh);
-};
 
 export default class MemberPr extends Component{
   static navigationOptions = {
-    headerStyle: {backgroundColor: "rgba(106, 84, 166, 0)", height: 38, elevation: 0, zIndex: 2},
+    headerStyle: {
+      backgroundColor: "rgba(106, 84, 166, 0)", 
+      height: 38, 
+      elevation: 0, 
+      zIndex: 2
+    },
     headerTitleStyle: {color:colors.LIGHTERBLUE, fontWeight: "100"},
     headerTintColor: colors.HOMESCREENLIGHTBLUE
   }
 
   state = {
-    profileMemberArtefactItem: [
-    
-    ].reverse(),
+    profileMemberArtefactItem: [],
     itemAll: -1,
     itemHas: 0
   }
 
   componentDidMount(){
+
+    // check if now has a model passed in
     let model = this.props.navigation.getParam("model", null);
     if (model){
+
+      // if has then use that model and get all its items
       this.setState(
         {
           memberModel: model,
@@ -43,25 +41,22 @@ export default class MemberPr extends Component{
           itemAll: Object.keys(model.item).length
         }
       )
-      for (let itemDescri of Object.keys(model.item)) {
-        ItemModelManage.getInstance().getItem((itemModelb) => {
-          this.state.profileMemberArtefactItem.push(itemModelb)
-          this.setState(
-            {
-              itemHas: this.state.itemHas + 1
-            }
-          )
-        }, memberModela.item[itemDescri])
-      }
+      model.getItems((k) => {
+        this.setState(
+          {
+            profileMemberArtefactItem: Object.values(k),
+            itemHas: Object.keys(k).length
+          })
+      })
     }else{
+
+      // use the default member_1 to get members
       FamilyAccountModelManage.getInstance().getFamilyAccount(
         (m) => {
           m.getMembers((o) => {
             this.setState({isMemberReady: true, memberModel: o["member_1"]})
-            
             this.state.itemAll = Object.keys(o["member_1"].item).length
             o["member_1"].getItems((k) => {
-
                 this.setState(
                   {
                     profileMemberArtefactItem: Object.values(k),
@@ -69,52 +64,29 @@ export default class MemberPr extends Component{
                   }
                 )
               })
-
           })
         }
       )
-      /*MemberModelManage.getInstance().getMember((memberModela) => {
-        this.setState(
-          {
-            memberModel: memberModela,
-            isMemberReady: true,
-            itemAll: Object.keys(memberModela.item).length
-          }
-        )
-        for (let itemDescri of Object.keys(memberModela.item)) {
-          ItemModelManage.getInstance().getItem((itemModelb) => {
-            this.state.profileMemberArtefactItem.push(itemModelb)
-            this.setState(
-              {
-                itemHas: this.state.itemHas + 1
-              }
-            )
-          }, memberModela.item[itemDescri])
-        }
-      }, "member_1");*/
-
-
     }
-
-
   }
 
+  // render a artefact card in screen
   _renderRow = ({item, index}) => {
-
-    let total = this.state.profileMemberArtefactItem.length;
-
     return (
-      <TouchableNativeFeedback style={{... styles.artCard, zIndex: total - index}} background={TouchableNativeFeedback.Ripple(colors.WHITE,false)} onPress={() => this.toItem(item)}>
+      <TouchableNativeFeedback 
+          style={{... styles.artCard}} 
+          background={TouchableNativeFeedback.Ripple(colors.WHITE,false)} 
+          onPress={() => this.toItem(item)}>
         <ArtCard item={item} style={styles.artCard}/>
       </TouchableNativeFeedback>
     )
   }
 
+  // to artefact detail page's function
   toItem(item){
     this.props.navigation.navigate("ArtefactItem", {item: item})
   }
 
-  //eovniesbl 
 
   render() {
 
@@ -127,19 +99,28 @@ export default class MemberPr extends Component{
                   this.state.isMemberReady? 
                   <View style={{height: "100%", flex: 1, flexDirection: "row"}}>
                     <View style={{flex: 2, overflow: "hidden", justifyContent: "center", alignItems: "center"}}>
-                      <Image source={require("../assets/images/" + "dark.png")} style={{width: 68, height: 68, borderRadius: 34}}></Image>
+                      <Image source={require("../assets/images/" + "dark.png")} 
+                            style={{width: 68, height: 68, borderRadius: 34}}></Image>
                     </View>
                     <View style={{flex: 7, paddingLeft: 12, flexDirection: "column", marginTop: 6}}>
-                      <Text style={{marginTop: 6, fontSize: 26, color: colors.HOMESCREENLIGHTBLUE, marginLeft: 2}}>{this.state.memberModel.firstName + " " + this.state.memberModel.lastName}</Text>
+                      <Text style={{marginTop: 6, fontSize: 26, color: colors.HOMESCREENLIGHTBLUE, marginLeft: 2}}>
+                        {this.state.memberModel.firstName + " " + this.state.memberModel.lastName}
+                      </Text>
                       <View style={{flexDirection: "row", alignItems: "flex-start", marginTop: 3}}>
-                        <View style={{backgroundColor: colors.LIGHTBLUE, height: 22, borderRadius: 11, paddingLeft: 8, paddingRight: 8, marginRight: 6}}>
-                          <Text style={{fontSize: 13, color: colors.WHITE, marginTop: 2}}>{this.state.memberModel.gender}</Text>
+                        <View style={{backgroundColor: colors.LIGHTBLUE, ... styles.bdg}}>
+                          <Text style={styles.dbgText}>
+                            {this.state.memberModel.gender}
+                          </Text>
                         </View>
-                        <View style={{backgroundColor: colors.ORANGE, height: 22, borderRadius: 11, paddingLeft: 8, paddingRight: 8, marginRight: 6}}>
-                          <Text style={{fontSize: 13, color: colors.WHITE, marginTop: 2}}>{this.state.memberModel.role}</Text>
+                        <View style={{backgroundColor: colors.ORANGE, ... styles.bdg}}>
+                          <Text style={styles.dbgText}>
+                            {this.state.memberModel.role}
+                          </Text>
                         </View>
-                        <View style={{backgroundColor: colors.DTPURPLE, height: 22, borderRadius: 11, paddingLeft: 8, paddingRight: 8}}>
-                          <Text style={{fontSize: 13, color: colors.WHITE, marginTop: 2}}>{Object.keys(this.state.memberModel.item).length + " " + "Artefacts"}</Text>
+                        <View style={{backgroundColor: colors.DTPURPLE, ... styles.bdg}}>
+                          <Text style={styles.dbgText}>
+                            {Object.keys(this.state.memberModel.item).length + " " + "Artefacts"}
+                          </Text>
                         </View>
                       </View>
                     </View>
@@ -149,14 +130,13 @@ export default class MemberPr extends Component{
                       <Image style={{width: 68, height: 68, borderRadius: 34}}></Image>
                     </View>
                     <View style={{flex: 7, paddingLeft: 12, flexDirection: "column", marginTop: 6}}>
-                      <Text style={{marginTop: 6, fontSize: 26, color: colors.WHITE, marginLeft: 2}}>...</Text>
+                      <Text style={{marginTop: 6, fontSize: 26, color: colors.BLACK, marginLeft: 2}}>...</Text>
                       <View style={{flexDirection: "row", alignItems: "flex-start", marginTop: 3}}>
                       </View>
                     </View>
                   </View>
                 }
             </View>
-
 
             <View style={{height: "100%", flex: 1}}>
               <TouchableNativeFeedback></TouchableNativeFeedback>
@@ -178,10 +158,9 @@ export default class MemberPr extends Component{
                 vertical={true}
                 layout={"stack"}
 
-                
-
                 slideInterpolatedStyle={(index, animatedValue, carouselProps) => {
-                  const sizeRef = carouselProps.vertical ? carouselProps.itemHeight : carouselProps.itemWidth;
+                  const sizeRef = carouselProps.vertical ? 
+                    carouselProps.itemHeight : carouselProps.itemWidth;
                   const translateProp = carouselProps.vertical ? 'translateY' : 'translateX';
                   return (
                     {
@@ -211,29 +190,20 @@ export default class MemberPr extends Component{
                         },
                         {["translateX"]: animatedValue.interpolate({
                               inputRange: [-2, -1, 0, 1],
-                              outputRange: [
-                                  0,
-                                  7,
-                                  0,
-                                  -sizeRef * 0.01,
-                              ],
+                              outputRange: [0,7,0, -sizeRef * 0.01],
                               extrapolate: 'clamp'
                           })
-                      }
+                        }
                       ]
                     }
                   )
                 }}
-                
-                
                 
                 firstItem={this.state.profileMemberArtefactItem.length - 1}
                 inactiveSlideScale={0.85}
                 containerCustomStyle={{overflow: "visible", width: "100%"}}
                 contentContainerCustomStyle={{alignItems: "center", flexDirection: "column"}}
                 slideStyle={{width: "87%", elevation: 5, borderRadius: 6}}
-                
-                
               />: <View></View>
             }
             {
@@ -242,8 +212,10 @@ export default class MemberPr extends Component{
           </View>
         </View>
 
-        <View style={{height: 72, width: 72, borderRadius: 36, position: "absolute", bottom: 32, right: 23, zIndex:5, backgroundColor: colors.HOMESCREENLIGHTBLUE, elevation: 7, justifyContent: "center", alignItems:"center"}}>
-          <TouchableNativeFeedback style={{height: 72, width: 72, borderRadius: 36, justifyContent: "center", alignItems:"center"}} background={TouchableNativeFeedback.Ripple(colors.WHITE, true)} onPress={() => {alert(this.state.itemAll == this.state.itemHas)}}>
+        <View style={styles.floatButton}>
+          <TouchableNativeFeedback style={{height: 72, width: 72, borderRadius: 36, justifyContent: "center", alignItems:"center"}} 
+            background={TouchableNativeFeedback.Ripple(colors.WHITE, true)} 
+            onPress={() => {alert(this.state.itemAll == this.state.itemHas)}}>
             <Icon name="add" size={32} color={colors.WHITE} />
           </TouchableNativeFeedback>
 
@@ -276,6 +248,32 @@ const styles = StyleSheet.create({
     transform: [
       { rotateZ: '45deg' }
     ]
+  },
+  bdg: {
+    height: 22, 
+    borderRadius: 11, 
+    paddingLeft: 8, 
+    paddingRight: 8, 
+    marginRight: 6
+  },
+  dbgText: {
+    fontSize: 13, 
+    color: colors.WHITE, 
+    marginTop: 2
+  },
+  floatButton: {
+    height: 72, 
+    width: 72, 
+    borderRadius: 36, 
+    position: "absolute", 
+    bottom: 32, 
+    right: 23, 
+    zIndex:5, 
+    backgroundColor: colors.HOMESCREENLIGHTBLUE, 
+    elevation: 7, 
+    justifyContent: "center", 
+    alignItems:"center"
   }
+  
 
 });

@@ -5,7 +5,7 @@ import DebugScreen from "./DebugScreen";
 import HomePage from "./HomePageScreen";
 import CommunityMainScreen from "./CommunityMainScreen";
 import AccountHold from "./AccountHold"
-import MemberPr from "./MemberPr";
+import MemberPr from "./MemberProfile";
 import TestScreen from "./TestScreen";
 import CommunityCommentScreen from "./CommunityCommentScreen";
 import EditProfile from "./EditProfile";
@@ -15,7 +15,7 @@ import TestFirebase from "./TestFirebase";
 
 import ArtefactGuide from "./ArtefactGuide";
 import AddMemberGuide from "./AddMemberGuide";
-import ArtGuide from "./ArtGuide";
+import ArtGuide from "./AddArtefactFromMemberGuide";
 import { createStackNavigator } from "react-navigation";
 
 const AppNavigator = createStackNavigator({
