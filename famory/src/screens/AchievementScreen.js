@@ -41,8 +41,11 @@ import AchievementBG from "../assets/icons/achievementBG";
 import Empty from "../components/Empty";
 import { LinearGradient } from 'expo-linear-gradient';
 
+import { AchievementModelManage } from "../controller/AchievementModel";
+
 export default class AchievementScreen extends Component {
 
+  // navigation header here
   static navigationOptions = {
     title: 'Achievements',
     headerStyle: {
@@ -59,23 +62,39 @@ export default class AchievementScreen extends Component {
 
   }
 
+  /*
+  state used to record achievement information, including whether the budge
+  is locked or not, whether it is visible or not and the creation date of each
+  badge
+   */
   state = {
-    unlocked: [1, 1, 1, 1, 1, 1, 1, 1, 1],
+    unlocked: [],
     isVisible: [false, false, false, false, false, false, false, false, false],
-    unlockDate: [
-      new Date(), 
-      new Date(1993, 5, 7, 14, 39, 7),
-      new Date(1811, 6, 28, 14, 39, 7),
-      new Date(2018, 6, 28, 14, 39, 7),
-      new Date(2012, 6, 22, 14, 39, 7),
-      new Date(2012, 6, 22, 14, 39, 7),
-      new Date(2002, 3, 8, 14, 39, 7),
-      new Date(2012, 6, 22, 14, 39, 7),
-      new Date(2012, 6, 22, 14, 39, 7),
-
-    ],
+    unlockDate: [],
+    ready: false,
   };
 
+  // get achievement posts
+  getAchievement = () => {
+    AchievementModelManage.getInstance().getAchievement((unlocked, unlockDate) => {
+      this.setState({
+        unlocked: unlocked,
+        unlockDate: unlockDate,
+      })
+    });
+  };
+
+  async componentDidMount() {
+    this.getAchievement();
+    await new Promise(resolve => { setTimeout(resolve, 1500); });
+    alert("9: " + " " + this.state.unlockDate[8]);
+    this.setState({
+      ready: true,
+    })
+  }
+
+
+  // update the locking state of badges
   toggleModal = (id) => {
     if (this.state.unlocked[id] === 1) {
       this.state.isVisible[id] = !this.state.isVisible[id];
@@ -83,11 +102,13 @@ export default class AchievementScreen extends Component {
     }
   };
 
+  // count how many badges are locked in one community
   sumCount = (i, j, k) => {
     let unlockedItem = this.state.unlocked;
     return unlockedItem[i] + unlockedItem[j] + unlockedItem[k];
   };
 
+  // update the creation date with correct format
   getDateFormat = (id) => {
     let d = this.state.unlockDate[id];
     let format = d.toDateString().split(" ");
@@ -99,6 +120,8 @@ export default class AchievementScreen extends Component {
     let communityCompleted = this.sumCount(3, 4, 5);
     let familyCompleted = this.sumCount(6, 7, 8);
     let completed = helloCompleted + communityCompleted + familyCompleted;
+
+    if (this.state.ready === false) return null;
 
     return (
       <View style={styles.container}>
@@ -251,7 +274,7 @@ export default class AchievementScreen extends Component {
             <Text style={{fontSize: 16, marginTop: 15}}>Added first family member</Text>
             <Empty></Empty>
             <Empty></Empty>
-            <Text style={{fontSize: 18, fontWeight: "bold"}}>Unlocked on:{" "}{this.getDateFormat(0)}</Text>
+            <Text style={{fontSize: 18, fontWeight: "bold"}}>Unlocked on:{" "}{this.state.unlockDate[0]}</Text>
           </View>
           <View style={styles.share}>
             <Text style={{fontSize: 12}}>Share on:{" "}</Text>
@@ -279,7 +302,7 @@ export default class AchievementScreen extends Component {
             <Text style={{fontSize: 16, marginTop: 15}}>Completed accont profile</Text>
             <Empty></Empty>
             <Empty></Empty>
-            <Text style={{fontSize: 18, fontWeight: "bold"}}>Unlocked on:{" "}{this.getDateFormat(1)}</Text>
+            <Text style={{fontSize: 18, fontWeight: "bold"}}>Unlocked on:{" "}{this.state.unlockDate[1]}</Text>
           </View>
           <View style={styles.share}>
             <Text style={{fontSize: 12}}>Share on:{" "}</Text>
@@ -307,7 +330,7 @@ export default class AchievementScreen extends Component {
             <Text style={{fontSize: 16, marginTop: 15}}>Created 3 generations</Text>
             <Empty></Empty>
             <Empty></Empty>
-            <Text style={{fontSize: 18, fontWeight: "bold"}}>Unlocked on:{" "}{this.getDateFormat(2)}</Text>
+            <Text style={{fontSize: 18, fontWeight: "bold"}}>Unlocked on:{" "}{this.state.unlockDate[2]}</Text>
           </View>
           <View style={styles.share}>
             <Text style={{fontSize: 12}}>Share on:{" "}</Text>
@@ -336,7 +359,7 @@ export default class AchievementScreen extends Component {
             <Text style={{fontSize: 16}}>the Community</Text>
             <Empty></Empty>
             <Empty></Empty>
-            <Text style={{fontSize: 18, fontWeight: "bold"}}>Unlocked on:{" "}{this.getDateFormat(3)}</Text>
+            <Text style={{fontSize: 18, fontWeight: "bold"}}>Unlocked on:{" "}{this.state.unlockDate[3]}</Text>
           </View>
           <View style={styles.share}>
             <Text style={{fontSize: 12}}>Share on:{" "}</Text>
@@ -364,7 +387,7 @@ export default class AchievementScreen extends Component {
             <Text style={{fontSize: 16, marginTop: 15}}>Liked 50 posts</Text>
             <Empty></Empty>
             <Empty></Empty>
-            <Text style={{fontSize: 18, fontWeight: "bold"}}>Unlocked on:{" "}{this.getDateFormat(4)}</Text>
+            <Text style={{fontSize: 18, fontWeight: "bold"}}>Unlocked on:{" "}{this.state.unlockDate[4]}</Text>
           </View>
           <View style={styles.share}>
             <Text style={{fontSize: 12}}>Share on:{" "}</Text>
@@ -392,7 +415,7 @@ export default class AchievementScreen extends Component {
             <Text style={{fontSize: 16, marginTop: 15}}>Made 100 comments</Text>
             <Empty></Empty>
             <Empty></Empty>
-            <Text style={{fontSize: 18, fontWeight: "bold"}}>Unlocked on:{" "}{this.getDateFormat(5)}</Text>
+            <Text style={{fontSize: 18, fontWeight: "bold"}}>Unlocked on:{" "}{this.state.unlockDate[5]}</Text>
           </View>
           <View style={styles.share}>
             <Text style={{fontSize: 12}}>Share on:{" "}</Text>
@@ -421,7 +444,7 @@ export default class AchievementScreen extends Component {
             <Text style={{fontSize: 16, marginTop: 3}}>the Register</Text>
             <Empty></Empty>
             <Empty></Empty>
-            <Text style={{fontSize: 18, fontWeight: "bold"}}>Unlocked on:{" "}{this.getDateFormat(6)}</Text>
+            <Text style={{fontSize: 18, fontWeight: "bold"}}>Unlocked on:{" "}{this.state.unlockDate[6]}</Text>
           </View>
           <View style={styles.share}>
             <Text style={{fontSize: 12}}>Share on:{" "}</Text>
@@ -450,7 +473,7 @@ export default class AchievementScreen extends Component {
             <Text style={{fontSize: 16, marginTop: 3}}>the Register</Text>
             <Empty></Empty>
             <Empty></Empty>
-            <Text style={{fontSize: 18, fontWeight: "bold"}}>Unlocked on:{" "}{this.getDateFormat(7)}</Text>
+            <Text style={{fontSize: 18, fontWeight: "bold"}}>Unlocked on:{" "}{this.state.unlockDate[7]}</Text>
           </View>
           <View style={styles.share}>
             <Text style={{fontSize: 12}}>Share on:{" "}</Text>
@@ -479,7 +502,7 @@ export default class AchievementScreen extends Component {
             <Text style={{fontSize: 16, marginTop: 3}}>the Register</Text>
             <Empty></Empty>
             <Empty></Empty>
-            <Text style={{fontSize: 18, fontWeight: "bold"}}>Unlocked on:{" "}{this.getDateFormat(8)}</Text>
+            <Text style={{fontSize: 18, fontWeight: "bold"}}>Unlocked on:{" "}{this.state.unlockDate[8]}</Text>
           </View>
           <View style={styles.share}>
             <Text style={{fontSize: 12}}>Share on:{" "}</Text>
@@ -492,6 +515,7 @@ export default class AchievementScreen extends Component {
     );
   }
 }
+
 
 const styles = StyleSheet.create({
   container: {
