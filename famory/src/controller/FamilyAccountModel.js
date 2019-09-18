@@ -1,11 +1,17 @@
 import firebase from "firebase";
 import firebaseContainer from "./firebaseConfig";
+import ItemModelManage from "./ItemModel";
 
+import MemberModelManage from "./MemberModel";
+
+// manage class
+// singleton, call getInstance() to get an instace
 export class FamilyAccountModelManage{
 
   static _managePart = null
   _path = "FamilyAccount"
 
+  // get instance
   static getInstance(){
     firebaseContainer.getInstance().justStart();
     if(this._managePart == null){
@@ -14,8 +20,9 @@ export class FamilyAccountModelManage{
     return this._managePart;
   }
 
-  // cb is the callback when get the data
-  getFamilyAccount(cb){
+  // get family account
+  // cb is the callback when get the data, takes a familyAccountModel
+  getFamilyAccount(callback){
     let returned = {}
     let familyAccountRef = firebase.database().ref(this._path);
     familyAccountRef.once("value").then((snapshota) => {
@@ -23,7 +30,7 @@ export class FamilyAccountModelManage{
       snapshot = snapshota.val();
       let familyAccoun = new FamilyAccount(snapshot);
 
-      cb(familyAccoun);
+      callback(familyAccoun);
 
     });
   }
@@ -32,13 +39,11 @@ export class FamilyAccountModelManage{
   setFamilyAccount(familyName){
     
   }
-
-  _getFamilyId(promiseParent, promiseString){
-    return promiseString.slice((promiseParent.length + 1), promiseString.length)
-  }
 }
 
 
+// family account model
+// contains information for family account and the function to modify
 export class FamilyAccount{
 
   avatar = "-1";
@@ -56,6 +61,9 @@ export class FamilyAccount{
     this.achievement = accountObject["achievement"];
   }
 
+  member = {}
+
+  // to normal javascript object with only information
   toObject(){
     return {
       achievement: this.achievement,
@@ -67,17 +75,34 @@ export class FamilyAccount{
     }
   }
 
-  isValid(){
-    return this.email != "";
+
+  // get all members
+  // callback is called after getting them
+  // callback should be a function that takes a list of memberModel
+  getMembers(callback){
+    if(Object.keys(this.member).length != this.familyMember.length){
+      for (let member of Object.keys(this.familyMember)) {
+        MemberModelManage.getInstance().getMember((memberModel) => {
+          this.member[this.familyMember[member]] = memberModel
+          
+          if(Object.keys(this.member).length == Object.keys(this.familyMember).length){
+            
+            callback(this.member)
+          }
+
+        }, this.familyMember[member])
+      }
+    }else{
+      callback(this.member)
+    }
   }
 
+  // del member
   delMember(memberId){
-    
+    if(this.member[memberId]){
+      
+    }
   }
-
-  
-
-
 }
 
 
