@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
-import {StyleSheet, Image, Alert, View, Text, TouchableOpacity} from 'react-native';
+import { TouchableHighlight,StyleSheet, Image, Alert, View, Text, TouchableOpacity } from 'react-native';
 import { Container, Header, Content, ListItem, Icon, Left, Body, Right, Switch, Separator } from 'native-base';
 import Dialog, { DialogContent, DialogTitle, DialogFooter, DialogButton, SlideAnimation } from 'react-native-popup-dialog';
-
 
 import strings from "../config/strings";
 import Button from "../components/Button";
@@ -13,9 +12,14 @@ import Achievement from "../assets/icons/achievement";
 import Setting from "../assets/icons/setting";
 import Accountmail from "../assets/icons/accountmail";
 
+import { AccountModelManage } from "../controller/AccountModel";
+import colors from "../config/colors";
+import Modal from "react-native-modal";
+
 
 export default class AccountHoldScreen extends Component {
- 
+
+
   // navigation header here
   static navigationOptions = {
     title: 'Profile',
@@ -37,15 +41,45 @@ export default class AccountHoldScreen extends Component {
     this.props.navigation.navigate('Welcome');
   }
 
+
   // state to control pop up menu
   state = {
+    familyName: "",
+    dateCreated: "",
     visible: false,
+    ready: false,
+    modalVisible: false,
+  };
+
+  // update the locking state of badges
+  toggleModal = () => {
+    this.state.modalVisible = !this.state.modalVisible;
+    this.forceUpdate();
+  };
+
+  // get account family name and date of Creation
+  getAccount = () => {
+    AccountModelManage.getInstance().getAccount((familyName, dateCreated) => {
+      this.setState({
+        familyName: familyName,
+        dateCreated: dateCreated,
+      })
+    });
+  };
+
+  // update page
+  async componentDidMount() {
+    this.getAccount();
+    await new Promise(resolve => { setTimeout(resolve, 2000); });
+    this.setState({
+      ready: true,
+    })
   }
 
   // navigations to achievement page
   handleAchievementPress = () => {
     this.props.navigation.navigate('Achievement');
-  }
+  };
 
   render() {
 
@@ -67,7 +101,7 @@ export default class AccountHoldScreen extends Component {
             <Text style={{fontSize: 16}}>Family Name</Text>
             </Body>
             <Right>
-              <Text>Nizaari</Text>
+              <Text>{this.state.familyName}</Text>
             </Right>
           </ListItem>
 
@@ -80,7 +114,7 @@ export default class AccountHoldScreen extends Component {
             <Text style={{fontSize: 16, marginLeft: 3}}>Date of Creation</Text>
             </Body>
             <Right>
-              <Text>07/08/2019</Text>
+              <Text>{this.state.dateCreated}</Text>
             </Right>
           </ListItem>
 
@@ -102,7 +136,13 @@ export default class AccountHoldScreen extends Component {
               </Setting>
             </Left>
             <Body>
-            <Text style={{fontSize: 16, marginLeft: 3}}>Account & Security</Text>
+
+            <TouchableHighlight
+              onPress={() => {
+                this.toggleModal();
+              }}>
+              <Text style={{fontSize: 16, marginLeft: 3}}>Account & Security</Text>
+            </TouchableHighlight>
             </Body>
           </ListItem>
 
@@ -113,7 +153,7 @@ export default class AccountHoldScreen extends Component {
             </Left>
 
             <Body>
-              <Text style={{fontSize: 16}}>Contact Support</Text>
+            <Text style={{fontSize: 16}}>Contact Support</Text>
             </Body>
 
             <Dialog
@@ -130,7 +170,7 @@ export default class AccountHoldScreen extends Component {
                   />
                 </DialogFooter>
               }
-             >
+            >
               <DialogContent>
                 <Text style={styles.contactText}>Name: <Text style={{color: '#347ED3'}}>Miley Zhang</Text></Text>
                 <Text style={styles.contactText}>E-mail: <Text style={{color: '#347ED3'}}>mileyzha@gmail.com</Text></Text>
@@ -147,11 +187,33 @@ export default class AccountHoldScreen extends Component {
             extraStyles={{width: "80%", marginTop: 60, alignSelf: 'center'}}>
           </Button>
         </View>
+
+        <Modal
+          animationIn="fadeInUp"
+          animationOut="fadeOutDown"
+          style={styles.modalStyle}
+          isVisible={this.state.modalVisible}
+          onBackdropPress={() => {this.toggleModal()}}
+        >
+          <View style={{flex:1, justifyContent:"center", alignItems:"center", marginLeft: 3}}>
+
+            <View>
+              <Text>Hello World!</Text>
+
+              <TouchableHighlight
+                onPress={() => {
+                  this.toggleModal();
+                }}>
+                <Text>Hide Modal</Text>
+              </TouchableHighlight>
+            </View>
+          </View>
+        </Modal>
       </Container>
     );
   }
 }
-
+//ashsihs
 const styles = StyleSheet.create({
   avatar: {
     width: "30%",
@@ -170,6 +232,13 @@ const styles = StyleSheet.create({
     fontSize: 17,
     marginTop: 15,
     marginLeft: 10,
-  }
+  },
+  modalStyle: {
+    borderRadius: 15,
+    justifyContent: "center",
+    marginVertical: 170,
+    marginHorizontal: 35,
+    backgroundColor: colors.WHITE,
+  },
 
 });
