@@ -2,10 +2,13 @@ import firebase from "firebase";
 import firebaseContainer from "./firebaseConfig";
 import ItemModelManage from "./ItemModel"
 
+// manage class
+// singleton, call getInstance() to get an instace
 export class itemModelManage{
   static _managePart = null
   _path = "FamilyMember"
 
+  // get instance
   static getInstance(){
     firebaseContainer.getInstance().justStart();
     if(this._managePart == null){
@@ -14,6 +17,9 @@ export class itemModelManage{
     return this._managePart;
   }
 
+
+  // get member by id, then call callBack
+  // callBack should be a function that takes a memberModel
   getMember(callBack, id){
     let memberRef = firebase.database().ref(this._path + "/" + id);
     memberRef.once("value").then((snapshotGot) => {
@@ -29,7 +35,8 @@ export class itemModelManage{
   }
 }
 
-
+// member model
+// contains information for member and the function to modify
 export class Member{
 
   constructor(snapshot, id){
@@ -46,6 +53,7 @@ export class Member{
     this._path = "FamilyMember" + "/" + id;
   }
 
+  // to normal javascript object with only information
   toObject(){
     return {
       dob: this.dob,
@@ -62,13 +70,16 @@ export class Member{
 
   items = {}
 
-
+  // update first name
   updateFirstName = (newFirstName) => {
     firebaseContainer.getInstance().justStart();
     let MemberReference = firebase.database().ref(this._path + "/firstName");
     MemberReference.set(newFirstName);
   }
 
+  // get all items
+  // then call callback
+  // callback should be a function that takes a list of itemModel
   getItems(callback){
     if(Object.keys(this.items).length != this.item.length){
       for (let item of Object.keys(this.item)) {

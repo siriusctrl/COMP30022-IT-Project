@@ -10,14 +10,12 @@ import ArtCard from "../components/ArtCard";
 import { TouchableNativeFeedback, TouchableHighlight } from "react-native-gesture-handler";
 
 
+// guide page for adding a member
 export default class AddMemberGuide extends Component{
 
   static navigationOptions = {
     header: null
   }
-
-
-    
 
   state = {
     
@@ -31,25 +29,9 @@ export default class AddMemberGuide extends Component{
   }
 
   componentDidMount(){
-
+    // get generation and family account
     this.state.gen = this.props.navigation.getParam("gen", "0");
     this.state.familyAccount = this.props.navigation.getParam("familyAccount", null);
-  }
-
-
-  _renderRow = ({item, index}) => {
-
-    let total = this.state.memberArtefactItem.length;
-
-    return (
-      <TouchableNativeFeedback style={{... styles.artCard, zIndex: total - index}} background={TouchableNativeFeedback.Ripple(colors.WHITE,false)} onPress={() => {
-          this.state.chosenArtefact = item;
-          alert(this.state.chosenArtefact.title);
-          this._changeStage(false);
-        }}>
-        <ArtCard item={item} style={styles.artCard}/>
-      </TouchableNativeFeedback>
-    )
   }
 
   par = {
@@ -60,21 +42,26 @@ export default class AddMemberGuide extends Component{
     addMember: "addMemberInitial",
   }
 
+  nativeRipple = TouchableNativeFeedback.Ripple(colors.MISCHKA, true)
+
   stages = {
     "addMemberInitial": {
       "title": "Add a member to your family",
       "view": [
         <View style={{flex: 4, flexDirection: "column", paddingTop: 75}}>
           <View style={{paddingHorizontal: 26, flex: 6, paddingLeft: 27}}>
-            <Text style={{fontSize: 18}}>You're adding a member for</Text>
-            <Text style={{fontSize: 18, color: colors.ORANGE}}>{this.par.memberAddFamily}'s family</Text>
+            <Text style={{fontSize: 18}}>
+              You're adding a member for
+            </Text>
+            <Text style={{fontSize: 18, color: colors.ORANGE}}>
+              {this.par.memberAddFamily}'s family
+            </Text>
           </View>
           <View style={{... guideStyle.bottomButtonCn, justifyContent: "flex-end"}}>
-            <TouchableNativeFeedback background={TouchableNativeFeedback.Ripple(colors.MISCHKA, true)} onPress={() => {
-              alert("cao");
-              this._changeStage(false);
-            }}>
-              <Text style={{height: 42, width: 82, textAlign: "center", textAlignVertical: "center", color: colors.DODGER_BLUE, fontSize: 16}}>NEXT</Text>
+            <TouchableNativeFeedback 
+            background={this.nativeRipple} 
+            onPress={() => {this._changeStage(false);}}>
+              <Text style={guideStyle.bottomButton}>NEXT</Text>
             </TouchableNativeFeedback>
           </View>
         </View>
@@ -88,22 +75,38 @@ export default class AddMemberGuide extends Component{
       "view": [
         <View style={{flex: 4, flexDirection: "column", paddingTop: 69}}>
           <View style={{paddingHorizontal: 26, flex: 6, paddingLeft: 27}}>
-            <Text style={{fontSize: 18, width: "87%"}}>Write the name without the family name</Text>
-            <TextInput placeholder={"Name"} underlineColorAndroid={colors.SILVER} onChangeText={
-              (member) => {this._changeText({memberName: member})}
-            }
+            <Text style={{fontSize: 18, width: "87%"}}>
+              Write the name without the family name
+            </Text>
+            <TextInput 
+              placeholder={"Name"} 
+              underlineColorAndroid={colors.SILVER} 
+              onChangeText={
+                (member) => {this._changeText({memberName: member})}
+              }
              style={{width: "87%", height: 32, fontSize: 18, marginTop: 23, lineHeight: 26}} />
-             <Text style={{fontSize: 18, marginTop: 38, width: "87%"}}>We support any gender you like</Text>
-             <TextInput placeholder={"Gender"} underlineColorAndroid={colors.SILVER} onChangeText={
+             <Text style={{fontSize: 18, marginTop: 38, width: "87%"}}>
+              We support any gender you like
+             </Text>
+             <TextInput 
+             placeholder={"Gender"} 
+             underlineColorAndroid={colors.SILVER} 
+             onChangeText={
               (gr) => {this._changeText({gender: gr})}
             }
              style={{width: "87%", height: 32, fontSize: 18,  marginTop: 23, lineHeight: 26}} />
           </View>
           <View style={guideStyle.bottomButtonCn}>
-            <TouchableNativeFeedback background={TouchableNativeFeedback.Ripple(colors.MISCHKA, true)} onPress={() => this._changeStage(true)}>
+
+            <TouchableNativeFeedback 
+            background={this.nativeRipple} 
+            onPress={() => this._changeStage(true)}>
               <Text style={guideStyle.bottomButton}>BACK</Text>
             </TouchableNativeFeedback>
-            <TouchableNativeFeedback background={TouchableNativeFeedback.Ripple(colors.MISCHKA, true)} onPress={() => this._changeStage(false)}>
+
+            <TouchableNativeFeedback 
+            background={this.nativeRipple} 
+            onPress={() => this._changeStage(false)}>
               <Text style={guideStyle.bottomButton}>NEXT</Text>
             </TouchableNativeFeedback>
           </View>
@@ -129,10 +132,16 @@ export default class AddMemberGuide extends Component{
              style={{width: "87%", height: 32, fontSize: 18, marginTop: 21, lineHeight: 26}} />
           </View>
           <View style={guideStyle.bottomButtonCn}>
-            <TouchableNativeFeedback background={TouchableNativeFeedback.Ripple(colors.MISCHKA, true)} onPress={() => this._changeStage(true)}>
+
+            <TouchableNativeFeedback 
+            background={this.nativeRipple} 
+            onPress={() => this._changeStage(true)}>
               <Text style={guideStyle.bottomButton}>BACK</Text>
             </TouchableNativeFeedback>
-            <TouchableNativeFeedback background={TouchableNativeFeedback.Ripple(colors.MISCHKA, true)} onPress={() => this._changeStage(false)}>
+
+            <TouchableNativeFeedback 
+            background={this.nativeRipple} 
+            onPress={() => this._changeStage(false)}>
               <Text style={guideStyle.bottomButton}>NEXT</Text>
             </TouchableNativeFeedback>
           </View>
@@ -150,13 +159,21 @@ export default class AddMemberGuide extends Component{
       "view": [
         <View style={{flex: 4, flexDirection: "column", paddingTop: 69}}>
           <View style={{paddingHorizontal: 29, flex: 6, paddingLeft: 32}}>
-           <Text style={{fontSize: 18, width: "87%"}}>The role</Text>
+           <Text style={{fontSize: 18, width: "87%"}}>
+            The role
+           </Text>
           </View>
           <View style={guideStyle.bottomButtonCn}>
-            <TouchableNativeFeedback background={TouchableNativeFeedback.Ripple(colors.MISCHKA, true)} onPress={() => this._changeStage(true)}>
+
+            <TouchableNativeFeedback 
+            background={this.nativeRipple} 
+            onPress={() => this._changeStage(true)}>
               <Text style={guideStyle.bottomButton}>BACK</Text>
             </TouchableNativeFeedback>
-            <TouchableNativeFeedback background={TouchableNativeFeedback.Ripple(colors.MISCHKA, true)} onPress={() => this._changeStage(false)}>
+
+            <TouchableNativeFeedback 
+            background={this.nativeRipple} 
+            onPress={() => this._changeStage(false)}>
               <Text style={guideStyle.bottomButton}>FINISH</Text>
             </TouchableNativeFeedback>
           </View>
@@ -171,12 +188,18 @@ export default class AddMemberGuide extends Component{
     },
   }
 
+
+  // change stage use currentStage and the command to go back or next
   _changeStage(back){
     let now = "next";
     if (back) {
       now = "back";
     }
+
+    // get next stage that needs to be shown up
     ge = this.stages[this.state.currentStage][now][this.state.currentPurpose]
+
+    // if not finish then change stage
     if(ge && ge != FINISH){
         this.setState(
           {
@@ -185,18 +208,19 @@ export default class AddMemberGuide extends Component{
           }
         );
     }else if(ge == FINISH){
+      //else then do something after
       this._finish(this.state.currentPurpose);
     }else{
       alert("WHAT STAGE NEXT?");
     }
   }
 
-
+  // after finishing guide
   _finish = (purpose) => {
     alert("finished" + purpose);
   }
 
-  
+  // onChange for any text input in the guide
   _changeText = (te) => {
     this.setState(
       {
@@ -216,7 +240,9 @@ export default class AddMemberGuide extends Component{
         </View>
         <View style={{flex: 8, width: "100%", flexDirection: "column", paddingLeft: 2}}>
           <View style={{paddingHorizontal: 28, flex: 1, flexDirection:"column", justifyConytent: "flex-end", alignItems: "flex-start", paddingBottom: 16}}>
-            <Text style={{flex: 1, width: "85%", textAlignVertical: "bottom", fontSize: 32, color: colors.HOMESCREENLIGHTBLUE}}>{this.stages[this.state.currentStage]["title"]}</Text>
+            <Text style={{flex: 1, width: "85%", textAlignVertical: "bottom", fontSize: 32, color: colors.HOMESCREENLIGHTBLUE}}>
+              {this.stages[this.state.currentStage]["title"]}
+            </Text>
           </View>
           {this.stages[this.state.currentStage]["view"]}
         </View>
@@ -247,30 +273,3 @@ const guideStyle = StyleSheet.create(
     }
   }
 )
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  tContainer: {
-    backgroundColor: colors.HOMESCREENLIGHTBLUE,
-    width: "100%",
-    height: 158,
-    elevation: 8,
-    zIndex: 2,
-    justifyContent: "flex-start",
-    flexDirection: "column"
-  },
-  artCard: {
-    width: "100%",
-    height: 350,
-    borderRadius: 6
-  },
-  artCardDisplay: {
-    borderRadius: 6,
-    elevation: 16,
-    flex: 6
-  }
-});
