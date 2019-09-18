@@ -49,7 +49,7 @@ export class Member{
     this.lastName = snapshot["lastName"];
     this.profileImage = snapshot["profileImage"];
     this.ringColor = snapshot["ringColor"];
-    this.itemsId = id;
+    this.memberId = id;
     this._path = "FamilyMember" + "/" + id;
   }
 
@@ -64,7 +64,7 @@ export class Member{
       lastName: this.lastName,
       profileImage: this.profileImage,
       ringColor: this.ringColor,
-      id: this.id,
+      id: this.memberId,
     }
   }
 
