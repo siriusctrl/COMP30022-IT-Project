@@ -4,18 +4,18 @@ import SignInScreen from "./SignInScreen";
 import DebugScreen from "./DebugScreen";
 import HomePage from "./HomePageScreen";
 import CommunityMainScreen from "./CommunityMainScreen";
-import MemberPr from "./MemberProfile";
+import MemberPr from "./MemberProfileScreen";
 import AccountHoldScreen from "./AccountHoldScreen";
 import TestScreen from "./TestScreen";
 import CommunityCommentScreen from "./CommunityCommentScreen";
 import EditProfileScreen from "./EditProfileScreen";
 import Achievement from "./AchievementScreen";
-import ArtefactItem from "./ArtefactItem";
+import ArtefactItem from "./ArtefactItemScreen";
 import TestFirebase from "./TestFirebase";
 
-import ArtefactGuide from "./ArtefactGuide";
-import AddMemberGuide from "./AddMemberGuide";
-import ArtGuide from "./AddArtefactFromMemberGuide";
+import ArtefactGuide from "./ArtefactGuideScreen";
+import AddMemberGuide from "./AddMemberGuideScreen";
+import ArtGuide from "./AddArtefactFromMemberGuideScreen";
 import { createStackNavigator } from "react-navigation";
 
 const AppNavigator = createStackNavigator({

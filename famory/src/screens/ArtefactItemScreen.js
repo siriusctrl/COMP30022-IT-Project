@@ -1,8 +1,7 @@
 import React, {Component} from "react";
-import { Text, Image, StyleSheet, View , Alert, KeyboardAvoidingView, ImageBackground, ScrollView} from "react-native";
+import { Text, Image, StyleSheet, View, ScrollView} from "react-native";
 import colors from "../config/colors";
 import { Icon } from 'react-native-elements'
-import FamilyModelManage from "../controller/FamilyModel"
 
 import ArtCard from "../components/ArtCard";
 import { TouchableNativeFeedback, TouchableHighlight } from "react-native-gesture-handler";
