@@ -156,7 +156,7 @@ export default class ArtGuide extends Component{
             Adding artefact for
            </Text>
            <View style={{flex: 8, width: "100%"}}>
-            <View style={styles.mBubbl}>
+            <View style={{... styles.mBubbl, backgroundColor: this.state.member.memberColor}}>
               <View style={{flex: 1, justifyContent: "center", alignItems: "center"}}>
                 <View style={{height: 64, width: 64, backgroundColor: colors.WHITE, borderRadius: 32}}></View>
               </View>
@@ -382,7 +382,7 @@ const guideStyle = StyleSheet.create(
     bigTitle: 
       {flex: 1, width: "85%", textAlignVertical: "bottom", fontSize: 32, color: colors.HOMESCREENLIGHTBLUE},
     titleContainer: 
-      {paddingHorizontal: 28, flex: 1, flexDirection:"column", justifyConytent: "flex-end", alignItems: "flex-start", paddingBottom: 16},
+      {paddingHorizontal: 28, flex: 1, flexDirection:"column", justifyContent: "flex-end", alignItems: "flex-start", paddingBottom: 16},
     guideNavigationBox: 
       {paddingTop: 26, paddingHorizontal: 26, flex: 1, justifyContent: "flex-start", alignItems: "center", flexDirection: "row"}
 
@@ -418,7 +418,6 @@ const styles = StyleSheet.create({
   mBubbl: {
     height: 72, 
     width: "76%", 
-    backgroundColor: this.state.member.memberColor, 
     borderRadius: 36, 
     elevation: 3, 
     flexDirection: "row", 
