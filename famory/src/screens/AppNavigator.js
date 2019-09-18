@@ -4,11 +4,11 @@ import SignInScreen from "./SignInScreen";
 import DebugScreen from "./DebugScreen";
 import HomePage from "./HomePageScreen";
 import CommunityMainScreen from "./CommunityMainScreen";
-import AccountHold from "./AccountHold"
+import AccountHoldScreen from "./AccountHoldScreen";
 import MemberPr from "./MemberPr";
 import TestScreen from "./TestScreen";
 import CommunityCommentScreen from "./CommunityCommentScreen";
-import EditProfile from "./EditProfile";
+import EditProfileScreen from "./EditProfileScreen";
 import Achievement from "./AchievementScreen";
 import ArtefactItem from "./ArtefactItem";
 import TestFirebase from "./TestFirebase";
@@ -27,9 +27,9 @@ const AppNavigator = createStackNavigator({
   HomePage: {screen: HomePage},
   CommunityMain: {screen: CommunityMainScreen},
   CommunityComment: {screen: CommunityCommentScreen},
-  AccountHold: {screen: AccountHold},
+  AccountHold: {screen: AccountHoldScreen},
   MemberPr: {screen: MemberPr},
-  EditProfile: {screen: EditProfile},
+  EditProfile: {screen: EditProfileScreen},
   Achievement: {screen: Achievement},
   ArtGuide: {screen: ArtGuide},
   ArtefactItem: {screen: ArtefactItem},

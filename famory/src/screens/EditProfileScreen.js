@@ -7,7 +7,7 @@ import DatePicker from 'react-native-datepicker';
 
 import strings from "../config/strings";
 import CheckButton from "../components/CheckButton"
-import Homeicon from "./AccountHold";
+import Homeicon from "./AccountHoldScreen";
 
 const userProfile = {
   firstName: 'Tom',
@@ -15,8 +15,9 @@ const userProfile = {
   dob: '1997/1/1',
 };
 
-export default class EditProfile extends Component {
+export default class EditProfileScreen extends Component {
 
+  // navigation header here
   static navigationOptions = ({ navigation }) => {
     return {
       title: 'Edit Profile',
@@ -43,6 +44,10 @@ export default class EditProfile extends Component {
 
   };
 
+  /*
+    use state to record profile information, including first name, last name
+    date of birth and profile image.
+   */
   state = {
     firstName: userProfile.firstName,
     lastName: userProfile.lastName,
