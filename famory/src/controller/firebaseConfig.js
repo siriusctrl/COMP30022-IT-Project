@@ -10,8 +10,6 @@ const firebaseConfig = {
 };
 
 export default class firebaseContainer{
-  
-
   firebaseCon = firebaseConfig;
 
   static _managePart = null
