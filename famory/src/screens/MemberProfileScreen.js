@@ -98,7 +98,7 @@ export default class MemberPr extends Component{
                 {
                   this.state.isMemberReady? 
                   <View style={{height: "100%", flex: 1, flexDirection: "row"}}>
-                    <View style={{flex: 2, overflow: "hidden", justifyContent: "center", alignItems: "center"}}>
+                    <View style={{flex: 3, overflow: "hidden", justifyContent: "center", alignItems: "center"}}>
                       <Image source={require("../assets/images/" + "dark.png")} 
                             style={{width: 68, height: 68, borderRadius: 34}}></Image>
                     </View>

@@ -344,7 +344,9 @@ export default class ArtGuide extends Component{
       <View style={{flexDirection: "column", flex: 1}}>
 
         <View style={guideStyle.guideNavigationBox}>
-          <Icon name='clear' />
+          <TouchableNativeFeedback onPress={() => this.props.navigation.goBack()}>
+            <Icon name='clear'/>
+          </TouchableNativeFeedback>
         </View>
         <View style={{flex: 8, width: "100%", flexDirection: "column", paddingLeft: 2}}>
           <View style={guideStyle.titleContainer}>

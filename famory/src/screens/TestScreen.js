@@ -95,6 +95,8 @@ export default class TestScreen extends Component{
 
 async function uploadVideoAsync(uri) {
 
+  alert(uri)
+
   const blob = await new Promise((resolve, reject) => {
     const xhr = new XMLHttpRequest();
     xhr.onload = function() {
