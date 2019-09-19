@@ -78,13 +78,6 @@ export default class CommunityMainScreen extends Component {
     CommunityModelManage.getInstance().decreaseLike(() => {}, (this.state.currentid + 1).toString());
   }
 
-  /*
-  componentDidUpdate(prevProps, prevState) {
-    if (prevState.currentid !== this.state.currentid) {
-      alert("From state " + prevState.currentid + " to state " + this.state.currentid);
-    }
-  }
-  */
 
   async componentDidMount () {
     // make cards the posts from firebase
