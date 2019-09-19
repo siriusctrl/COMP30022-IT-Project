@@ -8,7 +8,9 @@ const strings = {
     LOGOUT: "LOGOUT",
     HOME_COMMUNITY: "COMMUNITY",
     HOME_ACCOUNT: "ACCOUNT",
-    CONTACT_SUPPORT: "CONTACTSUPPORT"
+    CONTACT_SUPPORT: "CONTACTSUPPORT",
+    FACEBOOK: "https://www.facebook.com",
+    TWITTER: "https://twitter.com/compose/tweet",
   };
   
   export default strings;
