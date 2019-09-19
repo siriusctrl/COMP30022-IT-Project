@@ -39,7 +39,7 @@ const AppNavigator = createStackNavigator({
 
 }, {
       // should be debug
-      initialRouteName: "Debug",
+      initialRouteName: "AddMemberGuide",
 }, {
   defaultNavigationOptions:{
     header:null

@@ -23,14 +23,11 @@ export class FamilyAccountModelManage{
   // get family account
   // cb is the callback when get the data, takes a familyAccountModel
   getFamilyAccount(callback){
-    let returned = {}
     let familyAccountRef = firebase.database().ref(this._path);
     familyAccountRef.once("value").then((snapshota) => {
-
       snapshot = snapshota.val();
-      let familyAccoun = new FamilyAccount(snapshot);
-
-      callback(familyAccoun);
+      let familyAccount = new FamilyAccount(snapshot);
+      callback(familyAccount);
 
     });
   }
@@ -51,6 +48,7 @@ export class FamilyAccount{
   email = "";
   familyMember = [];
   name = "";
+  _path = "FamilyAccount"
 
   constructor(accountObject){
     this.avatar = accountObject["avatar"];
@@ -84,12 +82,9 @@ export class FamilyAccount{
       for (let member of Object.keys(this.familyMember)) {
         MemberModelManage.getInstance().getMember((memberModel) => {
           this.member[this.familyMember[member]] = memberModel
-          
           if(Object.keys(this.member).length == Object.keys(this.familyMember).length){
-            
             callback(this.member)
           }
-
         }, this.familyMember[member])
       }
     }else{

@@ -4,7 +4,7 @@ import ItemModelManage from "./ItemModel"
 
 // manage class
 // singleton, call getInstance() to get an instace
-export class itemModelManage{
+export class MemberModelManage{
   static _managePart = null
   _path = "FamilyMember"
 
@@ -12,7 +12,7 @@ export class itemModelManage{
   static getInstance(){
     firebaseContainer.getInstance().justStart();
     if(this._managePart == null){
-      this._managePart = new itemModelManage();
+      this._managePart = new MemberModelManage();
     }
     return this._managePart;
   }
@@ -30,8 +30,19 @@ export class itemModelManage{
   }
 
   // TODO add member
-  setMember(memberName){
-  
+  setMember(callback, details, familyAccountModel){
+    familyMemberId = Object.keys(familyAccountModel.familyMember).length
+    nextId = familyMemberId
+    firebase.database().ref(this._path + "/" + "curMember/").once("value").then((maxMember) => {
+      let maxId = maxMember.val()
+      let newMemberId = "member_" + (Number(maxId) + 1)
+      firebase.database().ref(this._path + "/" + newMemberId).set(details)
+      firebase.database().ref(familyAccountModel._path + "/familyMember" + "/" + nextId).set(newMemberId)
+      firebase.database().ref(this._path + "/" + "curMember/").set((Number(maxId) + 1))
+      let member = new Member(details, newMemberId);
+
+      callback(member)
+    });
   }
 }
 
@@ -99,4 +110,4 @@ export class Member{
   }
 }
 
-export default itemModelManage;
+export default MemberModelManage;

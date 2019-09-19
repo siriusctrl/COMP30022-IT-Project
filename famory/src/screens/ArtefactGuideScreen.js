@@ -65,16 +65,16 @@ export default class ArtefactGuide extends Component{
       now = "back";
     }
 
-    ge = this.stages[this.state.currentStage][now][this.state.currentPurpose]
+    nextStage = this.stages[this.state.currentStage][now][this.state.currentPurpose]
 
-    if(ge && ge != FINISH){
+    if(nextStage && nextStage != FINISH){
         this.setState(
           {
             ... this.state,
-            currentStage: ge,
+            currentStage: nextStage,
           }
         );
-    }else if(ge == FINISH){
+    }else if(nextStage == FINISH){
       this._finish(this.state.currentPurpose);
     }else{
       alert("WHAT STAGE NEXT?");

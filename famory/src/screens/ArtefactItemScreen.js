@@ -3,6 +3,8 @@ import { Text, Image, StyleSheet, View, ScrollView} from "react-native";
 import colors from "../config/colors";
 import { Icon } from 'react-native-elements'
 
+
+import { Video } from 'expo-av';
 import ArtCard from "../components/ArtCard";
 import { TouchableNativeFeedback, TouchableHighlight } from "react-native-gesture-handler";
 
@@ -12,7 +14,11 @@ export default class ArtefactItem extends Component{
   }
 
   state = {
-    artefactItem: this.props.navigation.getParam("item", null)
+    artefactItem: this.props.navigation.getParam("item", null),
+    videoFinishedLoading: false,
+    width: 350,
+    height: 350
+
   }
 
   render() {
@@ -29,6 +35,36 @@ export default class ArtefactItem extends Component{
         </View>
         <View style={{flex: 7, overflow: "visible"}}>
         <ScrollView style={{flex: 1, overflow: "visible"}}>
+        {this.state.artefactItem.type == "video"? 
+        <View style={{marginHorizontal: 29, marginVertical: 19, flexDirection: "column", minHeight: 870, overflow: "visible"}}>
+          <Video
+              source={{ uri: this.state.artefactItem.content }}
+              rate={1.0}
+              volume={1.0}
+              isMuted={false}
+              resizeMode="Video.RESIZE_MODE_STRETCH"
+              useNativeControls={true}
+              isLooping={false}
+              
+
+              style={{width: this.state.width, height: this.state.height}}
+
+            />
+            <Text style={{color: colors.AGRAY, marginTop: 36, fontStyle: "italic"}}>{this.state.artefactItem.description}</Text>
+            <View style={{marginTop: 58}}>
+              <Text style={{color: colors.AGRAY}}>DETAIL</Text>
+              <View
+              style={{
+                borderBottomColor: colors.AGRAY,
+                borderBottomWidth: 0.5,
+              }}
+            />
+              <View style={{marginTop: 17}}>
+                <Text style={{color: colors.AGRAY}}>CREATE DATE</Text>
+                <Text style={{color: colors.AGRAY}}>{this.state.artefactItem.dateAdded}</Text>
+              </View>
+            </View>
+          </View>:
           <View style={{marginHorizontal: 29, marginVertical: 19, flexDirection: "column", minHeight: 870, overflow: "visible"}}>
             <ArtCard item={this.state.artefactItem} style={styles.artCard}/>
             <Text style={{color: colors.AGRAY, marginTop: 36, fontStyle: "italic"}}>{this.state.artefactItem.description}</Text>
@@ -46,6 +82,9 @@ export default class ArtefactItem extends Component{
               </View>
             </View>
           </View>
+        
+        }
+          
         </ScrollView>
         </View>
       </View>
