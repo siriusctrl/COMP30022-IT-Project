@@ -1,7 +1,7 @@
 import React, {Component} from "react";
-import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
+import { StyleSheet, View, Text, TouchableOpacity, TextInput } from "react-native";
 import colors from "../config/colors";
-import { Button, Icon } from 'native-base';
+import { Button, Icon, ListItem, Body } from 'native-base';
 import { Ionicons, FontAwesome } from '@expo/vector-icons';
 
 export default class ArtefactGuide extends Component{
@@ -12,6 +12,9 @@ export default class ArtefactGuide extends Component{
 
   state = {
     selected: 0,
+    name: "",
+    description: "",
+    itemUri: null,
     currentStage: "addArtefactFromNewInitial",
     currentPurpose: "addNewArtefact",
   }
@@ -92,12 +95,85 @@ export default class ArtefactGuide extends Component{
         </View>
       ,
       "next": {
-        "addNewArtefact": "",
+        "addNewArtefact": "addArtefactMetadata",
       },
       "back": {
         "addNewArtefact": "",
       }
+    },
 
+    "addArtefactMetadata": {
+      "title": "Artefact metadata",
+      "view": () =>
+        <View style={{flex: 4, flexDirection: "column", paddingTop: 49}}>
+          <View>
+            <ListItem noBorder>
+              <Body>
+                <Text style={guideStyle.greyText}>Item Title</Text>
+                <TextInput
+                  style={guideStyle.blackText}
+                  onChangeText={(text) => this.setState({name: text})}
+                  placeholder="Your artefact name"
+                  placeholderTextColor={"#D3D3D3"}
+                  maxLength={30}
+                  value={this.state.text}
+                />
+                <Text style={{
+                fontSize:12,
+                color:'lightgrey',
+                textAlign: 'right',
+                marginTop: 5,
+                marginLeft: -5
+                }}> 
+                  {this.state.name.length}{" "}/{" "}30 
+                </Text>
+              </Body>
+            </ListItem>
+
+            <ListItem noBorder>
+              <Body>
+              <Text style={guideStyle.greyText}>Item description</Text>
+              <TextInput
+                style={guideStyle.blackTextLong}
+                onChangeText={(text) => this.setState({description: text})}
+                placeholder="Type something here..."
+                placeholderTextColor={"#D3D3D3"}
+                multiline={true}
+                numberOfLines={4}
+                maxLength={120}
+                value={this.state.text}
+              />
+              <Text style={{
+                fontSize:12,
+                color:'lightgrey',
+                textAlign: 'right',
+                marginTop: 5,
+                marginLeft: -5
+              }}> 
+                {this.state.description.length}{" "}/{" "}120 
+              </Text>
+              </Body>
+            </ListItem>
+          </View>
+          <View style={guideStyle.bottomButtonCn}>
+            <Button iconLeft light onPress={() => this._changeStage(true)}>
+              <Icon name='arrow-back' />
+              <Text style={guideStyle.bottomButtonLeft}>Back</Text>
+            </Button>
+            <Button iconRight light onPress={() => this._changeStage(false)}>
+              <Text style={guideStyle.bottomButtonRight}>Next</Text>
+              <Icon name='arrow-forward' style={{marginRight: 15}} />
+            </Button>
+            
+          </View>
+        </View>
+      ,
+      "next": {
+        "addNewArtefact": "",
+      },
+      "back": {
+        "addNewArtefact": "addArtefactFromNewInitial",
+      }
     },
     
   }
@@ -112,16 +188,16 @@ export default class ArtefactGuide extends Component{
 
     nextStage = this.stages[this.state.currentStage][now][this.state.currentPurpose]
 
-    if(nextStage && nextStage != FINISH){
+    if (nextStage && nextStage != FINISH){
         this.setState(
           {
             ... this.state,
             currentStage: nextStage,
           }
         );
-    }else if(nextStage == FINISH){
+    } else if(nextStage == FINISH){
       this._finish(this.state.currentPurpose);
-    }else{
+    } else{
       alert("WHAT STAGE NEXT?");
     }
   }
@@ -233,5 +309,30 @@ const guideStyle = StyleSheet.create({
     justifyContent: 'center',
     flexDirection: 'row',
     backgroundColor: "#f5f5f5",
-  }
+  },
+  greyText: {
+    marginLeft: 10,
+    fontSize: 18,
+    color: "#878B90",
+  },
+  blackText: {
+    marginLeft: 10,
+    marginTop:10,
+    paddingBottom:4,
+    fontSize: 16,
+    height: 30,
+    borderBottomColor: "lightgrey",
+    borderBottomWidth: 1,
+    height: 40,
+  },
+  blackTextLong: {
+    marginLeft: 10,
+    marginTop:10,
+    paddingBottom:4,
+    fontSize: 16,
+    height: 30,
+    borderBottomColor: "lightgrey",
+    borderBottomWidth: 1,
+    height: 60,
+  },
 });
