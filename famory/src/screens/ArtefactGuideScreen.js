@@ -169,8 +169,14 @@ export default class ArtefactGuide extends Component{
           </View>
         </View>
       ,
-      "next": {
+      "textnext": {
         "addNewArtefact": "uploadText",
+      },
+      "videonext": {
+        "addNewArtefact": "addArtefactFromNewInitial",
+      },
+      "photonext": {
+        "addNewArtefact": "",
       },
       "back": {
         "addNewArtefact": "addArtefactFromNewInitial",
@@ -183,7 +189,7 @@ export default class ArtefactGuide extends Component{
         <View style={{flex: 4, flexDirection: "column", paddingTop: 10}}>
           <ImageBackground 
             source={require("../assets/images/text-artefact-1.jpeg")} 
-            style={{width: '100%', height: '94%', borderRadius: 20, alignItems: 'center', justifyContent: 'center', padding: 10, marginLeft: 10}}
+            style={{width: '100%', height: '94%', borderRadius: 20, alignItems: 'center', justifyContent: 'center', padding: 10, marginLeft: 10, marginTop: -40}}
           >
             <TextInput
               style={guideStyle.artefactText}
@@ -226,9 +232,18 @@ export default class ArtefactGuide extends Component{
     let now = "next";
     if (back) {
       now = "back";
+    } else if (this.state.currentStage === "addArtefactMetadata") {
+      // need to go to upload page in response to different selections
+      if (this.state.selected == 0) {
+        now = "textnext";
+      } else if (this.state.selected == 1) {
+        now = "videonext";
+      } else {
+        now = "photonext";
+      }
     }
 
-    nextStage = this.stages[this.state.currentStage][now][this.state.currentPurpose]
+    nextStage = this.stages[this.state.currentStage][now][this.state.currentPurpose];
 
     if (nextStage && nextStage != FINISH){
         this.setState(
