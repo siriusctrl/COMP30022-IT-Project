@@ -1,14 +1,8 @@
 import React, {Component} from "react";
-import { Text, TextInput, Image, StyleSheet, View , Alert, KeyboardAvoidingView, ImageBackground, FlatList} from "react-native";
-import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
 import colors from "../config/colors";
-import { Icon, ListItem } from 'react-native-elements'
-import { Container, Header, Content, Item, Input} from 'native-base';
-import Carousel from "react-native-snap-carousel";
-
-import ArtCard from "../components/ArtCard";
-import { TouchableNativeFeedback, TouchableHighlight } from "react-native-gesture-handler";
-
+import { Button, Icon } from 'native-base';
+import { Ionicons, FontAwesome } from '@expo/vector-icons';
 
 export default class ArtefactGuide extends Component{
 
@@ -17,7 +11,7 @@ export default class ArtefactGuide extends Component{
   }
 
   state = {
-    
+    selected: 0,
     currentStage: "addArtefactFromNewInitial",
     currentPurpose: "addNewArtefact",
   }
@@ -26,26 +20,77 @@ export default class ArtefactGuide extends Component{
     addNewArtefact: "addArtefactFromNewInitial"
   }
 
+  switchSelection = (id) => {
+    this.state.selected = id;
+    this.forceUpdate();
+  }
+
   stages = {
     
     "addArtefactFromNewInitial": {
-      "title": "Adding new artefact",
-      "view": [
-        <View style={{flex: 4, flexDirection: "column", paddingTop: 69}}>
-          <View style={{paddingHorizontal: 26, flex: 6, paddingLeft: 27}}>
-            <Text style={{fontSize: 18, width: "87%"}}>You are adding a new artefact to "family Member here"</Text>
-            
+      "title": "Select artefact type",
+      "view": () =>
+        <View style={{flex: 4, flexDirection: "column", paddingTop: 49}}>
+          <View style={guideStyle.selectionBox}>
+            {(this.state.selected == 0) ? (
+              <TouchableOpacity style={guideStyle.selectedBox} onPress={() => this.switchSelection(0)}>
+                <FontAwesome name="pencil-square-o" size={44} color="green" style={{marginLeft: -10}} />
+                <Text style={guideStyle.textBox}>Texts</Text>
+              </TouchableOpacity>
+            ) : (
+              <TouchableOpacity style={guideStyle.box} onPress={() => this.switchSelection(0)}>
+                <FontAwesome name="pencil-square-o" size={44} color="green" style={{marginLeft: -10, opacity: 0.3}} />
+                <Text style={guideStyle.unselectedText}>Texts</Text>
+              </TouchableOpacity>
+            )}
+            <View
+              style={{
+                borderBottomColor: colors.SILVER,
+                borderBottomWidth: StyleSheet.hairlineWidth,
+              }}
+            />
+            {(this.state.selected == 1) ? (
+              <TouchableOpacity style={guideStyle.selectedBox} onPress={() => this.switchSelection(1)}>
+                <Ionicons name="md-images" size={44} color="orange" />
+                <Text style={guideStyle.textBox}>Photos</Text>
+              </TouchableOpacity>
+            ) : (
+              <TouchableOpacity style={guideStyle.box} onPress={() => this.switchSelection(1)}>
+                <Ionicons name="md-images" size={44} color="orange" style={{opacity: 0.3}} />
+                <Text style={guideStyle.unselectedText}>Photos</Text>
+              </TouchableOpacity>
+            )}
+            <View
+              style={{
+                borderBottomColor: colors.SILVER,
+                borderBottomWidth: StyleSheet.hairlineWidth,
+              }}
+            />
+            {(this.state.selected == 2) ? (
+              <TouchableOpacity style={guideStyle.selectedBox} onPress={() => this.switchSelection(2)}>
+                <FontAwesome name="file-video-o" size={44} color="blue" />
+                <Text style={guideStyle.textBox}>Videos</Text>
+              </TouchableOpacity>
+            ) : (
+              <TouchableOpacity style={guideStyle.box} onPress={() => this.switchSelection(2)}>
+                <FontAwesome name="file-video-o" size={44} color="blue" style={{opacity: 0.3}} />
+                <Text style={guideStyle.unselectedText}>Videos</Text>
+              </TouchableOpacity>
+            )}
           </View>
           <View style={guideStyle.bottomButtonCn}>
-            <TouchableNativeFeedback background={TouchableNativeFeedback.Ripple(colors.MISCHKA, true)} onPress={() => this._changeStage(true)}>
-              <Text style={guideStyle.bottomButton}>BACK</Text>
-            </TouchableNativeFeedback>
-            <TouchableNativeFeedback background={TouchableNativeFeedback.Ripple(colors.MISCHKA, true)} onPress={() => this._changeStage(false)}>
-              <Text style={guideStyle.bottomButton}>NEXT</Text>
-            </TouchableNativeFeedback>
+            <Button iconLeft light onPress={() => this._changeStage(true)}>
+              <Icon name='arrow-back' />
+              <Text style={guideStyle.bottomButtonLeft}>Back</Text>
+            </Button>
+            <Button iconRight light onPress={() => this._changeStage(false)}>
+              <Text style={guideStyle.bottomButtonRight}>Next</Text>
+              <Icon name='arrow-forward' style={{marginRight: 15}} />
+            </Button>
+            
           </View>
         </View>
-      ],
+      ,
       "next": {
         "addNewArtefact": "",
       },
@@ -65,22 +110,21 @@ export default class ArtefactGuide extends Component{
       now = "back";
     }
 
-    ge = this.stages[this.state.currentStage][now][this.state.currentPurpose]
+    nextStage = this.stages[this.state.currentStage][now][this.state.currentPurpose]
 
-    if(ge && ge != FINISH){
+    if(nextStage && nextStage != FINISH){
         this.setState(
           {
             ... this.state,
-            currentStage: ge,
+            currentStage: nextStage,
           }
         );
-    }else if(ge == FINISH){
+    }else if(nextStage == FINISH){
       this._finish(this.state.currentPurpose);
     }else{
       alert("WHAT STAGE NEXT?");
     }
   }
-
 
   // after finish, just fill this.FINISH to the "next" stage
   _finish = (purpose) => {
@@ -98,19 +142,18 @@ export default class ArtefactGuide extends Component{
 
   }
 
-
-  render(){
+  render() {
     return(
       <View style={{flexDirection: "column", flex: 1}}>
 
         <View style={{paddingTop: 26, paddingHorizontal: 26, flex: 1, justifyContent: "flex-start", alignItems: "center", flexDirection: "row"}}>
-          <Icon name='clear' />
+          <Icon name='close' />
         </View>
         <View style={{flex: 8, width: "100%", flexDirection: "column", paddingLeft: 2}}>
           <View style={{paddingHorizontal: 28, flex: 1, flexDirection:"column", justifyConytent: "flex-end", alignItems: "flex-start", paddingBottom: 16}}>
-            <Text style={{flex: 1, width: "85%", textAlignVertical: "bottom", fontSize: 32, color: colors.HOMESCREENLIGHTBLUE}}>{this.stages[this.state.currentStage]["title"]}</Text>
+            <Text style={{flex: 1, width: "85%", opacity: 1, textAlignVertical: "bottom", fontSize: 28, color: colors.HOMESCREENLIGHTBLUE}}>{this.stages[this.state.currentStage]["title"]}</Text>
           </View>
-          {this.stages[this.state.currentStage]["view"]}
+          {this.stages[this.state.currentStage]["view"]()}
         </View>
       </View>
     )
@@ -119,50 +162,76 @@ export default class ArtefactGuide extends Component{
 
 const FINISH = "finish";
 
-const guideStyle = StyleSheet.create(
-  {
-    bottomButton: {
-      height: 58, 
-      width: 82, 
-      textAlign: "center", 
-      textAlignVertical: "center", 
-      color: colors.DODGER_BLUE, 
-      fontSize: 16
-    },
-    bottomButtonCn: {
-      paddingHorizontal: 12, 
-      paddingBottom: 26, 
-      flex: 1, 
-      flexDirection: "row", 
-      justifyContent: "space-between", 
-      alignItems: "center"
-    }
-  }
-)
-
-const styles = StyleSheet.create({
-  container: {
+const guideStyle = StyleSheet.create({
+  bottomButtonLeft: {
+    height: 58, 
+    width: 76, 
+    textAlign: "center", 
+    textAlignVertical: "center", 
+    color: colors.DODGER_BLUE, 
+    fontSize: 16,
+    marginLeft: 8
+  },
+  bottomButtonRight: {
+    height: 58, 
+    width: 68, 
+    textAlign: "center", 
+    textAlignVertical: "center", 
+    color: colors.DODGER_BLUE, 
+    fontSize: 16
+  },
+  bottomButtonCn: {
+    paddingHorizontal: 20, 
+    paddingBottom: 26, 
+    flex: 1, 
+    flexDirection: "row", 
+    justifyContent: "space-between", 
+    alignItems: "center"
+  },
+  selectionBox: {
+    paddingHorizontal: 36, 
+    flex: 3, 
+    marginTop: -50,
+  }, 
+  box: {
     flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
+    padding: 7,
+    marginBottom: 5,
+    height: 60,
+    borderRadius: 20,
+    alignItems: 'center', 
+    justifyContent: 'center',
+    flexDirection: 'row',
+  }, 
+  textBox: {
+    fontSize: 26, 
+    alignItems: 'center', 
+    justifyContent: 'center',
+    textShadowColor: colors.SILVER,
+    textShadowOffset: {width: -1, height: 1},
+    textShadowRadius: 10,
+    marginLeft: 50,
   },
-  tContainer: {
-    backgroundColor: colors.HOMESCREENLIGHTBLUE,
-    width: "100%",
-    height: 158,
-    elevation: 8,
-    zIndex: 2,
-    justifyContent: "flex-start",
-    flexDirection: "column"
+  unselectedText: {
+    fontSize: 26, 
+    alignItems: 'center', 
+    justifyContent: 'center',
+    textShadowColor: colors.SILVER,
+    textShadowOffset: {width: -1, height: 1},
+    textShadowRadius: 10,
+    marginLeft: 50,
+    opacity: 0.3,
   },
-  artCard: {
-    width: "100%",
-    height: 350,
-    borderRadius: 6
-  },
-  artCardDisplay: {
-    borderRadius: 6,
-    elevation: 16,
-    flex: 6
+  selectedBox: {
+    flex: 1,
+    padding: 7,
+    marginBottom: 5,
+    marginTop: 5,
+    height: 60,
+    borderRadius: 20,
+    alignItems: 'center', 
+    justifyContent: 'center',
+    flexDirection: 'row',
+    backgroundColor: "#f5f5f5",
   }
 });
