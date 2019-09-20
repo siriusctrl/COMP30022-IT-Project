@@ -176,7 +176,7 @@ export default class ArtefactGuide extends Component{
         "addNewArtefact": "addArtefactFromNewInitial",
       },
       "photonext": {
-        "addNewArtefact": "",
+        "addNewArtefact": "uploadImage",
       },
       "back": {
         "addNewArtefact": "addArtefactFromNewInitial",
@@ -202,6 +202,32 @@ export default class ArtefactGuide extends Component{
               value={this.state.text}
             />
           </ImageBackground>
+
+          <View style={guideStyle.bottomButtonCn}>
+            <Button iconLeft light onPress={() => this._changeStage(true)}>
+              <Icon name='arrow-back' />
+              <Text style={guideStyle.bottomButtonLeft}>Back</Text>
+            </Button>
+            <Button iconRight light onPress={() => this._changeStage(false)}>
+              <Text style={guideStyle.bottomButtonRight}>Next</Text>
+              <Icon name='arrow-forward' style={{marginRight: 15}} />
+            </Button>
+            
+          </View>
+        </View>
+      ,
+      "next": {
+        "addNewArtefact": "",
+      },
+      "back": {
+        "addNewArtefact": "addArtefactMetadata",
+      }
+    },
+
+    "uploadImage": {
+      "title": "Image Upload",
+      "view": () =>
+        <View style={{flex: 4, flexDirection: "column", paddingTop: 10}}>
 
           <View style={guideStyle.bottomButtonCn}>
             <Button iconLeft light onPress={() => this._changeStage(true)}>
