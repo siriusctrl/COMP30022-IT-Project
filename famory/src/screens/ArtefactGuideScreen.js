@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import { StyleSheet, View, Text, TouchableOpacity, TextInput } from "react-native";
+import { StyleSheet, View, Text, TouchableOpacity, TextInput, ImageBackground } from "react-native";
 import colors from "../config/colors";
 import { Button, Icon, ListItem, Body } from 'native-base';
 import { Ionicons, FontAwesome } from '@expo/vector-icons';
@@ -15,6 +15,7 @@ export default class ArtefactGuide extends Component{
     name: "",
     description: "",
     itemUri: null,
+    textArtefact: "",
     currentStage: "addArtefactFromNewInitial",
     currentPurpose: "addNewArtefact",
   }
@@ -169,10 +170,51 @@ export default class ArtefactGuide extends Component{
         </View>
       ,
       "next": {
-        "addNewArtefact": "",
+        "addNewArtefact": "uploadText",
       },
       "back": {
         "addNewArtefact": "addArtefactFromNewInitial",
+      }
+    },
+
+    "uploadText": {
+      "title": "Memoir Upload",
+      "view": () =>
+        <View style={{flex: 4, flexDirection: "column", paddingTop: 10}}>
+          <ImageBackground 
+            source={require("../assets/images/text-artefact-1.jpeg")} 
+            style={{width: '100%', height: '94%', borderRadius: 20, alignItems: 'center', justifyContent: 'center', padding: 10, marginLeft: 10}}
+          >
+            <TextInput
+              style={guideStyle.artefactText}
+              onChangeText={(text) => this.setState({textArtefact: text})}
+              placeholder="Cherish the memories..."
+              placeholderTextColor={"#808080"}
+              multiline={true}
+              numberOfLines={8}
+              maxLength={400}
+              value={this.state.text}
+            />
+          </ImageBackground>
+
+          <View style={guideStyle.bottomButtonCn}>
+            <Button iconLeft light onPress={() => this._changeStage(true)}>
+              <Icon name='arrow-back' />
+              <Text style={guideStyle.bottomButtonLeft}>Back</Text>
+            </Button>
+            <Button iconRight light onPress={() => this._changeStage(false)}>
+              <Text style={guideStyle.bottomButtonRight}>Next</Text>
+              <Icon name='arrow-forward' style={{marginRight: 15}} />
+            </Button>
+            
+          </View>
+        </View>
+      ,
+      "next": {
+        "addNewArtefact": "",
+      },
+      "back": {
+        "addNewArtefact": "addArtefactMetadata",
       }
     },
     
@@ -227,7 +269,7 @@ export default class ArtefactGuide extends Component{
         </View>
         <View style={{flex: 8, width: "100%", flexDirection: "column", paddingLeft: 2}}>
           <View style={{paddingHorizontal: 28, flex: 1, flexDirection:"column", justifyConytent: "flex-end", alignItems: "flex-start", paddingBottom: 16}}>
-            <Text style={{flex: 1, width: "85%", opacity: 1, textAlignVertical: "bottom", fontSize: 28, color: colors.HOMESCREENLIGHTBLUE}}>{this.stages[this.state.currentStage]["title"]}</Text>
+            <Text style={{flex: 1, width: "85%", opacity: 1, fontSize: 28, color: colors.HOMESCREENLIGHTBLUE, marginTop: 25}}>{this.stages[this.state.currentStage]["title"]}</Text>
           </View>
           {this.stages[this.state.currentStage]["view"]()}
         </View>
@@ -320,7 +362,6 @@ const guideStyle = StyleSheet.create({
     marginTop:10,
     paddingBottom:4,
     fontSize: 16,
-    height: 30,
     borderBottomColor: "lightgrey",
     borderBottomWidth: 1,
     height: 40,
@@ -330,9 +371,17 @@ const guideStyle = StyleSheet.create({
     marginTop:10,
     paddingBottom:4,
     fontSize: 16,
-    height: 30,
     borderBottomColor: "lightgrey",
     borderBottomWidth: 1,
     height: 60,
   },
+  artefactText: {
+    marginLeft: 40,
+    marginTop: -150,
+    fontSize: 22,
+    width: 240,
+    height: 340,
+    letterSpacing: 2,
+    fontFamily: 'almond',
+  }
 });
