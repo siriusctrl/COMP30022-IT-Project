@@ -4,6 +4,7 @@ import colors from "../config/colors";
 import { Button, Icon, ListItem, Body } from 'native-base';
 import { Ionicons, FontAwesome } from '@expo/vector-icons';
 
+import { Video } from 'expo-av';
 import { _handleItemPicked, _pickVideo, _uploadToFirebase, _pickImage, _uploadItem } from "../controller/fileUtilities"
 
 export default class ArtefactGuide extends Component{
@@ -16,8 +17,10 @@ export default class ArtefactGuide extends Component{
     selected: 0,
     name: "",
     description: "",
-    item: null,
-    uploaded: false,
+    imageItem: null,
+    videoItem: null,
+    imageuploaded: false,
+    videoUploaded: false,
     textArtefact: "",
     currentStage: "addArtefactFromNewInitial",
     currentPurpose: "addNewArtefact",
@@ -176,7 +179,7 @@ export default class ArtefactGuide extends Component{
         "addNewArtefact": "uploadText",
       },
       "videonext": {
-        "addNewArtefact": "addArtefactFromNewInitial",
+        "addNewArtefact": "uploadVideo",
       },
       "photonext": {
         "addNewArtefact": "uploadImage",
@@ -211,9 +214,8 @@ export default class ArtefactGuide extends Component{
               <Icon name='arrow-back' />
               <Text style={guideStyle.bottomButtonLeft}>Back</Text>
             </Button>
-            <Button iconRight light onPress={() => alert("Finished!")}>
+            <Button iconRight success onPress={() => alert("Done!")}>
               <Text style={guideStyle.finishButton}>DONE</Text>
-              <Icon name='arrow-forward' style={{marginRight: 15}} />
             </Button>
             
           </View>
@@ -231,8 +233,8 @@ export default class ArtefactGuide extends Component{
       "title": "Image Upload",
       "view": () =>
         <View style={{flex: 4, flexDirection: "column", paddingTop: 10}}>
-          {(this.state.uploaded) ? (
-            <Image source={{uri: this.state.item}} 
+          {(this.state.imageuploaded) ? (
+            <Image source={{uri: this.state.imageItem}} 
               style={{
                 flexDirection: 'column', 
                 flex: 3, 
@@ -250,7 +252,7 @@ export default class ArtefactGuide extends Component{
             </TouchableOpacity>
           )}
 
-          {(this.state.uploaded) ? (
+          {(this.state.imageuploaded) ? (
             <Button warning onPress={this._uploadImageArtefact} style={{marginTop: 15, width: 140, height: 48, borderRadius: 12, marginLeft: 105,}}>
               <Text style={{textAlign: "center", textAlignVertical: "center", fontSize: 16, color: '#fff', marginLeft: 20,}}>Change Image</Text>
             </Button>
@@ -261,7 +263,61 @@ export default class ArtefactGuide extends Component{
               <Icon name='arrow-back' />
               <Text style={guideStyle.bottomButtonLeft}>Back</Text>
             </Button>
-            {(this.state.uploaded) ? (
+            {(this.state.imageuploaded) ? (
+              <Button iconRight success onPress={() => alert("Finished!")} >
+                <Text style={guideStyle.finishButton}>DONE</Text>
+              </Button>
+            ) : (
+              <Button iconRight light onPress={() => {}} style={{opacity: 0}}>
+                <Text style={guideStyle.bottomButtonRight}>Next</Text>
+                <Icon name='arrow-forward' style={{marginRight: 15}} />
+              </Button>
+            )}
+          </View>
+        </View>
+      ,
+      "next": {
+        "addNewArtefact": "",
+      },
+      "back": {
+        "addNewArtefact": "addArtefactMetadata",
+      }
+    },
+
+    "uploadVideo": {
+      "title": "Videoclip Upload",
+      "view": () =>
+        <View style={{flex: 4, flexDirection: "column", paddingTop: 10}}>
+          {(this.state.videoUploaded) ? (
+            <Video
+              source={{ uri: this.state.videoItem }}
+              rate={1.0}
+              volume={1.0}
+              isMuted={false}
+              resizeMode="Video.RESIZE_MODE_CONTAIN"
+              useNativeControls={true}
+              isLooping={true}
+              style={{ width: 300, height: 260, marginTop: -50, marginLeft: 28, flex: 3 }}
+            />
+          ) : (
+            <TouchableOpacity style={guideStyle.uploadBox} onPress={this._uploadVideoArtefact} >
+              <FontAwesome name="file-video-o" size={44} color="blue" />
+              <Text style={guideStyle.uploadText}>Browse</Text>
+            </TouchableOpacity>
+          )}
+
+          {(this.state.videoUploaded) ? (
+            <Button warning onPress={this._uploadVideoArtefact} style={{marginTop: 15, width: 140, height: 48, borderRadius: 12, marginLeft: 105,}}>
+              <Text style={{textAlign: "center", textAlignVertical: "center", fontSize: 16, color: '#fff', marginLeft: 20,}}>Change Video</Text>
+            </Button>
+          ) : null }
+
+          <View style={guideStyle.bottomButtonCn}>
+            <Button iconLeft light onPress={() => this._changeStage(true)} >
+              <Icon name='arrow-back' />
+              <Text style={guideStyle.bottomButtonLeft}>Back</Text>
+            </Button>
+            {(this.state.videoUploaded) ? (
               <Button iconRight success onPress={() => alert("Finished!")} >
                 <Text style={guideStyle.finishButton}>DONE</Text>
               </Button>
@@ -340,8 +396,25 @@ export default class ArtefactGuide extends Component{
 
     // update local state
     if (!result.cancelled) {
-      this.state.item = result.uri;
-      this.state.uploaded = true;
+      this.state.imageItem = result.uri;
+      this.state.imageuploaded = true;
+      this.forceUpdate();
+    };
+
+    // upload to firebase
+    let firebaseUri = await _uploadItem(result);
+  };
+
+  // upload video from local system
+  _uploadVideoArtefact = async () => {
+
+    // get video
+    let result = await _pickVideo();
+
+    // update local state
+    if (!result.cancelled) {
+      this.state.videoItem = result.uri;
+      this.state.videoUploaded = true;
       this.forceUpdate();
     };
 
