@@ -69,11 +69,28 @@ export default class AddMemberGuide extends Component{
     return date.toDateString().slice(4)
   }
 
+  generalBottom = () => {
+    return(<View style={guideStyle.bottomButtonCn}>
+          
+    <TouchableNativeFeedback 
+    background={this.nativeRipple} 
+    onPress={() => this._changeStage(true)}>
+      <Text style={guideStyle.bottomButton}>BACK</Text>
+    </TouchableNativeFeedback>
+
+    <TouchableNativeFeedback 
+    background={this.nativeRipple} 
+    onPress={() => this._changeStage(false)}>
+      <Text style={guideStyle.bottomButton}>NEXT</Text>
+    </TouchableNativeFeedback>
+    </View>)
+  }
+
   stages = {
     "addMemberInitial": {
       "title": "Add a member to your family",
       "view": () =>
-        <View style={{flex: 4, flexDirection: "column", paddingTop: 75}}>
+        <View style={{flex: 4, flexDirection: "column", paddingTop: 86}}>
           <View style={{paddingHorizontal: 26, flex: 6, paddingLeft: 27}}>
             <Text style={{fontSize: 18}}>
               You're adding a member for
@@ -82,23 +99,25 @@ export default class AddMemberGuide extends Component{
               {this.state.familyAccount.name}'s family
             </Text>
           </View>
-          <View style={{... guideStyle.bottomButtonCn, justifyContent: "flex-end"}}>
-            <TouchableNativeFeedback 
-            background={this.nativeRipple} 
-            onPress={() => {this._changeStage(false);}}>
-              <Text style={guideStyle.bottomButton}>NEXT</Text>
-            </TouchableNativeFeedback>
-          </View>
+          
         </View>
       ,
       "next": {
         "addMember": "addMemberName"
-      }
+      },
+      bottomButton: () => 
+      <View style={{... guideStyle.bottomButtonCn, justifyContent: "flex-end"}}>
+        <TouchableNativeFeedback 
+        background={this.nativeRipple} 
+        onPress={() => this._changeStage(false)}>
+          <Text style={guideStyle.bottomButton}>NEXT</Text>
+        </TouchableNativeFeedback>
+      </View>
     },
     "addMemberName": {
       "title": "What's the Name?",
       "view": () =>
-        <View style={{flex: 4, flexDirection: "column", paddingTop: 69}}>
+        <KeyboardAvoidingView behavior="height" enabled style={{flex: 4, flexDirection: "column", paddingTop: 48}}>
           <View style={{paddingHorizontal: 26, flex: 6, paddingLeft: 27}}>
             <Text style={{fontSize: 18, width: "87%"}}>
               First name and middle name
@@ -121,34 +140,22 @@ export default class AddMemberGuide extends Component{
             }
              style={{width: "87%", height: 32, fontSize: 18,  marginTop: 23, lineHeight: 26}} />
           </View>
-          <View style={guideStyle.bottomButtonCn}>
-
-            <TouchableNativeFeedback 
-            background={this.nativeRipple} 
-            onPress={() => this._changeStage(true)}>
-              <Text style={guideStyle.bottomButton}>BACK</Text>
-            </TouchableNativeFeedback>
-
-            <TouchableNativeFeedback 
-            background={this.nativeRipple} 
-            onPress={() => this._changeStage(false)}>
-              <Text style={guideStyle.bottomButton}>NEXT</Text>
-            </TouchableNativeFeedback>
-          </View>
-        </View>
+          
+        </KeyboardAvoidingView>
       ,
       "next": {
         "addMember": "addMemberGender",
       },
       "back": {
         "addMember": "addMemberInitial",
-      }
+      },
+      bottomButton: this.generalBottom
 
     },
     "addMemberGender": {
       "title": "What's the Gender?",
       "view": () =>
-        <View style={{flex: 4, flexDirection: "column", paddingTop: 69}}>
+        <KeyboardAvoidingView behavior="height" enabled style={{flex: 4, flexDirection: "column", paddingTop: 69}}>
           <View style={{paddingHorizontal: 26, flex: 6, paddingLeft: 27}}>
              <Text style={{fontSize: 18, marginTop: 38, width: "87%"}}>
               We support any gender you like
@@ -161,44 +168,30 @@ export default class AddMemberGuide extends Component{
             }
              style={{width: "87%", height: 32, fontSize: 18,  marginTop: 23, lineHeight: 26}} />
           </View>
-          <View style={guideStyle.bottomButtonCn}>
-
-            <TouchableNativeFeedback 
-            background={this.nativeRipple} 
-            onPress={() => this._changeStage(true)}>
-              <Text style={guideStyle.bottomButton}>BACK</Text>
-            </TouchableNativeFeedback>
-
-            <TouchableNativeFeedback 
-            background={this.nativeRipple} 
-            onPress={() => this._changeStage(false)}>
-              <Text style={guideStyle.bottomButton}>NEXT</Text>
-            </TouchableNativeFeedback>
-          </View>
-        </View>
+          
+        </KeyboardAvoidingView>
       ,
       "next": {
         "addMember": "addMemberBirthday",
       },
       "back": {
         "addMember": "addMemberName",
-      }
+      },
+      bottomButton: this.generalBottom
 
     },
     "addMemberBirthday": {
       "title": "What's the Birthday?",
       "view": ()=>
-        <View style={{flex: 4, flexDirection: "column", paddingTop: 69}}>
+        <KeyboardAvoidingView behavior="height" enabled style={{flex: 4, flexDirection: "column", paddingTop: 69}}>
           <View style={{paddingHorizontal: 26, flex: 6, paddingLeft: 27}}>
-             <Text style={{fontSize: 18, marginTop: 38, width: "87%"}}>
-              Member's Birthday
-             </Text>
-             <Button onPress={async () => {
+             <TouchableNativeFeedback onPress={async () => {
                try {
                   const {action, year, month, day} = await DatePickerAndroid.open({
                     // Use `new Date()` for current date.
                     // May 25 2020. Month 0 is January.
                     date: this.state.dateBirth,
+                    mode:"spinner",
                   });
 
                   if (action !== DatePickerAndroid.dismissedAction){
@@ -210,36 +203,27 @@ export default class AddMemberGuide extends Component{
                 } catch ({code, message}) {
                   console.warn('Cannot open date picker', message);
                 }
-             }} title={this.getStringDate(this.state.dateBirth)}></Button>
+             }} style={{width: "100%", height: 52, borderColor: colors.AGRAY, borderWidth: 0.5, borderRadius: 7, justifyContent: "center", alignItems: "center", marginTop: 38, padding: 12}}>
+              <Icon name="today" />
+              <Text style={{fonrSize: 25}}>{this.getStringDate(this.state.dateBirth)}</Text>
+             </TouchableNativeFeedback>
           </View>
-          <View style={guideStyle.bottomButtonCn}>
-
-            <TouchableNativeFeedback 
-            background={this.nativeRipple} 
-            onPress={() => this._changeStage(true)}>
-              <Text style={guideStyle.bottomButton}>BACK</Text>
-            </TouchableNativeFeedback>
-
-            <TouchableNativeFeedback 
-            background={this.nativeRipple} 
-            onPress={() => this._changeStage(false)}>
-              <Text style={guideStyle.bottomButton}>NEXT</Text>
-            </TouchableNativeFeedback>
-          </View>
-        </View>
+          
+        </KeyboardAvoidingView>
       ,
       "next": {
         "addMember": "addMemberRole",
       },
       "back": {
         "addMember": "addMemberGender",
-      }
+      },
+      bottomButton: this.generalBottom
 
     },
     "addMemberRole": {
       "title": "What's the Role?",
       "view": () =>
-        <View style={{flex: 4, flexDirection: "column", paddingTop: 69}}>
+        <KeyboardAvoidingView behavior="height" enabled style={{flex: 4, flexDirection: "column", paddingTop: 69}}>
           <View style={{paddingHorizontal: 29, flex: 6, paddingLeft: 32}}>
            <Text style={{fontSize: 18, width: "87%"}}>The role</Text>
             <TextInput placeholder={"Role"} underlineColorAndroid={colors.SILVER} onChangeText={
@@ -247,67 +231,57 @@ export default class AddMemberGuide extends Component{
             }
              style={{width: "87%", height: 32, fontSize: 18, marginTop: 21, lineHeight: 26}} />
           </View>
-          <View style={guideStyle.bottomButtonCn}>
-
-            <TouchableNativeFeedback 
-            background={this.nativeRipple} 
-            onPress={() => this._changeStage(true)}>
-              <Text style={guideStyle.bottomButton}>BACK</Text>
-            </TouchableNativeFeedback>
-
-            <TouchableNativeFeedback 
-            background={this.nativeRipple} 
-            onPress={() => this._changeStage(false)}>
-              <Text style={guideStyle.bottomButton}>NEXT</Text>
-            </TouchableNativeFeedback>
-          </View>
-        </View>
+          
+        </KeyboardAvoidingView>
       ,
       "next": {
         "addMember": "addMemberAvatar",
       },
       "back": {
         "addMember": "addMemberBirthday",
-      }
+      },
+      bottomButton: this.generalBottom
     },
     "addMemberAvatar": {
       "title": "How does the member look like?",
       "view": () =>
-        <View style={{flex: 4, flexDirection: "column", paddingTop: 69}}>
+        <KeyboardAvoidingView behavior="height" enabled style={{flex: 4, flexDirection: "column", paddingTop: 69}}>
           <View style={{paddingHorizontal: 29, flex: 6, paddingLeft: 32}}>
            <Text style={{fontSize: 18, width: "87%"}}>
             The role
            </Text>
           </View>
-          {this.state.finishedAdd? 
-          <View style={guideStyle.bottomButtonCn}>
-            <Text style={{fontSize: 18, width: "87%", paddingHorizontal: 29, paddingLeft: 32, color: colors.HOMESCREENLIGHTBLUE}}>Adding member..</Text>
-
-          </View>:
-          <View style={guideStyle.bottomButtonCn}>
           
-
-            <TouchableNativeFeedback 
-            background={this.nativeRipple} 
-            onPress={() => this._changeStage(true)}>
-              <Text style={guideStyle.bottomButton}>BACK</Text>
-            </TouchableNativeFeedback>
-
-            <TouchableNativeFeedback 
-            background={this.nativeRipple} 
-            onPress={() => this._changeStage(false)}>
-              <Text style={guideStyle.bottomButton}>FINISH</Text>
-            </TouchableNativeFeedback>
-          </View>
-          }
-        </View>
+        </KeyboardAvoidingView>
       ,
       "next": {
         "addMember": FINISH,
       },
       "back": {
         "addMember": "addMemberRole",
-      }
+      },
+      bottomButton: () => (this.state.finishedAdd? 
+        <View style={guideStyle.bottomButtonCn}>
+          <Text style={{fontSize: 18, width: "87%", paddingHorizontal: 29, paddingLeft: 32, color: colors.HOMESCREENLIGHTBLUE}}>Adding member..</Text>
+
+        </View>:
+        <View style={guideStyle.bottomButtonCn}>
+        
+
+          <TouchableNativeFeedback 
+          background={this.nativeRipple} 
+          onPress={() => this._changeStage(true)}>
+            <Text style={guideStyle.bottomButton}>BACK</Text>
+          </TouchableNativeFeedback>
+
+          <TouchableNativeFeedback 
+          background={this.nativeRipple} 
+          onPress={() => this._changeStage(false)}>
+            <Text style={guideStyle.bottomButton}>FINISH</Text>
+          </TouchableNativeFeedback>
+        </View>
+      )
+      
     },
   }
 
@@ -373,22 +347,24 @@ export default class AddMemberGuide extends Component{
 
   render(){
     return(
-      <View style={{flexDirection: "column", flex: 1}}>
+      <KeyboardAvoidingView behavior="padding" enabled style={{flexDirection: "column", flex: 1}}>
 
         <View style={{paddingTop: 26, paddingHorizontal: 26, flex: 1, justifyContent: "flex-start", alignItems: "center", flexDirection: "row"}}>
           <Icon name='clear' />
         </View>
         {this.state.familyAccount? 
-          <View style={{flex: 8, width: "100%", flexDirection: "column", paddingLeft: 2}}>
-            <View style={{paddingHorizontal: 28, flex: 1, flexDirection:"column", justifyConytent: "flex-end", alignItems: "flex-start", paddingBottom: 16}}>
-              <Text style={{flex: 1, width: "85%", textAlignVertical: "bottom", fontSize: 32, color: colors.HOMESCREENLIGHTBLUE}}>
+          <View style={{flex: 5, width: "100%", flexDirection: "column", paddingLeft: 2}}>
+            <View style={{paddingHorizontal: 28, flex: 1, flexDirection:"column", justifyConytent: "center", alignItems: "flex-start", paddingBottom: 16}}>
+              <Text style={{flex: 1, width: "85%", textAlignVertical: "center", fontSize: 32, color: colors.HOMESCREENLIGHTBLUE}}>
                 {this.stages[this.state.currentStage]["title"]}
               </Text>
             </View>
             {this.stages[this.state.currentStage]["view"]()}
-          </View>:<View style={{flex: 8}}></View>
+            {this.stages[this.state.currentStage]["bottomButton"]()}
+          
+          </View>:<View style={{flex: 5}}></View>
         }
-      </View>
+      </KeyboardAvoidingView>
     )
   }
 }
@@ -408,7 +384,7 @@ const guideStyle = StyleSheet.create(
     bottomButtonCn: {
       paddingHorizontal: 12, 
       paddingBottom: 26, 
-      flex: 1, 
+      flex: 0.5, 
       flexDirection: "row", 
       justifyContent: "space-between", 
       alignItems: "center"
