@@ -4,9 +4,7 @@ import colors from "../config/colors";
 import { Button, Icon, ListItem, Body } from 'native-base';
 import { Ionicons, FontAwesome } from '@expo/vector-icons';
 
-import firebase from "firebase";
-import firebaseContainer from "../controller/firebaseConfig";
-import * as ImagePicker from 'expo-image-picker';
+import { _handleItemPicked, _pickVideo, _uploadToFirebase, _pickImage, _uploadItem } from "../controller/fileUtilities"
 
 export default class ArtefactGuide extends Component{
 
@@ -18,7 +16,7 @@ export default class ArtefactGuide extends Component{
     selected: 0,
     name: "",
     description: "",
-    item: "https://firebasestorage.googleapis.com/v0/b/fir-one-28de9.appspot.com/o/post-3.jpg?alt=media&token=76e4cd81-d3ba-46ea-9346-890659cf7714",
+    item: null,
     uploaded: false,
     textArtefact: "",
     currentStage: "addArtefactFromNewInitial",
@@ -234,28 +232,45 @@ export default class ArtefactGuide extends Component{
       "view": () =>
         <View style={{flex: 4, flexDirection: "column", paddingTop: 10}}>
           {(this.state.uploaded) ? (
-            <TouchableOpacity style={guideStyle.uploadBox} onPress={this._upload} >
-              <Image source={{uri: this.state.item}}></Image>
-            </TouchableOpacity>
+            <Image source={{uri: this.state.item}} 
+              style={{
+                flexDirection: 'column', 
+                flex: 3, 
+                height: 260, 
+                width: 300,
+                resizeMode: 'stretch',
+                marginLeft: 28,
+                marginTop: -50,
+                borderRadius: 12,
+              }} />
           ) : (
-            <TouchableOpacity style={guideStyle.uploadBox} onPress={this._upload} >
+            <TouchableOpacity style={guideStyle.uploadBox} onPress={this._uploadImageArtefact} >
               <Ionicons name="md-images" size={44} color="orange" />
               <Text style={guideStyle.uploadText}>Browse</Text>
             </TouchableOpacity>
           )}
 
-          <Image source={{uri: this.state.item}}></Image>
+          {(this.state.uploaded) ? (
+            <Button warning onPress={this._uploadImageArtefact} style={{marginTop: 15, width: 140, height: 48, borderRadius: 12, marginLeft: 105,}}>
+              <Text style={{textAlign: "center", textAlignVertical: "center", fontSize: 16, color: '#fff', marginLeft: 20,}}>Change Image</Text>
+            </Button>
+          ) : null }
 
           <View style={guideStyle.bottomButtonCn}>
             <Button iconLeft light onPress={() => this._changeStage(true)} >
               <Icon name='arrow-back' />
               <Text style={guideStyle.bottomButtonLeft}>Back</Text>
             </Button>
-            <Button iconRight light onPress={() => alert("Finished!")} style={{opacity: 0}}>
-              <Text style={guideStyle.bottomButtonRight}>Next</Text>
-              <Icon name='arrow-forward' style={{marginRight: 15}} />
-            </Button>
-            
+            {(this.state.uploaded) ? (
+              <Button iconRight success onPress={() => alert("Finished!")} >
+                <Text style={guideStyle.finishButton}>DONE</Text>
+              </Button>
+            ) : (
+              <Button iconRight light onPress={() => {}} style={{opacity: 0}}>
+                <Text style={guideStyle.bottomButtonRight}>Next</Text>
+                <Icon name='arrow-forward' style={{marginRight: 15}} />
+              </Button>
+            )}
           </View>
         </View>
       ,
@@ -317,33 +332,26 @@ export default class ArtefactGuide extends Component{
     );
   }
 
-  // upload image or video from local system
-  _upload = async () => {
-    let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      allowsEditing: true,
-      aspect: [4, 4],
-    });
+  // upload image from local system
+  _uploadImageArtefact = async () => {
+
+    // get image
+    let result = await _pickImage();
+
+    // update local state
     if (!result.cancelled) {
       this.state.item = result.uri;
       this.state.uploaded = true;
       this.forceUpdate();
     };
-    firebaseContainer.getInstance().justStart();
-    alert(this.state.item);
-    if (!result.cancelled) {
-      // upload item to firebase
-      uploadUrl = await _uploadToFirebase(result.uri);
-      return uploadUrl;
-    }
-  }
+
+    // upload to firebase
+    let firebaseUri = await _uploadItem(result);
+  };
 
   render() {
     return(
       <View style={{flexDirection: "column", flex: 1}}>
-        <Image source={{uri: this.state.item}}></Image>
-        <Image source={{uri: this.state.item}}></Image>
-        <Image source={{uri: this.state.item}}></Image>
         <View style={{paddingTop: 26, paddingHorizontal: 26, flex: 1, justifyContent: "flex-start", alignItems: "center", flexDirection: "row"}}>
           <Icon name='close' />
         </View>
@@ -368,7 +376,8 @@ const guideStyle = StyleSheet.create({
     textAlignVertical: "center", 
     color: colors.DODGER_BLUE, 
     fontSize: 16,
-    marginLeft: 8
+    marginLeft: 8,
+    borderRadius: 10,
   },
   bottomButtonRight: {
     height: 58, 
@@ -376,19 +385,19 @@ const guideStyle = StyleSheet.create({
     textAlign: "center", 
     textAlignVertical: "center", 
     color: colors.DODGER_BLUE, 
-    fontSize: 16
+    fontSize: 16,
   },
   finishButton: {
     height: 58, 
-    width: 68, 
+    width: 123, 
     textAlign: "center", 
     textAlignVertical: "center", 
-    color: 'green', 
-    fontSize: 16
+    color: 'white', 
+    fontSize: 16,
   },
   bottomButtonCn: {
     paddingHorizontal: 20, 
-    paddingBottom: 26, 
+    paddingBottom: 16, 
     flex: 1, 
     flexDirection: "row", 
     justifyContent: "space-between", 
@@ -480,7 +489,7 @@ const guideStyle = StyleSheet.create({
     fontFamily: 'almond',
   }, 
   uploadBox: {
-    flex: 1,
+    flex: 3,
     marginLeft: 20,
     marginRight: 20,
     height: 220,
@@ -496,34 +505,3 @@ const guideStyle = StyleSheet.create({
     alignSelf: "center",
   },
 });
-
-_uploadToFirebase = async uri => {
-
-  const blob = await new Promise((resolve, reject) => {
-    const xhr = new XMLHttpRequest();
-    xhr.onload = function() {
-      resolve(xhr.response);
-    };
-    xhr.onerror = function(e) {
-      console.log(e);
-      reject(new TypeError('Network request failed'));
-    };
-    xhr.responseType = 'blob';
-    xhr.open('GET', uri, true);
-    xhr.send(null);
-  });
-
-  // randomly generate a suffix for artefact using crypto
-  var rdmString = "";
-  for( ;rdmString.length < 11; rdmString  += Math.random().toString(36).substr(2));
-  const ref = firebase
-    .storage()
-    .ref()
-    .child('artefact_' + rdmString.substr(0, 11));
-  const snapshot = await ref.put(blob);
-
-  // We're done with the blob, close and release it
-  blob.close();
-
-  return await snapshot.ref.getDownloadURL();
-}

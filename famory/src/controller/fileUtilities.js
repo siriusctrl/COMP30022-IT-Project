@@ -12,7 +12,7 @@ export const _pickImage = async () => {
     aspect: [4, 4],
   });
 
-  _uploadItem(result);
+  return result;
 };
 
 // picks video from local file system
@@ -22,7 +22,7 @@ export const _pickVideo = async () => {
     allowsEditing: true,
   });
 
-  _uploadItem(result);
+  return result;
 };
 
 // upload image/video from local file system to firebase
