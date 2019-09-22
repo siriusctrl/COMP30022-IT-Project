@@ -1,14 +1,11 @@
-import React, {Component} from "react";
-import { Text, TextInput, Image, StyleSheet, View , Alert, KeyboardAvoidingView, ImageBackground, FlatList} from "react-native";
-import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import React, { Component } from "react";
+import { StyleSheet, View, Text, TouchableOpacity, TextInput, ImageBackground, Image, TouchableHighlight } from "react-native";
 import colors from "../config/colors";
-import { Icon, ListItem } from 'react-native-elements'
-import { Container, Header, Content, Item, Input} from 'native-base';
-import Carousel from "react-native-snap-carousel";
+import { Button, Icon, ListItem, Body } from 'native-base';
+import { Ionicons, FontAwesome } from '@expo/vector-icons';
 
-import ArtCard from "../components/ArtCard";
-import { TouchableNativeFeedback, TouchableHighlight } from "react-native-gesture-handler";
-
+import { Video } from 'expo-av';
+import { _handleItemPicked, _pickVideo, _uploadToFirebase, _pickImage, _uploadItem } from "../controller/fileUtilities"
 
 export default class ArtefactGuide extends Component{
 
@@ -17,42 +14,328 @@ export default class ArtefactGuide extends Component{
   }
 
   state = {
-    
+    selected: 0,
+    name: "",
+    description: "",
+    imageItem: null,
+    videoItem: null,
+    imageuploaded: false,
+    videoUploaded: false,
+    textArtefact: "",
     currentStage: "addArtefactFromNewInitial",
     currentPurpose: "addNewArtefact",
-  }
+  };
 
   initialStage = {
     addNewArtefact: "addArtefactFromNewInitial"
   }
 
+  switchSelection = (id) => {
+    this.state.selected = id;
+    this.forceUpdate();
+  }
+
   stages = {
     
     "addArtefactFromNewInitial": {
-      "title": "Adding new artefact",
-      "view": [
-        <View style={{flex: 4, flexDirection: "column", paddingTop: 69}}>
-          <View style={{paddingHorizontal: 26, flex: 6, paddingLeft: 27}}>
-            <Text style={{fontSize: 18, width: "87%"}}>You are adding a new artefact to "family Member here"</Text>
-            
+      "title": "Select artefact type",
+      "view": () =>
+        <View style={{flex: 4, flexDirection: "column", paddingTop: 49}}>
+          <View style={guideStyle.selectionBox}>
+            {(this.state.selected == 0) ? (
+              <TouchableOpacity style={guideStyle.selectedBox} onPress={() => this.switchSelection(0)}>
+                <FontAwesome name="pencil-square-o" size={44} color="green" style={{marginLeft: -10}} />
+                <Text style={guideStyle.textBox}>Texts</Text>
+              </TouchableOpacity>
+            ) : (
+              <TouchableOpacity style={guideStyle.box} onPress={() => this.switchSelection(0)}>
+                <FontAwesome name="pencil-square-o" size={44} color="green" style={{marginLeft: -10, opacity: 0.3}} />
+                <Text style={guideStyle.unselectedText}>Texts</Text>
+              </TouchableOpacity>
+            )}
+            <View
+              style={{
+                borderBottomColor: colors.SILVER,
+                borderBottomWidth: StyleSheet.hairlineWidth,
+              }}
+            />
+            {(this.state.selected == 1) ? (
+              <TouchableOpacity style={guideStyle.selectedBox} onPress={() => this.switchSelection(1)}>
+                <Ionicons name="md-images" size={44} color="orange" />
+                <Text style={guideStyle.textBox}>Photos</Text>
+              </TouchableOpacity>
+            ) : (
+              <TouchableOpacity style={guideStyle.box} onPress={() => this.switchSelection(1)}>
+                <Ionicons name="md-images" size={44} color="orange" style={{opacity: 0.3}} />
+                <Text style={guideStyle.unselectedText}>Photos</Text>
+              </TouchableOpacity>
+            )}
+            <View
+              style={{
+                borderBottomColor: colors.SILVER,
+                borderBottomWidth: StyleSheet.hairlineWidth,
+              }}
+            />
+            {(this.state.selected == 2) ? (
+              <TouchableOpacity style={guideStyle.selectedBox} onPress={() => this.switchSelection(2)}>
+                <FontAwesome name="file-video-o" size={44} color="blue" />
+                <Text style={guideStyle.textBox}>Videos</Text>
+              </TouchableOpacity>
+            ) : (
+              <TouchableOpacity style={guideStyle.box} onPress={() => this.switchSelection(2)}>
+                <FontAwesome name="file-video-o" size={44} color="blue" style={{opacity: 0.3}} />
+                <Text style={guideStyle.unselectedText}>Videos</Text>
+              </TouchableOpacity>
+            )}
           </View>
           <View style={guideStyle.bottomButtonCn}>
-            <TouchableNativeFeedback background={TouchableNativeFeedback.Ripple(colors.MISCHKA, true)} onPress={() => this._changeStage(true)}>
-              <Text style={guideStyle.bottomButton}>BACK</Text>
-            </TouchableNativeFeedback>
-            <TouchableNativeFeedback background={TouchableNativeFeedback.Ripple(colors.MISCHKA, true)} onPress={() => this._changeStage(false)}>
-              <Text style={guideStyle.bottomButton}>NEXT</Text>
-            </TouchableNativeFeedback>
+            <Button iconLeft light onPress={() => this._changeStage(true)}>
+              <Icon name='arrow-back' />
+              <Text style={guideStyle.bottomButtonLeft}>Back</Text>
+            </Button>
+            <Button iconRight light onPress={() => this._changeStage(false)}>
+              <Text style={guideStyle.bottomButtonRight}>Next</Text>
+              <Icon name='arrow-forward' style={{marginRight: 15}} />
+            </Button>
+            
           </View>
         </View>
-      ],
+      ,
       "next": {
-        "addNewArtefact": "",
+        "addNewArtefact": "addArtefactMetadata",
       },
       "back": {
         "addNewArtefact": "",
       }
+    },
 
+    "addArtefactMetadata": {
+      "title": "Artefact metadata",
+      "view": () =>
+        <View style={{flex: 4, flexDirection: "column", paddingTop: 49}}>
+          <View>
+            <ListItem noBorder>
+              <Body>
+                <Text style={guideStyle.greyText}>Item Title</Text>
+                <TextInput
+                  style={guideStyle.blackText}
+                  onChangeText={(text) => this.setState({name: text})}
+                  placeholder="Your artefact name"
+                  placeholderTextColor={"#D3D3D3"}
+                  maxLength={30}
+                  value={this.state.text}
+                />
+                <Text style={{
+                fontSize:12,
+                color:'lightgrey',
+                textAlign: 'right',
+                marginTop: 5,
+                marginLeft: -5
+                }}> 
+                  {this.state.name.length}{" "}/{" "}30 
+                </Text>
+              </Body>
+            </ListItem>
+
+            <ListItem noBorder>
+              <Body>
+              <Text style={guideStyle.greyText}>Item description</Text>
+              <TextInput
+                style={guideStyle.blackTextLong}
+                onChangeText={(text) => this.setState({description: text})}
+                placeholder="Type something here..."
+                placeholderTextColor={"#D3D3D3"}
+                multiline={true}
+                numberOfLines={4}
+                maxLength={120}
+                value={this.state.text}
+              />
+              <Text style={{
+                fontSize:12,
+                color:'lightgrey',
+                textAlign: 'right',
+                marginTop: 5,
+                marginLeft: -5
+              }}> 
+                {this.state.description.length}{" "}/{" "}120 
+              </Text>
+              </Body>
+            </ListItem>
+          </View>
+          <View style={guideStyle.bottomButtonCn}>
+            <Button iconLeft light onPress={() => this._changeStage(true)}>
+              <Icon name='arrow-back' />
+              <Text style={guideStyle.bottomButtonLeft}>Back</Text>
+            </Button>
+            <Button iconRight light onPress={() => this._changeStage(false)}>
+              <Text style={guideStyle.bottomButtonRight}>Next</Text>
+              <Icon name='arrow-forward' style={{marginRight: 15}} />
+            </Button>
+            
+          </View>
+        </View>
+      ,
+      "textnext": {
+        "addNewArtefact": "uploadText",
+      },
+      "videonext": {
+        "addNewArtefact": "uploadVideo",
+      },
+      "photonext": {
+        "addNewArtefact": "uploadImage",
+      },
+      "back": {
+        "addNewArtefact": "addArtefactFromNewInitial",
+      }
+    },
+
+    "uploadText": {
+      "title": "Memoir Upload",
+      "view": () =>
+        <View style={{flex: 4, flexDirection: "column", paddingTop: 10}}>
+          <ImageBackground 
+            source={require("../assets/images/text-artefact-1.jpeg")} 
+            style={{width: '100%', height: '94%', borderRadius: 20, alignItems: 'center', justifyContent: 'center', padding: 10, marginLeft: 10, marginTop: -40}}
+          >
+            <TextInput
+              style={guideStyle.artefactText}
+              onChangeText={(text) => this.setState({textArtefact: text})}
+              placeholder="Cherish the memories..."
+              placeholderTextColor={"#808080"}
+              multiline={true}
+              numberOfLines={8}
+              maxLength={400}
+              value={this.state.text}
+            />
+          </ImageBackground>
+
+          <View style={guideStyle.bottomButtonCn}>
+            <Button iconLeft light onPress={() => this._changeStage(true)}>
+              <Icon name='arrow-back' />
+              <Text style={guideStyle.bottomButtonLeft}>Back</Text>
+            </Button>
+            <Button iconRight success onPress={() => alert("Done!")}>
+              <Text style={guideStyle.finishButton}>DONE</Text>
+            </Button>
+            
+          </View>
+        </View>
+      ,
+      "next": {
+        "addNewArtefact": "",
+      },
+      "back": {
+        "addNewArtefact": "addArtefactMetadata",
+      }
+    },
+
+    "uploadImage": {
+      "title": "Image Upload",
+      "view": () =>
+        <View style={{flex: 4, flexDirection: "column", paddingTop: 10}}>
+          {(this.state.imageuploaded) ? (
+            <Image source={{uri: this.state.imageItem}} 
+              style={{
+                flexDirection: 'column', 
+                flex: 3, 
+                height: 260, 
+                width: 300,
+                resizeMode: 'stretch',
+                marginLeft: 28,
+                marginTop: -50,
+                borderRadius: 12,
+              }} />
+          ) : (
+            <TouchableOpacity style={guideStyle.uploadBox} onPress={this._uploadImageArtefact} >
+              <Ionicons name="md-images" size={44} color="orange" />
+              <Text style={guideStyle.uploadText}>Browse</Text>
+            </TouchableOpacity>
+          )}
+
+          {(this.state.imageuploaded) ? (
+            <Button warning onPress={this._uploadImageArtefact} style={{marginTop: 15, width: 140, height: 48, borderRadius: 12, marginLeft: 105,}}>
+              <Text style={{textAlign: "center", textAlignVertical: "center", fontSize: 16, color: '#fff', marginLeft: 20,}}>Change Image</Text>
+            </Button>
+          ) : null }
+
+          <View style={guideStyle.bottomButtonCn}>
+            <Button iconLeft light onPress={() => this._changeStage(true)} >
+              <Icon name='arrow-back' />
+              <Text style={guideStyle.bottomButtonLeft}>Back</Text>
+            </Button>
+            {(this.state.imageuploaded) ? (
+              <Button iconRight success onPress={() => alert("Finished!")} >
+                <Text style={guideStyle.finishButton}>DONE</Text>
+              </Button>
+            ) : (
+              <Button iconRight light onPress={() => {}} style={{opacity: 0}}>
+                <Text style={guideStyle.bottomButtonRight}>Next</Text>
+                <Icon name='arrow-forward' style={{marginRight: 15}} />
+              </Button>
+            )}
+          </View>
+        </View>
+      ,
+      "next": {
+        "addNewArtefact": "",
+      },
+      "back": {
+        "addNewArtefact": "addArtefactMetadata",
+      }
+    },
+
+    "uploadVideo": {
+      "title": "Videoclip Upload",
+      "view": () =>
+        <View style={{flex: 4, flexDirection: "column", paddingTop: 10}}>
+          {(this.state.videoUploaded) ? (
+            <Video
+              source={{ uri: this.state.videoItem }}
+              rate={1.0}
+              volume={1.0}
+              isMuted={false}
+              resizeMode="Video.RESIZE_MODE_CONTAIN"
+              useNativeControls={true}
+              isLooping={true}
+              style={{ width: 300, height: 260, marginTop: -50, marginLeft: 28, flex: 3 }}
+            />
+          ) : (
+            <TouchableOpacity style={guideStyle.uploadBox} onPress={this._uploadVideoArtefact} >
+              <FontAwesome name="file-video-o" size={44} color="blue" />
+              <Text style={guideStyle.uploadText}>Browse</Text>
+            </TouchableOpacity>
+          )}
+
+          {(this.state.videoUploaded) ? (
+            <Button warning onPress={this._uploadVideoArtefact} style={{marginTop: 15, width: 140, height: 48, borderRadius: 12, marginLeft: 105,}}>
+              <Text style={{textAlign: "center", textAlignVertical: "center", fontSize: 16, color: '#fff', marginLeft: 20,}}>Change Video</Text>
+            </Button>
+          ) : null }
+
+          <View style={guideStyle.bottomButtonCn}>
+            <Button iconLeft light onPress={() => this._changeStage(true)} >
+              <Icon name='arrow-back' />
+              <Text style={guideStyle.bottomButtonLeft}>Back</Text>
+            </Button>
+            {(this.state.videoUploaded) ? (
+              <Button iconRight success onPress={() => alert("Finished!")} >
+                <Text style={guideStyle.finishButton}>DONE</Text>
+              </Button>
+            ) : (
+              <Button iconRight light onPress={() => {}} style={{opacity: 0}}>
+                <Text style={guideStyle.bottomButtonRight}>Next</Text>
+                <Icon name='arrow-forward' style={{marginRight: 15}} />
+              </Button>
+            )}
+          </View>
+        </View>
+      ,
+      "next": {
+        "addNewArtefact": "",
+      },
+      "back": {
+        "addNewArtefact": "addArtefactMetadata",
+      }
     },
     
   }
@@ -63,24 +346,32 @@ export default class ArtefactGuide extends Component{
     let now = "next";
     if (back) {
       now = "back";
+    } else if (this.state.currentStage === "addArtefactMetadata") {
+      // need to go to upload page in response to different selections
+      if (this.state.selected == 0) {
+        now = "textnext";
+      } else if (this.state.selected == 1) {
+        now = "photonext";
+      } else {
+        now = "videonext";
+      }
     }
 
-    ge = this.stages[this.state.currentStage][now][this.state.currentPurpose]
+    nextStage = this.stages[this.state.currentStage][now][this.state.currentPurpose];
 
-    if(ge && ge != FINISH){
+    if (nextStage && nextStage != FINISH){
         this.setState(
           {
             ... this.state,
-            currentStage: ge,
+            currentStage: nextStage,
           }
         );
-    }else if(ge == FINISH){
+    } else if(nextStage == FINISH){
       this._finish(this.state.currentPurpose);
-    }else{
+    } else{
       alert("WHAT STAGE NEXT?");
     }
   }
-
 
   // after finish, just fill this.FINISH to the "next" stage
   _finish = (purpose) => {
@@ -95,22 +386,53 @@ export default class ArtefactGuide extends Component{
         ... te
       }
     );
-
   }
 
+  // upload image from local system
+  _uploadImageArtefact = async () => {
 
-  render(){
+    // get image
+    let result = await _pickImage();
+
+    // update local state
+    if (!result.cancelled) {
+      this.state.imageItem = result.uri;
+      this.state.imageuploaded = true;
+      this.forceUpdate();
+    };
+
+    // upload to firebase
+    let firebaseUri = await _uploadItem(result);
+  };
+
+  // upload video from local system
+  _uploadVideoArtefact = async () => {
+
+    // get video
+    let result = await _pickVideo();
+
+    // update local state
+    if (!result.cancelled) {
+      this.state.videoItem = result.uri;
+      this.state.videoUploaded = true;
+      this.forceUpdate();
+    };
+
+    // upload to firebase
+    let firebaseUri = await _uploadItem(result);
+  };
+
+  render() {
     return(
       <View style={{flexDirection: "column", flex: 1}}>
-
         <View style={{paddingTop: 26, paddingHorizontal: 26, flex: 1, justifyContent: "flex-start", alignItems: "center", flexDirection: "row"}}>
-          <Icon name='clear' />
+          <Icon name='close' />
         </View>
         <View style={{flex: 8, width: "100%", flexDirection: "column", paddingLeft: 2}}>
           <View style={{paddingHorizontal: 28, flex: 1, flexDirection:"column", justifyConytent: "flex-end", alignItems: "flex-start", paddingBottom: 16}}>
-            <Text style={{flex: 1, width: "85%", textAlignVertical: "bottom", fontSize: 32, color: colors.HOMESCREENLIGHTBLUE}}>{this.stages[this.state.currentStage]["title"]}</Text>
+            <Text style={{flex: 1, width: "85%", opacity: 1, fontSize: 28, color: colors.HOMESCREENLIGHTBLUE, marginTop: 25}}>{this.stages[this.state.currentStage]["title"]}</Text>
           </View>
-          {this.stages[this.state.currentStage]["view"]}
+          {this.stages[this.state.currentStage]["view"]()}
         </View>
       </View>
     )
@@ -119,50 +441,140 @@ export default class ArtefactGuide extends Component{
 
 const FINISH = "finish";
 
-const guideStyle = StyleSheet.create(
-  {
-    bottomButton: {
-      height: 58, 
-      width: 82, 
-      textAlign: "center", 
-      textAlignVertical: "center", 
-      color: colors.DODGER_BLUE, 
-      fontSize: 16
-    },
-    bottomButtonCn: {
-      paddingHorizontal: 12, 
-      paddingBottom: 26, 
-      flex: 1, 
-      flexDirection: "row", 
-      justifyContent: "space-between", 
-      alignItems: "center"
-    }
-  }
-)
-
-const styles = StyleSheet.create({
-  container: {
+const guideStyle = StyleSheet.create({
+  bottomButtonLeft: {
+    height: 58, 
+    width: 76, 
+    textAlign: "center", 
+    textAlignVertical: "center", 
+    color: colors.DODGER_BLUE, 
+    fontSize: 16,
+    marginLeft: 8,
+    borderRadius: 10,
+  },
+  bottomButtonRight: {
+    height: 58, 
+    width: 68, 
+    textAlign: "center", 
+    textAlignVertical: "center", 
+    color: colors.DODGER_BLUE, 
+    fontSize: 16,
+  },
+  finishButton: {
+    height: 58, 
+    width: 123, 
+    textAlign: "center", 
+    textAlignVertical: "center", 
+    color: 'white', 
+    fontSize: 16,
+  },
+  bottomButtonCn: {
+    paddingHorizontal: 20, 
+    paddingBottom: 16, 
+    flex: 1, 
+    flexDirection: "row", 
+    justifyContent: "space-between", 
+    alignItems: "center"
+  },
+  selectionBox: {
+    paddingHorizontal: 36, 
+    flex: 3, 
+    marginTop: -50,
+  }, 
+  box: {
     flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
+    padding: 7,
+    marginBottom: 5,
+    height: 60,
+    borderRadius: 20,
+    alignItems: 'center', 
+    justifyContent: 'center',
+    flexDirection: 'row',
+  }, 
+  textBox: {
+    fontSize: 26, 
+    alignItems: 'center', 
+    justifyContent: 'center',
+    textShadowColor: colors.SILVER,
+    textShadowOffset: {width: -1, height: 1},
+    textShadowRadius: 10,
+    marginLeft: 50,
   },
-  tContainer: {
-    backgroundColor: colors.HOMESCREENLIGHTBLUE,
-    width: "100%",
-    height: 158,
-    elevation: 8,
-    zIndex: 2,
-    justifyContent: "flex-start",
-    flexDirection: "column"
+  uploadText: {
+    fontSize: 26, 
+    alignItems: 'center', 
+    justifyContent: 'center',
+    color: colors.SILVER,
+    marginTop: 5,
   },
-  artCard: {
-    width: "100%",
-    height: 350,
-    borderRadius: 6
+  unselectedText: {
+    fontSize: 26, 
+    alignItems: 'center', 
+    justifyContent: 'center',
+    textShadowColor: colors.SILVER,
+    textShadowOffset: {width: -1, height: 1},
+    textShadowRadius: 10,
+    marginLeft: 50,
+    opacity: 0.3,
   },
-  artCardDisplay: {
-    borderRadius: 6,
-    elevation: 16,
-    flex: 6
-  }
+  selectedBox: {
+    flex: 1,
+    padding: 7,
+    marginBottom: 5,
+    marginTop: 5,
+    height: 60,
+    borderRadius: 20,
+    alignItems: 'center', 
+    justifyContent: 'center',
+    flexDirection: 'row',
+    backgroundColor: "#f5f5f5",
+  },
+  greyText: {
+    marginLeft: 10,
+    fontSize: 18,
+    color: "#878B90",
+  },
+  blackText: {
+    marginLeft: 10,
+    marginTop:10,
+    paddingBottom:4,
+    fontSize: 16,
+    borderBottomColor: "lightgrey",
+    borderBottomWidth: 1,
+    height: 40,
+  },
+  blackTextLong: {
+    marginLeft: 10,
+    marginTop:10,
+    paddingBottom:4,
+    fontSize: 16,
+    borderBottomColor: "lightgrey",
+    borderBottomWidth: 1,
+    height: 60,
+  },
+  artefactText: {
+    marginLeft: 40,
+    marginTop: -150,
+    fontSize: 22,
+    width: 240,
+    height: 340,
+    letterSpacing: 2,
+    fontFamily: 'almond',
+  }, 
+  uploadBox: {
+    flex: 3,
+    marginLeft: 20,
+    marginRight: 20,
+    height: 220,
+    borderStyle: 'dashed',
+    borderRadius: 1,
+    borderWidth: 1,
+    borderColor: 'lightgrey',
+    alignItems: 'center', 
+    justifyContent: 'center',
+  },
+  avatar: {
+    resizeMode: "contain",
+    alignSelf: "center",
+  },
 });

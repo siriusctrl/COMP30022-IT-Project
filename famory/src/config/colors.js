@@ -12,6 +12,7 @@ const colors = {
     DTPURPLE: "#9A3DD0",
     LIGHTERBLUE: "#b9d6ed",
     AGRAY: "#B3B3B3",
+    GRAINSBORO: "#DCDCDC",
   };
   
 export default colors;
