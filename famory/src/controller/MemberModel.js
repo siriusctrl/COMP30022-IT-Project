@@ -44,6 +44,14 @@ export class MemberModelManage{
       callback(member)
     });
   }
+
+  passItem(callback, newMemberModel, itemModel){
+    let itemId = Object.keys(newMemberModel.item).length
+    firebase.database().ref(newMemberModel._path + "/" + "item/" + itemId.toString() + "/").set(
+      {id: itemModel.itemId, type: itemModel.type}).then(
+      this.getMember(callback, newMemberModel.memberId)
+    )
+  }
 }
 
 // member model
@@ -56,7 +64,7 @@ export class Member{
     this.firstName = snapshot["firstName"];
     this.gender = snapshot["gender"];
     this.generation = snapshot["generation"];
-    this.item = snapshot["item"];
+    this.item = snapshot["item"]? snapshot["item"]: {};
     this.lastName = snapshot["lastName"];
     this.profileImage = snapshot["profileImage"];
     this.ringColor = snapshot["ringColor"];
