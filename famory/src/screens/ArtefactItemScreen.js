@@ -1,11 +1,14 @@
 import React, {Component} from "react";
 import { Text, StyleSheet, View, ScrollView } from "react-native";
 import colors from "../config/colors";
+import strings from "../config/strings";
+import * as WebBrowser from "expo-web-browser";
 import { Icon } from 'native-base';
+import Modal from "react-native-modal";
 import { Entypo, AntDesign, FontAwesome } from '@expo/vector-icons';
 
 import ArtCard from "../components/ArtCard";
-import { TouchableNativeFeedback, TouchableHighlight } from "react-native-gesture-handler";
+import { TouchableNativeFeedback } from "react-native-gesture-handler";
 import { ActionSheetCustom as ActionSheet } from 'react-native-actionsheet';
 
 const optionDropdown = {
@@ -47,13 +50,19 @@ export default class ArtefactItem extends Component{
 
   state = {
     artefactItem: this.props.navigation.getParam("item", null),
+    modalVisible: false,
   }
 
   // display action sheet
   showActionSheet = () => {
     this.ActionSheet.show()
   }
-  
+
+  // update the modal for sharing
+  toggleModal = () => {
+    this.state.modalVisible = !this.state.modalVisible;
+    this.forceUpdate();
+  };
 
   render() {
 
@@ -89,12 +98,45 @@ export default class ArtefactItem extends Component{
         </ScrollView>
         </View>
 
+        <Modal
+          isVisible={this.state.modalVisible}
+          onBackdropPress={() => this.toggleModal()}
+          animationIn="slideInDown"
+          animationOut="fadeOutUp"
+          style={styles.modalStyle}
+        >
+          <View style={{flex:1, justifyContent:"center", alignItems:"center", flexDirection:"row"}}>
+            <TouchableNativeFeedback onPress={() => this._shareToFacebook(2)}>
+              <Entypo name="facebook" size={40} style={{color: colors.LIGHTBLUE}} />
+            </TouchableNativeFeedback>
+            <TouchableNativeFeedback onPress={() => this._shareToTwitter(2)}>
+              <Entypo name="twitter" size={40} style={{color: colors.LIGHTBLUE}} />
+            </TouchableNativeFeedback>
+          </View>
+        </Modal>
+
         <ActionSheet
           ref={o => this.ActionSheet = o}
           options={options}
           cancelButtonIndex={0}
           destructiveButtonIndex={4}
-          onPress={(index) => { /* do something */ }}
+          onPress={(index) => { 
+            switch (index) {
+              case 1:
+                alert("Feature still in development ^_^");
+                break;
+              case 2:
+                // share on facebook or twitter
+                this.toggleModal();
+                break;
+              case 3:
+                // delete item
+                alert("Are you sure to delete?");
+                break;
+              default:
+                // nothing
+            }
+          }}
         />
 
       </View>
@@ -127,5 +169,12 @@ const styles = StyleSheet.create({
     borderRadius: 6,
     elevation: 16,
     flex: 6
+  },
+  modalStyle: {
+    borderRadius: 15,
+    justifyContent: "center",
+    marginVertical: 140,
+    marginHorizontal: 30,
+    backgroundColor: colors.WHITE,
   },
 });
