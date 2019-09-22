@@ -9,8 +9,12 @@ const strings = {
     HOME_COMMUNITY: "COMMUNITY",
     HOME_ACCOUNT: "ACCOUNT",
     CONTACT_SUPPORT: "CONTACTSUPPORT",
-    FACEBOOK: "https://www.facebook.com",
+    FACEBOOK: "fb://profile",
     TWITTER: "https://twitter.com/compose/tweet",
+    MESSENGER: "fb-messenger://compose",
+    WECHAT: "weixin://",
+    GMAIL: "mailto://",
+    INSTAGRAM: "https://www.instagram.com/create/story",
   };
   
   export default strings;
