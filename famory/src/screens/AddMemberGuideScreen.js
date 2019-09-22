@@ -373,29 +373,29 @@ export default class AddMemberGuide extends Component{
 
   // after finishing guide
   _finish = async (purpose) => {
+    this.setState({
+      finishedAdd: true
+    })
 
     let imageURI = this.state.avatar;
     if(this.state.avatar != ""){
       imageURI = await _uploadToFirebase(this.state.avatar)
     }
     
-    let memberDetails = {
+    let memberDetails = await {
       dob: this.getStringDate(this.state.dateBirth),
       firstName: this.state.memberName,
       gender: this.state.gender,
       generation: 0,
       item: {},
       lastName: this.state.lastName,
-      profileImage: imageURI,
+      profileImage: await imageURI,
       ringColor: this.state.ringColor,
       role: this.state.role
     }
 
-    MemberModelManage.getInstance().setMember((member) => {
-      this.props.navigation.goBack()}, memberDetails, this.state.familyAccount)
-    this.setState({
-      finishedAdd: true
-    })
+    await MemberModelManage.getInstance().setMember((member) => {
+      this.props.navigation.navigate("HomePage")}, memberDetails, this.state.familyAccount)
   }
 
   // onChange for any text input in the guide
