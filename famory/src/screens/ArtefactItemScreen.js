@@ -1,10 +1,44 @@
 import React, {Component} from "react";
-import { Text, Image, StyleSheet, View, ScrollView} from "react-native";
+import { Text, StyleSheet, View, ScrollView } from "react-native";
 import colors from "../config/colors";
-import { Icon } from 'react-native-elements'
+import { Icon } from 'native-base';
+import { Entypo, AntDesign, FontAwesome } from '@expo/vector-icons';
 
 import ArtCard from "../components/ArtCard";
 import { TouchableNativeFeedback, TouchableHighlight } from "react-native-gesture-handler";
+import { ActionSheetCustom as ActionSheet } from 'react-native-actionsheet';
+
+const optionDropdown = {
+  flexDirection: 'row', 
+  flex: 1, 
+  alignItems: 'center', 
+  justifyContent: 'center',
+  marginLeft: 15,
+}
+
+const options = [
+  'Cancel', 
+  <View style={optionDropdown}>
+    <FontAwesome name='street-view' size={20}/> 
+    <View style={{flexDirection: 'column', flex: 1, marginLeft: 30}}>
+      <Text style={{fontSize: 16, fontWeight: '400'}}>AR View</Text>
+      <Text style={{fontSize: 12, fontWeight: 'normal'}}>Experience Augmented Reality (In experiment)</Text>
+    </View>
+  </View>, 
+  <View style={optionDropdown}>
+    <AntDesign name='sharealt' size={20} /> 
+    <View style={{flexDirection: 'column', flex: 1, marginLeft: 27}}>
+      <Text style={{fontSize: 16, fontWeight: '400'}}>Share Artefact</Text>
+    </View>
+  </View>,
+  <View style={optionDropdown}>
+    <AntDesign name='delete' size={20} style={{color: 'red'}}/> 
+    <View style={{flexDirection: 'column', flex: 1, marginLeft: 27}}>
+      <Text style={{fontSize: 16, fontWeight: '400', color: 'red'}}>Delete Item</Text>
+    </View>
+  </View>,
+]
+
 
 export default class ArtefactItem extends Component{
   static navigationOptions = {
@@ -12,8 +46,14 @@ export default class ArtefactItem extends Component{
   }
 
   state = {
-    artefactItem: this.props.navigation.getParam("item", null)
+    artefactItem: this.props.navigation.getParam("item", null),
   }
+
+  // display action sheet
+  showActionSheet = () => {
+    this.ActionSheet.show()
+  }
+  
 
   render() {
 
@@ -21,10 +61,10 @@ export default class ArtefactItem extends Component{
       <View style={{flex: 1}}>
         <View style={{paddingTop: 26, paddingHorizontal: 12, flex: 1, justifyContent: "space-between", alignItems: "center", flexDirection: "row"}}>
           <TouchableNativeFeedback style={{width: 50, height: 50, justifyContent: "center", alignItems: "center"}} background={TouchableNativeFeedback.Ripple(colors.MISCHKA, true)} onPress={this.props.navigation.goBack}>
-            <Icon name='clear' />
+            <Icon name='close' />
           </TouchableNativeFeedback>
-          <TouchableNativeFeedback style={{width: 50, height: 50, justifyContent: "center", alignItems: "center"}} background={TouchableNativeFeedback.Ripple(colors.MISCHKA, true)} onPress={this.props.navigation.goBack}>
-            <Icon name='more-horiz' />
+          <TouchableNativeFeedback style={{width: 50, height: 50, justifyContent: "center", alignItems: "center"}} background={TouchableNativeFeedback.Ripple(colors.MISCHKA, true)} onPress={() => this.showActionSheet()}>
+            <Entypo name="dots-three-horizontal" size={26} style={{marginLeft: -10, opacity: 0.8}} />
           </TouchableNativeFeedback>
         </View>
         <View style={{flex: 7, overflow: "visible"}}>
@@ -48,6 +88,15 @@ export default class ArtefactItem extends Component{
           </View>
         </ScrollView>
         </View>
+
+        <ActionSheet
+          ref={o => this.ActionSheet = o}
+          options={options}
+          cancelButtonIndex={0}
+          destructiveButtonIndex={4}
+          onPress={(index) => { /* do something */ }}
+        />
+
       </View>
     )
   }
@@ -78,5 +127,5 @@ const styles = StyleSheet.create({
     borderRadius: 6,
     elevation: 16,
     flex: 6
-  }
+  },
 });
