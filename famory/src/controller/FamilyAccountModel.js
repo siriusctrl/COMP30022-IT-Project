@@ -80,12 +80,16 @@ export class FamilyAccount{
   getMembers(callback){
     if(Object.keys(this.member).length != this.familyMember.length){
       for (let member of Object.keys(this.familyMember)) {
+        
         MemberModelManage.getInstance().getMember((memberModel) => {
           this.member[this.familyMember[member]] = memberModel
+          
           if(Object.keys(this.member).length == Object.keys(this.familyMember).length){
             callback(this.member)
           }
-        }, this.familyMember[member])
+
+        }, 
+        this.familyMember[member])
       }
     }else{
       callback(this.member)

@@ -36,9 +36,12 @@ export class MemberModelManage{
     firebase.database().ref(this._path + "/" + "curMember/").once("value").then((maxMember) => {
       let maxId = maxMember.val()
       let newMemberId = "member_" + (Number(maxId) + 1)
-      firebase.database().ref(this._path + "/" + newMemberId).set(details)
-      firebase.database().ref(familyAccountModel._path + "/familyMember" + "/" + nextId).set(newMemberId)
-      firebase.database().ref(this._path + "/" + "curMember/").set((Number(maxId) + 1))
+      firebase.database()
+        .ref(this._path + "/" + newMemberId).set(details)
+      firebase.database()
+        .ref(familyAccountModel._path + "/familyMember" + "/" + nextId).set(newMemberId)
+      firebase.database()
+        .ref(this._path + "/" + "curMember/").set((Number(maxId) + 1))
       let member = new Member(details, newMemberId);
 
       callback(member)

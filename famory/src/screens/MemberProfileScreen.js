@@ -28,7 +28,6 @@ export default class MemberPr extends Component{
   }
 
   componentDidMount(){
-
     // check if now has a model passed in
     let model = this.props.navigation.getParam("model", null);
     if (model){
@@ -54,14 +53,9 @@ export default class MemberPr extends Component{
       FamilyAccountModelManage.getInstance().getFamilyAccount(
         (m) => {
           m.getMembers((o) => {
-            this.setState({isMemberReady: true, memberModel: o["member_8"], itemAll: Object.keys(o["member_8"].item).length})
-            o["member_8"].getItems((k) => {
-                this.setState(
-                  {
-                    profileMemberArtefactItem: Object.values(k),
-                    itemHas: Object.keys(k).length
-                  }
-                )
+            this.setState({isMemberReady: true, memberModel: o["member_1"], itemAll: Object.keys(o["member_1"].item).length})
+            o["member_1"].getItems((k) => {
+                this.setState({profileMemberArtefactItem: Object.values(k),itemHas: Object.keys(k).length})
               })
           })
         }
@@ -212,7 +206,7 @@ export default class MemberPr extends Component{
         </View>
 
         <View style={styles.floatButton}>
-          <TouchableNativeFeedback style={{height: 72, width: 72, borderRadius: 36, justifyContent: "center", alignItems:"center"}} 
+          <TouchableNativeFeedback style={styles.touableOne} 
             background={TouchableNativeFeedback.Ripple(colors.WHITE, true)} 
             onPress={() => {alert(this.state.itemAll == this.state.itemHas)}}>
             <Icon name="add" size={32} color={colors.WHITE} />
@@ -270,7 +264,15 @@ const styles = StyleSheet.create({
     elevation: 7, 
     justifyContent: "center", 
     alignItems:"center"
+  },
+  touableOne:{
+    height: 72, 
+    width: 72, 
+    borderRadius: 36, 
+    justifyContent: "center", 
+    alignItems:"center"
   }
+  
   
 
 });

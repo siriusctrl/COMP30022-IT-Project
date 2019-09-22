@@ -33,8 +33,6 @@ export default class ArtCard extends Component{
 
   _renderContent(type, content){
 
-
-
     if (type == "image"){
       return (<Image source={{uri: content}} style={{flex: 1}}/>)
     }else if(type == "video"){
@@ -59,25 +57,32 @@ export default class ArtCard extends Component{
     }
 
     let {item} = this.props;
+    let mainColor = backgroundColorArtefact[item["type"]][0];
+    let fontColor = backgroundColorArtefact[item["type"]][1];
     this.height = this.props.cardHeight ? this.props.cardHeight: 350;
     let numberOfLines = this.props.numberOfLines ? this.props.numberOfLines : 9;
 
     return (
-      <View style={{backgroundColor: backgroundColorArtefact[item["type"]][0], flexDirection: "column", overflow: "hidden", minHeight: 350, ... this.props.style, borderRadius: 0, borderWidth: 17, borderBottomWidth: 0, borderColor: backgroundColorArtefact[item["type"]][0]}}>
+      <View style={{backgroundColor: mainColor, ... cardStyle.cardContainer, ... this.props.style, borderColor: mainColor}}>
         <View style={{flex: 4}}>
-          
           {this._renderContent(item["type"], item["content"])}
           {item["type"] == "video"? 
-          <View style={{position: "absolute", bottom: 0, zIndex: 6}}>
-            <Icon name="videocam" color={colors.SILVER} size={56} style={{position: "absolute"}}></Icon>
-          </View>
-            : []}
+            <View style={{position: "absolute", bottom: 0, zIndex: 6}}>
+              <Icon name="videocam" color={colors.SILVER} size={56} style={{position: "absolute"}}></Icon>
+            </View>:[]
+          }
         </View>
-        <View style={{width: "100%", backgroundColor: backgroundColorArtefact[item["type"]][0], flex: 1, justifyContent: "center", alignItems: "center"}}>
-          <Text style={{color: backgroundColorArtefact[item["type"]][1], fontSize: 23}}>{item["name"]}</Text>
-          <Text style={{color: backgroundColorArtefact[item["type"]][1]}}>{item["description"]}</Text>
+        <View style={{width: "100%", backgroundColor: mainColor, flex: 1, justifyContent: "center", alignItems: "center"}}>
+          <Text style={{color: fontColor, fontSize: 23}}>{item["name"]}</Text>
+          <Text style={{color: fontColor}}>{item["description"]}</Text>
         </View>
       </View>
     )
   }
 }
+
+const cardStyle = StyleSheet.create(
+  {
+    cardContainer: {flexDirection: "column", overflow: "hidden", minHeight: 350, borderRadius: 0, borderWidth: 17, borderBottomWidth: 0}
+  }
+)
