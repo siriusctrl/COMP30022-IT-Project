@@ -13,6 +13,7 @@ import Mail from "../assets/icons/mail";
 import PwdLock from "../assets/icons/pwdlock";
 
 import {CheckBox} from 'native-base';
+import FamilyAccountModelManage from "../controller/FamilyAccountModel";
 
 
 export default class LoginScreen extends Component{
@@ -24,8 +25,13 @@ export default class LoginScreen extends Component{
   state = {
     email:"",
     password:"",
-    checked: false
+    checked: false,
+    familyAccount:null,
   };
+
+  componentDidMount() {
+    
+  }
 
   handleEmailChanges = (email) => {
     this.setState({email : email});
@@ -36,7 +42,10 @@ export default class LoginScreen extends Component{
   }
   
   handleLoginPress = () => {
-    Alert.alert("Login Pressed with 0.5 opacity");
+    if(this.state.password.length < 6){
+      alert("Wrong password length");
+      this.setState({password : ""});
+    }
   }
 
   handleCheckBox = () => {
