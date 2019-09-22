@@ -14,8 +14,6 @@ import Button from "../components/Button";
 import FamilyAccountModelManage from "../controller/FamilyAccountModel";
 import MemberModelManage from "../controller/MemberModel";
 
-cxk_new = "https://firebasestorage.googleapis.com/v0/b/fir-one-28de9.appspot.com/o/post-5.jpg?alt=media&token=025a8387-8f63-4196-bce1-a44fee70047b";
-
 export default class HomePageScreen extends Component{
   state = {
     visibleModal: false,
@@ -90,7 +88,6 @@ export default class HomePageScreen extends Component{
    */
   avatarConstructor = (item) => {
     let jsx = [];
-    console.log(" ----------------------\n");
     for (m of item.members) {
       jsx.push(
         <View style={{marginRight: 11, marginBottom: 16}}>
