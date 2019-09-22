@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
-import {View, StyleSheet, Text, Image, TouchableOpacity} from 'react-native';
+import {View, StyleSheet, Text, Image, TouchableOpacity, Clipboard } from 'react-native';
 import Modal from "react-native-modal";
 import colors from "../config/colors";
+import strings from "../config/strings";
+import * as WebBrowser from "expo-web-browser";
 
 import BadgeCBL from "../assets/icons/Badges/badgeCommBLocked";
 import BadgeCBN from "../assets/icons/Badges/badgeCommBNormal";
@@ -73,6 +75,7 @@ export default class AchievementScreen extends Component {
     isVisible: [false, false, false, false, false, false, false, false, false],
     unlockDate: [],
     ready: false,
+    cliptext: ["bronze", "silver", "gold"],
   };
 
   // get achievement posts
@@ -114,7 +117,25 @@ export default class AchievementScreen extends Component {
     let d = this.state.unlockDate[id];
     let format = d.toDateString().split(" ");
     return format[1] + " " + format[2] + ", " + format[3];
-  }
+  };
+
+  // function to share on Facebook
+  // opens browser and copies text to clipboard
+  _shareToFacebook = async (id) => {
+    await Clipboard.setString("I have unlocked a " + this.state.cliptext[id] + " medal in Famory, " +
+      "the best family artefact register app in the world! Check the app out! https://www.downloadfamory.com");
+    await WebBrowser.openBrowserAsync(strings.FACEBOOK,
+      {showTitle: true});
+  };
+
+  // function to share on Twitter
+  // opens browser and copies text to clipboard
+  _shareToTwitter = async (id) => {
+    await Clipboard.setString("I have unlocked a " + this.state.cliptext[id] + " medal in Famory, " +
+      "the best family artefact register app in the world! Check the app out! https://www.downloadfamory.com");
+    await WebBrowser.openBrowserAsync(strings.TWITTER,
+      {showTitle: true});
+  };
 
   render() {
     let helloCompleted = this.sumCount(0, 1, 2);
@@ -279,8 +300,12 @@ export default class AchievementScreen extends Component {
           </View>
           <View style={styles.share}>
             <Text style={{fontSize: 12}}>Share on:{" "}</Text>
-            <Facebook style={{marginLeft: 5}}></Facebook>
-            <Twitter style={{marginLeft: 5}}></Twitter>
+            <TouchableOpacity onPress={() => this._shareToFacebook(0)}>
+              <Facebook style={{marginLeft: 5}}></Facebook>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => this._shareToTwitter(0)}>
+              <Twitter style={{marginLeft: 5}}></Twitter>
+            </TouchableOpacity>
           </View>
         </Modal>
 
@@ -307,8 +332,12 @@ export default class AchievementScreen extends Component {
           </View>
           <View style={styles.share}>
             <Text style={{fontSize: 12}}>Share on:{" "}</Text>
-            <Facebook style={{marginLeft: 5}}></Facebook>
-            <Twitter style={{marginLeft: 5}}></Twitter>
+            <TouchableOpacity onPress={() => this._shareToFacebook(1)}>
+              <Facebook style={{marginLeft: 5}}></Facebook>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => this._shareToTwitter(1)}>
+              <Twitter style={{marginLeft: 5}}></Twitter>
+            </TouchableOpacity>
           </View>
         </Modal>
 
@@ -335,8 +364,12 @@ export default class AchievementScreen extends Component {
           </View>
           <View style={styles.share}>
             <Text style={{fontSize: 12}}>Share on:{" "}</Text>
-            <Facebook style={{marginLeft: 5}}></Facebook>
-            <Twitter style={{marginLeft: 5}}></Twitter>
+            <TouchableOpacity onPress={() => this._shareToFacebook(2)}>
+              <Facebook style={{marginLeft: 5}}></Facebook>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => this._shareToTwitter(2)}>
+              <Twitter style={{marginLeft: 5}}></Twitter>
+            </TouchableOpacity>
           </View>
         </Modal>
 
@@ -364,8 +397,12 @@ export default class AchievementScreen extends Component {
           </View>
           <View style={styles.share}>
             <Text style={{fontSize: 12}}>Share on:{" "}</Text>
-            <Facebook style={{marginLeft: 5}}></Facebook>
-            <Twitter style={{marginLeft: 5}}></Twitter>
+            <TouchableOpacity onPress={() => this._shareToFacebook(0)}>
+              <Facebook style={{marginLeft: 5}}></Facebook>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => this._shareToTwitter(0)}>
+              <Twitter style={{marginLeft: 5}}></Twitter>
+            </TouchableOpacity>
           </View>
         </Modal>
 
@@ -392,8 +429,12 @@ export default class AchievementScreen extends Component {
           </View>
           <View style={styles.share}>
             <Text style={{fontSize: 12}}>Share on:{" "}</Text>
-            <Facebook style={{marginLeft: 5}}></Facebook>
-            <Twitter style={{marginLeft: 5}}></Twitter>
+            <TouchableOpacity onPress={() => this._shareToFacebook(1)}>
+              <Facebook style={{marginLeft: 5}}></Facebook>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => this._shareToTwitter(1)}>
+              <Twitter style={{marginLeft: 5}}></Twitter>
+            </TouchableOpacity>
           </View>
         </Modal>
 
@@ -420,8 +461,12 @@ export default class AchievementScreen extends Component {
           </View>
           <View style={styles.share}>
             <Text style={{fontSize: 12}}>Share on:{" "}</Text>
-            <Facebook style={{marginLeft: 5}}></Facebook>
-            <Twitter style={{marginLeft: 5}}></Twitter>
+            <TouchableOpacity onPress={() => this._shareToFacebook(2)}>
+              <Facebook style={{marginLeft: 5}}></Facebook>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => this._shareToTwitter(2)}>
+              <Twitter style={{marginLeft: 5}}></Twitter>
+            </TouchableOpacity>
           </View>
         </Modal>
 
@@ -449,8 +494,12 @@ export default class AchievementScreen extends Component {
           </View>
           <View style={styles.share}>
             <Text style={{fontSize: 12}}>Share on:{" "}</Text>
-            <Facebook style={{marginLeft: 5}}></Facebook>
-            <Twitter style={{marginLeft: 5}}></Twitter>
+            <TouchableOpacity onPress={() => this._shareToFacebook(0)}>
+              <Facebook style={{marginLeft: 5}}></Facebook>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => this._shareToTwitter(0)}>
+              <Twitter style={{marginLeft: 5}}></Twitter>
+            </TouchableOpacity>
           </View>
         </Modal>
 
@@ -478,8 +527,12 @@ export default class AchievementScreen extends Component {
           </View>
           <View style={styles.share}>
             <Text style={{fontSize: 12}}>Share on:{" "}</Text>
-            <Facebook style={{marginLeft: 5}}></Facebook>
-            <Twitter style={{marginLeft: 5}}></Twitter>
+            <TouchableOpacity onPress={() => this._shareToFacebook(1)}>
+              <Facebook style={{marginLeft: 5}}></Facebook>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => this._shareToTwitter(1)}>
+              <Twitter style={{marginLeft: 5}}></Twitter>
+            </TouchableOpacity>
           </View>
         </Modal>
 
@@ -507,11 +560,14 @@ export default class AchievementScreen extends Component {
           </View>
           <View style={styles.share}>
             <Text style={{fontSize: 12}}>Share on:{" "}</Text>
-            <Facebook style={{marginLeft: 5}}></Facebook>
-            <Twitter style={{marginLeft: 5}}></Twitter>
+            <TouchableOpacity onPress={() => this._shareToFacebook(2)}>
+              <Facebook style={{marginLeft: 5}}></Facebook>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => this._shareToTwitter(2)}>
+              <Twitter style={{marginLeft: 5}}></Twitter>
+            </TouchableOpacity>
           </View>
         </Modal>
-
       </View>
     );
   }
