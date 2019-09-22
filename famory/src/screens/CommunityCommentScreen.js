@@ -13,21 +13,6 @@ import LottieView from "lottie-react-native";
 import firebaseContainer from "../controller/firebaseConfig"
 import { CommunityModelManage } from "../controller/CommunityModel";
 
-/*
-let comments = [
-  {
-    id: 0,
-    text: 'import Meteor from "../assets/icons/meteor";',
-  },
-  {
-    id: 1,
-    text: 'Running application on HMA-AL00.Finished building JavaScript bundle in 220ms.Running application on HMA-AL00.',
-  },
-  {
-    id: 2,
-    text: 'It is a component to solve the common problem of views that need to move out of the way of the virtual keyboard. It can automatically adjust either its position or bottom padding based on the position of the keyboard.It is a component to solve the common problem of views that need to move out of the way of the virtual keyboard. It can automatically adjust either its position or bottom padding based on the position of the keyboard.',
-  },
-];*/
 
 let comments = "";
 
