@@ -1,6 +1,5 @@
 import React, {Component} from "react";
 import { Text, StyleSheet, View , KeyboardAvoidingView, ImageBackground, Modal} from "react-native";
-import {Overlay} from "react-native-elements";
 import Spinner from 'react-native-loading-spinner-overlay';
 
 import Button from "../components/Button";
@@ -38,8 +37,9 @@ export default class LoginScreen extends Component{
     firebaseConfig.getInstance().justStart();
   }
 
-  verifyEmail = async (email, pwd, ins) => {
+  _verifyEmail = async (email, pwd, ins) => {
     ins.setState({verifying: true});
+
     firebase.auth().signInWithEmailAndPassword(email, pwd)
     .then(() => {
       ins.setState({verifying:false});
@@ -72,7 +72,7 @@ export default class LoginScreen extends Component{
   }
   
   handleLoginPress = () => {
-    this.verifyEmail(this.state.email, this.state.password, this);
+    this._verifyEmail(this.state.email, this.state.password, this);
   }
 
   handleCheckBox = () => {
@@ -157,12 +157,6 @@ export default class LoginScreen extends Component{
       </View>
 
     </KeyboardAvoidingView>
-
-    {/* <Overlay fullScreen={true} overlayStyle={{color:colors.BLACK, opacity:0.2}} isVisible={this.state.verifying}>
-      <Text style={{alignSelf:"center", color:colors.TORCH_RED}}>
-        loading!
-      </Text>
-    </Overlay> */}
       <Spinner
         visible={this.state.verifying}
         textContent={'Verifying...'}
