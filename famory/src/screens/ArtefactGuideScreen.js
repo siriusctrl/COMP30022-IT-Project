@@ -449,7 +449,7 @@ const guideStyle = StyleSheet.create({
     textAlignVertical: "center", 
     color: colors.DODGER_BLUE, 
     fontSize: 16,
-    marginLeft: 8,
+  
     borderRadius: 10,
   },
   bottomButtonRight: {

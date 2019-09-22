@@ -36,15 +36,21 @@ export default class ArtefactItem extends Component{
         <View style={{flex: 7, overflow: "visible"}}>
         <ScrollView style={{flex: 1, overflow: "visible"}}>
         {this.state.artefactItem.type == "video"? 
-        <View style={{marginHorizontal: 29, marginVertical: 19, flexDirection: "column", minHeight: 870, overflow: "visible"}}>
+        <View style={{marginHorizontal: 29, marginVertical: 19, marginBottom: 68, flexDirection: "column", minHeight: 870, overflow: "visible"}}>
           <Video
               source={{ uri: this.state.artefactItem.content }}
               rate={1.0}
               volume={1.0}
               isMuted={false}
-              resizeMode="Video.RESIZE_MODE_STRETCH"
+              resizeMode="cover"
               useNativeControls={true}
               isLooping={false}
+
+              onReadyForDisplay={(vid) => {
+                this.setState({
+                  height: this.state.width * vid.naturalSize.height / vid.naturalSize.width
+                })
+              }}
               
 
               style={{width: this.state.width, height: this.state.height}}
