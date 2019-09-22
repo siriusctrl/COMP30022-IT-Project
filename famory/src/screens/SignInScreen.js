@@ -13,6 +13,8 @@ import Mail from "../assets/icons/mail";
 import PwdLock from "../assets/icons/pwdlock";
 import Person from "../assets/icons/person";
 
+import { BarPasswordStrengthDisplay } from 'react-native-password-strength-meter';
+
 export default class SignInScreen extends Component{
   static navigationOptions = {
     header: null
@@ -100,11 +102,21 @@ export default class SignInScreen extends Component{
                 style={{flex:1, paddingHorizontal: 10}}
               />
             </View>
+
+            <View style={{flex: 1}}>
+              <BarPasswordStrengthDisplay
+                password={this.state.password}
+                width={220}
+                barColor={colors.BAR}
+                marginLeft={-30}
+                minLength={4}
+              />
+            </View>
             
             <Button
               label={strings.SIGNUP}
               onPress={this.handleLoginPress}
-              extraStyles={{width: "100%", marginTop: 26}}
+              extraStyles={{width: "100%", marginTop: 40}}
             />
           </View>
       </View>
