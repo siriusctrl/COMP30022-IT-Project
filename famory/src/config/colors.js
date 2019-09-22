@@ -13,6 +13,7 @@ const colors = {
     LIGHTERBLUE: "#b9d6ed",
     AGRAY: "#B3B3B3",
     GRAINSBORO: "#DCDCDC",
+    BAR: "#F7F7F7",
   };
   
 export default colors;
