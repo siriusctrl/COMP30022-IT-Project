@@ -1,6 +1,6 @@
 import LoginScreen from "./LoginScreen";
 import WelcomeScreen from "./WelcomeScreen";
-import SignInScreen from "./SignInScreen";
+import SignUpScreen from "./SignUpScreen";
 import DebugScreen from "./DebugScreen";
 import HomePage from "./HomePageScreen";
 import CommunityMainScreen from "./CommunityMainScreen";
@@ -23,7 +23,7 @@ const AppNavigator = createStackNavigator({
   Test:{screen: TestScreen},
   Welcome: {screen: WelcomeScreen},
   Login: {screen: LoginScreen,},
-  SignIn: {screen: SignInScreen},
+  SignUp: {screen: SignUpScreen},
   HomePage: {screen: HomePage},
   CommunityMain: {screen: CommunityMainScreen},
   CommunityComment: {screen: CommunityCommentScreen},
