@@ -1,11 +1,16 @@
 import React, {Component} from "react";
-import { Text, StyleSheet, View, ScrollView } from "react-native";
+import { Text, StyleSheet, View, ScrollView, Clipboard, TouchableOpacity } from "react-native";
 import colors from "../config/colors";
 import strings from "../config/strings";
 import * as WebBrowser from "expo-web-browser";
 import { Icon } from 'native-base';
 import Modal from "react-native-modal";
+
 import { Entypo, AntDesign, FontAwesome } from '@expo/vector-icons';
+import Wechat from "../assets/icons/wechat";
+import Messenger from "../assets/icons/messenger";
+import GMail from "../assets/icons/gmail";
+import Instagram from "../assets/icons/instagram";
 
 import ArtCard from "../components/ArtCard";
 import { TouchableNativeFeedback } from "react-native-gesture-handler";
@@ -19,7 +24,7 @@ const optionDropdown = {
   marginLeft: 15,
 }
 
-const options = [
+let options = [
   'Cancel', 
   <View style={optionDropdown}>
     <FontAwesome name='street-view' size={20}/> 
@@ -55,13 +60,21 @@ export default class ArtefactItem extends Component{
 
   // display action sheet
   showActionSheet = () => {
-    this.ActionSheet.show()
+    this.ActionSheet.show();
   }
 
   // update the modal for sharing
   toggleModal = () => {
     this.state.modalVisible = !this.state.modalVisible;
     this.forceUpdate();
+  };
+
+  // function to share to social media
+  // opens browser and copies text to clipboard
+  _shareToSocialMedia = async (link) => {
+    await Clipboard.setString("Check out this wonderful Artefact from my ancestor!" +
+      " Check out Famory, the best family artefact app in the world: https://www.downloadfamory.com");
+    await WebBrowser.openBrowserAsync(link, {showTitle: true});
   };
 
   render() {
@@ -101,17 +114,31 @@ export default class ArtefactItem extends Component{
         <Modal
           isVisible={this.state.modalVisible}
           onBackdropPress={() => this.toggleModal()}
-          animationIn="slideInDown"
-          animationOut="fadeOutUp"
+          animationIn="slideInUp"
+          animationOut="fadeOutDown"
           style={styles.modalStyle}
         >
           <View style={{flex:1, justifyContent:"center", alignItems:"center", flexDirection:"row"}}>
-            <TouchableNativeFeedback onPress={() => this._shareToFacebook(2)}>
-              <Entypo name="facebook" size={40} style={{color: colors.LIGHTBLUE}} />
-            </TouchableNativeFeedback>
-            <TouchableNativeFeedback onPress={() => this._shareToTwitter(2)}>
-              <Entypo name="twitter" size={40} style={{color: colors.LIGHTBLUE}} />
-            </TouchableNativeFeedback>
+            <TouchableOpacity onPress={() => this._shareToSocialMedia(strings.FACEBOOK)}>
+              <Entypo name="facebook" size={44} style={{color: "#3B5998"}} />
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => this._shareToSocialMedia(strings.TWITTER)} style={{marginLeft: 50,}}>
+              <Entypo name="twitter" size={44} style={{color: "#1DA1F2"}} />
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => this._shareToSocialMedia(strings.WECHAT)} style={{marginLeft: 50,}}>
+              <Wechat />
+            </TouchableOpacity>
+          </View>
+          <View style={{flex:1, justifyContent:"center", alignItems:"center", flexDirection:"row"}}>
+            <TouchableOpacity onPress={() => this._shareToSocialMedia(strings.GMAIL)}>
+              <GMail />
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => this._shareToSocialMedia(strings.INSTAGRAM)} style={{marginLeft: 50,}}>
+              <Instagram />
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => this._shareToSocialMedia(strings.MESSENGER)} style={{marginLeft: 50,}}>
+              <Messenger />
+            </TouchableOpacity>
           </View>
         </Modal>
 
@@ -119,6 +146,7 @@ export default class ArtefactItem extends Component{
           ref={o => this.ActionSheet = o}
           options={options}
           cancelButtonIndex={0}
+          styles={{backgroundColor: "#F8F8FF"}}
           destructiveButtonIndex={4}
           onPress={(index) => { 
             switch (index) {
@@ -171,10 +199,12 @@ const styles = StyleSheet.create({
     flex: 6
   },
   modalStyle: {
-    borderRadius: 15,
     justifyContent: "center",
-    marginVertical: 140,
-    marginHorizontal: 30,
-    backgroundColor: colors.WHITE,
+    position: 'absolute',
+    bottom: -18,
+    height: 120,
+    width: 365,
+    marginLeft: 0,
+    backgroundColor: "#F8F8FF",
   },
 });
