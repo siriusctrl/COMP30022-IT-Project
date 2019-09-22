@@ -88,10 +88,11 @@ export default class AchievementScreen extends Component {
     });
   };
 
-  // update page
+  // update page and set timer
   async componentDidMount() {
     this.getAchievement();
-    await new Promise(resolve => { setTimeout(resolve, 1500); });
+
+    await new Promise(resolve => { setTimeout(resolve, 500); });
     this.setState({
       ready: true,
     })

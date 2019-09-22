@@ -15,6 +15,7 @@ import Accountmail from "../assets/icons/accountmail";
 import { AccountModelManage } from "../controller/AccountModel";
 import colors from "../config/colors";
 import Modal from "react-native-modal";
+import Spinner from 'react-native-loading-spinner-overlay';
 
 
 export default class AccountHoldScreen extends Component {
@@ -47,9 +48,9 @@ export default class AccountHoldScreen extends Component {
     familyName: "",
     dateCreated: "",
     contactVisible: false,
-    ready: false,
     securityVisible: false,
     accountAvatar: null,
+    spinner: true,
   };
 
   // update the locking state of badges
@@ -65,14 +66,17 @@ export default class AccountHoldScreen extends Component {
         familyName: familyName,
         dateCreated: dateCreated,
         accountAvatar: avatar,
-        ready: true,
       })
     });
   };
 
-  // update page
+  // update page when mount
   async componentDidMount() {
     await this.getAccount();
+    await setTimeout(() => {
+      this.state.spinner = !this.state.spinner;
+      this.forceUpdate();
+    }, 1000);
   }
 
   // navigations to achievement page
@@ -82,11 +86,19 @@ export default class AccountHoldScreen extends Component {
 
   render() {
 
-    if (this.state.ready === false) return null;
+    if (this.state.spinner === true) return (
+      <Container>
+        <Spinner
+          visible={true}
+          textContent={'Loading...'}
+          textStyle={styles.spinnerTextStyle}
+        />
+      </Container>
+    );
 
     return (
-      <Container>
 
+      <Container>
         {(this.state.accountAvatar == null) ? null : (
           <Image source={{uri: this.state.accountAvatar}}  style={styles.avatar} />
         )}
@@ -286,6 +298,9 @@ const styles = StyleSheet.create({
     marginTop: 12,
     marginLeft: 3,
     marginRight: 80,
-  }
+  },
+  spinnerTextStyle: {
+    color: '#FFF'
+  },
 
 });
