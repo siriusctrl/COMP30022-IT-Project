@@ -43,6 +43,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 
 import { AchievementModelManage } from "../controller/AchievementModel";
 
+
 export default class AchievementScreen extends Component {
 
   // navigation header here
@@ -84,10 +85,10 @@ export default class AchievementScreen extends Component {
     });
   };
 
+  // update page
   async componentDidMount() {
     this.getAchievement();
     await new Promise(resolve => { setTimeout(resolve, 1500); });
-    alert("9: " + " " + this.state.unlockDate[8]);
     this.setState({
       ready: true,
     })
@@ -125,8 +126,8 @@ export default class AchievementScreen extends Component {
 
     return (
       <View style={styles.container}>
-        <LinearGradient 
-          colors={['#8DC3FA', colors.LIGHTBLUE]} 
+        <LinearGradient
+          colors={['#8DC3FA', colors.LIGHTBLUE]}
           style={{
             position: 'absolute',
             left: 0,
@@ -158,17 +159,17 @@ export default class AchievementScreen extends Component {
             </TouchableOpacity>
             <TouchableOpacity onPress={() => this.toggleModal(1)}>
               {(this.state.unlocked[1] === 0) ? (
-              <BadgeHSL style={styles.badge}></BadgeHSL>
+                <BadgeHSL style={styles.badge}></BadgeHSL>
               ) : (
-              <BadgeHSN style={styles.badge}></BadgeHSN>
+                <BadgeHSN style={styles.badge}></BadgeHSN>
               )}
             </TouchableOpacity>
             <TouchableOpacity onPress={() => this.toggleModal(2)}>
-            {(this.state.unlocked[2] === 0) ? (
-              <BadgeHGL style={styles.badge}></BadgeHGL>
-            ) : (
-              <BadgeHGN style={styles.badge}></BadgeHGN>
-            )}
+              {(this.state.unlocked[2] === 0) ? (
+                <BadgeHGL style={styles.badge}></BadgeHGL>
+              ) : (
+                <BadgeHGN style={styles.badge}></BadgeHGN>
+              )}
             </TouchableOpacity>
           </View>
 
@@ -185,25 +186,25 @@ export default class AchievementScreen extends Component {
           </View>
           <View style={{flexDirection: "row", padding: 10,}}>
             <TouchableOpacity onPress={() => this.toggleModal(3)}>
-            {(this.state.unlocked[3] === 0) ? (
-              <BadgeCBL style={styles.badge}></BadgeCBL>
-            ) : (
-              <BadgeCBN style={styles.badge}></BadgeCBN>
-            )}
+              {(this.state.unlocked[3] === 0) ? (
+                <BadgeCBL style={styles.badge}></BadgeCBL>
+              ) : (
+                <BadgeCBN style={styles.badge}></BadgeCBN>
+              )}
             </TouchableOpacity>
             <TouchableOpacity onPress={() => this.toggleModal(4)}>
-            {(this.state.unlocked[4] === 0) ? (
-              <BadgeCSL style={styles.badge}></BadgeCSL>
-            ) : (
-              <BadgeCSN style={styles.badge}></BadgeCSN>
-            )}
+              {(this.state.unlocked[4] === 0) ? (
+                <BadgeCSL style={styles.badge}></BadgeCSL>
+              ) : (
+                <BadgeCSN style={styles.badge}></BadgeCSN>
+              )}
             </TouchableOpacity>
             <TouchableOpacity onPress={() => this.toggleModal(5)}>
-            {(this.state.unlocked[5] === 0) ? (
-              <BadgeCGL style={styles.badge}></BadgeCGL> 
-            ) : (
-              <BadgeCGN style={styles.badge}></BadgeCGN>
-            )}
+              {(this.state.unlocked[5] === 0) ? (
+                <BadgeCGL style={styles.badge}></BadgeCGL>
+              ) : (
+                <BadgeCGN style={styles.badge}></BadgeCGN>
+              )}
             </TouchableOpacity>
           </View>
 
@@ -221,25 +222,25 @@ export default class AchievementScreen extends Component {
 
           <View style={{flexDirection: "row", padding: 10,}}>
             <TouchableOpacity onPress={() => this.toggleModal(6)}>
-            {(this.state.unlocked[6] === 0) ? (
-              <BadgeFBL style={styles.badge}></BadgeFBL>
-            ) : (
-              <BadgeFBN style={styles.badge}></BadgeFBN>
-            )}
+              {(this.state.unlocked[6] === 0) ? (
+                <BadgeFBL style={styles.badge}></BadgeFBL>
+              ) : (
+                <BadgeFBN style={styles.badge}></BadgeFBN>
+              )}
             </TouchableOpacity>
             <TouchableOpacity onPress={() => this.toggleModal(7)}>
-            {(this.state.unlocked[7] === 0) ? (
-              <BadgeFSL style={styles.badge}></BadgeFSL>
-            ) : (
-              <BadgeFSN style={styles.badge}></BadgeFSN>
-            )}
+              {(this.state.unlocked[7] === 0) ? (
+                <BadgeFSL style={styles.badge}></BadgeFSL>
+              ) : (
+                <BadgeFSN style={styles.badge}></BadgeFSN>
+              )}
             </TouchableOpacity>
             <TouchableOpacity onPress={() => this.toggleModal(8)}>
-            {(this.state.unlocked[8] === 0) ? (
-              <BadgeFGL style={styles.badge}></BadgeFGL>
-            ) : (
-              <BadgeFGN style={styles.badge}></BadgeFGN>
-            )}
+              {(this.state.unlocked[8] === 0) ? (
+                <BadgeFGL style={styles.badge}></BadgeFGL>
+              ) : (
+                <BadgeFGN style={styles.badge}></BadgeFGN>
+              )}
             </TouchableOpacity>
           </View>
         </View>
@@ -549,7 +550,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     marginTop: 10,
     marginLeft: 120,
-  }, 
+  },
   totalCount: {
     textAlign: "right",
     marginRight: 20,
@@ -560,17 +561,17 @@ const styles = StyleSheet.create({
     marginTop: 5,
   },
   modalStyle: {
-    borderRadius: 15, 
+    borderRadius: 15,
     justifyContent: "center",
     marginVertical: 140,
     marginHorizontal: 30,
     backgroundColor: colors.WHITE,
   },
   share: {
-    flex:1, 
-    justifyContent:"center", 
-    alignItems:"center", 
-    flexDirection: "row", 
+    flex:1,
+    justifyContent:"center",
+    alignItems:"center",
+    flexDirection: "row",
     marginLeft: 120,
     marginTop: 10,
   }
