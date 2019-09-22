@@ -4,8 +4,8 @@ import firebaseContainer from "./firebaseConfig";
 
 export class AccountModelManage {
 
-  static _managePart = null
-  _accountPath = "FamilyAccount"
+  static _managePart = null;
+  _accountPath = "FamilyAccount";
 
   // get instance of Account model manager
   static getInstance() {
@@ -27,8 +27,9 @@ export class AccountModelManage {
       // get family name and date of creation
       let familyName = objectlist.name;
       let dateCreated = objectlist.dateCreated;
+      let avatar = objectlist.avatar;
 
-      callback(familyName, dateCreated);
+      callback(familyName, dateCreated,avatar);
     });
   }
 }
@@ -36,17 +37,20 @@ export class AccountModelManage {
 export class Family{
 
   familyName = "";
-  dateCreated = "Jan 01, 1970"
+  dateCreated = "Jan 01, 1970";
+  avatar = "";
 
   constructor(family){
     this.familyName = family["familyName"];
     this.dateCreated = family["dateCreated"];
+    this.avatar = family["avatar"];
   }
 
   toObject() {
     return {
       familyName: this.familyName,
       dateCreated: this.dateCreated,
+      avatar: this.avatar,
     }
   }
 

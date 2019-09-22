@@ -7,13 +7,7 @@ import DatePicker from 'react-native-datepicker';
 
 import strings from "../config/strings";
 import CheckButton from "../components/CheckButton"
-import Homeicon from "./AccountHoldScreen";
 
-const userProfile = {
-  firstName: 'Tom',
-  lastName: 'Ford',
-  dob: '1997/1/1',
-};
 
 export default class EditProfileScreen extends Component {
 
@@ -49,26 +43,45 @@ export default class EditProfileScreen extends Component {
     date of birth and profile image.
    */
   state = {
-    firstName: userProfile.firstName,
-    lastName: userProfile.lastName,
-    dob: userProfile.dob,
-    image: "https://image.shutterstock.com/image-photo/colorful-hot-air-balloons-flying-600w-1033306540.jpg",
+    firstName: "",
+    lastName: "",
+    dob: "",
+    image: "",
   };
 
-  componentDidMount() {
-    this.props.navigation.setParams({ increaseCount: this._increaseCount });
+  componentDidMount () {
+    let model = this.props.navigation.state.params.memberModel;
+    if (model) {
+      this.setState({
+        firstName: model.firstName,
+        lastName: model.lastName,
+        dob: this.constructDate(new Date(model.dob)),
+        image: model.profileImage,
+      });
+      this.forceUpdate();
+    }
   }
 
-  _increaseCount = () => {
-    alert(this.state.dob + "," + this.state.lastName + "," + this.state.firstName);
+  constructDate = (dob) => {
+    const year = dob.getUTCFullYear();
+    const month = dob.getUTCMonth() + 1;
+    const date = dob.getUTCDate();
+    return year + "-" + month + "-" + date;
   };
 
 
   render () {
+
+    if (this.state.ready === false) return null;
+
     return (
       <View style={{flex: 1}}>
         <View style={{alignItems: "center", }}>
-          <Image source={{uri: this.state.image}}  style={styles.avatar} />
+
+          {(this.state.image == null) ? null : (
+            <Image source={{uri: this.state.image}}  style={styles.avatar} />
+          )}
+
           <Text style={{fontSize: 15, color: '#347ED3'}} onPress={this._pickImage}>
             Change Profile Photo
           </Text>
@@ -81,7 +94,7 @@ export default class EditProfileScreen extends Component {
             <TextInput
               style={styles.blackText}
               onChangeText={(text) => this.setState({firstName: text})}
-              placeholder={userProfile.firstName}
+              placeholder={this.state.firstName}
               placeholderTextColor={"#D3D3D3"}
               maxLength={20}
               value={this.state.text}
@@ -95,7 +108,7 @@ export default class EditProfileScreen extends Component {
             <TextInput
               style={styles.blackText}
               onChangeText={(text) => this.setState({lastName: text})}
-              placeholder={userProfile.lastName}
+              placeholder={this.state.lastName}
               placeholderTextColor={"#D3D3D3"}
               maxLength={20}
               value={this.state.text}
