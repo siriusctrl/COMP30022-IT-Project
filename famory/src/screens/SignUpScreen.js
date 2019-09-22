@@ -1,8 +1,11 @@
 import React, {Component} from "react";
 import { Text, Image, StyleSheet, View , Alert, KeyboardAvoidingView, ImageBackground, TouchableWithoutFeedback, Linking} from "react-native";
+import firebase from "firebase";
+import firebaseConfig from "../controller/firebaseConfig";
 
 import Button from "../components/Button";
 import FormTextInput from "../components/FormTextInput";
+import Spinner from 'react-native-loading-spinner-overlay';
 
 import darkimg from "../assets/images/dark.png"
 
@@ -15,15 +18,20 @@ import Person from "../assets/icons/person";
 
 import { BarPasswordStrengthDisplay } from 'react-native-password-strength-meter';
 
-export default class SignInScreen extends Component{
+export default class SignUpScreen extends Component{
   static navigationOptions = {
-    header: null
+    header: null,
+    registering: false,
   }
-  
+
   state = {
     email:"",
     password:"",
     familyName:"",
+  }
+
+  componentDidMount(){
+    firebaseConfig.getInstance().justStart();
   }
 
   handleEmailChanges = (email) => {
@@ -45,9 +53,35 @@ export default class SignInScreen extends Component{
   handlePolicyPress = () => {
     Linking.openURL('https://famory.flycricket.io/privacy.html');
   }
+  
+  // NOTE : does not handle the familyName
+  _createUserWithEmail = (email, pwd, ins) => {
+    ins.setState({registering: true});
+    firebase.auth().createUserWithEmailAndPassword(email, pwd)
+    .then(() => {
+      ins.setState({registering: false});
+      ins.props.navigation.navigate("Login");
+    })
+    .catch(function(error) {
+      ins.setState({registering: false, email:"", password:""});
+      // Handle Errors here.
+      let errorCode = error.code;
+      let errorMessage = error.message;
+      console.log(errorMessage);
+      if (errorCode === 'auth/weak-password') {
+        alert('The password is too weak.');
+      } else if (errorCode === "auth/invalid-email") {
+        alert('Invalid Email');
+      } else if (errorCode === "auth/email-already-in-use") {
+        alert("This email has already in used, please login or try another one");
+      } else {
+        alert(errorMessage);
+      }
+    });
+  }
 
-  handleLoginPress = () => {
-    Alert.alert("Login Pressed with 0.5 opacity");
+  handleSignUpPress = () => {
+    this._createUserWithEmail(this.state.email, this.state.password, this);
   }
 
   render() {
@@ -115,7 +149,7 @@ export default class SignInScreen extends Component{
             
             <Button
               label={strings.SIGNUP}
-              onPress={this.handleLoginPress}
+              onPress={this.handleSignUpPress}
               extraStyles={{width: "100%", marginTop: 40}}
             />
           </View>
@@ -144,6 +178,11 @@ export default class SignInScreen extends Component{
       </View>
 
     </KeyboardAvoidingView>
+    <Spinner
+        visible={this.state.registering}
+        textContent={'Signing you in...'}
+        textStyle={{color:"#FFF"}}
+      />
     </ImageBackground>
     );
   }

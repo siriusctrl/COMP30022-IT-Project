@@ -1,5 +1,6 @@
 import React, {Component} from "react";
-import { Text, Image, StyleSheet, View , Alert, KeyboardAvoidingView, ImageBackground} from "react-native";
+import { Text, StyleSheet, View , KeyboardAvoidingView, ImageBackground, Modal} from "react-native";
+import Spinner from 'react-native-loading-spinner-overlay';
 
 import Button from "../components/Button";
 import FormTextInput from "../components/FormTextInput";
@@ -13,6 +14,8 @@ import Mail from "../assets/icons/mail";
 import PwdLock from "../assets/icons/pwdlock";
 
 import {CheckBox} from 'native-base';
+import firebase from "firebase";
+import firebaseConfig from "../controller/firebaseConfig";
 
 
 export default class LoginScreen extends Component{
@@ -24,8 +27,41 @@ export default class LoginScreen extends Component{
   state = {
     email:"",
     password:"",
-    checked: false
+    wrongEmail:false,
+    wrongPwd:false,
+    checked: false,
+    verifying: false,
   };
+
+  componentDidMount() {
+    firebaseConfig.getInstance().justStart();
+  }
+
+  _verifyEmail = async (email, pwd, ins) => {
+    ins.setState({verifying: true});
+
+    firebase.auth().signInWithEmailAndPassword(email, pwd)
+    .then(() => {
+      ins.setState({verifying:false});
+      ins.props.navigation.navigate("HomePage");
+    })
+    .catch((error) => {
+      ins.setState({verifying:false});
+      // Handle Errors here.
+      let errorCode = error.code;
+      let errorMessage = error.message;
+      console.log(errorMessage);
+      if (errorCode === 'auth/wrong-password') {
+        alert('Wrong password.');
+        ins.setState({password:"", wrongPwd:true});
+      } else if (errorCode === "auth/invalid-email"){
+        alert('Invalid email');
+        ins.setState({email:"", password:"", wrongEmail:true});
+      } else {
+        alert(errorMessage);
+      }
+    });
+  }
 
   handleEmailChanges = (email) => {
     this.setState({email : email});
@@ -36,7 +72,7 @@ export default class LoginScreen extends Component{
   }
   
   handleLoginPress = () => {
-    Alert.alert("Login Pressed with 0.5 opacity");
+    this._verifyEmail(this.state.email, this.state.password, this);
   }
 
   handleCheckBox = () => {
@@ -65,7 +101,8 @@ export default class LoginScreen extends Component{
               <FormTextInput
                 value={this.state.Email}
                 onChangeText={this.handleEmailChanges}
-                placeholder={strings.EMAIL_PLACEHOLDER}
+                placeholder={this.state.wrongEmail?"Invalid Email":strings.EMAIL_PLACEHOLDER}
+                placeholderTextColor={this.state.wrongEmail?colors.TORCH_RED:null}
                 keyboardType={"email-address"}
                 returnKeyType="next"
                 autoCorrect={false}
@@ -78,7 +115,8 @@ export default class LoginScreen extends Component{
               <FormTextInput
                 value={this.state.password}
                 onChangeText={this.handlePasswordChanges}
-                placeholder={strings.PASSWORD_PLACEHOLDER}
+                placeholder={this.state.wrongPwd?"Wrong Password":strings.PASSWORD_PLACEHOLDER}
+                placeholderTextColor={this.state.wrongPwd?colors.TORCH_RED:null}
                 secureTextEntry={true}
                 returnKeyType= "done"
                 style={{flex:1, paddingHorizontal: 10}}
@@ -119,6 +157,11 @@ export default class LoginScreen extends Component{
       </View>
 
     </KeyboardAvoidingView>
+      <Spinner
+        visible={this.state.verifying}
+        textContent={'Verifying...'}
+        textStyle={{color:"#FFF"}}
+      />
     </ImageBackground>
     );
   }
