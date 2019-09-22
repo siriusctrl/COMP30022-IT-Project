@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { TouchableHighlight,StyleSheet, Image, Alert, View, Text, TouchableOpacity } from 'react-native';
+import {TouchableHighlight, StyleSheet, Image, Alert, View, Text, TouchableOpacity, TextInput} from 'react-native';
 import { Container, Header, Content, ListItem, Icon, Left, Body, Right, Switch, Separator } from 'native-base';
 import Dialog, { DialogContent, DialogTitle, DialogFooter, DialogButton, SlideAnimation } from 'react-native-popup-dialog';
 
@@ -22,14 +22,14 @@ export default class AccountHoldScreen extends Component {
 
   // navigation header here
   static navigationOptions = {
-    title: 'Profile',
+    title: 'Account',
     headerStyle: {
       backgroundColor: '#4E91C4',
     },
 
     headerTitleStyle: {
       fontWeight: 'bold',
-      marginLeft:85,
+      marginLeft:90,
       flex: 1,
     },
     headerTintColor: '#FFFFFF',
@@ -46,9 +46,10 @@ export default class AccountHoldScreen extends Component {
   state = {
     familyName: "",
     dateCreated: "",
-    visible: false,
+    contactVisible: false,
     ready: false,
-    modalVisible: false,
+    securityVisible: false,
+    accountAvatar: null,
   };
 
   // update the locking state of badges
@@ -58,22 +59,20 @@ export default class AccountHoldScreen extends Component {
   };
 
   // get account family name and date of Creation
-  getAccount = () => {
-    AccountModelManage.getInstance().getAccount((familyName, dateCreated) => {
+  getAccount = async () => {
+    await AccountModelManage.getInstance().getAccount((familyName, dateCreated, avatar) => {
       this.setState({
         familyName: familyName,
         dateCreated: dateCreated,
+        accountAvatar: avatar,
+        ready: true,
       })
     });
   };
 
   // update page
   async componentDidMount() {
-    this.getAccount();
-    await new Promise(resolve => { setTimeout(resolve, 2000); });
-    this.setState({
-      ready: true,
-    })
+    await this.getAccount();
   }
 
   // navigations to achievement page
@@ -83,12 +82,14 @@ export default class AccountHoldScreen extends Component {
 
   render() {
 
+    if (this.state.ready === false) return null;
+
     return (
       <Container>
-        <View>
-          <Image source={require('../assets/images/trump.jpg')}  style={styles.avatar} />
 
-        </View>
+        {(this.state.accountAvatar == null) ? null : (
+          <Image source={{uri: this.state.accountAvatar}}  style={styles.avatar} />
+        )}
 
         <View>
 
@@ -130,23 +131,56 @@ export default class AccountHoldScreen extends Component {
 
           <View style={styles.separators}></View>
 
-          <ListItem icon noBorder>
+          <ListItem icon noBorder onPress={() => {this.setState({ securityVisible: true });}}>
             <Left>
               <Setting title = "setting" >
               </Setting>
             </Left>
             <Body>
-
-            <TouchableHighlight
-              onPress={() => {
-                this.toggleModal();
-              }}>
-              <Text style={{fontSize: 16, marginLeft: 3}}>Account & Security</Text>
-            </TouchableHighlight>
+            <Text style={{fontSize: 16}}>Account Security</Text>
             </Body>
+
+            <Dialog
+              visible={this.state.securityVisible}
+              dialogAnimation={new SlideAnimation({
+                slideFrom: 'bottom',
+              })}
+              dialogTitle={<DialogTitle title="Reset Passwords" />}
+              footer={
+                <DialogFooter>
+                  <DialogButton
+                    text="Dismiss"
+                    onPress={() => {this.setState({ securityVisible: false });}}
+                  />
+                  <DialogButton
+                    text="Confirm"
+                    onPress={() => {this.setState({ securityVisible: false });}}
+                  />
+                </DialogFooter>
+              }
+            >
+              <DialogContent>
+                <Text style={styles.securityText}>New Password</Text>
+                <TextInput
+                  style={styles.blackText}
+                  placeholderTextColor={"#D3D3D3"}
+                  maxLength={20}
+                  secureTextEntry={true}
+                />
+                <Text style={styles.securityText}>Confirm Password</Text>
+                <TextInput
+                  style={styles.blackText}
+                  placeholderTextColor={"#D3D3D3"}
+                  maxLength={20}
+                  secureTextEntry={true}
+                />
+              </DialogContent>
+
+            </Dialog>
+
           </ListItem>
 
-          <ListItem icon noBorder onPress={() => {this.setState({ visible: true });}}>
+          <ListItem icon noBorder onPress={() => {this.setState({ contactVisible: true });}}>
 
             <Left>
               <Accountmail title = "mail" ></Accountmail>
@@ -157,7 +191,7 @@ export default class AccountHoldScreen extends Component {
             </Body>
 
             <Dialog
-              visible={this.state.visible}
+              visible={this.state.contactVisible}
               dialogAnimation={new SlideAnimation({
                 slideFrom: 'bottom',
               })}
@@ -166,7 +200,7 @@ export default class AccountHoldScreen extends Component {
                 <DialogFooter>
                   <DialogButton
                     text="DISMISS"
-                    onPress={() => {this.setState({ visible: false });}}
+                    onPress={() => {this.setState({ contactVisible: false });}}
                   />
                 </DialogFooter>
               }
@@ -188,39 +222,21 @@ export default class AccountHoldScreen extends Component {
           </Button>
         </View>
 
-        <Modal
-          animationIn="fadeInUp"
-          animationOut="fadeOutDown"
-          style={styles.modalStyle}
-          isVisible={this.state.modalVisible}
-          onBackdropPress={() => {this.toggleModal()}}
-        >
-          <View style={{flex:1, justifyContent:"center", alignItems:"center", marginLeft: 3}}>
-
-            <View>
-              <Text>Hello World!</Text>
-
-              <TouchableHighlight
-                onPress={() => {
-                  this.toggleModal();
-                }}>
-                <Text>Hide Modal</Text>
-              </TouchableHighlight>
-            </View>
-          </View>
-        </Modal>
       </Container>
     );
   }
 }
-//ashsihs
+
 const styles = StyleSheet.create({
   avatar: {
-    width: "30%",
+    width: 120,
+    height: 120,
     resizeMode: "contain",
     alignSelf: "center",
-    paddingTop: 10,
-    borderRadius: 40,
+    marginTop: 20,
+    marginBottom: 20,
+    borderRadius: 100,
+    overflow: "hidden",
   },
   separators: {
     flex:1,
@@ -236,9 +252,40 @@ const styles = StyleSheet.create({
   modalStyle: {
     borderRadius: 15,
     justifyContent: "center",
-    marginVertical: 170,
+    marginVertical: 190,
     marginHorizontal: 35,
     backgroundColor: colors.WHITE,
   },
+  //jjh
+  modalHeader: {
+    borderTopRightRadius: 15,
+    borderTopLeftRadius: 15,
+    height:60,
+    marginLeft:-3,
+    width:290,
+    backgroundColor:"#E5F5FF",
+    fontWeight: 'bold',
+  },
+  modalHeaderText: {
+    alignSelf: 'center',
+    fontWeight: 'bold',
+    marginTop: 14,
+    fontSize: 20,
+  },
+  blackText: {
+    marginLeft: 3,
+    marginTop:5,
+    paddingBottom:4,
+    fontSize: 14,
+    height: 20,
+    borderBottomColor: "lightgrey",
+    borderBottomWidth: 1
+  },
+  securityText: {
+    fontSize: 15,
+    marginTop: 12,
+    marginLeft: 3,
+    marginRight: 80,
+  }
 
 });
