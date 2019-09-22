@@ -16,12 +16,16 @@ export default class authentication {
     return this._auth;
   }
 
-  static verifyEmail = (email, pwd) => {
+  verifyEmail = async (email, pwd) => {
     firebase.auth().signInWithEmailAndPassword(email, pwd)
+    .then(() => {
+      return "finish";
+    })
     .catch((error) => {
       // Handle Errors here.
       let errorCode = error.code;
       let errorMessage = error.message;
+      console.log(errorMessage);
       if (errorCode === 'auth/wrong-password') {
         alert('Wrong password.');
       } else {
