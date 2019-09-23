@@ -27,6 +27,7 @@
   },
   "dependencies": {
     "@react-native-community/datetimepicker": "^2.0.0",
+    "email-validator": "^2.0.4",
     "expo": "^34.0.1",
     "expo-av": "~6.0.0",
     "expo-file-system": "~6.0.0",

@@ -17,17 +17,19 @@ import PwdLock from "../assets/icons/pwdlock";
 import Person from "../assets/icons/person";
 
 import { BarPasswordStrengthDisplay } from 'react-native-password-strength-meter';
+import { validate } from "email-validator";
 
 export default class SignUpScreen extends Component{
   static navigationOptions = {
     header: null,
-    registering: false,
   }
 
   state = {
     email:"",
     password:"",
     familyName:"",
+    registering: false,
+    wrongEmail: false,
   }
 
   componentDidMount(){
@@ -55,9 +57,9 @@ export default class SignUpScreen extends Component{
   }
   
   // NOTE : does not handle the familyName
-  _createUserWithEmail = (email, pwd, ins) => {
+  _createUserWithEmail = (ins) => {
     ins.setState({registering: true});
-    firebase.auth().createUserWithEmailAndPassword(email, pwd)
+    firebase.auth().createUserWithEmailAndPassword(ins.state.email, ins.state.password)
     .then(() => {
       ins.setState({registering: false});
       ins.props.navigation.navigate("Login");
@@ -81,7 +83,11 @@ export default class SignUpScreen extends Component{
   }
 
   handleSignUpPress = () => {
-    this._createUserWithEmail(this.state.email, this.state.password, this);
+    if (validate(this.state.email)){
+      this._createUserWithEmail(this);
+    } else {
+      this.setState({email:"", wrongEmail:true});
+    }
   }
 
   render() {
@@ -117,7 +123,8 @@ export default class SignUpScreen extends Component{
               <FormTextInput
                 value={this.state.Email}
                 onChangeText={this.handleEmailChanges}
-                placeholder={"Email"}
+                placeholder={this.state.wrongEmail?"Invalid Email":"Email"}
+                placeholderTextColor={this.state.wrongEmail?colors.TORCH_RED:null}
                 keyboardType={"email-address"}
                 returnKeyType="next"
                 autoCorrect={false}

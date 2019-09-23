@@ -1,5 +1,11 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`<Empty /> renders correctly 1`] = `
+<Text>
+   
+</Text>
+`;
+
 exports[`renders correctly 1`] = `
 <Text>
    
