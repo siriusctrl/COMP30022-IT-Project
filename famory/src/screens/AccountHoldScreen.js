@@ -16,10 +16,10 @@ import { AccountModelManage } from "../controller/AccountModel";
 import colors from "../config/colors";
 import Modal from "react-native-modal";
 import Spinner from 'react-native-loading-spinner-overlay';
+import { StackActions, NavigationActions } from 'react-navigation';
 
 
 export default class AccountHoldScreen extends Component {
-
 
   // navigation header here
   static navigationOptions = {
@@ -39,7 +39,11 @@ export default class AccountHoldScreen extends Component {
 
   // function for log out, jumps to Welcome page
   handleLogOutPress = () => {
-    this.props.navigation.navigate('Welcome');
+    const resetAction = StackActions.reset({
+      index: 0,
+      actions: [NavigationActions.navigate({ routeName: 'Welcome' })],
+    });
+    this.props.navigation.dispatch(resetAction);
   }
 
 
