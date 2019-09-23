@@ -7,9 +7,10 @@ describe('<Empty />', () => {
     const tree = renderer.create(<Empty />).toJSON();
     expect(tree.children.length).toBe(1);
   });
+  
+  it('renders correctly', () => {
+    const tree = renderer.create(<Empty />).toJSON();
+    expect(tree).toMatchSnapshot();
+  });
 });
 
-it('renders correctly', () => {
-  const tree = renderer.create(<Empty />).toJSON();
-  expect(tree).toMatchSnapshot();
-});

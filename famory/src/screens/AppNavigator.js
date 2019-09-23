@@ -12,6 +12,7 @@ import EditProfileScreen from "./EditProfileScreen";
 import Achievement from "./AchievementScreen";
 import ArtefactItem from "./ArtefactItemScreen";
 import TestFirebase from "./TestFirebase";
+import ForgetPasswordScreen from "./ForgetPasswordScreen";
 
 import ArtefactGuide from "./ArtefactGuideScreen";
 import AddMemberGuide from "./AddMemberGuideScreen";
@@ -34,8 +35,8 @@ const AppNavigator = createStackNavigator({
   ArtefactItem: {screen: ArtefactItem},
   TestFirebase: {screen: TestFirebase},
   ArtefactGuide: {screen: ArtefactGuide},
-  AddMemberGuide: {screen: AddMemberGuide}
-
+  AddMemberGuide: {screen: AddMemberGuide},
+  ForgetPassword: {screen: ForgetPasswordScreen}
 }, {
       // should be debug
       initialRouteName: "Debug",

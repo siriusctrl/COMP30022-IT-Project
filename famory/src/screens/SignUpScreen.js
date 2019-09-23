@@ -21,13 +21,13 @@ import { BarPasswordStrengthDisplay } from 'react-native-password-strength-meter
 export default class SignUpScreen extends Component{
   static navigationOptions = {
     header: null,
-    registering: false,
   }
 
   state = {
     email:"",
     password:"",
     familyName:"",
+    registering: false
   }
 
   componentDidMount(){
