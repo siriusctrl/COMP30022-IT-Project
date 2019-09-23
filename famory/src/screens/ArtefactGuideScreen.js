@@ -1,8 +1,9 @@
 import React, { Component } from "react";
-import { StyleSheet, View, Text, TouchableOpacity, TextInput, ImageBackground, Image, TouchableHighlight } from "react-native";
+import { StyleSheet, View, Text, TouchableOpacity, TextInput, ImageBackground, Image } from "react-native";
 import colors from "../config/colors";
 import { Button, Icon, ListItem, Body } from 'native-base';
 import { Ionicons, FontAwesome } from '@expo/vector-icons';
+import { TouchableNativeFeedback } from "react-native-gesture-handler";
 
 import { Video } from 'expo-av';
 import { _handleItemPicked, _pickVideo, _uploadToFirebase, _pickImage, _uploadItem } from "../controller/fileUtilities"
@@ -89,7 +90,7 @@ export default class ArtefactGuide extends Component{
             )}
           </View>
           <View style={guideStyle.bottomButtonCn}>
-            <Button iconLeft light onPress={() => this._changeStage(true)}>
+            <Button iconLeft light style={{opacity: 0}}>
               <Icon name='arrow-back' />
               <Text style={guideStyle.bottomButtonLeft}>Back</Text>
             </Button>
@@ -426,7 +427,9 @@ export default class ArtefactGuide extends Component{
     return(
       <View style={{flexDirection: "column", flex: 1}}>
         <View style={{paddingTop: 26, paddingHorizontal: 26, flex: 1, justifyContent: "flex-start", alignItems: "center", flexDirection: "row"}}>
-          <Icon name='close' />
+          <TouchableNativeFeedback onPress={() => this.props.navigation.goBack()}>
+            <Icon name='close' />
+          </TouchableNativeFeedback>
         </View>
         <View style={{flex: 8, width: "100%", flexDirection: "column", paddingLeft: 2}}>
           <View style={{paddingHorizontal: 28, flex: 1, flexDirection:"column", justifyConytent: "flex-end", alignItems: "flex-start", paddingBottom: 16}}>

@@ -30,7 +30,7 @@ const AppNavigator = createStackNavigator({
   AccountHold: {screen: AccountHoldScreen},
   MemberPr: {screen: MemberPr},
   EditProfile: {screen: EditProfileScreen},
-  AddArtefactFromMemberGuideScreen: {screen: AddArtefactFromMemberGuideScreen},
+  AddArtefactFromMember: {screen: AddArtefactFromMemberGuideScreen},
   ArtefactItem: {screen: ArtefactItem},
   TestFirebase: {screen: TestFirebase},
   ArtefactGuide: {screen: ArtefactGuide},
