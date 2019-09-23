@@ -384,7 +384,7 @@ const guideStyle = StyleSheet.create(
         height: 40,
       },
     bigTitle: 
-      {flex: 1, width: "85%", textAlignVertical: "bottom", fontSize: 32, color: colors.HOMESCREENLIGHTBLUE},
+      {flex: 1, width: "85%", textAlignVertical: "bottom", fontSize: 28, color: colors.HOMESCREENLIGHTBLUE},
     titleContainer: 
       {paddingHorizontal: 28, flex: 1, flexDirection:"column", justifyContent: "flex-end", alignItems: "flex-start", paddingBottom: 16},
     guideNavigationBox: 

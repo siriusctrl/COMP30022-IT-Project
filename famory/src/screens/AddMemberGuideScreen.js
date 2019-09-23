@@ -277,28 +277,22 @@ export default class AddMemberGuide extends Component{
       "title": "How does the member look like?",
       "view": () =>
         <KeyboardAvoidingView behavior="height" enabled style={{flex: 4, flexDirection: "column", paddingTop: 42}}>
-          <View style={{paddingHorizontal: 29, flex: 6, paddingLeft: 32}}>
+          <View style={{paddingHorizontal: 29, flex: 6, paddingLeft: 32, marginTop: -40}}>
            <View style={{width: 196, height: 196, borderRadius: 98, borderWidth: 12, overflow: "hidden", borderColor: this.state.ringColor}}>
              <TouchableNativeFeedback onPress={
                async () => {
                  let image = await _pickImage();
                  if (!image.cancelled) {
-                  this.setState(
-                    {
-                      avatar: image.uri
-                    }
-                  )
-                  alert(image);
+                  this.setState({avatar: image.uri})
                  }
                }
              }>
-               <Image source={{uri: this.state.avatar}} style={{width: "100%", height: "100%", backgroundColor: colors.WHITE}}>
-               </Image>
+              <Image source={{uri: this.state.avatar}} style={{width: "100%", height: "100%", backgroundColor: colors.WHITE}} />
              </TouchableNativeFeedback>
            </View>
 
-           <Text style={{fontSize: 18, marginTop: 38, width: "87%"}}>
-              Choose the member's represent color
+           <Text style={{fontSize: 19, marginTop: 25, width: "97%", fontWeight: 'normal'}}>
+              Choose their exclusive color!
              </Text>
            
            <View style={{width: "100%", height: 64, marginTop: 25, flexDirection: "row", }}>
@@ -328,9 +322,8 @@ export default class AddMemberGuide extends Component{
           </Button>
         </TouchableNativeFeedback>
         <TouchableNativeFeedback style={{borderRadius: 2, elevation: 1}}>
-          <Button style={guideStyle.bottomButtonRight} iconRight light onPress={() => this._changeStage(false)}>
-            <Text style={{color: colors.DODGER_BLUE, textAlign: "center", textAlignVertical: "center", fontSize: 16, marginHorizontal: 8}}>FINISH</Text>
-            <Icon name='arrow-forward' style={{marginRight: 15}} />
+          <Button iconRight success onPress={() => this._changeStage(false)}>
+            <Text style={guideStyle.finishButton}>FINISH</Text>
           </Button>
         </TouchableNativeFeedback>
       </View>
@@ -416,7 +409,7 @@ export default class AddMemberGuide extends Component{
         {this.state.familyAccount? 
           <View style={{flex: 5, width: "100%", flexDirection: "column", paddingLeft: 2}}>
             <View style={{paddingHorizontal: 28, flex: 1, flexDirection:"column", justifyConytent: "center", alignItems: "flex-start", paddingBottom: 16}}>
-              <Text style={{flex: 1, width: "85%", textAlignVertical: "center", fontSize: 32, color: colors.HOMESCREENLIGHTBLUE}}>
+              <Text style={{flex: 1, width: "85%", textAlignVertical: "center", fontSize: 28, color: colors.HOMESCREENLIGHTBLUE}}>
                 {this.stages[this.state.currentStage]["title"]}
               </Text>
             </View>
@@ -449,6 +442,14 @@ const guideStyle = StyleSheet.create(
       flexDirection: "row", 
       justifyContent: "space-between", 
       alignItems: "center"
+    },
+    finishButton: {
+      height: 58, 
+      width: 114, 
+      textAlign: "center", 
+      textAlignVertical: "center", 
+      color: 'white', 
+      fontSize: 16,
     },
     bottomButtonLeft: {
       paddingHorizontal: 16,
