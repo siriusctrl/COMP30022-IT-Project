@@ -12,10 +12,11 @@ import EditProfileScreen from "./EditProfileScreen";
 import Achievement from "./AchievementScreen";
 import ArtefactItem from "./ArtefactItemScreen";
 import TestFirebase from "./TestFirebase";
+import ForgetPasswordScreen from "./ForgetPasswordScreen";
 
 import ArtefactGuide from "./ArtefactGuideScreen";
 import AddMemberGuide from "./AddMemberGuideScreen";
-import ArtGuide from "./AddArtefactFromMemberGuideScreen";
+import AddArtefactFromMemberGuideScreen from "./AddArtefactFromMemberGuideScreen";
 import { createStackNavigator } from "react-navigation";
 
 const AppNavigator = createStackNavigator({
@@ -30,13 +31,12 @@ const AppNavigator = createStackNavigator({
   AccountHold: {screen: AccountHoldScreen},
   MemberPr: {screen: MemberPr},
   EditProfile: {screen: EditProfileScreen},
-  Achievement: {screen: Achievement},
-  ArtGuide: {screen: ArtGuide},
+  AddArtefactFromMember: {screen: AddArtefactFromMemberGuideScreen},
   ArtefactItem: {screen: ArtefactItem},
   TestFirebase: {screen: TestFirebase},
   ArtefactGuide: {screen: ArtefactGuide},
-  AddMemberGuide: {screen: AddMemberGuide}
-
+  AddMemberGuide: {screen: AddMemberGuide},
+  ForgetPassword: {screen: ForgetPasswordScreen}
 }, {
       // should be debug
       initialRouteName: "Debug",
