@@ -28,7 +28,6 @@ export default class MemberPr extends Component{
   }
 
   componentDidMount(){
-
     // check if now has a model passed in
     let model = this.props.navigation.getParam("model", null);
     if (model){
@@ -54,15 +53,9 @@ export default class MemberPr extends Component{
       FamilyAccountModelManage.getInstance().getFamilyAccount(
         (m) => {
           m.getMembers((o) => {
-            this.setState({isMemberReady: true, memberModel: o["member_1"]})
-            this.state.itemAll = Object.keys(o["member_1"].item).length
+            this.setState({isMemberReady: true, memberModel: o["member_1"], itemAll: Object.keys(o["member_1"].item).length})
             o["member_1"].getItems((k) => {
-                this.setState(
-                  {
-                    profileMemberArtefactItem: Object.values(k),
-                    itemHas: Object.keys(k).length
-                  }
-                )
+                this.setState({profileMemberArtefactItem: Object.values(k),itemHas: Object.keys(k).length})
               })
           })
         }
@@ -98,8 +91,8 @@ export default class MemberPr extends Component{
                 {
                   this.state.isMemberReady? 
                   <View style={{height: "100%", flex: 1, flexDirection: "row"}}>
-                    <View style={{flex: 2, overflow: "hidden", justifyContent: "center", alignItems: "center"}}>
-                      <Image source={require("../assets/images/" + "dark.png")} 
+                    <View style={{flex: 3, overflow: "hidden", justifyContent: "center", alignItems: "center"}}>
+                      <Image source={{uri: this.state.memberModel.profileImage}} 
                             style={{width: 68, height: 68, borderRadius: 34}}></Image>
                     </View>
                     <View style={{flex: 7, paddingLeft: 12, flexDirection: "column", marginTop: 6}}>
@@ -148,6 +141,9 @@ export default class MemberPr extends Component{
 
         <View style={{justifyContent: "center", alignItems: "center", zIndex: 1}}>
           <View style={{justifyContent: "center", alignItems: "center", width: "100%", overflow: "visible", minHeight: 480, paddingTop: 38}}>
+          {
+              this.state.itemAll == 0? <Text style={{fontSize: 16, color: colors.MISCHKA, margin: 87}}>No artefacts</Text>:[]
+            }
             {this.state.itemAll == this.state.itemHas? 
               <Carousel
                 ref={(c) => { this._carousel = c; }}
@@ -206,21 +202,16 @@ export default class MemberPr extends Component{
                 slideStyle={{width: "87%", elevation: 5, borderRadius: 6}}
               />: <View></View>
             }
-            {
-              this.state.itemAll == 0? <Text>Nope</Text>:[]
-            }
           </View>
         </View>
 
         <View style={styles.floatButton}>
-          <TouchableNativeFeedback style={{height: 72, width: 72, borderRadius: 36, justifyContent: "center", alignItems:"center"}} 
+          <TouchableNativeFeedback style={styles.touableOne} 
             background={TouchableNativeFeedback.Ripple(colors.WHITE, true)} 
             onPress={() => {alert(this.state.itemAll == this.state.itemHas)}}>
             <Icon name="add" size={32} color={colors.WHITE} />
           </TouchableNativeFeedback>
-
         </View>
-
       </View>
     );
   }
@@ -273,7 +264,15 @@ const styles = StyleSheet.create({
     elevation: 7, 
     justifyContent: "center", 
     alignItems:"center"
+  },
+  touableOne:{
+    height: 72, 
+    width: 72, 
+    borderRadius: 36, 
+    justifyContent: "center", 
+    alignItems:"center"
   }
+  
   
 
 });
