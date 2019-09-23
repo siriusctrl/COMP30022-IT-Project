@@ -8,7 +8,7 @@ import MemberModelManage from "../controller/MemberModel"
 import {_pickImage, _uploadToFirebase} from "../controller/fileUtilities"
 
 import { TouchableNativeFeedback } from "react-native-gesture-handler";
-
+import Calendar from "../assets/icons/calendarDate";
 
 // guide page for adding a member
 export default class AddMemberGuide extends Component{
@@ -143,7 +143,7 @@ export default class AddMemberGuide extends Component{
             <Icon name='arrow-forward' style={{marginRight: 15}} />
           </Button>
         </TouchableNativeFeedback>
-    </View>
+      </View>
       
     },
     "addMemberName": {
@@ -234,8 +234,8 @@ export default class AddMemberGuide extends Component{
                 }
              }} style={{borderColor: colors.AGRAY, borderWidth: 0.5, borderRadius: 7}}>
               <View style={{width: "100%", borderRadius: 7, justifyContent: "space-between", alignItems: "center", padding: 18, flexDirection: "column"}}>
-                <Icon name="today" style={{width: 32, height: 32}}/>
-                <Text style={{fontSize: 18}}>{this.getStringDate(this.state.dateBirth)}</Text>
+                <Calendar />
+                <Text style={{fontSize: 20, marginTop: 10,}}>{this.getStringDate(this.state.dateBirth)}</Text>
               </View>
              </TouchableNativeFeedback>
           </View>
