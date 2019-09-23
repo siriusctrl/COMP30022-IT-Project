@@ -22,7 +22,6 @@ export default class DebugScreen extends Component{
     {name: "MemberPr"},
     {name: "AccountHold"},
     {name: "ArtGuide"},
-    {name: "ArtefactItem"},
     {name: "TestFirebase"},
     {name: "ArtefactGuide"}
   ];
