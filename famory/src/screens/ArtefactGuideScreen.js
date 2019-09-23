@@ -261,7 +261,7 @@ export default class ArtefactGuide extends Component{
           <View style={guideStyle.bottomButtonCn}>
             <Button iconLeft light onPress={() => this._changeStage(true)} >
               <Icon name='arrow-back' />
-              <Text style={guideStyle.bottomButtonLeft}>Back</Text>
+              <Text style={guideStyle.bottomButtonLeft}>BACK</Text>
             </Button>
             {(this.state.imageuploaded) ? (
               <Button iconRight success onPress={() => alert("Finished!")} >
@@ -269,7 +269,7 @@ export default class ArtefactGuide extends Component{
               </Button>
             ) : (
               <Button iconRight light onPress={() => {}} style={{opacity: 0}}>
-                <Text style={guideStyle.bottomButtonRight}>Next</Text>
+                <Text style={guideStyle.bottomButtonRight}>NEXT</Text>
                 <Icon name='arrow-forward' style={{marginRight: 15}} />
               </Button>
             )}
@@ -315,7 +315,7 @@ export default class ArtefactGuide extends Component{
           <View style={guideStyle.bottomButtonCn}>
             <Button iconLeft light onPress={() => this._changeStage(true)} >
               <Icon name='arrow-back' />
-              <Text style={guideStyle.bottomButtonLeft}>Back</Text>
+              <Text style={guideStyle.bottomButtonLeft}>BACK</Text>
             </Button>
             {(this.state.videoUploaded) ? (
               <Button iconRight success onPress={() => alert("Finished!")} >
@@ -323,7 +323,7 @@ export default class ArtefactGuide extends Component{
               </Button>
             ) : (
               <Button iconRight light onPress={() => {}} style={{opacity: 0}}>
-                <Text style={guideStyle.bottomButtonRight}>Next</Text>
+                <Text style={guideStyle.bottomButtonRight}>NEXT</Text>
                 <Icon name='arrow-forward' style={{marginRight: 15}} />
               </Button>
             )}
