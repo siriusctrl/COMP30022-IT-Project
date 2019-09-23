@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import { Text, TextInput, Image, StyleSheet, View, KeyboardAvoidingView, FlatList} from "react-native";
+import { Text, Image, StyleSheet, View, FlatList} from "react-native";
 import colors from "../config/colors";
 import { Icon, ListItem } from 'react-native-elements'
 import Carousel from "react-native-snap-carousel";
@@ -332,7 +332,7 @@ export default class ArtGuide extends Component{
 
         <View style={guideStyle.guideNavigationBox}>
           <TouchableNativeFeedback onPress={() => this.props.navigation.goBack()}>
-            <Icon name='clear'/>
+            <Icon name='clear' size={30} />
           </TouchableNativeFeedback>
         </View>
         <View style={{flex: 8, width: "100%", flexDirection: "column", paddingLeft: 2}}>

@@ -1,18 +1,13 @@
 import React, {Component} from "react";
-import { Text, TextInput, Image, StyleSheet, View , Alert, KeyboardAvoidingView, ImageBackground, FlatList, DatePickerAndroid} from "react-native";
-import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
+import { Text, TextInput, Image, StyleSheet, View, KeyboardAvoidingView, DatePickerAndroid} from "react-native";
 import colors from "../config/colors";
-import { Icon, ListItem } from 'react-native-elements'
-import { Container, Header, Content, Item, Input, Button} from 'native-base';
+import { Icon } from 'react-native-elements'
+import { Button } from 'native-base';
 import FamilyAccountModelManage from "../controller/FamilyAccountModel"
 import MemberModelManage from "../controller/MemberModel"
-import * as ImagePicker from 'expo-image-picker';
-import DateTimePicker from '@react-native-community/datetimepicker';
-import Carousel from "react-native-snap-carousel";
 import {_pickImage, _uploadToFirebase} from "../controller/fileUtilities"
 
-import ArtCard from "../components/ArtCard";
-import { TouchableNativeFeedback, TouchableHighlight } from "react-native-gesture-handler";
+import { TouchableNativeFeedback } from "react-native-gesture-handler";
 
 
 // guide page for adding a member
@@ -414,7 +409,9 @@ export default class AddMemberGuide extends Component{
       <KeyboardAvoidingView behavior="padding" enabled style={{flexDirection: "column", flex: 1}}>
 
         <View style={{paddingTop: 26, paddingHorizontal: 26, flex: 1, justifyContent: "flex-start", alignItems: "center", flexDirection: "row"}}>
-          <Icon name='clear' />
+          <TouchableNativeFeedback onPress={() => this.props.navigation.goBack()}>
+            <Icon name='clear' size={30} />
+          </TouchableNativeFeedback>
         </View>
         {this.state.familyAccount? 
           <View style={{flex: 5, width: "100%", flexDirection: "column", paddingLeft: 2}}>
