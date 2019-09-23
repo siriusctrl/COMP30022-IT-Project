@@ -3,8 +3,8 @@ import { Text, Image, StyleSheet, View , Alert, KeyboardAvoidingView, ImageBackg
 import firebaseContainer from "../controller/firebaseConfig"
 import * as firebase from "firebase";
 
-import { FamilyAccountModelManage, FamilyAccount } from "../controller/FamilyAccountModel"
-import { MemberModelManage } from "../controller/MemberModel"
+import FamilyAccountModelManage from "../controller/FamilyAccountModel"
+import MemberModelManage from "../controller/MemberModel"
 
 
 export default class TestFirebase extends Component{
