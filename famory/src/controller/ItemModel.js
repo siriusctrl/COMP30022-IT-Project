@@ -30,18 +30,36 @@ export class ItemModelManage{
   // cb is callback function that is called after getting the item
   // cb should take a itemModel
   getItem(callback, memberDescri){
-    let returned = {}
-    let memberRef = firebase.database().ref(this._path + "/" + this.type[memberDescri["type"]] + "/" + memberDescri["id"]);
-    memberRef.once("value").then((snapshota) => {
-      snapshot = snapshota.val();
+    let path = this._path + "/" + this.type[memberDescri["type"]] + "/" + memberDescri["id"];
+    let memberRef = firebase.database().ref(path);
+    memberRef.once("value").then((snapshotDB) => {
+      snapshot = snapshotDB.val();
       let member = new Item(snapshot, memberDescri["type"], memberDescri["id"]);
       callback(member);
-
     })
   }
 
-  setModel(memberName){
-  
+  setItem(callback, details, memberModel){
+    let type = details.type
+
+    let path = {
+      "image": "imageItem",
+      "text": "textItem",
+      "video": "videoItem"
+    }[type]
+    
+    itemId = Object.keys(memberModel.item).length
+    nextId = familyMemberId
+    firebase.database().ref(path + "/" + "maxTo/").once("value").then((maxMember) => {
+      let maxId = maxMember.val()
+      let newItemId = type + "_" + (Number(maxId) + 1)
+      firebase.database().ref(path + "/" + newItemId).set(details)
+      firebase.database().ref(memberModel._path + "/item" + "/" + nextId).set(newItemId)
+      firebase.database().ref(path + "/" + "maxTo/").set((Number(maxId) + 1))
+      let item = new Member(details, details.type, newItemId);
+
+      callback(item)
+    });
   }
 }
 
