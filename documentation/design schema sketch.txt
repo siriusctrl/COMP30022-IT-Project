@@ -1,0 +1,59 @@
+# Posts in community will be visible to other families.
+# We store in database their true identity but they appear to be 'anonymous' in application.
+# Since everything is anonymous, families do not need to track their uploads.
+Post {
+    "title": String,
+    "location": String,
+    "family": ObjectId,
+    "item": ObjectId, # This is artifact a family shares.
+    "datePosted": Date,
+    "description": String,
+    "like": Integer,
+    "replies": [{
+      "dateReplied": Date,
+      "content": String
+    }] # At most 10 images shown.
+}
+
+# Registry
+Registry {
+    "text": [ObjectId],
+    "voice": [ObjectId],
+    "image": [ObjectId],
+    "video": [ObjectId]
+}
+
+# Item is the item uploaded by someone in some family.
+Item {
+    "name": String,
+    "dateAdded": Date,
+    "content": String, # GridFS id
+
+}
+
+# Main Account of each family
+FamilyAccount {
+    "name": String
+    "password": String, # preferrably hashed
+    "dateCreated": Date,
+    "email": String,
+    "avatar": String, # Amazon S3
+    "familyMember": [ObjectId], # Members
+    "achievement": [ObjectId] # Achievements
+}
+
+FamilyMember {
+    "profileImage": String, # Amazon S3
+    "firstName": String,
+    "lastName": String,
+    "gender": Enum,
+    "dob": Date,
+    "registry": ObjectId, # id of registry
+    "ringColor": String # RGB
+}
+
+# Achievement
+Achievement {
+    "name": String,
+    "completed": Boolean
+}
