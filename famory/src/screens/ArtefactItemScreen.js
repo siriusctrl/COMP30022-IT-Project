@@ -6,12 +6,8 @@ import * as WebBrowser from "expo-web-browser";
 import { Icon } from 'native-base';
 import Modal from "react-native-modal";
 
-import { Entypo, AntDesign, FontAwesome } from '@expo/vector-icons';
-import Wechat from "../assets/icons/wechat";
-import Messenger from "../assets/icons/messenger";
-import GMail from "../assets/icons/gmail";
-import Instagram from "../assets/icons/instagram";
 
+import { Video } from 'expo-av';
 import ArtCard from "../components/ArtCard";
 import { TouchableNativeFeedback } from "react-native-gesture-handler";
 import { ActionSheetCustom as ActionSheet } from 'react-native-actionsheet';
@@ -55,7 +51,10 @@ export default class ArtefactItem extends Component{
 
   state = {
     artefactItem: this.props.navigation.getParam("item", null),
-    modalVisible: false,
+    videoFinishedLoading: false,
+    width: 350,
+    height: 350
+
   }
 
   // display action sheet
@@ -91,6 +90,42 @@ export default class ArtefactItem extends Component{
         </View>
         <View style={{flex: 7, overflow: "visible"}}>
         <ScrollView style={{flex: 1, overflow: "visible"}}>
+        {this.state.artefactItem.type == "video"? 
+        <View style={{marginHorizontal: 29, marginVertical: 19, marginBottom: 68, flexDirection: "column", minHeight: 870, overflow: "visible"}}>
+          <Video
+              source={{ uri: this.state.artefactItem.content }}
+              rate={1.0}
+              volume={1.0}
+              isMuted={false}
+              resizeMode="cover"
+              useNativeControls={true}
+              isLooping={false}
+
+              onReadyForDisplay={(vid) => {
+                this.setState({
+                  height: this.state.width * vid.naturalSize.height / vid.naturalSize.width
+                })
+              }}
+              
+
+              style={{width: this.state.width, height: this.state.height}}
+
+            />
+            <Text style={{color: colors.AGRAY, marginTop: 36, fontStyle: "italic"}}>{this.state.artefactItem.description}</Text>
+            <View style={{marginTop: 58}}>
+              <Text style={{color: colors.AGRAY}}>DETAIL</Text>
+              <View
+              style={{
+                borderBottomColor: colors.AGRAY,
+                borderBottomWidth: 0.5,
+              }}
+            />
+              <View style={{marginTop: 17}}>
+                <Text style={{color: colors.AGRAY}}>CREATE DATE</Text>
+                <Text style={{color: colors.AGRAY}}>{this.state.artefactItem.dateAdded}</Text>
+              </View>
+            </View>
+          </View>:
           <View style={{marginHorizontal: 29, marginVertical: 19, flexDirection: "column", minHeight: 870, overflow: "visible"}}>
             <ArtCard item={this.state.artefactItem} style={styles.artCard}/>
             <Text style={{color: colors.AGRAY, marginTop: 36, fontStyle: "italic"}}>{this.state.artefactItem.description}</Text>
@@ -108,6 +143,9 @@ export default class ArtefactItem extends Component{
               </View>
             </View>
           </View>
+        
+        }
+          
         </ScrollView>
         </View>
 
