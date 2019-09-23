@@ -21,10 +21,10 @@ export default class DebugScreen extends Component{
     {name: "Test"},
     {name: "MemberPr"},
     {name: "AccountHold"},
-    {name: "ArtGuide"},
-    {name: "ArtefactItem"},
+    {name: "AddArtefactFromMember"},
     {name: "TestFirebase"},
-    {name: "ArtefactGuide"}
+    {name: "ArtefactGuide"},
+    {name: "AddMemberGuide"}
   ];
 
   //Item separator

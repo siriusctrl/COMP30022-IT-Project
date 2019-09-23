@@ -105,7 +105,7 @@ export default class HomePageScreen extends Component{
       jsx.push(
         <View>
           <Avatar
-            icon={{name:"plus", type:"font-awesome"}}
+            icon={{name:"add", type:"ion-icon"}}
             rounded
             size={"medium"}
             onPress={() => {alert(item.gen)}}
