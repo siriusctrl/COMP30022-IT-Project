@@ -15,7 +15,7 @@ import TestFirebase from "./TestFirebase";
 
 import ArtefactGuide from "./ArtefactGuideScreen";
 import AddMemberGuide from "./AddMemberGuideScreen";
-import ArtGuide from "./AddArtefactFromMemberGuideScreen";
+import AddArtefactFromMemberGuideScreen from "./AddArtefactFromMemberGuideScreen";
 import { createStackNavigator } from "react-navigation";
 
 const AppNavigator = createStackNavigator({
@@ -30,8 +30,7 @@ const AppNavigator = createStackNavigator({
   AccountHold: {screen: AccountHoldScreen},
   MemberPr: {screen: MemberPr},
   EditProfile: {screen: EditProfileScreen},
-  Achievement: {screen: Achievement},
-  ArtGuide: {screen: ArtGuide},
+  AddArtefactFromMember: {screen: AddArtefactFromMemberGuideScreen},
   ArtefactItem: {screen: ArtefactItem},
   TestFirebase: {screen: TestFirebase},
   ArtefactGuide: {screen: ArtefactGuide},
