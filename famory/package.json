@@ -28,6 +28,7 @@
   "dependencies": {
     "expo": "^34.0.1",
     "expo-av": "~6.0.0",
+    "expo-file-system": "~6.0.0",
     "expo-font": "~6.0.1",
     "expo-image-picker": "~6.0.0",
     "expo-linear-gradient": "~6.0.0",

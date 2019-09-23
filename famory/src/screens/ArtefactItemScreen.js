@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import { Text, StyleSheet, View, ScrollView, Clipboard, TouchableOpacity } from "react-native";
+import { Text, StyleSheet, View, ScrollView, Clipboard, TouchableOpacity, CameraRoll } from "react-native";
 import colors from "../config/colors";
 import strings from "../config/strings";
 import * as WebBrowser from "expo-web-browser";
@@ -15,6 +15,8 @@ import Instagram from "../assets/icons/instagram";
 import ArtCard from "../components/ArtCard";
 import { TouchableNativeFeedback } from "react-native-gesture-handler";
 import { ActionSheetCustom as ActionSheet } from 'react-native-actionsheet';
+
+import * as FileSystem from 'expo-file-system';
 
 const optionDropdown = {
   flexDirection: 'row', 
@@ -74,6 +76,19 @@ export default class ArtefactItem extends Component{
   _shareToSocialMedia = async (link) => {
     await Clipboard.setString("Check out this wonderful Artefact from my ancestor!" +
       " Check out Famory, the best family artefact app in the world: https://www.downloadfamory.com");
+    await FileSystem.downloadAsync(
+      this.state.artefactItem.content,
+      FileSystem.documentDirectory + 'artefact.png'
+    )
+      .then(({ uri }) => {
+        CameraRoll.saveToCameraRoll(uri).then((uriGallery) => {
+          //here you have the url of the gallery to be able to use it
+          console.log('Finished downloading to ', uriGallery);
+        });
+      })
+      .catch(error => {
+        console.error(error);
+      });
     await WebBrowser.openBrowserAsync(link, {showTitle: true});
   };
 
