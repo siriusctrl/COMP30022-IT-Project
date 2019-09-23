@@ -5,7 +5,7 @@ import firebase from "firebase";
 
 export default class TestScreen extends Component {
   state = {
-    vary: "not now",
+    verify: "not now",
   }
 
   async componentDidMount() {
@@ -13,7 +13,7 @@ export default class TestScreen extends Component {
     //await this.verifyEmail("testing@gmail.com", "123456", this);
   }
   
-  verifyEmail = async (email, pwd, ins) => {
+  verifyEmail = (email, pwd, ins) => {
     firebase.auth().signInWithEmailAndPassword(email, pwd)
     .then(() => {
       ins.state.vary = "hell";
@@ -32,15 +32,28 @@ export default class TestScreen extends Component {
     });
   }
 
-  async run(){
-    await this.verifyEmail("testing@gmail.com", "123456", this);
+  _sendingReseatEmail = (ins) => {
+    ins.setState({ verify:"processing" });
+    firebase.auth.sendPasswordResetEmail("xinyaon@student.unimelb.edu.au", null)
+      .then(() => {
+        ins.setState({ verify: "yes" });
+        alert("email has been sent");
+      })
+      .catch((error) => {
+        ins.setState({ verify: error.code });
+        alert(error.message);
+      });
+  }
+
+  run(){
+    this._sendingReseatEmail(this);
   }
   
   render(){
     return(
-      <TouchableOpacity style={{backgroundColor:"red", alignItems:"center",  width:"50%", height:30}} activeOpacity={0.7} onPress={() => {this.run()}}>
+      <TouchableOpacity style={{backgroundColor:"red", alignItems:"center",  width:"50%", height:30}} activeOpacity={0.7} onPress={this._run}>
         <Text style={{textAlign:"center"}}>
-          {this.state.vary}
+          {this.state.verify}
         </Text>
       </TouchableOpacity>
     );

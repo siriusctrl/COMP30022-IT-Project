@@ -1,6 +1,7 @@
 import React, {Component} from "react";
 import { Text, StyleSheet, View , KeyboardAvoidingView, ImageBackground, Modal} from "react-native";
 import Spinner from 'react-native-loading-spinner-overlay';
+import {validate} from "email-validator";
 
 import Button from "../components/Button";
 import FormTextInput from "../components/FormTextInput";
@@ -72,7 +73,11 @@ export default class LoginScreen extends Component{
   }
   
   handleLoginPress = () => {
-    this._verifyEmail(this.state.email, this.state.password, this);
+    if (validate(this.state.email)){
+      this._verifyEmail(this.state.email, this.state.password, this);
+    } else {
+      this.setState({email : "", wrongEmail:true});
+    }
   }
 
   handleCheckBox = () => {
@@ -150,7 +155,7 @@ export default class LoginScreen extends Component{
       </View>
 
       <View style={{margin:30}}>
-        <Text style={{color:colors.WHITE}}>
+            <Text style={{ color: colors.WHITE }} onPress={() => {this.props.navigation.navigate("ForgetPassword")}}>
           {"\n"}
           Forgot Your Password?
         </Text>
