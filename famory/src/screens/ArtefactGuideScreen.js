@@ -8,21 +8,29 @@ import { TouchableNativeFeedback } from "react-native-gesture-handler";
 import { Video } from 'expo-av';
 import { _handleItemPicked, _pickVideo, _uploadToFirebase, _pickImage, _uploadItem } from "../controller/fileUtilities"
 
+import ItemModelManage from "../controller/ItemModel";
+
 export default class ArtefactGuide extends Component{
 
   static navigationOptions = {
     header: null
   }
 
+  componentDidMount(){
+    if(this.props.navigation.getParam("member", null)){
+      this.setState({
+        memberModel: this.props.navigation.getParam("member", null)
+      })
+    }
+  }
+
   state = {
     selected: 0,
     name: "",
     description: "",
-    imageItem: null,
-    videoItem: null,
+    content: null,
     imageuploaded: false,
     videoUploaded: false,
-    textArtefact: "",
     currentStage: "addArtefactFromNewInitial",
     currentPurpose: "addNewArtefact",
   };
@@ -200,13 +208,13 @@ export default class ArtefactGuide extends Component{
           >
             <TextInput
               style={guideStyle.artefactText}
-              onChangeText={(text) => this.setState({textArtefact: text})}
+              onChangeText={(text) => this.setState({content: text})}
               placeholder="Cherish the memories..."
               placeholderTextColor={"#808080"}
               multiline={true}
               numberOfLines={8}
               maxLength={400}
-              value={this.state.text}
+              value={this.state.content}
             />
           </ImageBackground>
 
@@ -235,7 +243,7 @@ export default class ArtefactGuide extends Component{
       "view": () =>
         <View style={{flex: 4, flexDirection: "column", paddingTop: 10}}>
           {(this.state.imageuploaded) ? (
-            <Image source={{uri: this.state.imageItem}} 
+            <Image source={{uri: this.state.content}} 
               style={{
                 flexDirection: 'column', 
                 flex: 3, 
@@ -291,7 +299,7 @@ export default class ArtefactGuide extends Component{
         <View style={{flex: 4, flexDirection: "column", paddingTop: 10}}>
           {(this.state.videoUploaded) ? (
             <Video
-              source={{ uri: this.state.videoItem }}
+              source={{ uri: this.state.content }}
               rate={1.0}
               volume={1.0}
               isMuted={false}
@@ -376,6 +384,22 @@ export default class ArtefactGuide extends Component{
 
   // after finish, just fill this.FINISH to the "next" stage
   _finish = (purpose) => {
+
+    let getStringDate = (date) => {
+      return date.toDateString().slice(4)
+    }
+
+    let member = this.state.memberModel
+
+    let t = {
+      0: "text", 1: "image", 2: "video"
+    }[this.state.selected]
+    ItemModelManage.getInstance().setItem(() => {}, {
+      content: this.state.content,
+      dateAdded: getStringDate(new Date()),
+      description: this.state.description,
+      name: this.state.name
+    }, member, t);
     alert("finished" + purpose);
   }
 
@@ -397,7 +421,7 @@ export default class ArtefactGuide extends Component{
 
     // update local state
     if (!result.cancelled) {
-      this.state.imageItem = result.uri;
+      this.state.content = result.uri;
       this.state.imageuploaded = true;
       this.forceUpdate();
     };
@@ -414,7 +438,7 @@ export default class ArtefactGuide extends Component{
 
     // update local state
     if (!result.cancelled) {
-      this.state.videoItem = result.uri;
+      this.state.content = result.uri;
       this.state.videoUploaded = true;
       this.forceUpdate();
     };
