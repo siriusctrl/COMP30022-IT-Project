@@ -52,7 +52,9 @@ export class MemberModelManage{
     let itemId = Object.keys(newMemberModel.item).length
     firebase.database().ref(newMemberModel._path + "/" + "item/" + itemId.toString() + "/").set(
       {id: itemModel.itemId, type: itemModel.type}).then(
-      this.getMember(callback, newMemberModel.memberId)
+        () => {
+          newMemberModel.updateSelf();
+        }
     )
   }
 }
@@ -97,6 +99,13 @@ export class Member{
     firebaseContainer.getInstance().justStart();
     let MemberReference = firebase.database().ref(this._path + "/firstName");
     MemberReference.set(newFirstName);
+  }
+
+  updateSelf = () => {
+    MemberModelManage.getInstance().getMember((newSelf) => {
+      this.firstName = newSelf.firstName
+      this.item = newSelf.item
+    }, this.memberId)
   }
 
   // get all items

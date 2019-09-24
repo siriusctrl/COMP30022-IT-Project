@@ -26,6 +26,10 @@ export default class ArtGuide extends Component{
 
   componentDidMount(){
       // use the default member_1 to get members
+      if (this.props.navigation.getParam("member", null)){
+        this.setState({isMemberReady: true, memberModel: this.props.navigation.getParam("member", null)})
+      }
+
       FamilyAccountModelManage.getInstance().getFamilyAccount(
         (m) => {
           this.setState(
@@ -34,7 +38,10 @@ export default class ArtGuide extends Component{
             }
           )
           m.getMembers((o) => {
-            this.setState({isMemberReady: true, memberModel: o["member_8"], members: Object.values(o)})
+            this.setState({members: Object.values(o)})
+            if (!this.props.navigation.getParam("member", null)){
+              this.setState({isMemberReady: true, memberModel: o["member_8"]})
+            }
           })
         }
       )
@@ -326,6 +333,9 @@ export default class ArtGuide extends Component{
   _finish = (purpose) => {
     alert("finished" + purpose);
     MemberModelManage.getInstance().passItem(()=>{}, this.state.memberModel, this.state.chosenArtefact);
+    let {profileMemberArtefactItem} = this.props.navigation.getParam("profileScreen", null).state
+    profileMemberArtefactItem.push(this.state.chosenArtefact);
+    this.props.navigation.getParam("profileScreen", null).setState({profileMemberArtefactItem})
   }
 
   // change text, can change the text for all inputs
