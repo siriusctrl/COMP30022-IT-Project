@@ -43,6 +43,15 @@ export default class ForgetPasswordScreen extends Component {
     this.props.navigation.dispatch(popAction);
   }
 
+  _resetStack = () => {
+    const resetAction = StackActions.reset({
+      index: 0,
+      actions: [NavigationActions.navigate({ routeName: 'Welcome' })],
+    });
+
+    this.props.navigation.dispatch(resetAction);
+  }
+
   _sendingReseatEmail = (ins) => {
     ins.setState({ verifying: true });
     firebase.auth().sendPasswordResetEmail(ins.state.email, null)
@@ -54,7 +63,7 @@ export default class ForgetPasswordScreen extends Component {
         ToastAndroid.SHORT,
         ToastAndroid.BOTTOM,
       );
-      ins._goBack();
+      ins._resetStack();
     })
     .catch((error) => {
       ins.setState({ verifying: false });
