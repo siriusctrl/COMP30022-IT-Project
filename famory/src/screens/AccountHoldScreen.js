@@ -35,17 +35,7 @@ export default class AccountHoldScreen extends Component {
     },
     headerTintColor: '#FFFFFF',
 
-  }
-
-  // function for log out, jumps to Welcome page
-  handleLogOutPress = () => {
-    const resetAction = StackActions.reset({
-      index: 0,
-      actions: [NavigationActions.navigate({ routeName: 'Welcome' })],
-    });
-    this.props.navigation.dispatch(resetAction);
-  }
-
+  };
 
   // state to control pop up menu
   state = {
@@ -87,6 +77,15 @@ export default class AccountHoldScreen extends Component {
   handleAchievementPress = () => {
     this.props.navigation.navigate('Achievement');
   };
+
+  // function for log out, jumps to Welcome page
+  handleLogOutPress = () => {
+    const resetAction = StackActions.reset({
+      index: 0,
+      actions: [NavigationActions.navigate({ routeName: 'Welcome' })],
+    });
+    this.props.navigation.dispatch(resetAction);
+  }
 
   render() {
 
