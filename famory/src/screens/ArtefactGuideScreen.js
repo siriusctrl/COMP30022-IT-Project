@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, useCallback } from "react";
 import { StyleSheet, View, Text, TouchableOpacity, TextInput, ImageBackground, Image } from "react-native";
 import colors from "../config/colors";
 import { Button, Icon, ListItem, Body } from 'native-base';
@@ -6,7 +6,7 @@ import { Ionicons, FontAwesome } from '@expo/vector-icons';
 import { TouchableNativeFeedback } from "react-native-gesture-handler";
 
 import { Video } from 'expo-av';
-import { _handleItemPicked, _pickVideo, _uploadToFirebase, _pickImage, _uploadItem } from "../controller/fileUtilities"
+import { _handleItemPicked, _pickVideo, _uploadToFirebase, _pickImage, _uploadItem } from "../controller/fileUtilitiesSync"
 
 import ItemModelManage from "../controller/ItemModel";
 
@@ -22,12 +22,14 @@ export default class ArtefactGuide extends Component{
         memberModel: this.props.navigation.getParam("member", null)
       })
     }
+    alert(this.props.navigation.getParam("member", null))
   }
 
   state = {
     selected: 0,
     name: "",
     description: "",
+    preview: null,
     content: null,
     imageuploaded: false,
     videoUploaded: false,
@@ -223,7 +225,7 @@ export default class ArtefactGuide extends Component{
               <Icon name='arrow-back' />
               <Text style={guideStyle.bottomButtonLeft}>Back</Text>
             </Button>
-            <Button iconRight success onPress={() => alert("Done!")}>
+            <Button iconRight success onPress={() => this._changeStage(false)}>
               <Text style={guideStyle.finishButton}>DONE</Text>
             </Button>
             
@@ -231,7 +233,7 @@ export default class ArtefactGuide extends Component{
         </View>
       ,
       "next": {
-        "addNewArtefact": "",
+        "addNewArtefact": FINISH,
       },
       "back": {
         "addNewArtefact": "addArtefactMetadata",
@@ -242,8 +244,8 @@ export default class ArtefactGuide extends Component{
       "title": "Image Upload",
       "view": () =>
         <View style={{flex: 4, flexDirection: "column", paddingTop: 10}}>
-          {(this.state.imageuploaded) ? (
-            <Image source={{uri: this.state.content}} 
+          {(this.state.preview != null && !this.state.preview.cancelled) ? (
+            <Image source={{uri: this.state.preview.uri}} 
               style={{
                 flexDirection: 'column', 
                 flex: 3, 
@@ -255,14 +257,34 @@ export default class ArtefactGuide extends Component{
                 borderRadius: 12,
               }} />
           ) : (
-            <TouchableOpacity style={guideStyle.uploadBox} onPress={this._uploadImageArtefact} >
+            <TouchableOpacity style={guideStyle.uploadBox} onPress={async () => {
+              let result = await _pickImage();
+              if (!result.cancelled) {
+                this.setState(
+                  {
+                    preview: result
+                  }
+                )
+              };
+            }} >
               <Ionicons name="md-images" size={44} color="orange" />
               <Text style={guideStyle.uploadText}>Browse</Text>
             </TouchableOpacity>
           )}
 
-          {(this.state.imageuploaded) ? (
-            <Button warning onPress={this._uploadImageArtefact} style={{marginTop: 15, width: 140, height: 48, borderRadius: 12, marginLeft: 105,}}>
+          {(this.state.preview != null && !this.state.preview.cancelled) ? (
+            <Button warning onPress={
+              async () => {
+              let result = await _pickImage();
+              if (!result.cancelled) {
+                this.setState(
+                  {
+                    preview: result
+                  }
+                )
+              };
+            }
+            } style={{marginTop: 15, width: 140, height: 48, borderRadius: 12, marginLeft: 105,}}>
               <Text style={{textAlign: "center", textAlignVertical: "center", fontSize: 16, color: '#fff', marginLeft: 20,}}>Change Image</Text>
             </Button>
           ) : null }
@@ -272,8 +294,8 @@ export default class ArtefactGuide extends Component{
               <Icon name='arrow-back' />
               <Text style={guideStyle.bottomButtonLeft}>BACK</Text>
             </Button>
-            {(this.state.imageuploaded) ? (
-              <Button iconRight success onPress={() => alert("Finished!")} >
+            {(this.state.preview != null && !this.state.preview.cancelled) ? (
+              <Button iconRight success onPress={() => this._changeStage(false)} >
                 <Text style={guideStyle.finishButton}>DONE</Text>
               </Button>
             ) : (
@@ -286,7 +308,7 @@ export default class ArtefactGuide extends Component{
         </View>
       ,
       "next": {
-        "addNewArtefact": "",
+        "addNewArtefact": FINISH,
       },
       "back": {
         "addNewArtefact": "addArtefactMetadata",
@@ -297,9 +319,9 @@ export default class ArtefactGuide extends Component{
       "title": "Videoclip Upload",
       "view": () =>
         <View style={{flex: 4, flexDirection: "column", paddingTop: 10}}>
-          {(this.state.videoUploaded) ? (
+          {(this.state.preview != null && !this.state.preview.cancelled) ? (
             <Video
-              source={{ uri: this.state.content }}
+              source={{ uri: this.state.preview.uri }}
               rate={1.0}
               volume={1.0}
               isMuted={false}
@@ -309,14 +331,36 @@ export default class ArtefactGuide extends Component{
               style={{ width: 300, height: 260, marginTop: -50, marginLeft: 28, flex: 3 }}
             />
           ) : (
-            <TouchableOpacity style={guideStyle.uploadBox} onPress={this._uploadVideoArtefact} >
+            <TouchableOpacity style={guideStyle.uploadBox} onPress={
+              async () => {
+                let result = await _pickVideo();
+                if (!result.cancelled) {
+                  this.setState(
+                    {
+                      preview: result
+                    }
+                  )
+                };
+              }
+            } >
               <FontAwesome name="file-video-o" size={44} color="blue" />
               <Text style={guideStyle.uploadText}>Browse</Text>
             </TouchableOpacity>
           )}
 
-          {(this.state.videoUploaded) ? (
-            <Button warning onPress={this._uploadVideoArtefact} style={{marginTop: 15, width: 140, height: 48, borderRadius: 12, marginLeft: 105,}}>
+          {(this.state.preview != null && !this.state.preview.cancelled) ? (
+            <Button warning onPress={
+              async () => {
+                let result = await _pickVideo();
+                if (!result.cancelled) {
+                  this.setState(
+                    {
+                      preview: result
+                    }
+                  )
+                };
+              }
+            } style={{marginTop: 15, width: 140, height: 48, borderRadius: 12, marginLeft: 105,}}>
               <Text style={{textAlign: "center", textAlignVertical: "center", fontSize: 16, color: '#fff', marginLeft: 20,}}>Change Video</Text>
             </Button>
           ) : null }
@@ -326,8 +370,8 @@ export default class ArtefactGuide extends Component{
               <Icon name='arrow-back' />
               <Text style={guideStyle.bottomButtonLeft}>BACK</Text>
             </Button>
-            {(this.state.videoUploaded) ? (
-              <Button iconRight success onPress={() => alert("Finished!")} >
+            {(this.state.preview != null && !this.state.preview.cancelled) ? (
+              <Button iconRight success onPress={() => this._changeStage(false)} >
                 <Text style={guideStyle.finishButton}>DONE</Text>
               </Button>
             ) : (
@@ -340,7 +384,7 @@ export default class ArtefactGuide extends Component{
         </View>
       ,
       "next": {
-        "addNewArtefact": "",
+        "addNewArtefact": FINISH,
       },
       "back": {
         "addNewArtefact": "addArtefactMetadata",
@@ -357,6 +401,12 @@ export default class ArtefactGuide extends Component{
       now = "back";
     } else if (this.state.currentStage === "addArtefactMetadata") {
       // need to go to upload page in response to different selections
+      this.setState(
+        {
+          preview: null,
+          content: null,
+        }
+      )
       if (this.state.selected == 0) {
         now = "textnext";
       } else if (this.state.selected == 1) {
@@ -386,7 +436,7 @@ export default class ArtefactGuide extends Component{
   _finish = (purpose) => {
 
     let getStringDate = (date) => {
-      return date.toDateString().slice(4)
+      return date.getFullYear().toString() + "-" + (date.getMonth() + 1).toString() + "-" + (date.getDate()).toString()
     }
 
     let member = this.state.memberModel
@@ -394,12 +444,40 @@ export default class ArtefactGuide extends Component{
     let t = {
       0: "text", 1: "image", 2: "video"
     }[this.state.selected]
-    ItemModelManage.getInstance().setItem(() => {}, {
+
+    let details = {
       content: this.state.content,
       dateAdded: getStringDate(new Date()),
       description: this.state.description,
       name: this.state.name
-    }, member, t);
+    }
+
+    if (this.state.selected != 0){
+      _uploadItem(this.state.preview, (uri) => {
+        alert(uri)
+        ItemModelManage.getInstance().setItem((item) => {
+          member.updateSelf(
+            (updatedMember) => {
+              this.props.navigation.getParam("profileScreen", null).setModel(updatedMember)
+            }
+          )
+          // alert(Object.keys(member.item))
+          // let {profileMemberArtefactItem, itemAll, itemHas} = this.props.navigation.getParam("profileScreen", null).state
+          // profileMemberArtefactItem.push(item)
+          // this.props.navigation.getParam("profileScreen", null).setState(
+          //   {
+          //     profileMemberArtefactItem: profileMemberArtefactItem,
+          //     itemAll: itemAll+1,
+          //     itemHas: itemHas+1
+          //   }
+          // )
+        }, 
+        { ... details, content: uri}, member, t);
+      });
+    }else{
+      ItemModelManage.getInstance().setItem(() => {}, details, member, t);
+    }
+
     alert("finished" + purpose);
   }
 
@@ -412,40 +490,6 @@ export default class ArtefactGuide extends Component{
       }
     );
   }
-
-  // upload image from local system
-  _uploadImageArtefact = async () => {
-
-    // get image
-    let result = await _pickImage();
-
-    // update local state
-    if (!result.cancelled) {
-      this.state.content = result.uri;
-      this.state.imageuploaded = true;
-      this.forceUpdate();
-    };
-
-    // upload to firebase
-    let firebaseUri = await _uploadItem(result);
-  };
-
-  // upload video from local system
-  _uploadVideoArtefact = async () => {
-
-    // get video
-    let result = await _pickVideo();
-
-    // update local state
-    if (!result.cancelled) {
-      this.state.content = result.uri;
-      this.state.videoUploaded = true;
-      this.forceUpdate();
-    };
-
-    // upload to firebase
-    let firebaseUri = await _uploadItem(result);
-  };
 
   render() {
     return(

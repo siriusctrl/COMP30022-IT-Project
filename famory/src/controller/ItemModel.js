@@ -48,15 +48,15 @@ export class ItemModelManage{
     }[type]
     
     itemId = Object.keys(memberModel.item).length
-    nextId = familyMemberId
-    firebase.database().ref(path + "/" + "maxTo/").once("value").then((maxMember) => {
-      alert("???????")
+    nextId = itemId
+    firebase.database().ref(this._path + "/" + path + "/" + "maxTo/").once("value").then((maxMember) => {
       let maxId = maxMember.val()
       let newItemId = type + "_" + (Number(maxId) + 1)
       firebase.database().ref(this._path + "/" + path + "/" + newItemId).set(details)
-      firebase.database().ref(memberModel._path + "/item" + "/" + nextId).set(newItemId)
+      firebase.database().ref(memberModel._path + "/item" + "/" + nextId).set({id: newItemId, 
+        type: type })
       firebase.database().ref(this._path + "/" + path + "/" + "maxTo/").set((Number(maxId) + 1))
-      let item = new Member(details, details.type, newItemId);
+      let item = new Item(details, type, newItemId);
 
       callback(item)
     });
