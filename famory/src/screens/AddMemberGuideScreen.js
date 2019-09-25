@@ -38,10 +38,23 @@ export default class AddMemberGuide extends Component{
 
   componentDidMount(){
     // get generation and family account
-    this.state.gen = this.props.navigation.getParam("gen", "0");
-    this.state.familyAccount = this.props.navigation.getParam("familyAccount", null);
+    if (this.props.navigation.getParam("gen", null)){
+      this.setState(
+        {
+          gen: this.props.navigation.getParam("gen", "0")[this.props.navigation.getParam("gen", "0").length - 1]
+        }
+      )
+    }
 
-    if (this.state.familyAccount == null){
+    if(this.props.navigation.getParam("familyAccount", null)){
+      this.setState(
+        {
+          familyAccount: this.props.navigation.getParam("familyAccount", null)
+        }
+      )
+    }
+
+    if (!this.state.familyAccount){
       FamilyAccountModelManage.getInstance().getFamilyAccount(
         (familyModel) => {
           this.setState(
@@ -65,7 +78,7 @@ export default class AddMemberGuide extends Component{
   }
 
   getStringDate = (date) => {
-    return date.toDateString().slice(4)
+    return date.getFullYear().toString() + "-" + (date.getMonth() + 1).toString() + "-" + (date.getDate()).toString()
   }
 
   generalBottom = () => {
