@@ -2,6 +2,7 @@ import React, {Component} from "react";
 import { Text, StyleSheet, View , KeyboardAvoidingView, ImageBackground, Modal} from "react-native";
 import Spinner from 'react-native-loading-spinner-overlay';
 import {validate} from "email-validator";
+import AlertPro from "react-native-alert-pro";
 
 import Button from "../components/Button";
 import FormTextInput from "../components/FormTextInput";
@@ -20,7 +21,7 @@ import firebaseConfig from "../controller/firebaseConfig";
 
 
 export default class LoginScreen extends Component{
-  // hide navigation header
+
   static navigationOptions = {
     header: null
   }
@@ -32,16 +33,18 @@ export default class LoginScreen extends Component{
     wrongPwd:false,
     checked: false,
     verifying: false,
+    errorTitle:"",
+    errorMessage:"",
   };
 
   componentDidMount() {
     firebaseConfig.getInstance().justStart();
   }
 
-  _verifyEmail = async (email, pwd, ins) => {
+  _verifyEmail = async (ins) => {
     ins.setState({verifying: true});
 
-    firebase.auth().signInWithEmailAndPassword(email, pwd)
+    firebase.auth().signInWithEmailAndPassword(ins.state.email, ins.state.password)
     .then(() => {
       ins.setState({verifying:false});
       ins.props.navigation.navigate("HomePage");
@@ -73,8 +76,11 @@ export default class LoginScreen extends Component{
   }
   
   handleLoginPress = () => {
-    if (validate(this.state.email)){
-      this._verifyEmail(this.state.email, this.state.password, this);
+    if (this.state.email.length === 0){
+      this.setState({ errorTitle:"Email Error", errorMessage:"Email Should not be empty" });
+      this.AlertPro.open();
+    } else if (validate(this.state.email)){
+      this._verifyEmail(this);
     } else {
       this.setState({email : "", wrongEmail:true});
     }
@@ -166,6 +172,17 @@ export default class LoginScreen extends Component{
         visible={this.state.verifying}
         textContent={'Verifying...'}
         textStyle={{color:"#FFF"}}
+      />
+
+      <AlertPro
+        ref={ref => {
+          this.AlertPro = ref;
+        }}
+        onCancel={() => this.AlertPro.close()}
+        showConfirm={false}
+        title={this.state.errorTitle}
+        textCancel="Ok"
+        message={this.state.errorMessage}
       />
     </ImageBackground>
     );
