@@ -1,61 +1,61 @@
-import firebaseConfig from "../controller/firebaseConfig";
-import React, {Component} from "react";
-import {View, Text, TouchableOpacity} from "react-native";
-import firebase from "firebase";
+import React, { Component } from "react";
+import { StyleSheet, View, TouchableOpacity, Text } from "react-native";
+import AlertPro from "react-native-alert-pro";
 
 export default class TestScreen extends Component {
-  state = {
-    verify: "not now",
-  }
+  render() {
+    return (
+      <View style={styles.container}>
+        <Text style={styles.title}>REACT NATIVE ALERT PRO</Text>
+        <View style={styles.buttonContainer}>
+          <TouchableOpacity
+            onPress={() => this.AlertPro.open()}
+            style={styles.button}
+          >
+            <Text style={styles.text}>CUSTOM</Text>
+          </TouchableOpacity>
+        </View>
 
-  async componentDidMount() {
-    firebaseConfig.getInstance().justStart();
-    //await this.verifyEmail("testing@gmail.com", "123456", this);
-  }
-  
-  verifyEmail = (email, pwd, ins) => {
-    firebase.auth().signInWithEmailAndPassword(email, pwd)
-    .then(() => {
-      ins.state.vary = "hell";
-      ins.forceUpdate();
-    })
-    .catch((error) => {
-      // Handle Errors here.
-      let errorCode = error.code;
-      let errorMessage = error.message;
-      console.log(errorMessage);
-      if (errorCode === 'auth/wrong-password') {
-        alert('Wrong password.');
-      } else {
-        alert(errorMessage);
-      }
-    });
-  }
-
-  _sendingReseatEmail = (ins) => {
-    ins.setState({ verify:"processing" });
-    firebase.auth.sendPasswordResetEmail("xinyaon@student.unimelb.edu.au", null)
-      .then(() => {
-        ins.setState({ verify: "yes" });
-        alert("email has been sent");
-      })
-      .catch((error) => {
-        ins.setState({ verify: error.code });
-        alert(error.message);
-      });
-  }
-
-  run(){
-    this._sendingReseatEmail(this);
-  }
-  
-  render(){
-    return(
-      <TouchableOpacity style={{backgroundColor:"red", alignItems:"center",  width:"50%", height:30}} activeOpacity={0.7} onPress={this._run}>
-        <Text style={{textAlign:"center"}}>
-          {this.state.verify}
-        </Text>
-      </TouchableOpacity>
+        <AlertPro
+          ref={ref => {
+            this.AlertPro = ref;
+          }}
+          onCancel={() => this.AlertPro.close()}
+          showConfirm={false}
+          title="Working Test"
+          message="Is this working?"
+        />
+      </View>
     );
   }
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignItems: "center",
+    backgroundColor: "#fff"
+  },
+  title: {
+    fontSize: 20,
+    marginTop: 120
+  },
+  buttonContainer: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "#FFFFFF"
+  },
+  button: {
+    backgroundColor: "#4EB151",
+    paddingVertical: 11,
+    paddingHorizontal: 17,
+    borderRadius: 3,
+    marginBottom: 15
+  },
+  text: {
+    color: "#FFFFFF",
+    fontSize: 16,
+    fontWeight: "600"
+  }
+});
