@@ -58,7 +58,7 @@ export default class AddMemberGuide extends Component{
       FamilyAccountModelManage.getInstance().getFamilyAccount(
         (familyModel) => {
           this.setState(
-            {familyAccount: familyModel}
+            { familyAccount: familyModel }
           )
         }
       )

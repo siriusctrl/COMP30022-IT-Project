@@ -4,6 +4,7 @@ import firebaseConfig from "../controller/firebaseConfig";
 import firebase from "firebase";
 import {validate} from "email-validator";
 import { StackActions, NavigationActions } from 'react-navigation';
+import AlertPro from "react-native-alert-pro";
 
 import Button from "../components/Button";
 import FormTextInput from "../components/FormTextInput";
@@ -25,6 +26,7 @@ export default class ForgetPasswordScreen extends Component {
     email: "",
     wrongEmail: null,
     verifying: false,
+    errorMessage:"",
   }
 
   componentDidMount() {
@@ -63,22 +65,25 @@ export default class ForgetPasswordScreen extends Component {
         ToastAndroid.SHORT,
         ToastAndroid.BOTTOM,
       );
+
       ins._resetStack();
     })
     .catch((error) => {
-      ins.setState({ verifying: false });
-      alert(error.message);
+      ins.setState({ verifying: false , errorMessage: error.message });
+      ins.AlertPro.open();
     });
   }
 
   handleSendPress = () => {
     this.setState({ wrongEmail : null });
-    let result = validate(this.state.email);
 
     if (this.state.email.length === 0){
-      this.setState({ wrongEmail : "Should not be None Empty!!" });
-    } else if (!result) {
-      this.setState({ wrongEmail: "Invalid Email", email : "" });
+      // NOTE : this only for testing purpose, it actually does not need alert here
+      this.setState({ wrongEmail: "Email Cannot be Empty!", errorMessage: "Email Cannot be Empty!"});
+      this.AlertPro.open();
+    } else if (!validate(this.state.email)) {
+      this.setState({ wrongEmail: "Invalid Email", email: "", errorMessage: "Invalid Email" });
+      this.AlertPro.open();
     } else {
       this._sendingReseatEmail(this);
     }
@@ -127,6 +132,18 @@ export default class ForgetPasswordScreen extends Component {
           textContent={'Verifying...'}
           textStyle={{ color: "#FFF" }}
         />
+
+        <AlertPro
+          ref={ref => {
+            this.AlertPro = ref;
+          }}
+          onCancel={() => this.AlertPro.close()}
+          showConfirm={false}
+          title="Email Error"
+          textCancel="Ok"
+          message={this.state.errorMessage}
+        />
+
       </ImageBackground>
     );
   }
