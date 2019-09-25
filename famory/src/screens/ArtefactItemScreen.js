@@ -12,6 +12,7 @@ import Messenger from "../assets/icons/messenger";
 import GMail from "../assets/icons/gmail";
 import Instagram from "../assets/icons/instagram";
 
+
 import { Video } from 'expo-av';
 import ArtCard from "../components/ArtCard";
 import { TouchableNativeFeedback } from "react-native-gesture-handler";
@@ -60,7 +61,7 @@ export default class ArtefactItem extends Component{
   state = {
     artefactItem: this.props.navigation.getParam("item", null),
     videoFinishedLoading: false,
-    width: 350,
+    width: 300,
     height: 350
 
   }
