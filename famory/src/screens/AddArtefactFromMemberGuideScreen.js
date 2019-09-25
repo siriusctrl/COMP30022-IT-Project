@@ -115,7 +115,7 @@ export default class ArtGuide extends Component{
                   </View>
                 </View>
                 <View style={{flex: 6, flexDirection: "column", paddingLeft: 23, justifyContent: "center"}}>
-                  <Text style={{fontSize: 23, color: colors.WHITE}}>
+                  <Text style={{fontSize: 23, color: colors.WHITE, maxWidth: 150}} numberOfLines={1} ellipsizeMode={"tail"}>
                     {this.state.memberModel.firstName + " " + this.state.memberModel.lastName}
                   </Text>
                   <Text style={{fontSize: 18, color: colors.WHITE}}>
@@ -332,10 +332,13 @@ export default class ArtGuide extends Component{
   // finished guide
   _finish = (purpose) => {
     alert("finished" + purpose);
-    MemberModelManage.getInstance().passItem(()=>{}, this.state.memberModel, this.state.chosenArtefact);
-    let {profileMemberArtefactItem} = this.props.navigation.getParam("profileScreen", null).state
-    profileMemberArtefactItem.push(this.state.chosenArtefact);
-    this.props.navigation.getParam("profileScreen", null).setState({profileMemberArtefactItem})
+    MemberModelManage.getInstance().passItem(()=>{
+      this.state.memberModel.updateSelf(
+        (updatedMember) => {
+          this.props.navigation.getParam("profileScreen", null).setModel(updatedMember)
+        }
+      )
+    }, this.state.memberModel, this.state.chosenArtefact);
   }
 
   // change text, can change the text for all inputs
@@ -468,7 +471,7 @@ const styles = StyleSheet.create({
   },
   mBubbl: {
     height: 72, 
-    width: "76%", 
+    width: "88%", 
     borderRadius: 36, 
     elevation: 3, 
     flexDirection: "row", 

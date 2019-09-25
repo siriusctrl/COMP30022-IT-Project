@@ -101,10 +101,12 @@ export class Member{
     MemberReference.set(newFirstName);
   }
 
-  updateSelf = () => {
+  updateSelf = (callback) => {
     MemberModelManage.getInstance().getMember((newSelf) => {
       this.firstName = newSelf.firstName
       this.item = newSelf.item
+
+      callback(this)
     }, this.memberId)
   }
 

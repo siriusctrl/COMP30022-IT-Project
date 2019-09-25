@@ -61,7 +61,7 @@ export default class ArtefactItem extends Component{
   state = {
     artefactItem: this.props.navigation.getParam("item", null),
     videoFinishedLoading: false,
-    width: 350,
+    width: 300,
     height: 350
 
   }

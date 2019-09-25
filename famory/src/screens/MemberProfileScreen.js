@@ -29,6 +29,23 @@ export default class MemberPr extends Component{
     itemHas: 0
   }
 
+  setModel = (model) => {
+    this.setState(
+      {
+        memberModel: model,
+        isMemberReady: true,
+        itemAll: Object.keys(model.item).length
+      }
+    )
+    model.getItems((k) => {
+      this.setState(
+        {
+          profileMemberArtefactItem: Object.values(k),
+          itemHas: Object.keys(k).length
+        })
+    })
+  }
+
   componentDidMount(){
 
     // check if now has a model passed in
@@ -36,36 +53,14 @@ export default class MemberPr extends Component{
     if (model){
 
       // if has then use that model and get all its items
-      this.setState(
-        {
-          memberModel: model,
-          isMemberReady: true,
-          itemAll: Object.keys(model.item).length
-        }
-      )
-      model.getItems((k) => {
-        this.setState(
-          {
-            profileMemberArtefactItem: Object.values(k),
-            itemHas: Object.keys(k).length
-          })
-      })
+      this.setModel(model)
     }else{
 
       // use the default member_1 to get members
       FamilyAccountModelManage.getInstance().getFamilyAccount(
         (m) => {
           m.getMembers((o) => {
-            this.setState({isMemberReady: true, memberModel: o["member_1"]})
-            this.state.itemAll = Object.keys(o["member_1"].item).length
-            o["member_1"].getItems((k) => {
-                this.setState(
-                  {
-                    profileMemberArtefactItem: Object.values(k),
-                    itemHas: Object.keys(k).length
-                  }
-                )
-              })
+            this.setModel(o["member_1"])
           })
         }
       )
@@ -128,7 +123,7 @@ export default class MemberPr extends Component{
                       <Image source={{uri: this.state.memberModel.profileImage}} 
                             style={{width: 68, height: 68, borderRadius: 34}}></Image>
                     </View>
-                    <View style={{flex: 7, paddingLeft: 12, flexDirection: "column", marginTop: 6}}>
+                    <View style={{flex: 6, paddingLeft: 12, flexDirection: "column", marginTop: 6}}>
                       <Text style={{marginTop: 6, fontSize: 26, color: colors.HOMESCREENLIGHTBLUE, marginLeft: 2}}>
                         {this.state.memberModel.firstName + " " + this.state.memberModel.lastName}
                       </Text>
