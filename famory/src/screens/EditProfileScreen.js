@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import {StyleSheet, Image, Alert, View, Text, TextInput, Button} from 'react-native';
-import { Container, Header, Content, ListItem, Icon, Left, Body, Right, Switch, Separator } from 'native-base';
+import { ListItem, Body } from 'native-base';
 
 import * as ImagePicker from 'expo-image-picker';
 import DatePicker from 'react-native-datepicker';
 
-import strings from "../config/strings";
 import CheckButton from "../components/CheckButton"
-
+import { MemberModelManage } from "../controller/MemberModel";
+import { _pickImage, _uploadItem } from "../controller/fileUtilitiesSync";
 
 export default class EditProfileScreen extends Component {
 
@@ -28,11 +28,11 @@ export default class EditProfileScreen extends Component {
       headerTintColor: '#FFFFFF',
       headerRight: (
         <CheckButton
-          onPress={navigation.getParam('increaseCount')}
+          onPress={navigation.getParam('updateProfile')}
           title="Info"
           color="#FFFFFF"
           style={{marginRight: 11}}
-        ></CheckButton>
+        />
       ),
     };
 
@@ -40,33 +40,62 @@ export default class EditProfileScreen extends Component {
 
   /*
     use state to record profile information, including first name, last name
-    date of birth and profile image.
+    date of birth and profile image.f
    */
   state = {
     firstName: "",
     lastName: "",
     dob: "",
-    image: "",
+    image: null,
+    imageuploaded: false,
+    result: null,
   };
 
   componentDidMount () {
+    this.props.navigation.setParams({ updateProfile: this._handleSubmit });
     let model = this.props.navigation.state.params.memberModel;
     if (model) {
       this.setState({
         firstName: model.firstName,
         lastName: model.lastName,
-        dob: this.constructDate(new Date(model.dob)),
+        dob: model.dob,
         image: model.profileImage,
       });
       this.forceUpdate();
     }
   }
 
-  constructDate = (dob) => {
-    const year = dob.getUTCFullYear();
-    const month = dob.getUTCMonth() + 1;
-    const date = dob.getUTCDate();
-    return year + "-" + month + "-" + date;
+  // submit firstName, lastName, date of birth and profile image to the database
+  _handleSubmit = async () => {
+    // upload to firebase storage
+    let model = this.props.navigation.state.params.memberModel;
+    model.firstName = this.state.firstName;
+    model.lastName = this.state.lastName;
+    model.dob = this.state.dob;
+    if (this.state.imageuploaded) {
+      _uploadItem(this.state.result, (firebaseUri) => {
+        model.profileImage = firebaseUri;
+        alert(model.profileImage);
+        MemberModelManage.getInstance().setProfile(() => {}, model);
+      });
+    } else {
+      MemberModelManage.getInstance().setProfile(() => {}, model);
+    }
+  };
+
+  // upload image from local system
+  _uploadImage = async () => {
+
+    // get image
+    let result = await _pickImage();
+
+    // update local state
+    if (!result.cancelled) {
+      this.state.imageuploaded = true;
+      this.state.image = result.uri;
+      this.state.result = result;
+      this.forceUpdate();
+    }
   };
 
 
@@ -82,7 +111,7 @@ export default class EditProfileScreen extends Component {
             <Image source={{uri: this.state.image}}  style={styles.avatar} />
           )}
 
-          <Text style={{fontSize: 15, color: '#347ED3'}} onPress={this._pickImage}>
+          <Text style={{fontSize: 15, color: '#347ED3'}} onPress={this._uploadImage}>
             Change Profile Photo
           </Text>
         </View>
@@ -94,7 +123,7 @@ export default class EditProfileScreen extends Component {
             <TextInput
               style={styles.blackText}
               onChangeText={(text) => this.setState({firstName: text})}
-              placeholder={this.state.firstName}
+              placeholder={this.props.navigation.state.params.memberModel.firstName}
               placeholderTextColor={"#D3D3D3"}
               maxLength={20}
               value={this.state.text}
@@ -108,7 +137,7 @@ export default class EditProfileScreen extends Component {
             <TextInput
               style={styles.blackText}
               onChangeText={(text) => this.setState({lastName: text})}
-              placeholder={this.state.lastName}
+              placeholder={this.props.navigation.state.params.memberModel.lastName}
               placeholderTextColor={"#D3D3D3"}
               maxLength={20}
               value={this.state.text}
@@ -147,19 +176,6 @@ export default class EditProfileScreen extends Component {
 
   }
 
-  _pickImage = async () => {
-    let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      allowsEditing: true,
-      aspect: [4, 4],
-    });
-
-    console.log(result);
-
-    if (!result.cancelled) {
-      this.setState({ image: result.uri });
-    }
-  };
 }
 
 const styles = StyleSheet.create({
