@@ -181,7 +181,7 @@ export default class HomePageScreen extends Component{
   }
 
   _handleAccountPress = () => {
-    this.props.navigation.navigate("AccountHoldScreen");
+    this.props.navigation.navigate("AccountHold");
   }
 
   _handleEditPress = () => {
