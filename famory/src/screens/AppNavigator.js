@@ -13,7 +13,7 @@ import Achievement from "./AchievementScreen";
 import ArtefactItem from "./ArtefactItemScreen";
 import TestFirebase from "./TestFirebase";
 import ForgetPasswordScreen from "./ForgetPasswordScreen";
-
+import CommunityAddArtefactScreen from "./CommunityAddArtefactScreen";
 import ArtefactGuide from "./ArtefactGuideScreen";
 import AddMemberGuide from "./AddMemberGuideScreen";
 import AddArtefactFromMemberGuideScreen from "./AddArtefactFromMemberGuideScreen";
@@ -28,6 +28,7 @@ const AppNavigator = createStackNavigator({
   HomePage: {screen: HomePage},
   CommunityMain: {screen: CommunityMainScreen},
   CommunityComment: {screen: CommunityCommentScreen},
+  CommunityAdd: {screen: CommunityAddArtefactScreen},
   AccountHold: {screen: AccountHoldScreen},
   MemberPr: {screen: MemberPr},
   EditProfile: {screen: EditProfileScreen},
@@ -37,7 +38,7 @@ const AppNavigator = createStackNavigator({
   ArtefactGuide: {screen: ArtefactGuide},
   AddMemberGuide: {screen: AddMemberGuide},
   ForgetPassword: {screen: ForgetPasswordScreen},
-  Achievement: {screen: Achievement}
+  Achievement: {screen: Achievement},
 }, {
       // should be debug
       initialRouteName: "Debug",
