@@ -6,6 +6,8 @@ import { Icon } from 'react-native-elements';
 import ArtCard from "../components/ArtCard";
 import { TouchableNativeFeedback } from "react-native-gesture-handler";
 import Carousel from "react-native-snap-carousel";
+import { ActionSheetCustom as ActionSheet } from 'react-native-actionsheet';
+
 
 
 
@@ -27,36 +29,38 @@ export default class MemberPr extends Component{
     itemHas: 0
   }
 
+  setModel = (model) => {
+    this.setState(
+      {
+        memberModel: model,
+        isMemberReady: true,
+        itemAll: Object.keys(model.item).length
+      }
+    )
+    model.getItems((k) => {
+      this.setState(
+        {
+          profileMemberArtefactItem: Object.values(k),
+          itemHas: Object.keys(k).length
+        })
+    })
+  }
+
   componentDidMount(){
+
     // check if now has a model passed in
     let model = this.props.navigation.getParam("model", null);
     if (model){
 
       // if has then use that model and get all its items
-      this.setState(
-        {
-          memberModel: model,
-          isMemberReady: true,
-          itemAll: Object.keys(model.item).length
-        }
-      )
-      model.getItems((k) => {
-        this.setState(
-          {
-            profileMemberArtefactItem: Object.values(k),
-            itemHas: Object.keys(k).length
-          })
-      })
+      this.setModel(model)
     }else{
 
       // use the default member_1 to get members
       FamilyAccountModelManage.getInstance().getFamilyAccount(
         (m) => {
           m.getMembers((o) => {
-            this.setState({isMemberReady: true, memberModel: o["member_1"], itemAll: Object.keys(o["member_1"].item).length})
-            o["member_1"].getItems((k) => {
-                this.setState({profileMemberArtefactItem: Object.values(k),itemHas: Object.keys(k).length})
-              })
+            this.setModel(o["member_1"])
           })
         }
       )
@@ -83,6 +87,30 @@ export default class MemberPr extends Component{
 
   render() {
 
+    const optionDropdown = {
+      flexDirection: 'row', 
+      flex: 1, 
+      alignItems: 'center', 
+      justifyContent: 'center',
+      marginLeft: 32,
+      paddingTop: 32,
+      paddingBottom: 32, 
+    }
+
+    let options = [
+      'Cancel', 
+      <View style={optionDropdown}>
+        <View style={{flexDirection: 'column', flex: 1}}>
+          <Text style={{fontSize: 18, fontWeight: '400', lineHeight: 32}}>Add new artefact</Text>
+        </View>
+      </View>, 
+      <View style={optionDropdown}>
+        <View style={{flexDirection: 'column', flex: 1}}>
+          <Text style={{fontSize: 18, fontWeight: '400', lineHeight: 32}}>Add artefact from other member</Text>
+        </View>
+      </View>,
+    ]
+
     return (
       <View style={{flex:1}}>
         <View style={styles.tContainer}>
@@ -91,11 +119,11 @@ export default class MemberPr extends Component{
                 {
                   this.state.isMemberReady? 
                   <View style={{height: "100%", flex: 1, flexDirection: "row"}}>
-                    <View style={{flex: 3, overflow: "hidden", justifyContent: "center", alignItems: "center"}}>
+                    <View style={{flex: 2, overflow: "hidden", justifyContent: "center", alignItems: "center"}}>
                       <Image source={{uri: this.state.memberModel.profileImage}} 
                             style={{width: 68, height: 68, borderRadius: 34}}></Image>
                     </View>
-                    <View style={{flex: 7, paddingLeft: 12, flexDirection: "column", marginTop: 6}}>
+                    <View style={{flex: 6, paddingLeft: 12, flexDirection: "column", marginTop: 6}}>
                       <Text style={{marginTop: 6, fontSize: 26, color: colors.HOMESCREENLIGHTBLUE, marginLeft: 2}}>
                         {this.state.memberModel.firstName + " " + this.state.memberModel.lastName}
                       </Text>
@@ -141,9 +169,6 @@ export default class MemberPr extends Component{
 
         <View style={{justifyContent: "center", alignItems: "center", zIndex: 1}}>
           <View style={{justifyContent: "center", alignItems: "center", width: "100%", overflow: "visible", minHeight: 480, paddingTop: 38}}>
-          {
-              this.state.itemAll == 0? <Text style={{fontSize: 16, color: colors.MISCHKA, margin: 87}}>No artefacts</Text>:[]
-            }
             {this.state.itemAll == this.state.itemHas? 
               <Carousel
                 ref={(c) => { this._carousel = c; }}
@@ -202,16 +227,42 @@ export default class MemberPr extends Component{
                 slideStyle={{width: "87%", elevation: 5, borderRadius: 6}}
               />: <View></View>
             }
+            {
+              this.state.itemAll == 0? <Text>Nope</Text>:[]
+            }
           </View>
         </View>
 
+        <ActionSheet
+          ref={o => this.ActionSheet = o}
+          options={options}
+          cancelButtonIndex={0}
+          styles={{backgroundColor: "#F8F8FF", borderRadius: 6}}
+          destructiveButtonIndex={4}
+          onPress={(index) => { 
+            switch (index) {
+              case 1:
+                this.props.navigation.navigate("ArtefactGuide", {member: this.state.memberModel, profileScreen: this});
+                break;
+              case 2:
+                // share on facebook or twitter
+                this.props.navigation.navigate("AddArtefactFromMember", {member: this.state.memberModel, profileScreen: this})
+                break;
+              default:
+                // nothing
+            }
+          }}
+        />
+
         <View style={styles.floatButton}>
-          <TouchableNativeFeedback style={styles.touableOne} 
+          <TouchableNativeFeedback style={{height: 72, width: 72, borderRadius: 36, justifyContent: "center", alignItems:"center"}} 
             background={TouchableNativeFeedback.Ripple(colors.WHITE, true)} 
-            onPress={() => {alert(this.state.itemAll == this.state.itemHas)}}>
+            onPress={() => {this.ActionSheet.show()}}>
             <Icon name="add" size={32} color={colors.WHITE} />
           </TouchableNativeFeedback>
+
         </View>
+
       </View>
     );
   }
@@ -264,15 +315,7 @@ const styles = StyleSheet.create({
     elevation: 7, 
     justifyContent: "center", 
     alignItems:"center"
-  },
-  touableOne:{
-    height: 72, 
-    width: 72, 
-    borderRadius: 36, 
-    justifyContent: "center", 
-    alignItems:"center"
   }
-  
   
 
 });
