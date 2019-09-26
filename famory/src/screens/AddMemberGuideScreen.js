@@ -5,7 +5,7 @@ import { Icon } from 'react-native-elements'
 import { Button } from 'native-base';
 import FamilyAccountModelManage from "../controller/FamilyAccountModel"
 import MemberModelManage from "../controller/MemberModel"
-import {_pickImage, _uploadToFirebase} from "../controller/fileUtilities"
+import {_pickImage, _uploadToFirebase} from "../controller/fileUtilitiesSync"
 
 import { TouchableNativeFeedback } from "react-native-gesture-handler";
 import Calendar from "../assets/icons/calendarDate";
@@ -16,6 +16,8 @@ export default class AddMemberGuide extends Component{
   static navigationOptions = {
     header: null
   }
+
+  defaultAvatar = "https://firebasestorage.googleapis.com/v0/b/fir-one-28de9.appspot.com/o/defaultavatar.png?alt=media&token=931ffe40-d430-4755-8b4a-4c43162da079"
 
   state = {
     
@@ -33,7 +35,7 @@ export default class AddMemberGuide extends Component{
     finishedAdd: false,
     picked: 0,
     ringColor: colors.HOMESCREENLIGHTBLUE,
-    avatar:"https://firebasestorage.googleapis.com/v0/b/fir-one-28de9.appspot.com/o/defaultavatar.png?alt=media&token=931ffe40-d430-4755-8b4a-4c43162da079",
+    avatar:"",
   }
 
   componentDidMount(){
@@ -52,13 +54,11 @@ export default class AddMemberGuide extends Component{
           familyAccount: this.props.navigation.getParam("familyAccount", null)
         }
       )
-    }
-
-    if (!this.state.familyAccount){
+    }else{
       FamilyAccountModelManage.getInstance().getFamilyAccount(
         (familyModel) => {
           this.setState(
-            { familyAccount: familyModel }
+            {familyAccount: familyModel}
           )
         }
       )
@@ -373,30 +373,48 @@ export default class AddMemberGuide extends Component{
   }
 
   // after finishing guide
-  _finish = async (purpose) => {
+  _finish = (purpose) => {
+    
     this.setState({
       finishedAdd: true
     })
 
-    let imageURI = this.state.avatar;
+    let imageURI = this.defaultAvatar;
     if(this.state.avatar != ""){
-      imageURI = await _uploadToFirebase(this.state.avatar)
-    }
-    
-    let memberDetails = await {
-      dob: this.getStringDate(this.state.dateBirth),
-      firstName: this.state.memberName,
-      gender: this.state.gender,
-      generation: 0,
-      item: {},
-      lastName: this.state.lastName,
-      profileImage: await imageURI,
-      ringColor: this.state.ringColor,
-      role: this.state.role
-    }
 
-    await MemberModelManage.getInstance().setMember((member) => {
-      this.props.navigation.navigate("HomePage")}, memberDetails, this.state.familyAccount)
+      _uploadToFirebase(this.state.avatar, (imageURI) => {
+
+        let memberDetails = {
+          dob: this.getStringDate(this.state.dateBirth),
+          firstName: this.state.memberName,
+          gender: this.state.gender,
+          generation: 0,
+          item: {},
+          lastName: this.state.lastName,
+          profileImage: imageURI,
+          ringColor: this.state.ringColor,
+          role: this.state.role
+        }
+
+        MemberModelManage.getInstance().setMember((member) => {
+          this.props.navigation.navigate("HomePage")}, memberDetails, this.state.familyAccount)
+      })
+    }else{
+      let memberDetails = {
+        dob: this.getStringDate(this.state.dateBirth),
+        firstName: this.state.memberName,
+        gender: this.state.gender,
+        generation: 0,
+        item: {},
+        lastName: this.state.lastName,
+        profileImage: imageURI,
+        ringColor: this.state.ringColor,
+        role: this.state.role
+      }
+
+      MemberModelManage.getInstance().setMember((member) => {
+        this.props.navigation.navigate("HomePage")}, memberDetails, this.state.familyAccount)
+    }
   }
 
   // onChange for any text input in the guide

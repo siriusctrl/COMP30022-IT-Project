@@ -76,10 +76,21 @@ export default class EditProfileScreen extends Component {
       _uploadItem(this.state.result, (firebaseUri) => {
         model.profileImage = firebaseUri;
         alert(model.profileImage);
-        MemberModelManage.getInstance().setProfile(() => {}, model);
+        MemberModelManage.getInstance().setProfile(() => {
+          model.updateSelf((newModel) => {
+            this.props.navigation.getParam("profileScreen", null).setModel(newModel)
+          })
+          this.props.navigation.goBack();
+        }, model);
+
       });
     } else {
-      MemberModelManage.getInstance().setProfile(() => {}, model);
+      MemberModelManage.getInstance().setProfile(() => {
+        model.updateSelf((newModel) => {
+          this.props.navigation.getParam("profileScreen", null).setModel(newModel)
+        })
+        this.props.navigation.goBack();
+      }, model);
     }
   };
 
