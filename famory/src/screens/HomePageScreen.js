@@ -1,7 +1,6 @@
 import React, {Component} from "react";
 import { Text, View, FlatList, StyleSheet} from "react-native";
 import Modal from "react-native-modal";
-
 import colors from "../config/colors";
 import strings from "../config/strings";
 import IconButtonWithText from "../components/IconButtonWithText";
@@ -9,6 +8,7 @@ import Empty from "../components/Empty";
 import ImageButton from "../components/ImageButton";
 import { Avatar } from "react-native-elements";
 import Button from "../components/Button";
+import TouchableScale from 'react-native-touchable-scale';
 
 import FamilyAccountModelManage from "../controller/FamilyAccountModel";
 import MemberModelManage from "../controller/MemberModel";
@@ -91,8 +91,10 @@ export default class HomePageScreen extends Component{
           <ImageButton
             name={" "}
             imageSource={{uri:m.profileImage}}
-            onPressHandler={((id, member) => () => {this._handleAvatarPressed(id, member)})(m.memberId, m)}
+            onPressHandler={((member) => () => {this._handleAvatarPressed(member)})(m)}
             boarderColor={m.ringColor}
+            Component={TouchableScale}
+            activeScale={0.95}
           />
         </View>
       );
@@ -107,6 +109,8 @@ export default class HomePageScreen extends Component{
             size={"medium"}
             onPress={() => {this._handleAddPressed(item)}}
             activeOpacity={0.7}
+            Component={TouchableScale}
+            activeScale={0.95}
           />
         </View>
       );
@@ -184,15 +188,13 @@ export default class HomePageScreen extends Component{
 
   _handleEditPress = () => {
     if(this.state.mode === "view"){
-      alert("Edit Mode");
       this.setState({mode: "edit"});
     } else {
-      alert("View Mode");
       this.setState({mode: "view"});
     }
   }
 
-  _handleAvatarPressed = (id, member) => {
+  _handleAvatarPressed = (member) => {
     this.props.navigation.navigate('MemberPr', {
       model: member
     });
