@@ -5,8 +5,8 @@ import ItemModelManage from "./ItemModel"
 // manage class
 // singleton, call getInstance() to get an instace
 export class MemberModelManage{
-  static _managePart = null
-  _path = "FamilyMember"
+  static _managePart = null;
+  _path = "FamilyMember";
 
   // get instance
   static getInstance(){
@@ -53,6 +53,19 @@ export class MemberModelManage{
     firebase.database().ref(newMemberModel._path + "/" + "item/" + itemId.toString() + "/").set(
       {id: itemModel.itemId, type: itemModel.type}).then( () => callback()
     )
+  }
+
+  // update profile
+  setProfile(callback, newModel) {
+    let memberId = newModel.memberId;
+    let firstNameRef = firebase.database().ref(this._path + "/" + memberId + "/firstName");
+    firstNameRef.set(newModel.firstName);
+    let lastNameRef = firebase.database().ref(this._path + "/" + memberId + "/lastName");
+    lastNameRef.set(newModel.lastName);
+    let dobRef = firebase.database().ref(this._path + "/" + memberId + "/dob");
+    dobRef.set(newModel.dob);
+    let imageRef = firebase.database().ref(this._path + "/" + memberId + "/profileImage");
+    imageRef.set(newModel.profileImage);
   }
 }
 

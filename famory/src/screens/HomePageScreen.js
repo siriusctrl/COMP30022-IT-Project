@@ -7,7 +7,6 @@ import strings from "../config/strings";
 import IconButtonWithText from "../components/IconButtonWithText";
 import Empty from "../components/Empty";
 import ImageButton from "../components/ImageButton";
-import cxk from "../assets/images/cxk-circle.png";
 import { Avatar } from "react-native-elements";
 import Button from "../components/Button";
 
@@ -24,10 +23,6 @@ export default class HomePageScreen extends Component{
     memberRdy : false,
     familyName: "Family Tag",
   };
-
-  // static navigationOptions = {
-  //   header: null
-  // }
   
   static navigationOptions = {
     header: null
@@ -77,9 +72,11 @@ export default class HomePageScreen extends Component{
   // Item separator
   FlatListItemSeparator = () => {
     return (
-      <View
-        style={{height: 0.5, width: '100%', backgroundColor: '#C8C8C8'}}
-      />
+      <View style={{alignItems:"center", justifyContent:"center"}}>
+        <View
+          style={{height: 0.5, width: '100%', backgroundColor: '#C8C8C8'}}
+        />
+      </View>
     );
   }
 
@@ -103,12 +100,12 @@ export default class HomePageScreen extends Component{
 
     if(this.state.mode==="edit"){
       jsx.push(
-        <View>
+        <View style={{marginBottom:16}}>
           <Avatar
             icon={{name:"add", type:"ion-icon"}}
             rounded
             size={"medium"}
-            onPress={() => {alert(item.gen)}}
+            onPress={() => {this._handleAddPressed(item)}}
             activeOpacity={0.7}
           />
         </View>
@@ -196,10 +193,16 @@ export default class HomePageScreen extends Component{
   }
 
   _handleAvatarPressed = (id, member) => {
-    alert(member.memberId);
     this.props.navigation.navigate('MemberPr', {
       model: member
     });
+  }
+
+  _handleAddPressed = (item) => {
+    this.props.navigation.navigate('AddMemberGuide',{
+      gen: item.gen,
+      familyAccount: this.state.familyAccount
+    })
   }
 
   // the entire JSX to render the whole screen
