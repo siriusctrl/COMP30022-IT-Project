@@ -84,6 +84,10 @@ export default class MemberPr extends Component{
     this.props.navigation.navigate("ArtefactItem", {item: item})
   }
 
+  // press Avatar and navigate to the EditProfile page
+  _onPressAvatar = () => {
+    this.props.navigation.navigate("EditProfile", {memberModel: this.state.memberModel});
+  };
 
   render() {
 
@@ -120,8 +124,11 @@ export default class MemberPr extends Component{
                   this.state.isMemberReady? 
                   <View style={{height: "100%", flex: 1, flexDirection: "row"}}>
                     <View style={{flex: 2, overflow: "hidden", justifyContent: "center", alignItems: "center"}}>
-                      <Image source={{uri: this.state.memberModel.profileImage}} 
-                            style={{width: 68, height: 68, borderRadius: 34}}></Image>
+                      <TouchableNativeFeedback
+                        onPress={this._onPressAvatar}>
+                        <Image source={{uri: this.state.memberModel.profileImage}}
+                               style={{width: 68, height: 68, borderRadius: 34}} />
+                      </TouchableNativeFeedback>
                     </View>
                     <View style={{flex: 6, paddingLeft: 12, flexDirection: "column", marginTop: 6}}>
                       <Text style={{marginTop: 6, fontSize: 26, color: colors.HOMESCREENLIGHTBLUE, marginLeft: 2}}>
