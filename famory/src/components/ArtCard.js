@@ -24,11 +24,16 @@ export default class ArtCard extends Component{
     vidCover: "",
   }
 
+  gettingCover = false;
+
   async getCover(vidUri){
-    let vidCover = await VideoThumbnails.getThumbnailAsync(
-      vidUri, {time: 0}
-    )
-    this.setState({vidCover: vidCover.uri});
+    if(!this.gettingCover){
+      let vidCover = await VideoThumbnails.getThumbnailAsync(
+        vidUri, {time: 0}
+      )
+      this.gettingCover = true;
+      this.setState({vidCover: vidCover.uri});
+    }
   }
 
   _renderContent(type, content){
@@ -36,10 +41,12 @@ export default class ArtCard extends Component{
     if (type == "image"){
       return (<Image source={{uri: content}} style={{flex: 1}}/>)
     }else if(type == "video"){
+      if(!this.gettingCover){
+        this.getCover(content)
+      }
       if (this.state.vidCover != ""){
         return (<Image source={{uri: this.state.vidCover}} style={{flex: 1}}/>)
       }else{
-        this.getCover(content)
         return (<Image source={{uri: this._vidDefault}} style={{flex: 1}}/>)
       }
     }else{

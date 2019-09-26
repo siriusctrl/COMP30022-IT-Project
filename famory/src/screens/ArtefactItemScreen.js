@@ -222,7 +222,13 @@ export default class ArtefactItem extends Component{
                 break;
               case 3:
                 // delete item
-                alert("Are you sure to delete?");
+                this.props.navigation.getParam("profileScreen", null).state.memberModel.deleteItem(() => {
+                  this.props.navigation.getParam("member", null).updateSelf(
+                    (updatedMember) => {
+                      this.props.navigation.getParam("profileScreen", null).setModel(updatedMember);
+                    }
+                  )
+                }, this.state.artefactItem)
                 break;
               default:
                 // nothing
