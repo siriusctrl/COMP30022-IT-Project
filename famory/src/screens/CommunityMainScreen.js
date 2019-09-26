@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Image, StyleSheet, View, Modal } from 'react-native';
-import { Container, DeckSwiper, Card, CardItem, Text, Button } from 'native-base';
+import { Container, DeckSwiper, Card, CardItem, Text } from 'native-base';
 import LottieView from "lottie-react-native";
 import colors from "../config/colors";
 
@@ -17,27 +17,29 @@ let cards = [];
 
 export default class CommunityMainScreen extends Component {
 
-  static navigationOptions = {
-    title: 'Playground',
-    headerStyle: {
-      backgroundColor: '#E0836B',
-      height: 46,
-    },
-    headerTitleStyle: {
-      fontWeight: 'bold',
-      alignSelf: 'center',
-      textAlign: 'center',
-      flex: 1,
-    },
-    headerTintColor: '#FFFFFF',
-    headerRight: (
-      <AddNew
-        onPress={() => alert('Add new artefact!')}
-        title="Info"
-        color="#FFFFFF"
-        style={{marginRight: 12}}
-      ></AddNew>
-    ),
+  static navigationOptions = ({ navigation }) => {
+    return {
+      title: 'Playground',
+      headerStyle: {
+        backgroundColor: '#E0836B',
+        height: 46,
+      },
+      headerTitleStyle: {
+        fontWeight: 'bold',
+        alignSelf: 'center',
+        textAlign: 'center',
+        flex: 1,
+      },
+      headerTintColor: '#FFFFFF',
+      headerRight: (
+        <AddNew
+          onPress={navigation.getParam('addArtefact')}
+          title="Info"
+          color="#FFFFFF"
+          style={{marginRight: 12}}
+        ></AddNew>
+      ),
+    }
   }
 
   state = {
@@ -78,8 +80,14 @@ export default class CommunityMainScreen extends Component {
     CommunityModelManage.getInstance().decreaseLike(() => {}, (this.state.currentid + 1).toString());
   }
 
+  // jump to add artefact to community page
+  _addArtefact = () => {
+    this.props.navigation.navigate('CommunityAdd');
+  }
 
   async componentDidMount () {
+    // props
+    this.props.navigation.setParams({ addArtefact: this._addArtefact });
     // make cards the posts from firebase
     this.getCommunity();
     // load data
@@ -133,6 +141,21 @@ export default class CommunityMainScreen extends Component {
     return (
       <Container>
         <View style={styles.container}>
+          <Modal style={styles.animationContainer} transparent={true} visible={this.state.modalVisible}
+            onShow={()=>{ 
+              this.animation.play();
+              setTimeout(() => this.setState({modalVisible:false}), 750);
+              }}>
+              <LottieView
+                ref={animation => {
+                  this.animation = animation;
+                }}
+                loop={false}
+                source={require('../assets/animation/heart.json')}
+                resizeMode='center'
+                style={{ marginTop: 200 }}
+              />
+          </Modal>
           <DeckSwiper
             ref={(c) => this._deckSwiper = c}
             dataSource={cards}
@@ -180,19 +203,6 @@ export default class CommunityMainScreen extends Component {
         <View style={{ flex: 1, position: "absolute", bottom: 10, left: 255, justifyContent: 'space-between', padding: 15}}>
           <ChatIcon onPress={this.handleCommentPress}></ChatIcon>
         </View>
-        <Modal style={styles.animationContainer} transparent={true} visible={this.state.modalVisible}
-          onShow={()=>{ 
-            this.animation.play();
-            setTimeout(() => this.setState({modalVisible:false}), 750);
-            }}>
-            <LottieView
-              ref={animation => {
-                this.animation = animation;
-              }}
-              loop={false}
-              source={require('../assets/animation/heart.json')}
-            />
-        </Modal>
       </Container>
     );
   }
