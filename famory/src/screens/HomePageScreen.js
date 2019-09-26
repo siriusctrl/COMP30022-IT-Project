@@ -11,7 +11,6 @@ import Button from "../components/Button";
 import TouchableScale from 'react-native-touchable-scale';
 
 import FamilyAccountModelManage from "../controller/FamilyAccountModel";
-import MemberModelManage from "../controller/MemberModel";
 
 export default class HomePageScreen extends Component{
   state = {
@@ -28,6 +27,7 @@ export default class HomePageScreen extends Component{
     header: null
   }
 
+
   //load avatar info from server
   async componentDidMount() {
     this.getMembers();
@@ -42,11 +42,8 @@ export default class HomePageScreen extends Component{
     FamilyAccountModelManage.getInstance().getFamilyAccount((familyAccount) => {
       this.setState({familyAccount: familyAccount});
       this.setState({familyName: familyAccount.name + "'s Family"});
-
-      for(i of Object.values(this.state.familyAccount.familyMember)){
-        // alert(i);
-        ((k) => {
-          return MemberModelManage.getInstance().getMember((member) => {
+      familyAccount.getMembers((members) => {
+        for(let member of Object.values(members)){
             while (this.state.avatars.length <= member.generation){              
               this.state.avatars.push({});
             }
@@ -56,11 +53,9 @@ export default class HomePageScreen extends Component{
             // add member objects to each columns
             temp.members == null ? temp.members = [member] : temp.members.push(member);
   
-            this.setState({memberRdy:true});
-            // console.log(this.state.avatars);
-          }, k);
-        })(i);
-      }
+        }
+        this.setState({memberRdy:true});
+      });
     });
   }
 
