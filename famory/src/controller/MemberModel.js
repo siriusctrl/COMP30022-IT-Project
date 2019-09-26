@@ -51,10 +51,7 @@ export class MemberModelManage{
   passItem(callback, newMemberModel, itemModel){
     let itemId = Object.keys(newMemberModel.item).length
     firebase.database().ref(newMemberModel._path + "/" + "item/" + itemId.toString() + "/").set(
-      {id: itemModel.itemId, type: itemModel.type}).then(
-        () => {
-          newMemberModel.updateSelf();
-        }
+      {id: itemModel.itemId, type: itemModel.type}).then( () => callback()
     )
   }
 }
@@ -105,9 +102,21 @@ export class Member{
     MemberModelManage.getInstance().getMember((newSelf) => {
       this.firstName = newSelf.firstName
       this.item = newSelf.item
+      this.items = {}
 
       callback(this)
     }, this.memberId)
+  }
+
+  deleteItem = (callback, itemModel) => {
+    let descrip = {id: itemModel.itemId, type: itemModel.type}
+    for(let i of Object.keys(this.item)){
+      if (this.item[i]["id"] == descrip.id){
+        delete this.item[i]
+        firebase.database().ref(this._path + "/item" + "/" + i).remove().then(() => callback());
+        break;
+      }
+    }
   }
 
   // get all items

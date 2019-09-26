@@ -81,7 +81,7 @@ export default class MemberPr extends Component{
 
   // to artefact detail page's function
   toItem(item){
-    this.props.navigation.navigate("ArtefactItem", {item: item})
+    this.props.navigation.navigate("ArtefactItem", {item: item, "profileScreen": this, member: this.state.memberModel})
   }
 
 

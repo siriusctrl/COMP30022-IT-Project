@@ -461,21 +461,17 @@ export default class ArtefactGuide extends Component{
               this.props.navigation.getParam("profileScreen", null).setModel(updatedMember)
             }
           )
-          // alert(Object.keys(member.item))
-          // let {profileMemberArtefactItem, itemAll, itemHas} = this.props.navigation.getParam("profileScreen", null).state
-          // profileMemberArtefactItem.push(item)
-          // this.props.navigation.getParam("profileScreen", null).setState(
-          //   {
-          //     profileMemberArtefactItem: profileMemberArtefactItem,
-          //     itemAll: itemAll+1,
-          //     itemHas: itemHas+1
-          //   }
-          // )
         }, 
         { ... details, content: uri}, member, t);
       });
     }else{
-      ItemModelManage.getInstance().setItem(() => {}, details, member, t);
+      ItemModelManage.getInstance().setItem(() => {
+        member.updateSelf(
+          (updatedMember) => {
+            this.props.navigation.getParam("profileScreen", null).setModel(updatedMember)
+          }
+        )
+      }, details, member, t);
     }
 
     alert("finished" + purpose);
