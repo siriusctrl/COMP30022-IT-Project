@@ -39,8 +39,7 @@ export class ItemModelManage{
     })
   }
 
-  setItem(callback, details, memberModel){
-    let type = details.type
+  setItem(callback, details, memberModel, type){
 
     let path = {
       "image": "imageItem",
@@ -49,14 +48,15 @@ export class ItemModelManage{
     }[type]
     
     itemId = Object.keys(memberModel.item).length
-    nextId = familyMemberId
-    firebase.database().ref(path + "/" + "maxTo/").once("value").then((maxMember) => {
+    nextId = itemId
+    firebase.database().ref(this._path + "/" + path + "/" + "maxTo/").once("value").then((maxMember) => {
       let maxId = maxMember.val()
       let newItemId = type + "_" + (Number(maxId) + 1)
-      firebase.database().ref(path + "/" + newItemId).set(details)
-      firebase.database().ref(memberModel._path + "/item" + "/" + nextId).set(newItemId)
-      firebase.database().ref(path + "/" + "maxTo/").set((Number(maxId) + 1))
-      let item = new Member(details, details.type, newItemId);
+      firebase.database().ref(this._path + "/" + path + "/" + newItemId).set(details)
+      firebase.database().ref(memberModel._path + "/item" + "/" + nextId).set({id: newItemId, 
+        type: type })
+      firebase.database().ref(this._path + "/" + path + "/" + "maxTo/").set((Number(maxId) + 1))
+      let item = new Item(details, type, newItemId);
 
       callback(item)
     });

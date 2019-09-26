@@ -1,5 +1,6 @@
 import React, {Component} from "react";
-import { Text, Image, StyleSheet, View , Alert, KeyboardAvoidingView, ImageBackground, TouchableWithoutFeedback, Linking} from "react-native";
+import { Text, Image, StyleSheet, View , Alert, KeyboardAvoidingView, ImageBackground, TouchableWithoutFeedback, Linking, Dimensions} from "react-native";
+import { Video } from 'expo-av';
 import firebase from "firebase";
 import firebaseConfig from "../controller/firebaseConfig";
 
@@ -15,6 +16,7 @@ import Glass from "../assets/icons/glass";
 import Mail from "../assets/icons/mail";
 import PwdLock from "../assets/icons/pwdlock";
 import Person from "../assets/icons/person";
+import background from "../assets/videos/background.mp4"
 
 import { BarPasswordStrengthDisplay } from 'react-native-password-strength-meter';
 import { validate } from "email-validator";
@@ -97,7 +99,17 @@ export default class SignUpScreen extends Component{
     const person = Person(styles.logo);
 
     return (
-      <ImageBackground source={darkimg} style={styles.background}>
+      <View style={styles.background}>
+        <Video
+          source={background}
+          rate={1.0}
+          volume={1.0}
+          isMuted={true}
+          resizeMode="cover"
+          useNativeControls={false}
+          isLooping={true}
+          shouldPlay={true}
+          style={{position: "absolute", bottom: 0, left: 0, height: Dimensions.get('screen').height, width: Dimensions.get('screen').width}}></Video>
       <KeyboardAvoidingView behavior={"padding"} style={styles.container}>
 
         <View style={styles.logo}>{glass}</View>
@@ -190,7 +202,7 @@ export default class SignUpScreen extends Component{
         textContent={'Signing you in...'}
         textStyle={{color:"#FFF"}}
       />
-    </ImageBackground>
+    </View>
     );
   }
 }
