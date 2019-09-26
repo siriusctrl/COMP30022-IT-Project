@@ -79,7 +79,7 @@ export default class EditProfileScreen extends Component {
         MemberModelManage.getInstance().setProfile(() => {
           model.updateSelf((newModel) => {
             this.props.navigation.getParam("profileScreen", null).setModel(newModel)
-          })
+          });
           this.props.navigation.goBack();
         }, model);
 
@@ -88,7 +88,7 @@ export default class EditProfileScreen extends Component {
       MemberModelManage.getInstance().setProfile(() => {
         model.updateSelf((newModel) => {
           this.props.navigation.getParam("profileScreen", null).setModel(newModel)
-        })
+        });
         this.props.navigation.goBack();
       }, model);
     }
