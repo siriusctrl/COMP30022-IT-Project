@@ -18,7 +18,7 @@ import ArtefactGuide from "./ArtefactGuideScreen";
 import AddMemberGuide from "./AddMemberGuideScreen";
 import AddArtefactFromMemberGuideScreen from "./AddArtefactFromMemberGuideScreen";
 import { createStackNavigator } from "react-navigation";
-import { fromLeft, fromRight, flipY } from 'react-navigation-transitions';
+import { fromRight, flipY } from 'react-navigation-transitions';
 
 
 const handleCustomTransition = ({ scenes }) => {
@@ -30,7 +30,7 @@ const handleCustomTransition = ({ scenes }) => {
     && nextScene.route.routeName === 'CommunityComment') {
       return flipY(800);
   }
-  
+
   return fromRight(500);
 }
 
