@@ -81,12 +81,12 @@ export default class MemberPr extends Component{
 
   // to artefact detail page's function
   toItem(item){
-    this.props.navigation.navigate("ArtefactItem", {item: item})
+    this.props.navigation.navigate("ArtefactItem", {item: item, "profileScreen": this, member: this.state.memberModel})
   }
 
   // press Avatar and navigate to the EditProfile page
   _onPressAvatar = () => {
-    this.props.navigation.navigate("EditProfile", {memberModel: this.state.memberModel});
+    this.props.navigation.navigate("EditProfile", {memberModel: this.state.memberModel, profileScreen: this});
   };
 
   render() {

@@ -51,7 +51,7 @@ export default class ArtGuide extends Component{
     let total = this.state.chosen.item.length;
     return (
       <TouchableNativeFeedback 
-        style={{... styles.artCard, zIndex: total - index}} 
+        style={{... styles.artCard}} 
         background={TouchableNativeFeedback.Ripple(colors.WHITE,false)} 
         onPress={() => {
           this.state.chosenArtefact = item;
@@ -152,14 +152,14 @@ export default class ArtGuide extends Component{
               If this is from another family member, choose them below.
             </Text>
             <View style={{
-              flex: 2, 
+              flex: 4, 
               elevation: 16,}}
             >
               <FlatList
                 data={this.state.members}
                 renderItem={this._renderArtefactListItem}
                 keyExtractor={(item, index) => index.toString()}
-                contentContainerStyle={{paddingBottom:30}}
+                contentContainerStyle={{paddingBottom:17}}
               />
             </View>
           </View>
@@ -169,11 +169,6 @@ export default class ArtGuide extends Component{
               <Button style={guideStyle.bottomButtonLeft} iconLeft light onPress={() => this._changeStage(true)}>
                 <Icon name='arrow-back' />
                 <Text style={{color: colors.DODGER_BLUE, textAlign: "center", textAlignVertical: "center", fontSize: 16, marginHorizontal: 8}}>BACK</Text>
-              </Button>
-            </TouchableNativeFeedback>
-            <TouchableNativeFeedback style={{borderRadius: 2, elevation: 1}}>
-              <Button iconRight warning onPress={() => alert("??")}>
-                <Text style={guideStyle.finishButton}>SKIP</Text>
               </Button>
             </TouchableNativeFeedback>
           </View>
@@ -191,7 +186,7 @@ export default class ArtGuide extends Component{
       "view": () =>
       {return this.state.chosenMemberAllArtefactsAreHere.length > 0? 
         <View style={{flex: 6, flexDirection: "column", paddingTop: 2}}>
-          <View style={{flex: 6, justifyContent: "flex-start"}}>
+          <View style={{flex: 7, justifyContent: "flex-start"}}>
           <View style={{flex: 11, width: "100%", alignItems: "center", overflow: "hidden"}}>
             <Carousel
                   ref={(c) => { this._carousel = c; }}
@@ -248,7 +243,7 @@ export default class ArtGuide extends Component{
                   inactiveSlideScale={0.85}
                   containerCustomStyle={{overflow: "visible", width: "100%"}}
                   contentContainerCustomStyle={{alignItems: "center", flexDirection: "column"}}
-                  slideStyle={{width: "93%", elevation: 16, borderRadius: 6}}
+                  slideStyle={{width: "93%", elevation: 12, borderRadius: 6}}
                 />
           </View>
           </View>
@@ -466,8 +461,7 @@ const styles = StyleSheet.create({
   artCardDisplay: {
     height: 280,
     borderRadius: 6,
-    elevation: 16,
-    flex: 4
+    elevation: 9,
   },
   mBubbl: {
     height: 72, 
