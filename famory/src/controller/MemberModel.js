@@ -66,6 +66,8 @@ export class MemberModelManage{
     dobRef.set(newModel.dob);
     let imageRef = firebase.database().ref(this._path + "/" + memberId + "/profileImage");
     imageRef.set(newModel.profileImage);
+
+    callback();
   }
 }
 

@@ -86,7 +86,7 @@ export default class MemberPr extends Component{
 
   // press Avatar and navigate to the EditProfile page
   _onPressAvatar = () => {
-    this.props.navigation.navigate("EditProfile", {memberModel: this.state.memberModel});
+    this.props.navigation.navigate("EditProfile", {memberModel: this.state.memberModel, profileScreen: this});
   };
 
   render() {
