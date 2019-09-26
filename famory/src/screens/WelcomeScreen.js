@@ -1,8 +1,6 @@
 import React, {Component} from "react";
-import { Video } from 'expo-av';
-import { Text, StyleSheet, View , TouchableWithoutFeedback, ImageBackground, StatusBar, Dimensions} from "react-native";
+import { Text, StyleSheet, View , TouchableWithoutFeedback, ImageBackground, StatusBar} from "react-native";
 import bgtree from "../assets/images/bgtree.jpg";
-import background from "../assets/videos/background.mp4"
 import Button from "../components/Button";
 import colors from "../config/colors";
 import strings from "../config/strings";
@@ -39,32 +37,22 @@ export default class WelcomeScreen extends Component{
   handleNewJourneyPress = () => {
     this.props.navigation.navigate('SignIn');
   }
-  
+
   render() {
     return (
-      <View style={styles.background}>
-        <Video
-          source={background}
-          rate={1.0}
-          volume={1.0}
-          isMuted={true}
-          resizeMode="cover"
-          useNativeControls={false}
-          isLooping={true}
-          shouldPlay={true}
-          style={{position: "absolute", bottom: 0, height: Dimensions.get('screen').height, width: Dimensions.get('screen').width}}></Video>
+      <ImageBackground source={bgtree} style={styles.background}>
         <View style={styles.container}>
-        {
-          this.state.fontLoaded ? (
-            <Text style={styles.title}>
+          {
+            this.state.fontLoaded ? (
+              <Text style={styles.title}>
                 Famory
-            </Text>
-          ) : (
-            <Text style={styles.titleNoFont}>
+              </Text>
+            ) : (
+              <Text style={styles.titleNoFont}>
                 {"  "}
-            </Text>
-          )
-        }
+              </Text>
+            )
+          }
         </View>
 
         <View style={styles.container}>
@@ -82,7 +70,7 @@ export default class WelcomeScreen extends Component{
             </View>
           </TouchableWithoutFeedback>
         </View>
-      </View>
+      </ImageBackground>
     );
   }
 }
