@@ -3,6 +3,7 @@ import { Text, StyleSheet, View, KeyboardAvoidingView, ImageBackground, ToastAnd
 import firebaseConfig from "../controller/firebaseConfig";
 import firebase from "firebase";
 import {validate} from "email-validator";
+import { StackActions, NavigationActions } from 'react-navigation';
 
 import Button from "../components/Button";
 import FormTextInput from "../components/FormTextInput";
@@ -34,6 +35,23 @@ export default class ForgetPasswordScreen extends Component {
     this.setState({ email: email });
   }
 
+  _goBack = () => {
+    const popAction = StackActions.pop({
+      n: 1,
+    });
+
+    this.props.navigation.dispatch(popAction);
+  }
+
+  _resetStack = () => {
+    const resetAction = StackActions.reset({
+      index: 0,
+      actions: [NavigationActions.navigate({ routeName: 'Welcome' })],
+    });
+
+    this.props.navigation.dispatch(resetAction);
+  }
+
   _sendingReseatEmail = (ins) => {
     ins.setState({ verifying: true });
     firebase.auth().sendPasswordResetEmail(ins.state.email, null)
@@ -45,7 +63,7 @@ export default class ForgetPasswordScreen extends Component {
         ToastAndroid.SHORT,
         ToastAndroid.BOTTOM,
       );
-
+      ins._resetStack();
     })
     .catch((error) => {
       ins.setState({ verifying: false });
