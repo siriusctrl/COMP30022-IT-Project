@@ -80,6 +80,7 @@ export default class HomePageScreen extends Component{
     );
   }
 
+
   /* construct avatar for each column in flexList
    * will be called at _renderItem
    */
@@ -95,6 +96,8 @@ export default class HomePageScreen extends Component{
             boarderColor={m.ringColor}
             Component={TouchableScale}
             activeScale={0.95}
+            fraction={3}
+            tension={150}
           />
         </View>
       );
