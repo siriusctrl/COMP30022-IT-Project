@@ -15,10 +15,11 @@ import Accountmail from "../assets/icons/accountmail";
 import { AccountModelManage } from "../controller/AccountModel";
 import colors from "../config/colors";
 import Modal from "react-native-modal";
+import Spinner from 'react-native-loading-spinner-overlay';
+import { StackActions, NavigationActions } from 'react-navigation';
 
 
 export default class AccountHoldScreen extends Component {
-
 
   // navigation header here
   static navigationOptions = {
@@ -34,22 +35,16 @@ export default class AccountHoldScreen extends Component {
     },
     headerTintColor: '#FFFFFF',
 
-  }
-
-  // function for log out, jumps to Welcome page
-  handleLogOutPress = () => {
-    this.props.navigation.navigate('Welcome');
-  }
-
+  };
 
   // state to control pop up menu
   state = {
     familyName: "",
     dateCreated: "",
     contactVisible: false,
-    ready: false,
     securityVisible: false,
     accountAvatar: null,
+    spinner: true,
   };
 
   // update the locking state of badges
@@ -65,14 +60,17 @@ export default class AccountHoldScreen extends Component {
         familyName: familyName,
         dateCreated: dateCreated,
         accountAvatar: avatar,
-        ready: true,
       })
     });
   };
 
-  // update page
+  // update page when mount
   async componentDidMount() {
     await this.getAccount();
+    await setTimeout(() => {
+      this.state.spinner = !this.state.spinner;
+      this.forceUpdate();
+    }, 1000);
   }
 
   // navigations to achievement page
@@ -80,13 +78,30 @@ export default class AccountHoldScreen extends Component {
     this.props.navigation.navigate('Achievement');
   };
 
+  // function for log out, jumps to Welcome page
+  handleLogOutPress = () => {
+    const resetAction = StackActions.reset({
+      index: 0,
+      actions: [NavigationActions.navigate({ routeName: 'Welcome' })],
+    });
+    this.props.navigation.dispatch(resetAction);
+  }
+
   render() {
 
-    if (this.state.ready === false) return null;
+    if (this.state.spinner === true) return (
+      <Container>
+        <Spinner
+          visible={true}
+          textContent={'Loading...'}
+          textStyle={styles.spinnerTextStyle}
+        />
+      </Container>
+    );
 
     return (
-      <Container>
 
+      <Container>
         {(this.state.accountAvatar == null) ? null : (
           <Image source={{uri: this.state.accountAvatar}}  style={styles.avatar} />
         )}
@@ -286,6 +301,9 @@ const styles = StyleSheet.create({
     marginTop: 12,
     marginLeft: 3,
     marginRight: 80,
-  }
+  },
+  spinnerTextStyle: {
+    color: '#FFF'
+  },
 
 });

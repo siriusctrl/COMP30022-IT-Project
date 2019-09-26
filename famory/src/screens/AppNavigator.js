@@ -36,7 +36,8 @@ const AppNavigator = createStackNavigator({
   TestFirebase: {screen: TestFirebase},
   ArtefactGuide: {screen: ArtefactGuide},
   AddMemberGuide: {screen: AddMemberGuide},
-  ForgetPassword: {screen: ForgetPasswordScreen}
+  ForgetPassword: {screen: ForgetPasswordScreen},
+  Achievement: {screen: Achievement}
 }, {
       // should be debug
       initialRouteName: "Debug",

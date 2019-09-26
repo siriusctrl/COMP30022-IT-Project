@@ -196,7 +196,7 @@ export default class LoginScreen extends Component{
         textCancel="Ok"
         message={this.state.errorMessage}
       />
-    </ImageBackground>
+      </View>
     );
   }
 }
