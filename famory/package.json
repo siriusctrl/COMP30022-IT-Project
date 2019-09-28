@@ -46,6 +46,7 @@
     "react-native": "https://github.com/expo/react-native/archive/sdk-34.0.0.tar.gz",
     "react-native-actionsheet": "^2.4.2",
     "react-native-alert-pro": "^1.1.0",
+    "react-native-camera": "^3.6.0",
     "react-native-datepicker": "^1.7.2",
     "react-native-elements": "^1.1.0",
     "react-native-enhanced-popup-menu": "^0.6.1",
@@ -60,6 +61,8 @@
     "react-native-svg-uri": "^1.2.3",
     "react-native-swiper": "^1.6.0-nightly.3",
     "react-native-tab-view": "^2.10.0",
+    "react-native-tesseract-ocr": "^1.0.10",
+    "react-native-text-detector": "^0.0.6",
     "react-native-vector-icons": "^6.6.0",
     "react-native-web": "^0.11.6",
     "react-navigation": "^3.11.1"
