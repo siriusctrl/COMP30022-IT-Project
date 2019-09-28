@@ -71,7 +71,7 @@ export default class MemberPr extends Component{
   _renderRow = ({item, index}) => {
     return (
       <TouchableNativeFeedback 
-          style={{... styles.artCard}} 
+          style={{borderRadius: 6}} 
           background={TouchableNativeFeedback.Ripple(colors.WHITE,false)} 
           onPress={() => this.toItem(item)}>
         <ArtCard item={item} style={styles.artCard}/>
@@ -222,7 +222,18 @@ export default class MemberPr extends Component{
                               extrapolate: 'clamp'
                           })
                         }
-                      ]
+                      ],
+                      elevation: animatedValue.interpolate({
+                              inputRange: [-3, -2, -1, 0, 1],
+                              outputRange: [
+                                  1,
+                                  3,
+                                  6,
+                                  12,
+                                  9,
+                              ],
+                              extrapolate: 'clamp'
+                          }),
                     }
                   )
                 }}
@@ -231,7 +242,7 @@ export default class MemberPr extends Component{
                 inactiveSlideScale={0.85}
                 containerCustomStyle={{overflow: "visible", width: "100%"}}
                 contentContainerCustomStyle={{alignItems: "center", flexDirection: "column"}}
-                slideStyle={{width: "87%", elevation: 5, borderRadius: 6}}
+                slideStyle={{width: "87%", elevation: 5, borderRadius: 6, overflow: "visible"}}
               />: <View></View>
             }
             {
