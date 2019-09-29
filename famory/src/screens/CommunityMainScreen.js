@@ -82,7 +82,7 @@ export default class CommunityMainScreen extends Component {
 
   // jump to add artefact to community page
   _addArtefact = () => {
-    this.props.navigation.navigate('CommunityAdd');
+    this.props.navigation.navigate('CommunityAdd', {length: this.state.postCount});
   }
 
   async componentDidMount () {
