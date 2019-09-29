@@ -1,16 +1,16 @@
 import React, {Component} from "react";
-import { Text, Image, StyleSheet, View, FlatList} from "react-native";
+import { Text, Image, StyleSheet, View, FlatList, TextInput } from "react-native";
 import colors from "../config/colors";
-import { Icon, ListItem } from 'react-native-elements'
+import { ListItem } from 'react-native-elements'
 import Carousel from "react-native-snap-carousel";
 import ArtCard from "../components/ArtCard";
 import { TouchableNativeFeedback } from "react-native-gesture-handler";
 import FamilyAccountModelManage from "../controller/FamilyAccountModel"
-import MemberModelManage from "../controller/MemberModel";
-import { Button } from 'native-base';
+import { Button, Body, Icon } from 'native-base';
 import Empty from "../components/Empty";
+import { CommunityModelManage } from "../controller/CommunityModel";
 
-export default class ArtGuide extends Component{
+export default class CommunityAddArtefactScreen extends Component {
 
   static navigationOptions = {
     header: null
@@ -22,6 +22,9 @@ export default class ArtGuide extends Component{
     currentPurpose: "addArtefact",
     chosenArtefact: {},
     chosenMemberAllArtefactsAreHere: [],
+    name: "",
+    description: "",
+    location: "",
   }
 
   componentDidMount(){
@@ -77,17 +80,20 @@ export default class ArtGuide extends Component{
       subtitle={item.role}
       leftAvatar={{source: {uri: item.profileImage}}}
       onPress = {() => {
-        this.setState(
-          {chosen: item}
-        )
+        this.setState({ chosen: item });
         item.getItems(
           (membersArtefacts) => {
-            this.setState(
-              {
-                chosenMemberAllArtefactsAreHere: Object.values(membersArtefacts)
+            // get rid of non-image artefacts
+            let allArtefacts = Object.values(membersArtefacts);
+            let images = []
+            for (let artefact of allArtefacts) {
+              if (artefact.type === 'image') {
+                images.push(artefact);
               }
-            )
-            alert(this.state.chosenMemberAllArtefactsAreHere)
+            }
+            this.setState({
+              chosenMemberAllArtefactsAreHere: images
+            });
           }
         )
         this._changeStage(false)
@@ -100,40 +106,27 @@ export default class ArtGuide extends Component{
   stages = {
     
     "addArtefactInitial": {
-      "title": "Adding artefact",
+      "title": "Share Artefact",
       "view": () =>
         <View style={{flex: 6, flexDirection: "column", paddingTop: 69}}>
           <View style={{paddingHorizontal: 29, flex: 6, paddingLeft: 32}}>
-            <Text style={{flex: 1, fontSize: 18, width: "87%"}}>
-              You are adding artefact for:
+            <Text style={{flex: 1, fontSize: 18, width: "95%"}}>
+              Welcome to Famory Community. You are able to share your existing artefacts 
+              in the community, which will be visible to millions of users.
             </Text>
-            <View style={{flex: 8, width: "100%", marginTop: 20,}}>
-              <View style={{... styles.mBubbl, backgroundColor: this.state.memberModel.ringColor}}>
-                <View style={{flex: 1, justifyContent: "center", alignItems: "center"}}>
-                  <View style={{height: 64, width: 64, backgroundColor: colors.WHITE, borderRadius: 32, overflow: "hidden"}}>
-                    <Image source={{uri: this.state.memberModel.profileImage}} style={{width: "100%", height: "100%"}}></Image>
-                  </View>
-                </View>
-                <View style={{flex: 6, flexDirection: "column", paddingLeft: 23, justifyContent: "center"}}>
-                  <Text style={{fontSize: 23, color: colors.WHITE, maxWidth: 150}} numberOfLines={1} ellipsizeMode={"tail"}>
-                    {this.state.memberModel.firstName + " " + this.state.memberModel.lastName}
-                  </Text>
-                  <Text style={{fontSize: 18, color: colors.WHITE}}>
-                    {this.state.familyAccount.name} family
-                  </Text>
-                </View>
-              </View>
-            </View>
+            <Text style={{flex: 1, fontSize: 18, width: "95%", fontWeight: 'bold', marginTop: -150,}}>
+              Take some time to upload your memorable images!
+            </Text>
           </View>
           <View style={guideStyle.bottomButtonCn}>
             <Button style={{opacity: 0}} iconLeft light>
               <Icon name='arrow-back' />
-              <Text style={{color: colors.DODGER_BLUE, textAlign: "center", textAlignVertical: "center", fontSize: 16, marginHorizontal: 8}}>BACK</Text>
+              <Text style={{color: colors.COMMUNITY, textAlign: "center", textAlignVertical: "center", fontSize: 16, marginHorizontal: 8}}>BACK</Text>
             </Button>
             <TouchableNativeFeedback style={{borderRadius: 2, elevation: 1}}>
               <Button style={guideStyle.bottomButtonRight} iconRight light onPress={() => this._changeStage(false)}>
-                <Text style={{color: colors.DODGER_BLUE, textAlign: "center", textAlignVertical: "center", fontSize: 16, marginHorizontal: 8}}>NEXT</Text>
-                <Icon name='arrow-forward' style={{marginRight: 15}} />
+                <Text style={{color: colors.COMMUNITY, textAlign: "center", textAlignVertical: "center", fontSize: 16, marginHorizontal: 8}}>NEXT</Text>
+                <Icon name='arrow-forward'  />
               </Button>
             </TouchableNativeFeedback>
           </View>
@@ -149,7 +142,7 @@ export default class ArtGuide extends Component{
         <View style={{flex: 5, flexDirection: "column", paddingTop: 36, marginTop: -15}}>
           <View style={{paddingHorizontal: 29, flex: 4, justifyContent: "flex-start"}}>
             <Text style={{flex: 1, fontSize: 18, width: "95%", marginTop: 10,}}>
-              If this is from another family member, choose them below.
+              Select your family member who owns the artefact.
             </Text>
             <View style={{
               flex: 4, 
@@ -168,7 +161,7 @@ export default class ArtGuide extends Component{
             <TouchableNativeFeedback style={{borderRadius: 2, elevation: 1}}>
               <Button style={guideStyle.bottomButtonLeft} iconLeft light onPress={() => this._changeStage(true)}>
                 <Icon name='arrow-back' />
-                <Text style={{color: colors.DODGER_BLUE, textAlign: "center", textAlignVertical: "center", fontSize: 16, marginHorizontal: 8}}>BACK</Text>
+                <Text style={{color: colors.COMMUNITY, textAlign: "center", textAlignVertical: "center", fontSize: 16, marginHorizontal: 8}}>BACK</Text>
               </Button>
             </TouchableNativeFeedback>
           </View>
@@ -251,7 +244,7 @@ export default class ArtGuide extends Component{
             <TouchableNativeFeedback style={{borderRadius: 2, elevation: 1}}>
               <Button style={guideStyle.bottomButtonLeft} iconLeft light onPress={() => this._changeStage(true)}>
                 <Icon name='arrow-back' />
-                <Text style={{color: colors.DODGER_BLUE, textAlign: "center", textAlignVertical: "center", fontSize: 16, marginHorizontal: 8}}>BACK</Text>
+                <Text style={{color: colors.COMMUNITY, textAlign: "center", textAlignVertical: "center", fontSize: 16, marginHorizontal: 8}}>BACK</Text>
               </Button>
             </TouchableNativeFeedback>
           </View>
@@ -260,10 +253,104 @@ export default class ArtGuide extends Component{
       }
       ,
       "next": {
-        "addArtefact": "addArtefactMemberChosen",
+        "addArtefact": "addMetadata",
       },
       "back": {
         "addArtefact": "addArtefactMemberIn",
+      },
+    },
+    "addMetadata": {
+      "title": "Artefact Metadata",
+      "view": () =>
+        <View style={{flex: 6, flexDirection: "column", width: "92%", marginLeft: 10, marginTop: 30,}}>
+          <View>
+            <Text style={guideStyle.greyText}>Item Title</Text>
+            <TextInput
+              style={guideStyle.blackText}
+              onChangeText={(text) => this.setState({name: text})}
+              placeholder="Your artefact name"
+              placeholderTextColor={"#D3D3D3"}
+              maxLength={30}
+              value={this.state.text}
+            />
+            <Text style={{
+            fontSize:12,
+            color:'lightgrey',
+            textAlign: 'right',
+            marginTop: 5,
+            marginLeft: -5
+            }}> 
+              {this.state.name.length}{" "}/{" "}30 
+            </Text>
+          </View>
+
+          <View>
+            <Text style={guideStyle.greyText}>Item Location</Text>
+            <TextInput
+              style={guideStyle.blackText}
+              onChangeText={(text) => this.setState({location: text})}
+              placeholder="Earth"
+              placeholderTextColor={"#D3D3D3"}
+              maxLength={30}
+              value={this.state.text}
+            />
+            <Text style={{
+            fontSize:12,
+            color:'lightgrey',
+            textAlign: 'right',
+            marginTop: 5,
+            marginLeft: -5
+            }}> 
+              {this.state.location.length}{" "}/{" "}15 
+            </Text>
+          </View>
+
+          <View>
+            <Text style={guideStyle.greyText}>Item Description</Text>
+            <TextInput
+              style={guideStyle.blackText}
+              onChangeText={(text) => this.setState({description: text})}
+              placeholder="Great memories"
+              placeholderTextColor={"#D3D3D3"}
+              maxLength={140}
+              multiline={true}
+              numberOfLines={4}
+              value={this.state.text}
+            />
+            <Text style={{
+            fontSize:12,
+            color:'lightgrey',
+            textAlign: 'right',
+            marginTop: 5,
+            marginLeft: -5
+            }}> 
+              {this.state.description.length}{" "}/{" "}140
+            </Text>
+          </View>
+
+          <Empty /><Empty /><Empty />
+
+          <View style={guideStyle.bottomButtonCn}>
+            <TouchableNativeFeedback style={{borderRadius: 2, elevation: 1}}>
+              <Button style={guideStyle.bottomButtonLeft} iconLeft light onPress={() => this._changeStage(true)}>
+                <Icon name='arrow-back' style={{marginRight: 4, marginLeft: 0,}} />
+                <Text style={{color: colors.COMMUNITY, textAlign: "center", textAlignVertical: "center", fontSize: 16, marginHorizontal: 8}}>BACK</Text>
+              </Button>
+            </TouchableNativeFeedback>
+            <TouchableNativeFeedback style={{borderRadius: 2, elevation: 1}}>
+              <Button style={guideStyle.bottomButtonRight} iconRight light onPress={() => this._changeStage(false)}>
+                <Text style={{color: colors.COMMUNITY, textAlign: "center", textAlignVertical: "center", fontSize: 16}}>NEXT</Text>
+                <Icon name='arrow-forward' />
+              </Button>
+            </TouchableNativeFeedback>
+          </View>
+        </View>
+      ,
+      "next": {
+        "addArtefact": "addArtefactMemberChosen",
+      },
+      "back": {
+        "addArtefact": "addArtefactMemberChoose",
       },
     },
     "addArtefactMemberChosen": {
@@ -277,13 +364,13 @@ export default class ArtGuide extends Component{
             <TouchableNativeFeedback style={{borderRadius: 2, elevation: 1}}>
               <Button style={guideStyle.bottomButtonLeft} iconLeft light onPress={() => this._changeStage(true)}>
                 <Icon name='arrow-back' />
-                <Text style={{color: colors.DODGER_BLUE, textAlign: "center", textAlignVertical: "center", fontSize: 16, marginHorizontal: 8}}>NO</Text>
+                <Text style={{color: colors.COMMUNITY, textAlign: "center", textAlignVertical: "center", fontSize: 16, marginHorizontal: 8}}>BACK</Text>
               </Button>
             </TouchableNativeFeedback>
             <TouchableNativeFeedback style={{borderRadius: 2, elevation: 1}}>
               <Button style={guideStyle.bottomButtonRight} iconRight light onPress={() => this._changeStage(false)}>
-                <Text style={{color: colors.DODGER_BLUE, textAlign: "center", textAlignVertical: "center", fontSize: 16, marginHorizontal: 8}}>YES</Text>
-                <Icon name='arrow-forward' style={{marginRight: 15}} />
+                <Text style={{color: colors.COMMUNITY, textAlign: "center", textAlignVertical: "center", fontSize: 16, marginHorizontal: 8}}>DONE</Text>
+                <Icon name='arrow-forward' />
               </Button>
             </TouchableNativeFeedback>
           </View>
@@ -327,13 +414,14 @@ export default class ArtGuide extends Component{
   // finished guide
   _finish = (purpose) => {
     alert("finished" + purpose);
-    MemberModelManage.getInstance().passItem(()=>{
-      this.state.memberModel.updateSelf(
-        (updatedMember) => {
-          this.props.navigation.getParam("profileScreen", null).setModel(updatedMember)
-        }
-      )
-    }, this.state.memberModel, this.state.chosenArtefact);
+    CommunityModelManage.getInstance().setPost((newIndex) => { 
+      alert(newIndex);
+    }, {
+      title: this.state.name,
+      location: this.state.location,
+      description: this.state.description,
+      item: this.state.chosenArtefact.content,
+    }, this.props.navigation.state.params.length)
   }
 
   // change text, can change the text for all inputs
@@ -353,7 +441,7 @@ export default class ArtGuide extends Component{
 
         <View style={guideStyle.guideNavigationBox}>
           <TouchableNativeFeedback onPress={() => this.props.navigation.goBack()}>
-            <Icon name='clear' size={30} />
+            <Icon name='close' />
           </TouchableNativeFeedback>
         </View>
         <View style={{flex: 8, width: "100%", flexDirection: "column", paddingLeft: 2}}>
@@ -379,7 +467,7 @@ const guideStyle = StyleSheet.create(
       width: 82, 
       textAlign: "center", 
       textAlignVertical: "center", 
-      color: colors.DODGER_BLUE, 
+      color: colors.COMMUNITY, 
       fontSize: 16
     },
     bottomButtonCn: {
@@ -418,7 +506,10 @@ const guideStyle = StyleSheet.create(
       textAlignVertical: 
       "bottom", 
       fontSize: 28, 
-      color: colors.HOMESCREENLIGHTBLUE
+      color: colors.COMMUNITY
+    },
+    greyText: {
+      fontSize: 16,
     },
     titleContainer: {
       paddingHorizontal: 28, 
@@ -446,7 +537,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   tContainer: {
-    backgroundColor: colors.HOMESCREENLIGHTBLUE,
+    backgroundColor: colors.COMMUNITY,
     width: "100%",
     height: 158,
     elevation: 8,
