@@ -93,7 +93,6 @@ export default class AccountHoldScreen extends Component {
       <Container>
         <Spinner
           visible={true}
-          textContent={'Loading...'}
           textStyle={styles.spinnerTextStyle}
           cancelable={false}
           overlayColor={"rgb(0, 0, 0, 0)"}
