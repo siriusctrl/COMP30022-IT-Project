@@ -325,8 +325,8 @@ export default class AchievementScreen extends Component {
           <Empty></Empty>
           <Empty></Empty>
           <View style={{flex:1, justifyContent:"center", alignItems:"center"}}>
-            <Text style={{fontSize: 22, fontWeight: "bold"}}>Identity Confirmed</Text>
-            <Text style={{fontSize: 16, marginTop: 15}}>Completed accont profile</Text>
+            <Text style={{fontSize: 22, fontWeight: "bold"}}>Small Family</Text>
+            <Text style={{fontSize: 16, marginTop: 15}}>Added three family Members</Text>
             <Empty></Empty>
             <Empty></Empty>
             <Text style={{fontSize: 18, fontWeight: "bold"}}>Unlocked on:{" "}{this.state.unlockDate[1]}</Text>
@@ -357,8 +357,8 @@ export default class AchievementScreen extends Component {
           <Empty></Empty>
           <Empty></Empty>
           <View style={{flex:1, justifyContent:"center", alignItems:"center"}}>
-            <Text style={{fontSize: 22, fontWeight: "bold"}}>Official Resident</Text>
-            <Text style={{fontSize: 16, marginTop: 15}}>Created 3 generations</Text>
+            <Text style={{fontSize: 22, fontWeight: "bold"}}>Official Residents</Text>
+            <Text style={{fontSize: 16, marginTop: 15}}>Created 4 generations</Text>
             <Empty></Empty>
             <Empty></Empty>
             <Text style={{fontSize: 18, fontWeight: "bold"}}>Unlocked on:{" "}{this.state.unlockDate[2]}</Text>

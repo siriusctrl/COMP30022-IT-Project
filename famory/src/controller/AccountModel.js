@@ -7,7 +7,7 @@ export class AccountModelManage {
   static _managePart = null;
   _accountPath = "FamilyAccount";
 
-  // get instance of Account model manager
+  // get instance of Account model manager and---
   static getInstance() {
     firebaseContainer.getInstance().justStart();
     if (this._managePart == null) {
