@@ -25,6 +25,7 @@ export default class CommunityCommentScreen extends Component {
     title: 'Recent Comments',
     headerStyle: {
       backgroundColor: '#E0836B',
+      height: 46,
     },
     headerTitleStyle: {
       fontWeight: 'bold',

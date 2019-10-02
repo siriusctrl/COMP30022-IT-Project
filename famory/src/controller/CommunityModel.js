@@ -51,6 +51,28 @@ export class CommunityModelManage{
       likeRef.set(snapshot.val() - 1);
     });
   }
+
+  // set a community post
+  setPost(callback, postModel, length) {
+
+    const newIndex = (length + 1).toString();
+    let postRef = firebase.database().ref(this._path + '/' + newIndex);
+    postRef.once("value").then((snapshot) => {
+      // set details
+      postRef.set({
+        description: postModel.description,
+        item: postModel.item,
+        likes: 1,
+        location: postModel.location,
+        replies: [
+          "The artefact has been successfully added to our community!", 
+          "Feel free to comment on the artefact.", 
+          "Make sure your comment is meaningful and friendly ^_^"],
+        title: postModel.title,
+      });
+    });
+    callback(newIndex);
+  }
 }
 
 
@@ -59,7 +81,7 @@ export class Post {
 
   description = "";
   item = "";
-  likes = 0;
+  likes = 1;
   location = "Earth";
   replies = [];
   title = "Untitled";
