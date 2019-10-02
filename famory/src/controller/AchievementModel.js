@@ -1,10 +1,25 @@
-import * as firebase from "firebase";
+import firebase from "firebase";
 import firebaseContainer from "./firebaseConfig";
 
 
 export class AchievementModelManage {
   static _managePart = null
   _achievementPath = "FamilyAccount/achievement"
+
+  // format new date
+  formatDate() {
+    let d = new Date(),
+        month = '' + (d.getMonth() + 1),
+        day = '' + d.getDate(),
+        year = d.getFullYear();
+
+    if (month.length < 2) 
+        month = '0' + month;
+    if (day.length < 2) 
+        day = '0' + day;
+
+    return [year, month, day].join('-');
+  }
 
   // get instance of Achievement model manager
   static getInstance() {
@@ -38,6 +53,20 @@ export class AchievementModelManage {
       callback(unlocked, unlockDate);
     });
   }
+
+  // update a certain achievement to be unlocked
+  unlockAchievement(callback, id) {
+    let achievementRef = firebase.database().ref(this._achievementPath + '/' + id + '/');
+    achievementRef.once("value").then((snapshot) => {
+      let newDate = this.formatDate();
+      achievementRef.set({
+        completed: true,
+        dateCompleted: newDate,
+      });
+      callback(true);
+    });
+    callback(false);
+  }
 }
 
 
@@ -59,6 +88,4 @@ export class Badge {
   }
 }
 
-export default achievementModel = {
-  AchievementModelManage: AchievementModelManage
-}
+export default AchievementModelManage;

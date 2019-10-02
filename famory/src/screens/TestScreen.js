@@ -7,14 +7,13 @@ import colors from "../config/colors";
 export default class TestScreen extends Component {
 
   state = {
-    isVisible: false,
-    progress: 1,
+    isAchievementVisible: false,
   }
 
   // navigations to achievement page
   handleAchievementPress = () => {
     this.setState({
-      isVisible: false,
+      isAchievementVisible: false,
     })
     this.props.navigation.navigate('Achievement');
   };
@@ -24,7 +23,7 @@ export default class TestScreen extends Component {
       <View style={styles.container}>
         <View style={styles.buttonContainer}>
           <TouchableOpacity
-            onPress={() => {this.setState({isVisible: true})}}
+            onPress={() => {this.setState({isAchievementVisible: true})}}
             style={styles.button}
           >
             <Text style={styles.text}>CUSTOM</Text>
@@ -32,8 +31,8 @@ export default class TestScreen extends Component {
         </View>
 
         <Modal
-          isVisible={this.state.isVisible}
-          onBackdropPress={() => {this.setState({isVisible: false})}}
+          isVisible={this.state.isAchievementVisible}
+          onBackdropPress={() => {this.setState({isAchievementVisible: false})}}
           animationIn="fadeInUp"
           animationOut="fadeOutDown"
           style={styles.modalStyle}
