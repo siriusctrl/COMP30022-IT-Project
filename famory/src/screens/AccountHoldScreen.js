@@ -17,24 +17,27 @@ import colors from "../config/colors";
 import Modal from "react-native-modal";
 import Spinner from 'react-native-loading-spinner-overlay';
 import { StackActions, NavigationActions } from 'react-navigation';
+import CheckButton from "../components/CheckButton";
+import { _pickImage, _uploadItem } from "../controller/fileUtilitiesSync";
 
 
 export default class AccountHoldScreen extends Component {
 
   // navigation header here
-  static navigationOptions = {
-    title: 'Account',
-    headerStyle: {
-      backgroundColor: '#4E91C4',
-    },
+  static navigationOptions = ({ navigation }) => {
+    return {
+      title: 'Account',
+      headerStyle: {
+        backgroundColor: '#4E91C4',
+      },
 
-    headerTitleStyle: {
-      fontWeight: 'bold',
-      marginLeft:90,
-      flex: 1,
-    },
-    headerTintColor: '#FFFFFF',
-
+      headerTitleStyle: {
+        fontWeight: 'bold',
+        marginLeft: 90,
+        flex: 1,
+      },
+      headerTintColor: '#FFFFFF',
+    };
   };
 
   // state to control pop up menu
@@ -85,7 +88,25 @@ export default class AccountHoldScreen extends Component {
       actions: [NavigationActions.navigate({ routeName: 'Welcome' })],
     });
     this.props.navigation.dispatch(resetAction);
-  }
+  };
+
+  // upload image from local system and update firebase
+  _uploadAccountAvatar = async () => {
+
+    // get image
+    let result = await _pickImage();
+
+    // update local state
+    if (!result.cancelled) {
+      this.state.accountAvatar = result.uri;
+      this.forceUpdate();
+      _uploadItem(result, (uri) => {
+        console.log(uri);
+        // upload to firebase
+        AccountModelManage.getInstance().setPhoto(() => {}, uri);
+      });
+    }
+  };
 
   render() {
 
@@ -93,8 +114,11 @@ export default class AccountHoldScreen extends Component {
       <Container>
         <Spinner
           visible={true}
-          textContent={'Loading...'}
           textStyle={styles.spinnerTextStyle}
+          cancelable={false}
+          overlayColor={"rgb(0, 0, 0, 0)"}
+          color={'#4E91C4'}
+          size={'large'}
         />
       </Container>
     );
@@ -102,9 +126,17 @@ export default class AccountHoldScreen extends Component {
     return (
 
       <Container>
-        {(this.state.accountAvatar == null) ? null : (
-          <Image source={{uri: this.state.accountAvatar}}  style={styles.avatar} />
-        )}
+
+        <View style={{alignItems: "center", }}>
+          {(this.state.accountAvatar == null) ? null : (
+            <Image source={{uri: this.state.accountAvatar}}  style={styles.avatar} />
+          )}
+
+          <Text style={{fontSize: 15, color: '#347ED3', marginBottom: 20}} onPress={this._uploadAccountAvatar}>
+            Change Account Photo
+          </Text>
+
+        </View>
 
         <View>
 

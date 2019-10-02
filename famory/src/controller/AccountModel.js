@@ -7,7 +7,7 @@ export class AccountModelManage {
   static _managePart = null;
   _accountPath = "FamilyAccount";
 
-  // get instance of Account model manager
+  // get instance of Account model manager and---
   static getInstance() {
     firebaseContainer.getInstance().justStart();
     if (this._managePart == null) {
@@ -32,6 +32,16 @@ export class AccountModelManage {
       callback(familyName, dateCreated,avatar);
     });
   }
+
+  // set photo
+  setPhoto(callback, newPhoto) {
+    let photoRef = firebase.database().ref(this._accountPath + '/avatar/');
+    photoRef.once("value").then((snapshot) => {
+      // set like
+      photoRef.set(newPhoto);
+    });
+  }
+
 }
 
 export class Family{

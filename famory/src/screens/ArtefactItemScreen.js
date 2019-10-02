@@ -81,7 +81,7 @@ export default class ArtefactItem extends Component{
   // opens browser and copies text to clipboard
   _shareToSocialMedia = async (link) => {
     Clipboard.setString("Check out this wonderful Artefact from my ancestor!" +
-      " Check out Famory, the best family artefact app in the world: https://www.downloadfamory.com");
+      " Check out Famory, the best family artefact app in the world: " + strings.DOWNLOADLINK);
     await FileSystem.downloadAsync(
       this.state.artefactItem.content,
       FileSystem.documentDirectory + 'artefact.png'

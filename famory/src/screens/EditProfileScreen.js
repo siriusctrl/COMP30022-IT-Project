@@ -1,13 +1,16 @@
 import React, { Component } from 'react';
-import {StyleSheet, Image, Alert, View, Text, TextInput, Button} from 'react-native';
+import {StyleSheet, Image, Alert, View, Text, TextInput, Button, Modal} from 'react-native';
 import { ListItem, Body } from 'native-base';
 
-import * as ImagePicker from 'expo-image-picker';
+import LottieView from "lottie-react-native";
 import DatePicker from 'react-native-datepicker';
 
 import CheckButton from "../components/CheckButton"
 import { MemberModelManage } from "../controller/MemberModel";
 import { _pickImage, _uploadItem } from "../controller/fileUtilitiesSync";
+import Spinner from 'react-native-loading-spinner-overlay';
+
+
 
 export default class EditProfileScreen extends Component {
 
@@ -33,7 +36,7 @@ export default class EditProfileScreen extends Component {
           color="#FFFFFF"
           style={{marginRight: 11}}
         />
-      ),
+      )
     };
 
   };
@@ -79,17 +82,16 @@ export default class EditProfileScreen extends Component {
         MemberModelManage.getInstance().setProfile(() => {
           model.updateSelf((newModel) => {
             this.props.navigation.getParam("profileScreen", null).setModel(newModel)
-          })
-          this.props.navigation.goBack();
+          });
+          //this.props.navigation.goBack();
         }, model);
-
       });
     } else {
       MemberModelManage.getInstance().setProfile(() => {
         model.updateSelf((newModel) => {
           this.props.navigation.getParam("profileScreen", null).setModel(newModel)
-        })
-        this.props.navigation.goBack();
+        });
+        //this.props.navigation.goBack();
       }, model);
     }
   };
