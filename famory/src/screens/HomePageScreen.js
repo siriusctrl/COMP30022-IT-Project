@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import { Text, View, FlatList, StyleSheet} from "react-native";
+import { Text, View, FlatList, StyleSheet, TouchableOpacity } from "react-native";
 import Modal from "react-native-modal";
 import colors from "../config/colors";
 import strings from "../config/strings";
@@ -11,7 +11,9 @@ import Button from "../components/Button";
 import TouchableScale from 'react-native-touchable-scale';
 
 import FamilyAccountModelManage from "../controller/FamilyAccountModel";
-import MemberModelManage from "../controller/MemberModel"
+import MemberModelManage from "../controller/MemberModel";
+import AchievementModelManage from "../controller/AchievementModel";
+import LottieView from "lottie-react-native";
 
 export default class HomePageScreen extends Component{
   state = {
@@ -22,6 +24,7 @@ export default class HomePageScreen extends Component{
     memberModel: {},
     memberRdy : false,
     familyName: "Family Tag",
+    isAchievementVisible: false,
   };
   
   static navigationOptions = {
@@ -31,26 +34,45 @@ export default class HomePageScreen extends Component{
 
   //load avatar info from server
   async componentDidMount() {
-    if ((typeof this.props.navigation.state.params != 'undefined') && 
-      (typeof this.props.navigation.state.params.lastScreen != 'undefined')) {
-      const { lastScreen } = this.props.navigation.state.params.lastScreen;
-      if (lastScreen === 'AddMemberGuide') {
+    this.focusListener = this.props.navigation.addListener('didFocus', () => {
+      const prevScreen = this.props.navigation.getParam('prevScreen', 'nothing');
+      if (prevScreen === 'AddMemberGuide') {
         for (let i of [1, 5, 10]) {
           MemberModelManage.getInstance().checkMemberCount((result) => {
             if (result) {
               // update achievement here
-              alert("Achievement unlocked! " + i);
+              let id = 0;
+              if (i === 1) id = 1;
+              if (i === 5) id = 2;
+              if (i === 10) id = 3;
+              AchievementModelManage.getInstance().unlockAchievement((result) => {
+                if (result) {
+                  this.state.isAchievementVisible = true;
+                  this.forceUpdate();
+                }
+              }, id);
             }
           }, i);
         }
       }
-    }
+    })
     this.getMembers();
     this.props.navigation.setParams({
       state: this.state,
       edit:this._renderEditText(),
     });
   }
+
+  componentWillUnmount () {
+    this.focusListener.remove();
+  }
+
+  // navigations to achievement page
+  handleAchievementPress = () => {
+    this.state.isAchievementVisible = false;
+    this.forceUpdate();
+    this.props.navigation.navigate('Achievement');
+  };
 
   setModel = (familyAccount) => {
     this.setState({familyAccount: familyAccount});
@@ -315,6 +337,31 @@ export default class HomePageScreen extends Component{
             </View>
           </Modal>
         </View>
+
+        <Modal
+          isVisible={this.state.isAchievementVisible}
+          onBackdropPress={() => {this.setState({isAchievementVisible: false})}}
+          animationIn="fadeInUp"
+          animationOut="fadeOutDown"
+          style={styles.achievementModalStyle}
+          onShow={()=>{ 
+            this.animation.play();
+          }}
+        >
+          <LottieView
+            ref={animation => {
+              this.animation = animation;
+            }}
+            loop={false}
+            source={require('../assets/animation/trophy.json')}
+            style={{marginTop: -50,}}
+          />
+
+          <TouchableOpacity onPress={this.handleAchievementPress}>
+            <Text style={{textAlign: 'center', fontSize: 22, color: '#fff', marginTop: 200,}}>You have unlocked an</Text>
+            <Text style={{textAlign: 'center', fontSize: 22, color: '#FFD700'}}>Achievement!</Text>
+          </TouchableOpacity>
+        </Modal>
       </View>
     );
   }
@@ -341,16 +388,25 @@ const styles = StyleSheet.create({
     padding:10, 
     justifyContent:"space-between", 
     alignItems: "center"
-  }, modal:{
+  }, 
+  modal:{
     marginVertical:170, 
     backgroundColor:colors.WHITE, 
     borderRadius:15, 
     justifyContent:"center"
-  }, flatListContainer:{
+  }, 
+  flatListContainer:{
     backgroundColor: "transparent", 
     flexDirection:"row", 
     alignItems:'center', 
     paddingLeft: 12, 
     paddingTop: 16
+  },
+  achievementModalStyle: {
+    borderRadius: 15,
+    justifyContent: "center",
+    marginVertical: 140,
+    marginHorizontal: 30,
+    backgroundColor: 'transparent',
   },
 });
