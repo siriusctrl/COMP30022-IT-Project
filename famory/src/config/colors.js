@@ -14,6 +14,7 @@ const colors = {
     AGRAY: "#B3B3B3",
     GRAINSBORO: "#DCDCDC",
     BAR: "#F7F7F7",
+    COMMUNITY: "#E0836B",
   };
   
 export default colors;

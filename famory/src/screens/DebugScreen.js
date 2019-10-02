@@ -14,11 +14,11 @@ export default class DebugScreen extends Component{
 
   screens = [
     {name: "Welcome"},
-    {name:"Login"},
-    {name:"SignUp"},
+    {name: "Login"},
+    {name: "SignUp"},
     {name: "ForgetPassword"},
-    {name:"HomePage"},
-    {name:"CommunityMain"},
+    {name: "HomePage"},
+    {name: "CommunityMain"},
     {name: "Test"},
     {name: "MemberPr"},
     {name: "AccountHold"},

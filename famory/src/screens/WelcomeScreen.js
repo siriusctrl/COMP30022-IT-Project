@@ -35,7 +35,7 @@ export default class WelcomeScreen extends Component{
   }
 
   handleNewJourneyPress = () => {
-    this.props.navigation.navigate('SignIn');
+    this.props.navigation.navigate('SignUp');
   }
 
   render() {
