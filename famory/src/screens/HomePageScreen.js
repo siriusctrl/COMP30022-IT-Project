@@ -37,12 +37,14 @@ export default class HomePageScreen extends Component{
     });
   }
 
-
-  getMembers = () => {
-    FamilyAccountModelManage.getInstance().getFamilyAccount((familyAccount) => {
-      this.setState({familyAccount: familyAccount});
+  setModel = (familyAccount) => {
+    this.setState({familyAccount: familyAccount});
       this.setState({familyName: familyAccount.name + "'s Family"});
       familyAccount.getMembers((members) => {
+        this.setState({avatars: []})
+        if(this.state.mode === "edit"){
+          this.setState({mode: "view"});
+        }
         for(let member of Object.values(members)){
             while (this.state.avatars.length <= member.generation){              
               this.state.avatars.push({});
@@ -56,6 +58,12 @@ export default class HomePageScreen extends Component{
         }
         this.setState({memberRdy:true});
       });
+  }
+
+
+  getMembers = () => {
+    FamilyAccountModelManage.getInstance().getFamilyAccount((familyAccount) => {
+      this.setModel(familyAccount);
     });
   }
 
@@ -201,7 +209,8 @@ export default class HomePageScreen extends Component{
   _handleAddPressed = (item) => {
     this.props.navigation.navigate('AddMemberGuide',{
       gen: item.gen,
-      familyAccount: this.state.familyAccount
+      familyAccount: this.state.familyAccount,
+      homePageScreen: this
     })
   }
 
