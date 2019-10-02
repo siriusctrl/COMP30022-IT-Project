@@ -12,3 +12,7 @@ famory/coverage/
 famory/package-lock.json
 
 famory/yarn-error.log
+
+node_modules/
+
+.expo/
