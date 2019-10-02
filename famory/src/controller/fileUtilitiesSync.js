@@ -15,6 +15,21 @@ export const _pickImage = async () => {
   return result;
 };
 
+// picks image from local file system
+// we do not upload here because user need to 'confirm' to upload artefact
+export const _pickImagea = async () => {
+  let result = await ImagePicker.launchImageLibraryAsync({
+    quality: 0.8,
+    base64: true,
+    skipProcessing: true,
+    mediaTypes: ImagePicker.MediaTypeOptions.Images,
+    allowsEditing: true,
+    aspect: [4, 4],
+  });
+
+  return result;
+};
+
 // picks video from local file system
 export const _pickVideo = async () => {
   let result = await ImagePicker.launchImageLibraryAsync({

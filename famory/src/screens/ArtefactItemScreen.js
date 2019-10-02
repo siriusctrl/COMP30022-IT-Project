@@ -150,7 +150,30 @@ export default class ArtefactItem extends Component{
                 <Text style={{color: colors.AGRAY}}>{this.state.artefactItem.dateAdded}</Text>
               </View>
             </View>
-          </View>:
+          </View>: this.state.artefactItem.type == "text"? 
+          <View style={{marginHorizontal: 29, marginVertical: 19, flexDirection: "column", minHeight: 870, overflow: "visible"}}>
+            <Text style={{lineHeight: 32, fontSize: 23, color: "#6c6c6c"}}>
+              {this.state.artefactItem.name}
+            </Text>
+            <Text style={{lineHeight: 32, fontSize: 18, color: "#6c6c6c", marginTop: 32}}>
+              {this.state.artefactItem.content}
+            </Text>
+            <Text style={{color: colors.AGRAY, marginTop: 36, fontStyle: "italic"}}>{this.state.artefactItem.description}</Text>
+            <View style={{marginTop: 58}}>
+              <Text style={{color: colors.AGRAY}}>DETAIL</Text>
+              <View
+              style={{
+                borderBottomColor: colors.AGRAY,
+                borderBottomWidth: 0.5,
+              }}
+            />
+              <View style={{marginTop: 17}}>
+                <Text style={{color: colors.AGRAY}}>CREATE DATE</Text>
+                <Text style={{color: colors.AGRAY}}>{this.state.artefactItem.dateAdded}</Text>
+              </View>
+            </View>
+          </View>
+          :
           <View style={{marginHorizontal: 29, marginVertical: 19, flexDirection: "column", minHeight: 870, overflow: "visible"}}>
             <ArtCard item={this.state.artefactItem} style={styles.artCard}/>
             <Text style={{color: colors.AGRAY, marginTop: 36, fontStyle: "italic"}}>{this.state.artefactItem.description}</Text>
