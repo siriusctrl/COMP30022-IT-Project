@@ -459,6 +459,7 @@ export default class ArtefactGuide extends Component{
           member.updateSelf(
             (updatedMember) => {
               this.props.navigation.getParam("profileScreen", null).setModel(updatedMember)
+              this.props.navigation.goBack()
             }
           )
         }, 
@@ -469,6 +470,7 @@ export default class ArtefactGuide extends Component{
         member.updateSelf(
           (updatedMember) => {
             this.props.navigation.getParam("profileScreen", null).setModel(updatedMember)
+            this.props.navigation.goBack()
           }
         )
       }, details, member, t);

@@ -43,7 +43,7 @@ export default class AddMemberGuide extends Component{
     if (this.props.navigation.getParam("gen", null)){
       this.setState(
         {
-          gen: this.props.navigation.getParam("gen", "0")[this.props.navigation.getParam("gen", "0").length - 1]
+          gen: Number(this.props.navigation.getParam("gen", "0")[this.props.navigation.getParam("gen", "0").length - 1])
         }
       )
     }
@@ -300,7 +300,7 @@ export default class AddMemberGuide extends Component{
                  }
                }
              }>
-              <Image source={{uri: this.state.avatar}} style={{width: "100%", height: "100%", backgroundColor: colors.WHITE}} />
+              <Image source={{uri: this.state.avatar? this.state.avatar: this.defaultAvatar}} style={{width: "100%", height: "100%", backgroundColor: colors.WHITE}} />
              </TouchableNativeFeedback>
            </View>
 
@@ -388,7 +388,7 @@ export default class AddMemberGuide extends Component{
           dob: this.getStringDate(this.state.dateBirth),
           firstName: this.state.memberName,
           gender: this.state.gender,
-          generation: 0,
+          generation: this.state.gen,
           item: {},
           lastName: this.state.lastName,
           profileImage: imageURI,
@@ -396,15 +396,17 @@ export default class AddMemberGuide extends Component{
           role: this.state.role
         }
 
-        MemberModelManage.getInstance().setMember((member) => {
-          this.props.navigation.navigate("HomePage", {lastScreen: 'AddMemberGuide'})}, memberDetails, this.state.familyAccount)
-      })
+        MemberModelManage.getInstance().setMember((familyAccount) => {
+          this.props.navigation.getParam("homePageScreen", null).setModel(familyAccount)
+          this.props.navigation.goBack()
+      }, memberDetails, this.state.familyAccount)
+    })
     }else{
       let memberDetails = {
         dob: this.getStringDate(this.state.dateBirth),
         firstName: this.state.memberName,
         gender: this.state.gender,
-        generation: 0,
+        generation: this.state.gen,
         item: {},
         lastName: this.state.lastName,
         profileImage: imageURI,
@@ -412,8 +414,10 @@ export default class AddMemberGuide extends Component{
         role: this.state.role
       }
 
-      MemberModelManage.getInstance().setMember((member) => {
-        this.props.navigation.navigate("HomePage")}, memberDetails, this.state.familyAccount)
+      MemberModelManage.getInstance().setMember((familyAccount) => {
+        this.props.navigation.getParam("homePageScreen", null).setModel(familyAccount)
+        this.props.navigation.goBack()
+      }, memberDetails, this.state.familyAccount)
     }
   }
 
