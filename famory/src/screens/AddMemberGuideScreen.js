@@ -397,9 +397,9 @@ export default class AddMemberGuide extends Component{
         }
 
         MemberModelManage.getInstance().setMember((familyAccount) => {
-          this.props.navigation.getParam("homePageScreen", null).setModel(familyAccount)
-          this.props.navigation.goBack()
-      }, memberDetails, this.state.familyAccount)
+          this.props.navigation.getParam("homePageScreen", null).setModel(familyAccount);
+          this.props.navigation.navigate('HomePage', {prevScreen: 'AddMemberGuide'});
+      }, memberDetails, this.state.familyAccount);
     })
     }else{
       let memberDetails = {
@@ -415,9 +415,9 @@ export default class AddMemberGuide extends Component{
       }
 
       MemberModelManage.getInstance().setMember((familyAccount) => {
-        this.props.navigation.getParam("homePageScreen", null).setModel(familyAccount)
-        this.props.navigation.goBack()
-      }, memberDetails, this.state.familyAccount)
+        this.props.navigation.getParam("homePageScreen", null).setModel(familyAccount);
+        this.props.navigation.navigate('HomePage', {prevScreen: 'AddMemberGuide'});
+      }, memberDetails, this.state.familyAccount);
     }
   }
 
