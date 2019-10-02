@@ -396,9 +396,11 @@ export default class AddMemberGuide extends Component{
           role: this.state.role
         }
 
-        MemberModelManage.getInstance().setMember((member) => {
-          this.props.navigation.navigate("HomePage")}, memberDetails, this.state.familyAccount)
-      })
+        MemberModelManage.getInstance().setMember((familyAccount) => {
+          this.props.navigation.getParam("homePageScreen", null).setModel(familyAccount)
+          this.props.navigation.goBack()
+      }, memberDetails, this.state.familyAccount)
+    })
     }else{
       let memberDetails = {
         dob: this.getStringDate(this.state.dateBirth),
@@ -412,8 +414,10 @@ export default class AddMemberGuide extends Component{
         role: this.state.role
       }
 
-      MemberModelManage.getInstance().setMember((member) => {
-        this.props.navigation.navigate("HomePage")}, memberDetails, this.state.familyAccount)
+      MemberModelManage.getInstance().setMember((familyAccount) => {
+        this.props.navigation.getParam("homePageScreen", null).setModel(familyAccount)
+        this.props.navigation.goBack()
+      }, memberDetails, this.state.familyAccount)
     }
   }
 
