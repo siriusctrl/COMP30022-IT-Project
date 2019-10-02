@@ -1,10 +1,14 @@
 import React, {Component} from "react";
 import { Text, Image, StyleSheet, View , Alert, KeyboardAvoidingView, ImageBackground, Button} from "react-native";
 import firebaseContainer from "../controller/firebaseConfig"
-import * as firebase from "firebase";
+import firebase from "firebase";
 
 import FamilyAccountModelManage from "../controller/FamilyAccountModel"
 import MemberModelManage from "../controller/MemberModel"
+import RNTextDetector from "react-native-text-detector";
+import {_pickImagea} from "../controller/fileUtilitiesSync"
+
+import RNTesseractOcr from 'react-native-tesseract-ocr';
 
 
 export default class TestFirebase extends Component{
@@ -16,6 +20,33 @@ export default class TestFirebase extends Component{
 
   componentDidMount(){
   }
+
+  detectText = async () => {
+    const tessOptions = {
+      whitelist: null, 
+      blacklist: '1234567890\'!"#$%&/()={}[]+*-_:;<>'
+    };
+    const { uri } = await _pickImagea();
+    alert(uri)
+    let result = await RNTesseractOcr.recognize(uri, "LANG_ENGLISH", tessOptions)
+    this.setState({ ocrResult: await result });
+  }
+
+  detectTexta = async () => {
+    try {
+      firebaseContainer.getInstance().justStart();
+      const options = {
+        quality: 0.8,
+        base64: true,
+        skipProcessing: true,
+      };
+      const visionResp = await RNTextDetector.detectFromUri(uri);
+      alert(visionResp)
+      this.setState({visionResp: visionResp})
+    } catch (e) {
+      console.warn(e);
+    }
+  };
 
   static navigationOptions = {
     header: null
@@ -75,6 +106,10 @@ export default class TestFirebase extends Component{
           firebaseContainer.getInstance().justStart();
           this.state.memberModel.updateFirstName("Niubi");
         }}></Button>
+
+        <Button title="read them" onPress={this.detectText}></Button>
+
+        {this.state.visionResp? <Text>{this.state.visionResp}</Text>: <Text></Text>}
 
       </View>
     );

@@ -116,7 +116,7 @@ export default class EditProfileScreen extends Component {
 
     return (
       <View style={{flex: 1}}>
-        <View style={{alignItems: "center", }}>
+        <View style={{alignItems: "center"}}>
 
           {(this.state.image == null) ? null : (
             <Image source={{uri: this.state.image}}  style={styles.avatar} />
@@ -197,7 +197,7 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     marginTop: 15,
     marginBottom: 15,
-    borderRadius: 100,
+    borderRadius: 60,
     overflow: "hidden",
   },
   greyText: {
