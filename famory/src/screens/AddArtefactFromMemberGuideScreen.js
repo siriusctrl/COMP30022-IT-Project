@@ -331,6 +331,7 @@ export default class ArtGuide extends Component{
       this.state.memberModel.updateSelf(
         (updatedMember) => {
           this.props.navigation.getParam("profileScreen", null).setModel(updatedMember)
+          this.props.navigation.goBack()
         }
       )
     }, this.state.memberModel, this.state.chosenArtefact);
