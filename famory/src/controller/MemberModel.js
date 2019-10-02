@@ -69,6 +69,20 @@ export class MemberModelManage{
 
     callback();
   }
+
+  // check if member count reaches a certain limit
+  // to unlock achievement
+  checkMemberCount(callback, count) {
+    let memberRef = firebase.database().ref(this._path + "/" + "curMember/");
+    memberRef.once("value").then((snapshot) => {
+      if (snapshot.val() === count) {
+        // we unlock the achievement when directing from add member guide to homepage
+        callback(true);
+      } else {
+        callback(false);
+      }
+    });
+  }
 }
 
 // member model

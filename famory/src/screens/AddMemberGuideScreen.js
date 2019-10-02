@@ -397,7 +397,7 @@ export default class AddMemberGuide extends Component{
         }
 
         MemberModelManage.getInstance().setMember((member) => {
-          this.props.navigation.navigate("HomePage")}, memberDetails, this.state.familyAccount)
+          this.props.navigation.navigate("HomePage", {lastScreen: 'AddMemberGuide'})}, memberDetails, this.state.familyAccount)
       })
     }else{
       let memberDetails = {

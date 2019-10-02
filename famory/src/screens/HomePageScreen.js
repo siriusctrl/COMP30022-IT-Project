@@ -11,6 +11,7 @@ import Button from "../components/Button";
 import TouchableScale from 'react-native-touchable-scale';
 
 import FamilyAccountModelManage from "../controller/FamilyAccountModel";
+import MemberModelManage from "../controller/MemberModel"
 
 export default class HomePageScreen extends Component{
   state = {
@@ -30,6 +31,20 @@ export default class HomePageScreen extends Component{
 
   //load avatar info from server
   async componentDidMount() {
+    if ((typeof this.props.navigation.state.params != 'undefined') && 
+      (typeof this.props.navigation.state.params.lastScreen != 'undefined')) {
+      const { lastScreen } = this.props.navigation.state.params.lastScreen;
+      if (lastScreen === 'AddMemberGuide') {
+        for (let i of [1, 5, 10]) {
+          MemberModelManage.getInstance().checkMemberCount((result) => {
+            if (result) {
+              // update achievement here
+              alert("Achievement unlocked! " + i);
+            }
+          }, i);
+        }
+      }
+    }
     this.getMembers();
     this.props.navigation.setParams({
       state: this.state,

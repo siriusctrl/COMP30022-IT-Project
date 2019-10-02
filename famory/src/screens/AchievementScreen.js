@@ -319,7 +319,7 @@ export default class AchievementScreen extends Component {
             <Text style={{fontSize: 18, fontWeight: "bold"}}>Unlocked on:{" "}{this.state.unlockDate[0]}</Text>
           </View>
           <View style={styles.share}>
-            <Text style={{fontSize: 12}}>Share on:{" "}</Text>
+            <Text style={{fontSize: 14}}>Share on:{" "}</Text>
             <TouchableOpacity onPress={() => this._shareToSocialMedia(0, strings.FACEBOOK)}>
               <Facebook style={{marginLeft: 5}}></Facebook>
             </TouchableOpacity>
@@ -344,14 +344,14 @@ export default class AchievementScreen extends Component {
           <Empty></Empty>
           <Empty></Empty>
           <View style={{flex:1, justifyContent:"center", alignItems:"center"}}>
-            <Text style={{fontSize: 22, fontWeight: "bold"}}>Small Family</Text>
-            <Text style={{fontSize: 16, marginTop: 15}}>Added three family Members</Text>
+            <Text style={{fontSize: 22, fontWeight: "bold"}}>Growing Brood</Text>
+            <Text style={{fontSize: 16, marginTop: 15}}>Added 5 family members</Text>
             <Empty></Empty>
             <Empty></Empty>
             <Text style={{fontSize: 18, fontWeight: "bold"}}>Unlocked on:{" "}{this.state.unlockDate[1]}</Text>
           </View>
           <View style={styles.share}>
-            <Text style={{fontSize: 12}}>Share on:{" "}</Text>
+            <Text style={{fontSize: 14}}>Share on:{" "}</Text>
             <TouchableOpacity onPress={() => this._shareToSocialMedia(1, strings.FACEBOOK)}>
               <Facebook style={{marginLeft: 5}}></Facebook>
             </TouchableOpacity>
@@ -377,13 +377,13 @@ export default class AchievementScreen extends Component {
           <Empty></Empty>
           <View style={{flex:1, justifyContent:"center", alignItems:"center"}}>
             <Text style={{fontSize: 22, fontWeight: "bold"}}>Official Residents</Text>
-            <Text style={{fontSize: 16, marginTop: 15}}>Created 4 generations</Text>
+            <Text style={{fontSize: 16, marginTop: 15}}>Added 10 family members</Text>
             <Empty></Empty>
             <Empty></Empty>
             <Text style={{fontSize: 18, fontWeight: "bold"}}>Unlocked on:{" "}{this.state.unlockDate[2]}</Text>
           </View>
           <View style={styles.share}>
-            <Text style={{fontSize: 12}}>Share on:{" "}</Text>
+            <Text style={{fontSize: 14}}>Share on:{" "}</Text>
             <TouchableOpacity onPress={() => this._shareToSocialMedia(2, strings.FACEBOOK)}>
               <Facebook style={{marginLeft: 5}}></Facebook>
             </TouchableOpacity>
@@ -416,7 +416,7 @@ export default class AchievementScreen extends Component {
             <Text style={{fontSize: 18, fontWeight: "bold"}}>Unlocked on:{" "}{this.state.unlockDate[3]}</Text>
           </View>
           <View style={styles.share}>
-            <Text style={{fontSize: 12}}>Share on:{" "}</Text>
+            <Text style={{fontSize: 14}}>Share on:{" "}</Text>
             <TouchableOpacity onPress={() => this._shareToSocialMedia(0, strings.FACEBOOK)}>
               <Facebook style={{marginLeft: 5}}></Facebook>
             </TouchableOpacity>
@@ -442,13 +442,13 @@ export default class AchievementScreen extends Component {
           <Empty></Empty>
           <View style={{flex:1, justifyContent:"center", alignItems:"center"}}>
             <Text style={{fontSize: 22, fontWeight: "bold"}}>Kudos Giver</Text>
-            <Text style={{fontSize: 16, marginTop: 15}}>Liked 50 posts</Text>
+            <Text style={{fontSize: 16, marginTop: 15}}>Shared 20 artefacts</Text>
             <Empty></Empty>
             <Empty></Empty>
             <Text style={{fontSize: 18, fontWeight: "bold"}}>Unlocked on:{" "}{this.state.unlockDate[4]}</Text>
           </View>
           <View style={styles.share}>
-            <Text style={{fontSize: 12}}>Share on:{" "}</Text>
+            <Text style={{fontSize: 14}}>Share on:{" "}</Text>
             <TouchableOpacity onPress={() => this._shareToSocialMedia(1, strings.FACEBOOK)}>
               <Facebook style={{marginLeft: 5}}></Facebook>
             </TouchableOpacity>
@@ -480,7 +480,7 @@ export default class AchievementScreen extends Component {
             <Text style={{fontSize: 18, fontWeight: "bold"}}>Unlocked on:{" "}{this.state.unlockDate[5]}</Text>
           </View>
           <View style={styles.share}>
-            <Text style={{fontSize: 12}}>Share on:{" "}</Text>
+            <Text style={{fontSize: 14}}>Share on:{" "}</Text>
             <TouchableOpacity onPress={() => this._shareToSocialMedia(2, strings.FACEBOOK)}>
               <Facebook style={{marginLeft: 5}}></Facebook>
             </TouchableOpacity>
@@ -513,7 +513,7 @@ export default class AchievementScreen extends Component {
             <Text style={{fontSize: 18, fontWeight: "bold"}}>Unlocked on:{" "}{this.state.unlockDate[6]}</Text>
           </View>
           <View style={styles.share}>
-            <Text style={{fontSize: 12}}>Share on:{" "}</Text>
+            <Text style={{fontSize: 14}}>Share on:{" "}</Text>
             <TouchableOpacity onPress={() => this._shareToSocialMedia(0, strings.FACEBOOK)}>
               <Facebook style={{marginLeft: 5}}></Facebook>
             </TouchableOpacity>
@@ -538,15 +538,15 @@ export default class AchievementScreen extends Component {
           <Empty></Empty>
           <Empty></Empty>
           <View style={{flex:1, justifyContent:"center", alignItems:"center"}}>
-            <Text style={{fontSize: 22, fontWeight: "bold"}}>Register Hunter</Text>
-            <Text style={{fontSize: 16, marginTop: 15}}>Uploaded 50 artefacts to</Text>
+            <Text style={{fontSize: 22, fontWeight: "bold"}}>Trophy Hunter</Text>
+            <Text style={{fontSize: 16, marginTop: 15}}>Uploaded 20 artefacts to</Text>
             <Text style={{fontSize: 16, marginTop: 3}}>the Register</Text>
             <Empty></Empty>
             <Empty></Empty>
             <Text style={{fontSize: 18, fontWeight: "bold"}}>Unlocked on:{" "}{this.state.unlockDate[7]}</Text>
           </View>
           <View style={styles.share}>
-            <Text style={{fontSize: 12}}>Share on:{" "}</Text>
+            <Text style={{fontSize: 14}}>Share on:{" "}</Text>
             <TouchableOpacity onPress={() => this._shareToSocialMedia(1, strings.FACEBOOK)}>
               <Facebook style={{marginLeft: 5}}></Facebook>
             </TouchableOpacity>
@@ -571,15 +571,15 @@ export default class AchievementScreen extends Component {
           <Empty></Empty>
           <Empty></Empty>
           <View style={{flex:1, justifyContent:"center", alignItems:"center"}}>
-            <Text style={{fontSize: 22, fontWeight: "bold"}}>Register Master</Text>
-            <Text style={{fontSize: 16, marginTop: 15}}>Upload 200 artefacts to</Text>
+            <Text style={{fontSize: 22, fontWeight: "bold"}}>Famory Master</Text>
+            <Text style={{fontSize: 16, marginTop: 15}}>Upload 100 artefacts to</Text>
             <Text style={{fontSize: 16, marginTop: 3}}>the Register</Text>
             <Empty></Empty>
             <Empty></Empty>
             <Text style={{fontSize: 18, fontWeight: "bold"}}>Unlocked on:{" "}{this.state.unlockDate[8]}</Text>
           </View>
           <View style={styles.share}>
-            <Text style={{fontSize: 12}}>Share on:{" "}</Text>
+            <Text style={{fontSize: 14}}>Share on:{" "}</Text>
             <TouchableOpacity onPress={() => this._shareToSocialMedia(2, strings.FACEBOOK)}>
               <Facebook style={{marginLeft: 5}}></Facebook>
             </TouchableOpacity>
