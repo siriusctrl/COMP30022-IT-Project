@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import { Text, Image, StyleSheet, View , Alert, KeyboardAvoidingView, ImageBackground, TouchableWithoutFeedback, Linking, Dimensions} from "react-native";
+import { Text, Image, StyleSheet, View, KeyboardAvoidingView, ImageBackground, TouchableWithoutFeedback, Linking, Dimensions} from "react-native";
 import { Video } from 'expo-av';
 import firebase from "firebase";
 import firebaseConfig from "../controller/firebaseConfig";
@@ -7,6 +7,7 @@ import firebaseConfig from "../controller/firebaseConfig";
 import Button from "../components/Button";
 import FormTextInput from "../components/FormTextInput";
 import Spinner from 'react-native-loading-spinner-overlay';
+import AlertPro from "react-native-alert-pro";
 
 import darkimg from "../assets/images/dark.png"
 
@@ -32,6 +33,8 @@ export default class SignUpScreen extends Component{
     familyName:"",
     registering: false,
     wrongEmail: false,
+    errorTitle: "",
+    errorMessage:"",
   }
 
   componentDidMount(){
@@ -73,13 +76,17 @@ export default class SignUpScreen extends Component{
       let errorMessage = error.message;
       console.log(errorMessage);
       if (errorCode === 'auth/weak-password') {
-        alert('The password is too weak.');
+        ins.setState({ errorTitle: "Password Issue", errorMessage:"The password is too weak." });
+        ins.AlertPro.open();
       } else if (errorCode === "auth/invalid-email") {
-        alert('Invalid Email');
+        ins.setState({errorTitle: "Email Error", errorMessage:"Invalid Email"});
+        ins.AlertPro.open();
       } else if (errorCode === "auth/email-already-in-use") {
-        alert("This email has already in used, please login or try another one");
+        ins.setState({ errorTitle: "Email In Used", errorMessage: "This email has already in used, please login or try another one"});
+        ins.AlertPro.open();
       } else {
-        alert(errorMessage);
+        ins.setState({errorTitle: "Error", errorMessage: errorMessage});
+        ins.AlertPro.open();
       }
     });
   }
@@ -202,6 +209,17 @@ export default class SignUpScreen extends Component{
         textContent={'Signing you in...'}
         textStyle={{color:"#FFF"}}
       />
+
+    <AlertPro
+      ref={ref => {
+        this.AlertPro = ref;
+      }}
+      onCancel={() => this.AlertPro.close()}
+      showConfirm={false}
+      title={this.state.errorTitle}
+      textCancel="Ok"
+      message={this.state.errorMessage}
+    />
     </View>
     );
   }

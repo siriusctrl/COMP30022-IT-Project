@@ -18,6 +18,21 @@ import ArtefactGuide from "./ArtefactGuideScreen";
 import AddMemberGuide from "./AddMemberGuideScreen";
 import AddArtefactFromMemberGuideScreen from "./AddArtefactFromMemberGuideScreen";
 import { createStackNavigator } from "react-navigation";
+import { fromRight, flipY } from 'react-navigation-transitions';
+
+
+const handleCustomTransition = ({ scenes }) => {
+  const prevScene = scenes[scenes.length - 2];
+  const nextScene = scenes[scenes.length - 1];
+
+  if (prevScene
+    && prevScene.route.routeName === 'CommunityMain'
+    && nextScene.route.routeName === 'CommunityComment') {
+      return flipY(800);
+  }
+
+  return fromRight(500);
+}
 
 const AppNavigator = createStackNavigator({
   Debug: {screen: DebugScreen},
@@ -41,6 +56,7 @@ const AppNavigator = createStackNavigator({
 }, {
       // should be debug
       initialRouteName: "Debug",
+      transitionConfig: (screens) => handleCustomTransition(screens)
 }, {
   defaultNavigationOptions:{
     header:null
