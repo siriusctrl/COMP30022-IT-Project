@@ -90,7 +90,10 @@ export class MemberModelManage{
 
 // member model
 // contains information for member and the function to modify
-export class Member{
+export class Member {
+
+  role = 'Member';
+  gender = 'N/A';
 
   constructor(snapshot, id){
     this.role = snapshot["role"];

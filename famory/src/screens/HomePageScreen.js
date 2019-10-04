@@ -34,6 +34,8 @@ export default class HomePageScreen extends Component{
 
   //load avatar info from server
   async componentDidMount() {
+
+    // listener to add member achievement update
     this.focusListener = this.props.navigation.addListener('didFocus', () => {
       const prevScreen = this.props.navigation.getParam('prevScreen', 'nothing');
       if (prevScreen === 'AddMemberGuide') {
@@ -55,7 +57,8 @@ export default class HomePageScreen extends Component{
           }, i);
         }
       }
-    })
+    });
+
     this.getMembers();
     this.props.navigation.setParams({
       state: this.state,
@@ -69,6 +72,7 @@ export default class HomePageScreen extends Component{
 
   // navigations to achievement page
   handleAchievementPress = () => {
+    this.focusListener.remove();
     this.state.isAchievementVisible = false;
     this.forceUpdate();
     this.props.navigation.navigate('Achievement');
@@ -238,7 +242,7 @@ export default class HomePageScreen extends Component{
   }
 
   _handleAvatarPressed = (member) => {
-    this.props.navigation.navigate('MemberPr', {
+    this.props.navigation.navigate('MemberProfile', {
       model: member
     });
   }
