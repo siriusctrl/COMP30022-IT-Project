@@ -9,16 +9,12 @@ import BigMeteor from "../assets/icons/bigMeteor";
 import Rocket from "../assets/icons/rocket";
 import Ufo from "../assets/icons/ufo";
 import Comet from "../assets/icons/comet";
-
+import Spinner from 'react-native-loading-spinner-overlay';
 import LottieView from "lottie-react-native";
+
 import FamilyAccountModelManage from "../controller/FamilyAccountModel";
 import AchievementModelManage from "../controller/AchievementModel";
-
-
-let comments = "";
-
-let myComment = '';
-let submitted = false;
+import CommunityModelManage from '../controller/CommunityModel';
 
 export default class CommunityCommentScreen extends Component {
 
@@ -41,6 +37,9 @@ export default class CommunityCommentScreen extends Component {
     modalVisible: false,
     ready: false,
     isAchievementVisible: false,
+    comments: null,
+    id: 0,
+    myComment: "",
   };
 
   // handle submit
@@ -48,9 +47,14 @@ export default class CommunityCommentScreen extends Component {
     this.setState({
       modalVisible: true,
     });
-    submitted = true;
+    // make comment
+    CommunityModelManage.getInstance().makeComment((myComment) => {
+    }, this.state.id, this.state.myComment);
+
     setTimeout(() => {
-      comments.push(myComment);
+      let joined = this.state.comments.concat(this.state.myComment);
+      this.state.comments = joined;
+      this.forceUpdate();
     }, 3000);
 
     await new Promise(resolve => { setTimeout(resolve, 4000); });
@@ -84,10 +88,18 @@ export default class CommunityCommentScreen extends Component {
     this.setState({modalVisible:false});
   };
 
-  componentDidMount () {
-    comments = this.props.navigation.state.params.replies;
-    this.state.ready = true;
-    this.forceUpdate();
+  componentDidMount() {
+    // listener to update cards
+    this.focusListener = this.props.navigation.addListener('didFocus', () => {
+      this.state.ready = false;
+      this.forceUpdate();
+      this.state.id = this.props.navigation.getParam('id');
+      CommunityModelManage.getInstance().getComments((posts) => {
+        this.state.comments = posts;
+        this.state.ready = true;
+        this.forceUpdate();
+      }, this.props.navigation.getParam('id'));
+    });
   };
 
   // navigations to achievement page
@@ -97,20 +109,35 @@ export default class CommunityCommentScreen extends Component {
     this.props.navigation.navigate('Achievement');
   };
 
+  componentWillUnmount () {
+    this.focusListener.remove();
+  }
+
   render() {
 
-    if (this.state.ready === false) return null;
+    if (this.state.ready === false) return (
+      <View>
+        <Spinner
+          visible={true}
+          textStyle={styles.spinnerTextStyle}
+          cancelable={false}
+          overlayColor={"rgb(0, 0, 0, 0)"}
+          color={'#4E91C4'}
+          size={'large'}
+        />
+      </View>
+    );
 
     return (
       <View style={styles.container}>
  
         <ScrollView style={styles.RectangleShapeView}>
 
-          {(comments.length === 4) ? (
+          {(this.state.comments.length === 4) ? (
             <View style={styles.Comments}>
               <BigMeteor></BigMeteor>
               <View style={styles.CommentArea}>
-                <Text style={styles.TextStyle}>{comments[3]}</Text>
+                <Text style={styles.TextStyle}>{this.state.comments[3]}</Text>
               </View>
             </View>
           ) : null}
@@ -118,21 +145,21 @@ export default class CommunityCommentScreen extends Component {
           <View style={styles.Comments}>
             <Comet></Comet>
             <View style={styles.CommentArea}>
-              <Text style={styles.TextStyle}>{comments[0]}</Text>
+              <Text style={styles.TextStyle}>{this.state.comments[0]}</Text>
             </View>
           </View>
 
           <View style={styles.Comments}>
             <Ufo></Ufo>
             <View style={styles.CommentArea}>
-              <Text style={styles.TextStyle}>{comments[1]}</Text>
+              <Text style={styles.TextStyle}>{this.state.comments[1]}</Text>
             </View>
           </View>
 
           <View style={styles.Comments}>
             <Rocket></Rocket>
             <View style={styles.CommentArea}>
-              <Text style={styles.TextStyle}>{comments[2]}</Text>
+              <Text style={styles.TextStyle}>{this.state.comments[2]}</Text>
             </View>
           </View>
 
@@ -143,7 +170,7 @@ export default class CommunityCommentScreen extends Component {
         <Empty/>
         <View style={{ flex: 1, justifyContent: 'center', width: "100%", flexDirection: "row"}}>
           <Meteor style={{marginTop: 8}}></Meteor>
-          {(submitted === true) ? (
+          {(this.state.comments.length === 4) ? (
             <LinearGradient 
             colors={['#C0C0C0', '#808080']} 
             style={styles.LinearGradientStyle}
@@ -173,7 +200,7 @@ export default class CommunityCommentScreen extends Component {
                   underlineColorAndroid='transparent'
                   multiline
                   blurOnSubmit={true}
-                  onChangeText={(text) => {myComment = text}}
+                  onChangeText={(text) => this.setState({myComment: text})}
                   style={styles.TextInputStyleClass}
                   onSubmitEditing={this.handleSubmit}
                 />

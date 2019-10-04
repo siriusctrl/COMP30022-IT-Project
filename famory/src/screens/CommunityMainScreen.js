@@ -86,28 +86,39 @@ export default class CommunityMainScreen extends Component {
   }
 
   async componentDidMount () {
+    // listener to update cards
+    this.focusListener = this.props.navigation.addListener('didFocus', () => {
+      const prevScreen = this.props.navigation.getParam('prevScreen', 'nothing');
+      if (prevScreen === 'CommunityAdd') {
+        this.state.ready = false;
+        this.forceUpdate();
+        this.getMountReady();
+      }
+    });
     // props
     this.props.navigation.setParams({ addArtefact: this._addArtefact });
-    // make cards the posts from firebase
-    this.getCommunity();
-    // load data
-    await new Promise(resolve => { setTimeout(resolve, 3600); });
-    this.setState({postCount: cards.length});
-    // update likes in state
-    let likeArray = [];
-    for (let i = 0; i < this.state.postCount; i++) {
-      likeArray.push(0);
-    }
-    this.state.liked = likeArray;
-    this.state.ready = true;
-    this.forceUpdate();
+    this.getMountReady();
   }
 
-  // get community posts
-  getCommunity = () => {
+  // get mount ready
+  getMountReady = async () => {
+    // make cards the posts from firebase
     CommunityModelManage.getInstance().getCommunity((posts) => {
       cards = posts;
+      this.state.currentid = 0;
+      this.state.postCount = cards.length;
+      let likeArray = [];
+      for (let i = 0; i < this.state.postCount; i++) {
+        likeArray.push(0);
+      }
+      this.state.liked = likeArray;
+      this.state.ready = true;
+      this.forceUpdate();
     })
+  }
+
+  componentWillUnmount () {
+    this.focusListener.remove();
   }
 
   setModalVisible(visible) {
@@ -116,7 +127,10 @@ export default class CommunityMainScreen extends Component {
 
   handleCommentPress = () => {
     // pass comments to comment page
-    this.props.navigation.navigate('CommunityComment', {replies: cards[this.state.currentid].replies});
+    let id = this.state.currentid;
+    this.props.navigation.navigate('CommunityComment', {
+      id: id + 1,
+    });
   }
 
   render() {
@@ -136,7 +150,7 @@ export default class CommunityMainScreen extends Component {
             />
         </Modal>
       </Container>
-    )
+    );
 
     return (
       <Container>
