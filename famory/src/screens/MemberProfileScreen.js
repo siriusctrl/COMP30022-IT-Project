@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import { Text, Image, StyleSheet, View} from "react-native";
+import { Text, Image, StyleSheet, View, TouchableOpacity } from "react-native";
 import colors from "../config/colors";
 import FamilyAccountModelManage from "../controller/FamilyAccountModel";
 import { Icon } from 'react-native-elements';
@@ -7,11 +7,13 @@ import ArtCard from "../components/ArtCard";
 import { TouchableNativeFeedback } from "react-native-gesture-handler";
 import Carousel from "react-native-snap-carousel";
 import { ActionSheetCustom as ActionSheet } from 'react-native-actionsheet';
+import Modal from "react-native-modal";
 
+import ItemModelManage from "../controller/ItemModel";
+import AchievementModelManage from "../controller/AchievementModel";
+import LottieView from "lottie-react-native";
 
-
-
-export default class MemberPr extends Component{
+export default class MemberProfile extends Component{
   static navigationOptions = {
     headerStyle: {
       backgroundColor: "rgba(106, 84, 166, 0)", 
@@ -26,7 +28,8 @@ export default class MemberPr extends Component{
   state = {
     profileMemberArtefactItem: [],
     itemAll: -1,
-    itemHas: 0
+    itemHas: 0,
+    isAchievementVisible: false,
   }
 
   setModel = (model) => {
@@ -46,7 +49,30 @@ export default class MemberPr extends Component{
     })
   }
 
-  componentDidMount(){
+  componentDidMount() {
+    // listener to add item achievement update
+    this.focusListener = this.props.navigation.addListener('didFocus', () => {
+      const prevScreen = this.props.navigation.getParam('prevScreen', 'nothing');
+      if (prevScreen === 'ArtefactGuide') {
+        for (let i of [1, 20, 100]) {
+          ItemModelManage.getInstance().getItemCount((result) => {
+            if (result) {
+              // update achievement here
+              let id = 0;
+              if (i === 1) id = 7;
+              if (i === 20) id = 8;
+              if (i === 100) id = 9;
+              AchievementModelManage.getInstance().unlockAchievement((result) => {
+                if (result) {
+                  this.state.isAchievementVisible = true;
+                  this.forceUpdate();
+                }
+              }, id);
+            }
+          }, i);
+        }
+      }
+    });
 
     // check if now has a model passed in
     let model = this.props.navigation.getParam("model", null);
@@ -66,6 +92,18 @@ export default class MemberPr extends Component{
       )
     }
   }
+
+  componentWillUnmount () {
+    this.focusListener.remove();
+  }
+
+  // navigations to achievement page
+  handleAchievementPress = () => {
+    this.focusListener.remove();
+    this.state.isAchievementVisible = false;
+    this.forceUpdate();
+    this.props.navigation.navigate('Achievement');
+  };
 
   // render a artefact card in screen
   _renderRow = ({item, index}) => {
@@ -281,6 +319,31 @@ export default class MemberPr extends Component{
 
         </View>
 
+        <Modal
+          isVisible={this.state.isAchievementVisible}
+          onBackdropPress={() => {this.setState({isAchievementVisible: false})}}
+          animationIn="fadeInUp"
+          animationOut="fadeOutDown"
+          style={styles.achievementModalStyle}
+          onShow={()=>{ 
+            this.animation.play();
+          }}
+        >
+          <LottieView
+            ref={animation => {
+              this.animation = animation;
+            }}
+            loop={false}
+            source={require('../assets/animation/trophy.json')}
+            style={{marginTop: -50,}}
+          />
+
+          <TouchableOpacity onPress={this.handleAchievementPress}>
+            <Text style={{textAlign: 'center', fontSize: 22, color: '#fff', marginTop: 200,}}>You have unlocked an</Text>
+            <Text style={{textAlign: 'center', fontSize: 22, color: '#FFD700'}}>Achievement!</Text>
+          </TouchableOpacity>
+        </Modal>
+
       </View>
     );
   }
@@ -333,7 +396,12 @@ const styles = StyleSheet.create({
     elevation: 7, 
     justifyContent: "center", 
     alignItems:"center"
-  }
-  
-
+  },
+  achievementModalStyle: {
+    borderRadius: 15,
+    justifyContent: "center",
+    marginVertical: 140,
+    marginHorizontal: 30,
+    backgroundColor: 'transparent',
+  },
 });
