@@ -168,7 +168,7 @@ export default class AddMemberGuide extends Component{
               First name and middle name
             </Text>
             <TextInput 
-              placeholder={"Name"} 
+              placeholder={"Anonymous"} 
               onChangeText={
                 (member) => {this._changeText({memberName: member})}
               }
@@ -204,7 +204,7 @@ export default class AddMemberGuide extends Component{
               We support any gender you like
              </Text>
              <TextInput 
-             placeholder={"Gender"} 
+             placeholder={"N/A"} 
              onChangeText={
               (gr) => {this._changeText({gender: gr})}
             }
