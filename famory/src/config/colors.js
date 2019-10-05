@@ -15,6 +15,17 @@ const colors = {
     GRAINSBORO: "#DCDCDC",
     BAR: "#F7F7F7",
     COMMUNITY: "#E0836B",
+    RINGORANGE: "#FF4500",
+    RINGPURPLE: "#800080",
+    RINGPINK: "#eda6ed",
+    RINGLIGHTORANGE: "#eb9c4d",
+    RINGBLUE: "#1091c4",
+    RINGDOGER: "#61aee8"
+
+
+
+
+
   };
   
 export default colors;

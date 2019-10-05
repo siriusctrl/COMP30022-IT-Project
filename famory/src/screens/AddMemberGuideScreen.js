@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import { Text, TextInput, Image, StyleSheet, View, KeyboardAvoidingView, DatePickerAndroid} from "react-native";
+import { Text, TextInput, Image, StyleSheet, View, KeyboardAvoidingView, DatePickerAndroid, ScrollView} from "react-native";
 import colors from "../config/colors";
 import { Icon } from 'react-native-elements'
 import { Button } from 'native-base';
@@ -101,9 +101,12 @@ export default class AddMemberGuide extends Component{
 
   ringColorPicker = (chosen) => {
     let rings = [
-      colors.HOMESCREENLIGHTBLUE,
-      colors.ORANGE,
-      colors.DTPURPLE,
+      colors.RINGBLUE,
+      colors.RINGDOGER,
+      colors.RINGLIGHTORANGE,
+      colors.RINGORANGE,
+      colors.RINGPINK,
+      colors.RINGPURPLE
     ]
 
     let render = []
@@ -308,9 +311,9 @@ export default class AddMemberGuide extends Component{
               Choose their exclusive color!
              </Text>
            
-           <View style={{width: "100%", height: 64, marginTop: 25, flexDirection: "row", }}>
+           <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} padingEnabled={true} style={{width: "100%", height: 56, marginTop: 25, flexDirection: "row", }}>
               {this.ringColorPicker(this.state.picked)}
-            </View>
+            </ScrollView>
           </View>
           
         </KeyboardAvoidingView>

@@ -249,6 +249,7 @@ export default class ArtefactItem extends Component{
                   this.props.navigation.getParam("member", null).updateSelf(
                     (updatedMember) => {
                       this.props.navigation.getParam("profileScreen", null).setModel(updatedMember);
+                      this.props.navigation.goBack();
                     }
                   )
                 }, this.state.artefactItem)
