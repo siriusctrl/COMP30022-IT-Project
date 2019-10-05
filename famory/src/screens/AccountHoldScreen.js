@@ -14,7 +14,6 @@ import Accountmail from "../assets/icons/accountmail";
 
 import { AccountModelManage } from "../controller/AccountModel";
 import colors from "../config/colors";
-import Modal from "react-native-modal";
 import Spinner from 'react-native-loading-spinner-overlay';
 import { StackActions, NavigationActions } from 'react-navigation';
 import CheckButton from "../components/CheckButton";
@@ -47,12 +46,6 @@ export default class AccountHoldScreen extends Component {
     contactVisible: false,
     accountAvatar: null,
     spinner: true,
-  };
-
-  // update the locking state of badges
-  toggleModal = () => {
-    this.state.modalVisible = !this.state.modalVisible;
-    this.forceUpdate();
   };
 
   // get account family name and date of Creation
@@ -256,29 +249,6 @@ const styles = StyleSheet.create({
     fontSize: 17,
     marginTop: 15,
     marginLeft: 10,
-  },
-  modalStyle: {
-    borderRadius: 15,
-    justifyContent: "center",
-    marginVertical: 190,
-    marginHorizontal: 35,
-    backgroundColor: colors.WHITE,
-  },
-  //jjh
-  modalHeader: {
-    borderTopRightRadius: 15,
-    borderTopLeftRadius: 15,
-    height:60,
-    marginLeft:-3,
-    width:290,
-    backgroundColor:"#E5F5FF",
-    fontWeight: 'bold',
-  },
-  modalHeaderText: {
-    alignSelf: 'center',
-    fontWeight: 'bold',
-    marginTop: 14,
-    fontSize: 20,
   },
   blackText: {
     marginLeft: 3,
