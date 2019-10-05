@@ -242,7 +242,7 @@ export default class ArtGuide extends Component{
                   inactiveSlideScale={0.85}
                   containerCustomStyle={{overflow: "visible", width: "100%"}}
                   contentContainerCustomStyle={{alignItems: "center", flexDirection: "column"}}
-                  slideStyle={{width: "93%", elevation: 12, borderRadius: 6}}
+                  slideStyle={{width: "87%", elevation: 5, borderRadius: 6, overflow: "visible"}}
                 />
           </View>
           </View>
