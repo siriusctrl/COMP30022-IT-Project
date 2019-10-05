@@ -27,6 +27,7 @@ export default class ForgetPasswordScreen extends Component {
     wrongEmail: null,
     verifying: false,
     errorMessage:"",
+    timer:null,
   }
 
   componentDidMount() {
@@ -37,6 +38,8 @@ export default class ForgetPasswordScreen extends Component {
     this.setState({ email: email });
   }
 
+  /**************************************************/
+  // the following block are not used at all
   _goBack = () => {
     const popAction = StackActions.pop({
       n: 1,
@@ -53,36 +56,50 @@ export default class ForgetPasswordScreen extends Component {
 
     this.props.navigation.dispatch(resetAction);
   }
+/**************************************************/
 
   _sendingReseatEmail = (ins) => {
-    ins.setState({ verifying: true });
-    firebase.auth().sendPasswordResetEmail(ins.state.email, null)
-    .then(() => {
-      ins.setState({ verifying: false });
+    if(this.state.timer == null){
+      ins.setState({ verifying: true });
+      firebase.auth().sendPasswordResetEmail(ins.state.email, null)
+      .then(() => {
+        ins.setState({ verifying: false });
+        ToastAndroid.showWithGravity(
+          'Email has been sent',
+          ToastAndroid.SHORT,
+          ToastAndroid.CENTER,
+        );
 
+        ins.setState({ timer: 60 });
+        ins.countDown = setInterval(() => {
+          ins.setState({ timer: ins.state.timer - 1 });
+          if (ins.state.timer === 0) {
+            ins.setState({ timer: null });
+            clearInterval(ins.countDown);
+          }
+        }, 1000);
+      })
+      .catch((error) => {
+        ins.setState({ verifying: false , errorMessage: error.message, timer : null});
+        ins.AlertPro.open();
+      });
+    } else {
       ToastAndroid.showWithGravity(
-        'Email has been sent',
+        "please retry in " + ins.state.timer + " second(s)",
         ToastAndroid.SHORT,
-        ToastAndroid.BOTTOM,
+        ToastAndroid.CENTER,
       );
-
-      ins._resetStack();
-    })
-    .catch((error) => {
-      ins.setState({ verifying: false , errorMessage: error.message });
-      ins.AlertPro.open();
-    });
+    }
   }
 
-  handleSendPress = () => {
+  _handleSendPress = () => {
     this.setState({ wrongEmail : null });
 
     if (this.state.email.length === 0){
-      // NOTE : this only for testing purpose, it actually does not need alert here
       this.setState({ wrongEmail: "Email Cannot be Empty!", errorMessage: "Email Cannot be Empty!"});
       this.AlertPro.open();
     } else if (!validate(this.state.email)) {
-      this.setState({ wrongEmail: "Invalid Email", email: "", errorMessage: "Invalid Email" });
+      this.setState({ wrongEmail: "Invalid Email", email: "", errorMessage: "Invalid Email! Please try again!" });
       this.AlertPro.open();
     } else {
       this._sendingReseatEmail(this);
@@ -118,8 +135,8 @@ export default class ForgetPasswordScreen extends Component {
               </View>
 
               <Button
-                label="Send"
-                onPress={this.handleSendPress}
+                label={this.state.timer == null ? "Send" : "Send (" + this.state.timer + ")"}
+                onPress={this._handleSendPress}
                 extraStyles={{ width: "100%", marginTop: 10 }}
               />
 
