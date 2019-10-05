@@ -21,7 +21,7 @@ export class FamilyAccountModelManage{
   }
 
   // get family account
-  // cb is the callback when get the data, takes a familyAccountModel
+  // takes a familyAccountModel
   getFamilyAccount(callback){
     let familyAccountRef = firebase.database().ref(this._path);
     familyAccountRef.once("value").then((snapshota) => {
@@ -32,10 +32,30 @@ export class FamilyAccountModelManage{
     });
   }
 
-  // TODO when sign up a account then use this to push to the database
-  setFamilyAccount(familyName){
-    
+  // check if comments count reaches a certain limit
+  // to unlock achievement
+  checkCommentCount(callback, count) {
+    let commentRef = firebase.database().ref(this._path + "/" + "comments/");
+    commentRef.once("value").then((snapshot) => {
+      if (snapshot.val() === count) {
+        // we unlock the achievement when directing from add member guide to homepage
+        callback(true);
+      } else {
+        callback(false);
+      }
+    });
   }
+
+  // update comment + 1
+  increaseComment(callback) {
+    let commentRef = firebase.database().ref(this._path + '/' + 'comments/');
+    commentRef.once("value").then((snapshot) => {
+      // set comment
+      commentRef.set(snapshot.val() + 1);
+      callback(true);
+    });
+  }
+
 }
 
 

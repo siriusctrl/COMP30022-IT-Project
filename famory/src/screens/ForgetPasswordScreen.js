@@ -100,7 +100,7 @@ export default class ForgetPasswordScreen extends Component {
           <View style={styles.logo}>{glass}</View>
           <View style={styles.form}>
             <Text style={{ fontSize: 20, marginTop: 10, marginBottom: 5 }}>
-              {"\n"}Create New Account{"\n"}
+              {"\n"}Enter Your Email{"\n"}
             </Text>
 
             <View style={{ width: "98%", paddingLeft: 16, paddingRight: 16, overflow: "visible" }}>
