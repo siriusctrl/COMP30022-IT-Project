@@ -14,12 +14,12 @@ export default class ImageButton extends React.Component{
     //alert(boarderColor);
     return(
       <Avatar
-        size="medium"
+        size="large"
         rounded
         title={name?name:" "}
         onPress={onPressHandler?onPressHandler:this._handleButtonPressed}
         activeOpacity={0.7}
-        overlayContainerStyle={{padding:2, backgroundColor: boarderColor?boarderColor:colors.TORCH_RED}}
+        overlayContainerStyle={{padding:3, backgroundColor: boarderColor?boarderColor:colors.TORCH_RED}}
         // showEditButton={showEditButton==null?true:false}
         ImageComponent={() => { 
           return(
