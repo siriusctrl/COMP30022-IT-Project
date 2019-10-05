@@ -1,14 +1,18 @@
 import React, {Component} from "react";
-import { Text, Image, StyleSheet, View, FlatList} from "react-native";
-import colors from "../config/colors";
-import { Icon, ListItem } from 'react-native-elements'
-import Carousel from "react-native-snap-carousel";
-import ArtCard from "../components/ArtCard";
+import { Text, Image, StyleSheet, View, FlatList, TouchableOpacity} from "react-native";
+import { Icon, ListItem } from 'react-native-elements';
+import { Button } from 'native-base';
 import { TouchableNativeFeedback } from "react-native-gesture-handler";
+import Carousel from "react-native-snap-carousel";
+import TouchableScale from 'react-native-touchable-scale';
+import LinearGradient from 'expo-linear-gradient';
+
+import ArtCard from "../components/ArtCard";
+import colors from "../config/colors";
 import FamilyAccountModelManage from "../controller/FamilyAccountModel"
 import MemberModelManage from "../controller/MemberModel";
-import { Button } from 'native-base';
 import Empty from "../components/Empty";
+
 
 export default class ArtGuide extends Component{
 
@@ -72,26 +76,43 @@ export default class ArtGuide extends Component{
 
   // render member list
   _renderArtefactListItem = ({ item }) => (
-    <ListItem
-      title={item.firstName + " " + item.lastName}
-      subtitle={item.role}
-      leftAvatar={{source: {uri: item.profileImage}}}
-      onPress = {() => {
-        this.setState(
-          {chosen: item}
-        )
-        item.getItems(
-          (membersArtefacts) => {
-            this.setState(
-              {
-                chosenMemberAllArtefactsAreHere: Object.values(membersArtefacts)
-              }
-            )
-          }
-        )
-        this._changeStage(false)
-      }}
-    />
+    <View style={{marginBottom:10}}>
+      <ListItem
+        component={TouchableScale}
+        fraction={3}
+        tension={100}
+        activeScale={0.95}
+        underlayColor="#FFF"
+        linearGradientProps={{
+          colors: ['#F0F8FF', '#87CEFA'],
+          start: [1, 0],
+          end: [0.2, 0],
+        }}
+        containerStyle={{borderRadius:20, backgroundColor:"transparent", width:"95%"}}
+        ViewComponent={LinearGradient}
+        chevron={{ color: 'black' }}
+        title={item.firstName + " " + item.lastName}
+        subtitle={item.role}
+        titleStyle={{ color: 'black', fontWeight: 'bold' }}
+        subtitleStyle={{ color: 'black' }}
+        leftAvatar={{source: {uri: item.profileImage}}}
+        onPress = {() => {
+          this.setState(
+            {chosen: item}
+          )
+          item.getItems(
+            (membersArtefacts) => {
+              this.setState(
+                {
+                  chosenMemberAllArtefactsAreHere: Object.values(membersArtefacts)
+                }
+              )
+            }
+          )
+          this._changeStage(false)
+        }}
+      />
+    </View>
   )
 
   // stages of guide

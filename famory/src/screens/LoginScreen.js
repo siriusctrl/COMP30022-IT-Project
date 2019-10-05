@@ -173,7 +173,7 @@ export default class LoginScreen extends Component{
         </View>
 
       <View style={{margin:30}}>
-            <Text style={{ color: colors.WHITE }} onPress={() => {this.props.navigation.navigate("ForgetPassword")}}>
+        <Text style={{ color: colors.WHITE, textDecorationLine: 'underline'}} onPress={() => {this.props.navigation.navigate("ForgetPassword")}}>
           {"\n"}
           Forgot Your Password?
         </Text>
