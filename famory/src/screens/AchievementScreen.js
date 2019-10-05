@@ -302,8 +302,6 @@ export default class AchievementScreen extends Component {
           onBackdropPress={() => this.toggleModal(0)}
           animationIn="fadeInUp"
           animationOut="fadeOutDown"
-          animationInTiming={600}
-          animationOutTiming={600}
           style={styles.modalStyle}
         >
           <View style={{flex:1, justifyContent:"center", alignItems:"center", marginLeft: 3}}>
@@ -336,8 +334,6 @@ export default class AchievementScreen extends Component {
           onBackdropPress={() => this.toggleModal(1)}
           animationIn="fadeInUp"
           animationOut="fadeOutDown"
-          animationInTiming={600}
-          animationOutTiming={600}
           style={styles.modalStyle}
         >
           <View style={{flex:1, justifyContent:"center", alignItems:"center", marginLeft: 3}}>
@@ -370,8 +366,6 @@ export default class AchievementScreen extends Component {
           onBackdropPress={() => this.toggleModal(2)}
           animationIn="fadeInUp"
           animationOut="fadeOutDown"
-          animationInTiming={600}
-          animationOutTiming={600}
           style={styles.modalStyle}
         >
           <View style={{flex:1, justifyContent:"center", alignItems:"center", marginLeft: 3}}>
@@ -404,8 +398,6 @@ export default class AchievementScreen extends Component {
           onBackdropPress={() => this.toggleModal(3)}
           animationIn="fadeInUp"
           animationOut="fadeOutDown"
-          animationInTiming={600}
-          animationOutTiming={600}
           style={styles.modalStyle}
         >
           <View style={{flex:1, justifyContent:"center", alignItems:"center", marginLeft: 3}}>
@@ -439,8 +431,6 @@ export default class AchievementScreen extends Component {
           onBackdropPress={() => this.toggleModal(4)}
           animationIn="fadeInUp"
           animationOut="fadeOutDown"
-          animationInTiming={600}
-          animationOutTiming={600}
           style={styles.modalStyle}
         >
           <View style={{flex:1, justifyContent:"center", alignItems:"center", marginLeft: 3}}>
@@ -473,8 +463,6 @@ export default class AchievementScreen extends Component {
           onBackdropPress={() => this.toggleModal(5)}
           animationIn="fadeInUp"
           animationOut="fadeOutDown"
-          animationInTiming={600}
-          animationOutTiming={600}
           style={styles.modalStyle}
         >
           <View style={{flex:1, justifyContent:"center", alignItems:"center", marginLeft: 3}}>
@@ -507,8 +495,6 @@ export default class AchievementScreen extends Component {
           onBackdropPress={() => this.toggleModal(6)}
           animationIn="fadeInUp"
           animationOut="fadeOutDown"
-          animationInTiming={600}
-          animationOutTiming={600}
           style={styles.modalStyle}
         >
           <View style={{flex:1, justifyContent:"center", alignItems:"center", marginLeft: 3}}>
@@ -542,8 +528,6 @@ export default class AchievementScreen extends Component {
           onBackdropPress={() => this.toggleModal(7)}
           animationIn="fadeInUp"
           animationOut="fadeOutDown"
-          animationInTiming={600}
-          animationOutTiming={600}
           style={styles.modalStyle}
         >
           <View style={{flex:1, justifyContent:"center", alignItems:"center", marginLeft: 3}}>
@@ -577,8 +561,6 @@ export default class AchievementScreen extends Component {
           onBackdropPress={() => this.toggleModal(8)}
           animationIn="fadeInUp"
           animationOut="fadeOutDown"
-          animationInTiming={600}
-          animationOutTiming={600}
           style={styles.modalStyle}
         >
           <View style={{flex:1, justifyContent:"center", alignItems:"center", marginLeft: 3}}>

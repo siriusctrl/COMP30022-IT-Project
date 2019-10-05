@@ -253,9 +253,10 @@ export default class ArtefactItem extends Component{
           onBackdropPress={() => this.toggleAR()}
           animationIn="slideInUp"
           animationOut="fadeOutDown"
+          animationInTiming={600}
           style={styles.arStyle}
         >
-          <View style={{flex:1, justifyContent:"center", alignItems:"center", flexDirection:"row"}}>
+          <View style={{flex:1, justifyContent:"center", alignItems:"center", flexDirection:"row", borderRadius: 15,}}>
             <WebView source={{ uri: strings.ARLINK }} />
           </View>
         </Modal>
