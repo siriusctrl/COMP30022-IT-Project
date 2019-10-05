@@ -141,7 +141,8 @@ export default class HomePageScreen extends Component{
             Component={TouchableScale}
             activeScale={0.95}
             fraction={3}
-            tension={150}
+            // control how strong the the resilience is
+            tension={100}
           />
         </View>
       );
