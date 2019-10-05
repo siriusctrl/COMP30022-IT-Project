@@ -8,6 +8,8 @@ import { TouchableNativeFeedback } from "react-native-gesture-handler";
 import FamilyAccountModelManage from "../controller/FamilyAccountModel"
 import { Button, Icon } from 'native-base';
 import Empty from "../components/Empty";
+import TouchableScale from 'react-native-touchable-scale';
+import LinearGradient from 'expo-linear-gradient';
 
 import { CommunityModelManage } from "../controller/CommunityModel";
 
@@ -76,30 +78,45 @@ export default class CommunityAddArtefactScreen extends Component {
 
   // render member list
   _renderArtefactListItem = ({ item }) => (
-    <ListItem
-      title={item.firstName + " " + item.lastName}
-      subtitle={item.role}
-      leftAvatar={{source: {uri: item.profileImage}}}
-      onPress = {() => {
-        this.setState({ chosen: item });
-        item.getItems(
-          (membersArtefacts) => {
-            // get rid of non-image artefacts
-            let allArtefacts = Object.values(membersArtefacts);
-            let images = []
-            for (let artefact of allArtefacts) {
-              if (artefact.type === 'image') {
-                images.push(artefact);
+    <View style={{ marginBottom: 10 }}>
+      <ListItem
+        component={TouchableScale}
+        activeScale={0.95}
+        underlayColor="#FFF"
+        linearGradientProps={{
+          colors: ['#FAEBD7', colors.COMMUNITY],
+          start: [1, 0],
+          end: [0.2, 0],
+        }}
+        containerStyle={{ borderRadius: 20, backgroundColor: "transparent", width: "95%" }}
+        ViewComponent={LinearGradient}
+        chevron={{ color: 'black' }}
+        titleStyle={{ color: 'black', fontWeight: 'bold' }}
+        subtitleStyle={{ color: 'black' }}
+        title={item.firstName + " " + item.lastName}
+        subtitle={item.role}
+        leftAvatar={{source: {uri: item.profileImage}}}
+        onPress = {() => {
+          this.setState({ chosen: item });
+          item.getItems(
+            (membersArtefacts) => {
+              // get rid of non-image artefacts
+              let allArtefacts = Object.values(membersArtefacts);
+              let images = []
+              for (let artefact of allArtefacts) {
+                if (artefact.type === 'image') {
+                  images.push(artefact);
+                }
               }
+              this.setState({
+                chosenMemberAllArtefactsAreHere: images
+              });
             }
-            this.setState({
-              chosenMemberAllArtefactsAreHere: images
-            });
-          }
-        )
-        this._changeStage(false)
-      }}
-    />
+          )
+          this._changeStage(false)
+        }}
+      />
+    </View>
   )
 
   // stages of guide
@@ -245,13 +262,18 @@ export default class CommunityAddArtefactScreen extends Component {
             <TouchableNativeFeedback style={{borderRadius: 2, elevation: 1}}>
               <Button style={guideStyle.bottomButtonLeft} iconLeft light onPress={() => this._changeStage(true)}>
                 <Icon name='arrow-back' />
-                <Text style={{color: colors.COMMUNITY, textAlign: "center", textAlignVertical: "center", fontSize: 16, marginHorizontal: 8}}>BACK</Text>
+                <Text style={{color: colors.COMMUNITY, textAlign: "center", textAlignVertical: "center", fontSize: 16, marginHorizontal: 8}}>
+                  BACK
+                </Text>
               </Button>
             </TouchableNativeFeedback>
           </View>
         </View>: (
         <View style={{flex: 4, flexDirection: "column", paddingTop: 23}}>
-          <Text style={{textAlign: 'center', fontSize: 22, textAlignVertical: 'center', width: '93%'}}>Sorry, no image artefact is available for this member.</Text>
+          <Text style={{textAlign: 'center', fontSize: 18, textAlignVertical: 'center', width: '93%', color:colors.SILVER}}>
+            Sorry, no image artefact is available for this member.
+          </Text>
+
           <View style={guideStyle.bottomButtonCn}>
             <TouchableNativeFeedback style={{borderRadius: 2, elevation: 1}}>
               <Button style={guideStyle.bottomButtonLeft} iconLeft light onPress={() => this._changeStage(true)}>

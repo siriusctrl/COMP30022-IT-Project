@@ -22,6 +22,7 @@ const strings = {
     BRONZETROPHY: "https://firebasestorage.googleapis.com/v0/b/fir-one-28de9.appspot.com" +
       "/o/bronze-trophy.png?alt=media&token=e69b1756-29cd-4016-bd10-5924ec51c57c",
     DOWNLOADLINK: "https://tiny.cc/de5fdz",
+    ARLINK: "https://sketchfab.com/models/1ba7ae93249946779e0a83478fef853b/embed?ui_infos=0",
   };
   
   export default strings;
