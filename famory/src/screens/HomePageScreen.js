@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import { Text, View, FlatList, StyleSheet, TouchableOpacity } from "react-native";
+import { Text, View, FlatList, StyleSheet, TouchableOpacity, Alert } from "react-native";
 import Modal from "react-native-modal";
 import colors from "../config/colors";
 import strings from "../config/strings";
@@ -9,6 +9,7 @@ import ImageButton from "../components/ImageButton";
 import { Avatar } from "react-native-elements";
 import Button from "../components/Button";
 import TouchableScale from 'react-native-touchable-scale';
+import { Icon } from 'react-native-elements'
 
 import FamilyAccountModelManage from "../controller/FamilyAccountModel";
 import MemberModelManage from "../controller/MemberModel";
@@ -20,7 +21,7 @@ export default class HomePageScreen extends Component{
     visibleModal: false,
     mode: "view",
     familyAccount: null,
-    avatars: [{id:1, empty:true, gen:" "},],
+    avatars: [],
     memberModel: {},
     memberRdy : false,
     familyName: "Family Tag",
@@ -130,9 +131,9 @@ export default class HomePageScreen extends Component{
    */
   avatarConstructor = (item) => {
     let jsx = [];
-    for (m of item.members) {
+    for (let m of item.members) {
       jsx.push(
-        <View style={{marginRight: 11, marginBottom: 16}}>
+        <View style={{marginRight: 14, marginBottom: 16, elevation: 6}}>
           <ImageButton
             name={" "}
             imageSource={{uri:m.profileImage}}
@@ -142,18 +143,42 @@ export default class HomePageScreen extends Component{
             activeScale={0.95}
             fraction={3}
             tension={150}
+            style={{width: 64, height: 64}}
           />
+          {this.state.mode==="edit"? 
+            <TouchableOpacity onPress={() => {
+              Alert.alert(
+                'Delete member ' + m.firstName + " " + m.lastName + " ?",
+                m.firstName + " " + m.lastName + " and his " + Object.keys(m.item).length + " Artefacts will be gone.",
+                [
+                  {
+                    text: 'Cancel',
+                    style: 'cancel',
+                  },
+                  {text: 'OK', onPress: () => {this.state.familyAccount.delMember(
+                      (familyAccount) => {
+                        this.setModel(familyAccount);
+                      }, m.memberId
+                    )}
+                  },
+                ],
+                {cancelable: false},
+              )}} style={{position: "absolute", right: 0, Top: 0, width: 30, height: 30, borderRadius: 15, elevation: 6}}>
+              <View style={{backgroundColor: colors.TORCH_RED, width: 30, height: 30, borderRadius: 15, borderColor: colors.WHITE, borderWidth: 2, justifyContent: "center", alignItems: "center"}}>
+                <Icon name='clear' size={17} color={colors.WHITE}/>
+              </View>
+            </TouchableOpacity>:[]}
         </View>
       );
     }
 
     if(this.state.mode==="edit"){
       jsx.push(
-        <View style={{marginBottom:16}}>
+        <View style={{marginBottom:16, width: 64, height: 64}}>
           <Avatar
             icon={{name:"add", type:"ion-icon"}}
             rounded
-            size={"medium"}
+            size={64}
             onPress={() => {this._handleAddPressed(item)}}
             activeOpacity={0.7}
             Component={TouchableScale}
@@ -172,35 +197,15 @@ export default class HomePageScreen extends Component{
     if (item.members){
       return (
         <View style={styles.flatListContainer}>
-          <View style={{flex: 1}}>
-            <Text style={{fontSize:15, backgroundColor:"transparent"}}>
+          <View style={{flex: 1, paddingRight: 2}}>
+            <Icon name="supervisor-account" color={colors.SILVER}/>
+            <Text style={{fontSize:12, textAlign: "center", color: colors.SILVER}}>
               {item.gen}
             </Text>
           </View>
 
-          <View style={{flex: 4, flexDirection: "row", justifyContent: "flex-start", flexWrap:"wrap", alignContent:"space-around"}}>
+          <View style={{flex: 4.3, flexDirection: "row", justifyContent: "flex-start", flexWrap:"wrap", alignContent:"space-around", paddingTop: 16}}>
            {this.avatarConstructor(item)}
-          </View>
-        </View>
-      );
-    } else {
-      return (
-        <View style={styles.flatListContainer}>
-          <View style={{flex: 1}}>
-            <Text style={{fontSize:15, backgroundColor:"transparent"}}>
-              <Empty/>
-            </Text>
-          </View>
-
-          <View style={{flex: 4, flexDirection: "row", justifyContent: "flex-start", flexWrap:"wrap", alignContent:"space-around"}}>
-            {/* the marginbotton to align the separator with the bottom of family tag */}
-            <View style={{marginRight: 11, marginBottom: 10}}>
-              <ImageButton
-                name={" "}
-                boarderColor="transparent"
-                showEditButton={false}
-              />
-            </View>
           </View>
         </View>
       );
@@ -260,17 +265,18 @@ export default class HomePageScreen extends Component{
     return (
       <View style={{flex: 1}}>
 
-        <View>
+        <View style={{flex: 1, flexDirection: "column", justifyContent: "center", alignItems: "center"}}>
           <FlatList 
             //data={this.avatar}
             data={this.state.avatars}
             extraData={this.state}
             renderItem={this._renderItem}
             ItemSeparatorComponent={this.FlatListItemSeparator}
+            style={{width: "100%", height: "80%", marginTop: 76, marginBottom: 76}}
           />
         </View>
 
-        <View style={{width: "100%", height: 76, position:'absolute', top:0}}>
+        <View style={{width: "100%", height: 76, position:'absolute', top:0, borderRadius: 12}}>
           <View style={{flex:1, backgroundColor:colors.LIGHTBLUE, flexDirection:"row", paddingLeft: 12, alignItems: "center"}}>
             <Text style={{fontSize:25, backgroundColor:"transparent", flex: 7, color: colors.WHITE}}>
               {this.state.familyName}
@@ -278,6 +284,8 @@ export default class HomePageScreen extends Component{
             {this._renderEditText()}
           </View>
         </View>
+
+        
         
         <View style={{width: "100%", height: 76, position:'absolute', bottom:0}}>
 
@@ -305,41 +313,6 @@ export default class HomePageScreen extends Component{
               nameOfIcon="glasses"/>
             <Empty/>
           </View>
-        </View>
-
-        <View style={{ flex: 1, alignItems:"center", justifyContent:"center"}}>
-          <Modal 
-            isVisible={this.state.visibleModal} 
-            style={styles.modal}
-            onBackdropPress={this._toggleModal}
-            onBackButtonPress={this._toggleModal}
-            animationInTiming={500}
-            animationOutTiming={300}
-            animationIn={'zoomInUp'}
-            animationOut={'fadeOut'}
-          >
-
-            <View style={{flex:1, justifyContent:"center", alignItems:"center"}}>
-              <View style={{flex:4, flexDirection:"row", marginVertical:10}}>
-
-                <View style={{marginHorizontal:10}}>
-                  <Avatar
-                  icon={{name:"more-horiz", type:"material"}} 
-                  rounded
-                  size={"medium"}/>
-                </View>
-
-                <Avatar
-                icon={{name:"more-horiz", type:"material"}} 
-                rounded
-                size={"medium"}/>
-
-              </View>
-              <View style={{flex:1}}>
-                <Button label="Hide modal" onPress={this._toggleModal} extraStyles={{backgroundColor:colors.TORCH_RED, marginVertical:10}}/>
-              </View>
-            </View>
-          </Modal>
         </View>
 
         <Modal
@@ -403,8 +376,7 @@ const styles = StyleSheet.create({
     backgroundColor: "transparent", 
     flexDirection:"row", 
     alignItems:'center', 
-    paddingLeft: 12, 
-    paddingTop: 16
+    justifyContent: "center",
   },
   achievementModalStyle: {
     borderRadius: 15,

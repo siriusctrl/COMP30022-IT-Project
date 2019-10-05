@@ -117,10 +117,15 @@ export class FamilyAccount{
   }
 
   // del member
-  delMember(memberId){
-    if(this.member[memberId]){
-      
-    }
+  delMember(callback, memberId){
+      for(let i of Object.keys(this.familyMember)){
+        if (this.familyMember[i] == memberId){
+          delete this.familyMember[i]
+          delete this.member[memberId]
+          firebase.database().ref(this._path + "/familyMember" + "/" + i).remove().then(() => callback(this));
+          break;
+        }
+      }
   }
 }
 
