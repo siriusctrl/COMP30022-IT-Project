@@ -179,7 +179,7 @@ export default class HomePageScreen extends Component{
           </View>
         </View>
       );
-    }else{
+    } else {
       return (
         <View style={styles.flatListContainer}>
           <View style={{flex: 1}}>
