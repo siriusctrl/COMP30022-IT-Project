@@ -1,59 +1,38 @@
 import React, { Component } from "react";
 import { StyleSheet, View, TouchableOpacity, Text, Animated } from "react-native";
-import Modal from "react-native-modal";
-import LottieView from "lottie-react-native";
-import colors from "../config/colors";
+import Button from "../components/Button";
 
 export default class TestScreen extends Component {
 
   state = {
     isAchievementVisible: false,
+    timer:null,
   }
 
-  // navigations to achievement page
-  handleAchievementPress = () => {
-    this.setState({
-      isAchievementVisible: false,
-    })
-    this.props.navigation.navigate('Achievement');
-  };
+  _handleSendPress = () => {
+    if(this.state.timer == null){
+      alert("Email has been sent");
+      this.setState({timer:60});
+      this.countDown = setInterval(() => {
+        this.setState({timer: this.state.timer-1});
+        if(this.state.timer === 0){
+          this.setState({timer:null});
+          clearInterval(this.countDown);
+        }
+      }, 2000);
+    } else {
+      alert("please retry in " + this.state.timer + " second(s)");
+    }
+  }
 
   render() {
     return (
       <View style={styles.container}>
-        <View style={styles.buttonContainer}>
-          <TouchableOpacity
-            onPress={() => {this.setState({isAchievementVisible: true})}}
-            style={styles.button}
-          >
-            <Text style={styles.text}>CUSTOM</Text>
-          </TouchableOpacity>
-        </View>
-
-        <Modal
-          isVisible={this.state.isAchievementVisible}
-          onBackdropPress={() => {this.setState({isAchievementVisible: false})}}
-          animationIn="fadeInUp"
-          animationOut="fadeOutDown"
-          style={styles.modalStyle}
-          onShow={()=>{ 
-            this.animation.play();
-          }}
-        >
-          <LottieView
-            ref={animation => {
-              this.animation = animation;
-            }}
-            loop={false}
-            source={require('../assets/animation/trophy.json')}
-            style={{marginTop: -50,}}
-          />
-
-          <TouchableOpacity onPress={this.handleAchievementPress}>
-            <Text style={{textAlign: 'center', fontSize: 22, color: '#fff', marginTop: 200,}}>You have unlocked an</Text>
-            <Text style={{textAlign: 'center', fontSize: 22, color: '#FFD700'}}>Achievement!</Text>
-          </TouchableOpacity>
-        </Modal>
+        <Button
+          label={this.state.timer==null?"Send":"Send ("+this.state.timer+")"}
+          onPress={this._handleSendPress}
+          extraStyles={{ width: "80%"}}
+        />
       </View>
     );
   }
