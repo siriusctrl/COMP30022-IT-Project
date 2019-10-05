@@ -130,40 +130,40 @@ export default class CommunityCommentScreen extends Component {
 
     return (
       <View style={styles.container}>
- 
-        <ScrollView style={styles.RectangleShapeView}>
+        <View style={{flex:5, elevation:10, backgroundColor:"white", borderRadius:17}}>
+          <ScrollView style={styles.RectangleShapeView}>
 
-          {(this.state.comments.length === 4) ? (
+            {(this.state.comments.length === 4) ? (
+              <View style={styles.Comments}>
+                <BigMeteor></BigMeteor>
+                <View style={styles.CommentArea}>
+                  <Text style={styles.TextStyle}>{this.state.comments[3]}</Text>
+                </View>
+              </View>
+            ) : null}
+
             <View style={styles.Comments}>
-              <BigMeteor></BigMeteor>
+              <Comet></Comet>
               <View style={styles.CommentArea}>
-                <Text style={styles.TextStyle}>{this.state.comments[3]}</Text>
+                <Text style={styles.TextStyle}>{this.state.comments[0]}</Text>
               </View>
             </View>
-          ) : null}
 
-          <View style={styles.Comments}>
-            <Comet></Comet>
-            <View style={styles.CommentArea}>
-              <Text style={styles.TextStyle}>{this.state.comments[0]}</Text>
+            <View style={styles.Comments}>
+              <Ufo></Ufo>
+              <View style={styles.CommentArea}>
+                <Text style={styles.TextStyle}>{this.state.comments[1]}</Text>
+              </View>
             </View>
-          </View>
 
-          <View style={styles.Comments}>
-            <Ufo></Ufo>
-            <View style={styles.CommentArea}>
-              <Text style={styles.TextStyle}>{this.state.comments[1]}</Text>
+            <View style={styles.Comments}>
+              <Rocket></Rocket>
+              <View style={styles.CommentArea}>
+                <Text style={styles.TextStyle}>{this.state.comments[2]}</Text>
+              </View>
             </View>
-          </View>
-
-          <View style={styles.Comments}>
-            <Rocket></Rocket>
-            <View style={styles.CommentArea}>
-              <Text style={styles.TextStyle}>{this.state.comments[2]}</Text>
-            </View>
-          </View>
-
-        </ScrollView>
+          </ScrollView>
+        </View>
         <Empty/>
         <Empty/>
         <Empty/>
@@ -263,6 +263,7 @@ const styles = StyleSheet.create({
     width: "95%",
     marginLeft: 9,
     marginTop: 10,
+    flex:1,
   },
   RectangleShapeView: {
     //justifyContent: "center",
