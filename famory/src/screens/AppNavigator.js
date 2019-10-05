@@ -4,7 +4,7 @@ import SignUpScreen from "./SignUpScreen";
 import DebugScreen from "./DebugScreen";
 import HomePage from "./HomePageScreen";
 import CommunityMainScreen from "./CommunityMainScreen";
-import MemberPr from "./MemberProfileScreen";
+import MemberProfile from "./MemberProfileScreen";
 import AccountHoldScreen from "./AccountHoldScreen";
 import TestScreen from "./TestScreen";
 import CommunityCommentScreen from "./CommunityCommentScreen";
@@ -45,7 +45,7 @@ const AppNavigator = createStackNavigator({
   CommunityComment: {screen: CommunityCommentScreen},
   CommunityAdd: {screen: CommunityAddArtefactScreen},
   AccountHold: {screen: AccountHoldScreen},
-  MemberPr: {screen: MemberPr},
+  MemberProfile: {screen: MemberProfile},
   EditProfile: {screen: EditProfileScreen},
   AddArtefactFromMember: {screen: AddArtefactFromMemberGuideScreen},
   ArtefactItem: {screen: ArtefactItem},

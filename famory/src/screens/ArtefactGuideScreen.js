@@ -4,6 +4,7 @@ import colors from "../config/colors";
 import { Button, Icon, ListItem, Body } from 'native-base';
 import { Ionicons, FontAwesome } from '@expo/vector-icons';
 import { TouchableNativeFeedback } from "react-native-gesture-handler";
+import * as Font from 'expo-font';
 
 import { Video } from 'expo-av';
 import { _handleItemPicked, _pickVideo, _uploadToFirebase, _pickImage, _uploadItem } from "../controller/fileUtilitiesSync"
@@ -16,13 +17,18 @@ export default class ArtefactGuide extends Component{
     header: null
   }
 
-  componentDidMount(){
+  async componentDidMount() {
+    await Font.loadAsync({
+      "almond": require('../assets/fonts/Almond.ttf'),
+      ...Ionicons.font,
+    });
+    this.state.fontLoaded = true;
+    this.forceUpdate();
     if(this.props.navigation.getParam("member", null)){
       this.setState({
         memberModel: this.props.navigation.getParam("member", null)
       })
     }
-    alert(this.props.navigation.getParam("member", null))
   }
 
   state = {
@@ -35,6 +41,7 @@ export default class ArtefactGuide extends Component{
     videoUploaded: false,
     currentStage: "addArtefactFromNewInitial",
     currentPurpose: "addNewArtefact",
+    fontLoaded: false,
   };
 
   initialStage = {
@@ -454,12 +461,11 @@ export default class ArtefactGuide extends Component{
 
     if (this.state.selected != 0){
       _uploadItem(this.state.preview, (uri) => {
-        alert(uri)
         ItemModelManage.getInstance().setItem((item) => {
           member.updateSelf(
             (updatedMember) => {
-              this.props.navigation.getParam("profileScreen", null).setModel(updatedMember)
-              this.props.navigation.goBack()
+              this.props.navigation.getParam("profileScreen", null).setModel(updatedMember);
+              this.props.navigation.navigate('MemberProfile', {prevScreen: 'ArtefactGuide'});
             }
           )
         }, 
@@ -470,13 +476,11 @@ export default class ArtefactGuide extends Component{
         member.updateSelf(
           (updatedMember) => {
             this.props.navigation.getParam("profileScreen", null).setModel(updatedMember)
-            this.props.navigation.goBack()
+            this.props.navigation.navigate('MemberProfile', {prevScreen: 'ArtefactGuide'});
           }
         )
       }, details, member, t);
     }
-
-    alert("finished" + purpose);
   }
 
   // change text, give a object and the update specific text
@@ -490,6 +494,9 @@ export default class ArtefactGuide extends Component{
   }
 
   render() {
+
+    if (this.state.fontLoaded === false) return null;
+
     return(
       <View style={{flexDirection: "column", flex: 1}}>
         <View style={{paddingTop: 26, paddingHorizontal: 26, flex: 1, justifyContent: "flex-start", alignItems: "center", flexDirection: "row"}}>

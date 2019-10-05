@@ -45,7 +45,6 @@ export default class AccountHoldScreen extends Component {
     familyName: "",
     dateCreated: "",
     contactVisible: false,
-    securityVisible: false,
     accountAvatar: null,
     spinner: true,
   };
@@ -176,65 +175,27 @@ export default class AccountHoldScreen extends Component {
             </Body>
           </ListItem>
 
-          <View style={styles.separators}></View>
+          <View style={styles.separators} />
 
-          <ListItem icon noBorder onPress={() => {this.setState({ securityVisible: true });}}>
+          <ListItem icon noBorder onPress={() => {this.props.navigation.navigate("ForgetPassword")}}>
             <Left>
-              <Setting title = "setting" >
+              <Setting title = "setting" style={{marginLeft: 3}}>
               </Setting>
             </Left>
             <Body>
-            <Text style={{fontSize: 16}}>Account Security</Text>
+            <Text style={{fontSize: 16, marginLeft: 3}}>Reset Password</Text>
             </Body>
-
-            <Dialog
-              visible={this.state.securityVisible}
-              dialogAnimation={new SlideAnimation({
-                slideFrom: 'bottom',
-              })}
-              dialogTitle={<DialogTitle title="Reset Passwords" />}
-              footer={
-                <DialogFooter>
-                  <DialogButton
-                    text="Dismiss"
-                    onPress={() => {this.setState({ securityVisible: false });}}
-                  />
-                  <DialogButton
-                    text="Confirm"
-                    onPress={() => {this.setState({ securityVisible: false });}}
-                  />
-                </DialogFooter>
-              }
-            >
-              <DialogContent>
-                <Text style={styles.securityText}>New Password</Text>
-                <TextInput
-                  style={styles.blackText}
-                  placeholderTextColor={"#D3D3D3"}
-                  maxLength={20}
-                  secureTextEntry={true}
-                />
-                <Text style={styles.securityText}>Confirm Password</Text>
-                <TextInput
-                  style={styles.blackText}
-                  placeholderTextColor={"#D3D3D3"}
-                  maxLength={20}
-                  secureTextEntry={true}
-                />
-              </DialogContent>
-
-            </Dialog>
 
           </ListItem>
 
           <ListItem icon noBorder onPress={() => {this.setState({ contactVisible: true });}}>
 
             <Left>
-              <Accountmail title = "mail" ></Accountmail>
+              <Accountmail title = "mail" style={{marginLeft: 3}} />
             </Left>
 
             <Body>
-            <Text style={{fontSize: 16}}>Contact Support</Text>
+            <Text style={{fontSize: 16, marginLeft: 3}}>Contact Support</Text>
             </Body>
 
             <Dialog
