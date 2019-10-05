@@ -262,13 +262,18 @@ export default class CommunityAddArtefactScreen extends Component {
             <TouchableNativeFeedback style={{borderRadius: 2, elevation: 1}}>
               <Button style={guideStyle.bottomButtonLeft} iconLeft light onPress={() => this._changeStage(true)}>
                 <Icon name='arrow-back' />
-                <Text style={{color: colors.COMMUNITY, textAlign: "center", textAlignVertical: "center", fontSize: 16, marginHorizontal: 8}}>BACK</Text>
+                <Text style={{color: colors.COMMUNITY, textAlign: "center", textAlignVertical: "center", fontSize: 16, marginHorizontal: 8}}>
+                  BACK
+                </Text>
               </Button>
             </TouchableNativeFeedback>
           </View>
         </View>: (
         <View style={{flex: 4, flexDirection: "column", paddingTop: 23}}>
-          <Text style={{textAlign: 'center', fontSize: 22, textAlignVertical: 'center', width: '93%'}}>Sorry, no image artefact is available for this member.</Text>
+          <Text style={{textAlign: 'center', fontSize: 18, textAlignVertical: 'center', width: '93%', color:colors.SILVER}}>
+            Sorry, no image artefact is available for this member.
+          </Text>
+
           <View style={guideStyle.bottomButtonCn}>
             <TouchableNativeFeedback style={{borderRadius: 2, elevation: 1}}>
               <Button style={guideStyle.bottomButtonLeft} iconLeft light onPress={() => this._changeStage(true)}>

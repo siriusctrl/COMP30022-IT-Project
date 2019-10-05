@@ -64,7 +64,7 @@ export default class WelcomeScreen extends Component{
 
           <TouchableWithoutFeedback onPress={this.handleNewJourneyPress}>
             <View>
-              <Text style={{color:colors.WELCOMEBLUE, textDecorationLine: 'underline'}}>
+              <Text style={{color:"white", textDecorationLine: 'underline'}}>
                 Start your journey?
               </Text>
             </View>
