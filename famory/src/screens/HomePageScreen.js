@@ -142,13 +142,8 @@ export default class HomePageScreen extends Component{
             Component={TouchableScale}
             activeScale={0.95}
             fraction={3}
-<<<<<<< HEAD
-            tension={150}
-            style={{width: 64, height: 64}}
-=======
-            // control how strong the the resilience is
             tension={100}
->>>>>>> master
+            style={{width: 64, height: 64}}
           />
           {this.state.mode==="edit"? 
             <TouchableOpacity onPress={() => {
