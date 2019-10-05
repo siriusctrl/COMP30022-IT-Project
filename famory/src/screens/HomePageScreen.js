@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import { Text, View, FlatList, StyleSheet, TouchableOpacity, Alert } from "react-native";
+import { Text, View, FlatList, StyleSheet, TouchableOpacity, Alert, Animated, Easing } from "react-native";
 import Modal from "react-native-modal";
 import colors from "../config/colors";
 import strings from "../config/strings";
@@ -26,6 +26,7 @@ export default class HomePageScreen extends Component{
     memberRdy : false,
     familyName: "Family Tag",
     isAchievementVisible: false,
+    familyListMarTop: new Animated.Value(700),
   };
   
   static navigationOptions = {
@@ -217,13 +218,13 @@ export default class HomePageScreen extends Component{
   _renderEditText = () => {
     if (this.state.mode === "view"){
       return(
-        <Text style={{fontSize:15, flex: 1, color: colors.WHITE}} onPress={this._handleEditPress}>
+        <Text style={{fontSize:15, flex: 1, color: colors.DODGER_BLUE, height: 32, textAlignVertical: "center"}} onPress={this._handleEditPress}>
           EDIT
         </Text>
       );
     } else {
       return(
-        <Text style={{fontSize:15, flex: 1, color: colors.WHITE}} onPress={this._handleEditPress}>
+        <Text style={{fontSize:15, flex: 1, color: colors.DODGER_BLUE, height: 32, textAlignVertical: "center"}} onPress={this._handleEditPress}>
           DONE
         </Text>
       );
@@ -262,32 +263,40 @@ export default class HomePageScreen extends Component{
 
   // the entire JSX to render the whole screen
   render() {
-    return (
-      <View style={{flex: 1}}>
 
-        <View style={{flex: 1, flexDirection: "column", justifyContent: "center", alignItems: "center"}}>
+    let topBarHeight = 89
+
+    Animated.timing(this.state.familyListMarTop, {
+      toValue: 32, // 目标值
+      duration: 1200,
+      easing: Easing.out(Easing.exp)
+    }).start();
+
+    return (
+      <View style={{flex: 1, backgroundColor: colors.HOMESCREENLIGHTBLUE}}>
+
+        <Animated.View style={[{flex: 1, flexDirection: "column", justifyContent: "center", alignItems: "center", paddingBottom: 76, borderTopRightRadius: 12, borderTopLeftRadius: 12, overflow: "hidden", backgroundColor: colors.WHITE, elevation: 12}, {marginTop: this.state.familyListMarTop}]}>
+          <View style={{width: "100%", height: topBarHeight, position:'absolute', top: 0}}>
+            <View style={{flex:1, flexDirection:"row", paddingLeft: 17, alignItems: "center"}}>
+              <Text style={{fontSize:25, backgroundColor:"transparent", flex: 7, color: colors.BLACK}}>
+                {this.state.familyName}
+              </Text>
+              {this._renderEditText()}
+            </View>
+          </View>
           <FlatList 
             //data={this.avatar}
             data={this.state.avatars}
             extraData={this.state}
             renderItem={this._renderItem}
             ItemSeparatorComponent={this.FlatListItemSeparator}
-            style={{width: "100%", height: "80%", marginTop: 76, marginBottom: 76}}
+            style={{width: "100%", height: "80%", marginTop: topBarHeight}}
           />
-        </View>
-
-        <View style={{width: "100%", height: 76, position:'absolute', top:0, borderRadius: 12}}>
-          <View style={{flex:1, backgroundColor:colors.LIGHTBLUE, flexDirection:"row", paddingLeft: 12, alignItems: "center"}}>
-            <Text style={{fontSize:25, backgroundColor:"transparent", flex: 7, color: colors.WHITE}}>
-              {this.state.familyName}
-            </Text>
-            {this._renderEditText()}
-          </View>
-        </View>
+        </Animated.View>
 
         
         
-        <View style={{width: "100%", height: 76, position:'absolute', bottom:0}}>
+        <View style={{width: "100%", height: 76, position:'absolute', bottom:0, elevation: 52, backgroundColor: colors.HOMESCREENLIGHTBLUE}}>
 
           <View style={styles.buttonContainer}>
             <Empty/>
@@ -359,7 +368,6 @@ const styles = StyleSheet.create({
   },
   buttonContainer:{
     flex:1, 
-    backgroundColor:colors.HOMESCREENLIGHTBLUE, 
     flexDirection:"row", 
     padding:10, 
     justifyContent:"space-between", 
