@@ -173,14 +173,14 @@ export default class MemberProfile extends Component{
                         {this.state.memberModel.firstName + " " + this.state.memberModel.lastName}
                       </Text>
                       <View style={{flexDirection: "row", alignItems: "flex-start", marginTop: 3}}>
+                      <View style={{backgroundColor: this.state.memberModel.ringColor, ... styles.bdg}}>
+                          <Text style={styles.dbgText}>
+                            {this.state.memberModel.role}
+                          </Text>
+                        </View>
                         <View style={{backgroundColor: colors.LIGHTBLUE, ... styles.bdg}}>
                           <Text style={styles.dbgText}>
                             {this.state.memberModel.gender}
-                          </Text>
-                        </View>
-                        <View style={{backgroundColor: colors.ORANGE, ... styles.bdg}}>
-                          <Text style={styles.dbgText}>
-                            {this.state.memberModel.role}
                           </Text>
                         </View>
                         <View style={{backgroundColor: colors.DTPURPLE, ... styles.bdg}}>
@@ -222,6 +222,9 @@ export default class MemberProfile extends Component{
 
         <View style={{justifyContent: "center", alignItems: "center", zIndex: 1}}>
           <View style={{justifyContent: "center", alignItems: "center", width: "100%", overflow: "visible", minHeight: 480, paddingTop: 38}}>
+          {
+              this.state.itemAll == 0? <Text style={{marginTop: 118, fontSize: 18, color: colors.SILVER}}>No artefacts, click + to add a new one!</Text>:[]
+            }
             {this.state.itemAll == this.state.itemHas? 
               <Carousel
                 ref={(c) => { this._carousel = c; }}
@@ -290,9 +293,6 @@ export default class MemberProfile extends Component{
                 contentContainerCustomStyle={{alignItems: "center", flexDirection: "column"}}
                 slideStyle={{width: "87%", elevation: 5, borderRadius: 6, overflow: "visible"}}
               />: <View></View>
-            }
-            {
-              this.state.itemAll == 0? <Text>Nope</Text>:[]
             }
           </View>
         </View>

@@ -30,10 +30,10 @@ export default class ArtCard extends Component{
 
   async getCover(vidUri){
     if(!this.gettingCover){
+      this.gettingCover = true;
       let vidCover = await VideoThumbnails.getThumbnailAsync(
         vidUri, {time: 0}
       )
-      this.gettingCover = true;
       this.setState({vidCover: vidCover.uri});
     }
   }
@@ -80,10 +80,10 @@ export default class ArtCard extends Component{
             {this.props.item.content}
           </Text>
         </View>
-        <View style={{position: "absolute", bottom: 159, left: 0, width: 0, height: 0, borderWidth: 320, borderColor: "transparent",  borderBottomWidth: 35, borderBottomColor: "#f2dabf"}} ></View>
+        <View style={{position: "absolute", bottom: 159, left: 0, width: 0, height: 0, borderWidth: 160, borderColor: "transparent",  borderBottomWidth: 35, borderBottomColor: "#f2dabf"}} ></View>
         <View style={{position: "absolute", bottom: 0, left: 0, width: this.props.style.width? this.props.style.width: 360, height: 160, backgroundColor: mainColor, elevation: 2, justifyContent: "center", borderRadius: 3, padding: 32}}>
-          <View style={{height: 32, width: 22, borderWidth: 1, position: "absolute", top: 18, right: 25, borderColor: fontColor}}></View>
-          <Image style={{height: 80, width: 80, position: "absolute", top: 0, right: 22, borderColor: fontColor, transform: [{rotateZ: "-220deg"}]}} source={stamp}></Image>
+          <View style={{height: 42, width: 32, borderWidth: 1, position: "absolute", top: 18, right: 64, borderColor: fontColor}}></View>
+          <Image style={{height: 80, width: 80, position: "absolute", top: 16, right: 64, borderColor: fontColor, transform: [{rotateZ: "-220deg"}]}} source={stamp}></Image>
           <Text style={{color: fontColor, fontSize: 23, marginBottom: 22}}>{this.props.item.name}</Text>
           <Text style={{color: fontColor}} numberOfLines={1}>{this.props.item.description}</Text>
           <View
@@ -93,7 +93,7 @@ export default class ArtCard extends Component{
                 marginRight: 160
               }}
             />
-          <Text style={{color: fontColor, alignSelf: "flex-end"}} numberOfLines={1}>{this.props.item.dateAdded}</Text>
+          <Text style={{color: fontColor, alignSelf: "flex-end", marginRight: 36}} numberOfLines={1}>{this.props.item.dateAdded}</Text>
           <View
               style={{
                 borderBottomColor: fontColor,
