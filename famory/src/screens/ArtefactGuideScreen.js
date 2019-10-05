@@ -19,7 +19,7 @@ export default class ArtefactGuide extends Component{
 
   async componentDidMount() {
     await Font.loadAsync({
-      "almond": require('../assets/fonts/Almond.ttf'),
+      "balqis": require('../assets/fonts/Balqis.ttf'),
       ...Ionicons.font,
     });
     this.state.fontLoaded = true;
@@ -219,7 +219,7 @@ export default class ArtefactGuide extends Component{
               style={guideStyle.artefactText}
               onChangeText={(text) => this.setState({content: text})}
               placeholder="Cherish the memories..."
-              placeholderTextColor={"#808080"}
+              placeholderTextColor={colors.BLACK}
               multiline={true}
               numberOfLines={8}
               maxLength={400}
@@ -633,8 +633,8 @@ const guideStyle = StyleSheet.create({
     fontSize: 22,
     width: 240,
     height: 340,
-    letterSpacing: 2,
-    fontFamily: 'almond',
+    letterSpacing: 1.5,
+    fontFamily: 'balqis',
   }, 
   uploadBox: {
     flex: 3,
