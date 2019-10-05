@@ -142,8 +142,13 @@ export default class HomePageScreen extends Component{
             Component={TouchableScale}
             activeScale={0.95}
             fraction={3}
+<<<<<<< HEAD
             tension={150}
             style={{width: 64, height: 64}}
+=======
+            // control how strong the the resilience is
+            tension={100}
+>>>>>>> master
           />
           {this.state.mode==="edit"? 
             <TouchableOpacity onPress={() => {
@@ -317,7 +322,6 @@ export default class HomePageScreen extends Component{
 
         <Modal
           isVisible={this.state.isAchievementVisible}
-          onBackdropPress={() => {this.setState({isAchievementVisible: false})}}
           animationIn="fadeInUp"
           animationOut="fadeOutDown"
           style={styles.achievementModalStyle}

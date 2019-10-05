@@ -19,7 +19,7 @@ export default class TestScreen extends Component {
           this.setState({timer:null});
           clearInterval(this.countDown);
         }
-      }, 2000);
+      }, 1000);
     } else {
       alert("please retry in " + this.state.timer + " second(s)");
     }
@@ -28,11 +28,13 @@ export default class TestScreen extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <Button
-          label={this.state.timer==null?"Send":"Send ("+this.state.timer+")"}
-          onPress={this._handleSendPress}
-          extraStyles={{ width: "80%"}}
-        />
+        <View style={{elevation:30, flex:10, backgroundColor:"white"}}>
+          <Button
+            label={this.state.timer==null?"Send":"Send ("+this.state.timer+")"}
+            onPress={this._handleSendPress}
+            extraStyles={{ width: "80%"}}
+          />
+        </View>
       </View>
     );
   }
