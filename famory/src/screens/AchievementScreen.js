@@ -409,7 +409,7 @@ export default class AchievementScreen extends Component {
           <Empty></Empty>
           <View style={{flex:1, justifyContent:"center", alignItems:"center"}}>
             <Text style={{fontSize: 22, fontWeight: "bold"}}>First Step</Text>
-            <Text style={{fontSize: 16, marginTop: 15}}>Uploaded first artefact to</Text>
+            <Text style={{fontSize: 16, marginTop: 15}}>Posted first comment to</Text>
             <Text style={{fontSize: 16}}>the Community</Text>
             <Empty></Empty>
             <Empty></Empty>
@@ -442,7 +442,7 @@ export default class AchievementScreen extends Component {
           <Empty></Empty>
           <View style={{flex:1, justifyContent:"center", alignItems:"center"}}>
             <Text style={{fontSize: 22, fontWeight: "bold"}}>Kudos Giver</Text>
-            <Text style={{fontSize: 16, marginTop: 15}}>Shared 20 artefacts</Text>
+            <Text style={{fontSize: 16, marginTop: 15}}>Posted 20 comments</Text>
             <Empty></Empty>
             <Empty></Empty>
             <Text style={{fontSize: 18, fontWeight: "bold"}}>Unlocked on:{" "}{this.state.unlockDate[4]}</Text>
@@ -474,7 +474,7 @@ export default class AchievementScreen extends Component {
           <Empty></Empty>
           <View style={{flex:1, justifyContent:"center", alignItems:"center"}}>
             <Text style={{fontSize: 22, fontWeight: "bold"}}>Elite Commentator</Text>
-            <Text style={{fontSize: 16, marginTop: 15}}>Made 100 comments</Text>
+            <Text style={{fontSize: 16, marginTop: 15}}>Posted 500 comments</Text>
             <Empty></Empty>
             <Empty></Empty>
             <Text style={{fontSize: 18, fontWeight: "bold"}}>Unlocked on:{" "}{this.state.unlockDate[5]}</Text>

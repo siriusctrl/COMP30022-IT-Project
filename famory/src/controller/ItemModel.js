@@ -61,6 +61,31 @@ export class ItemModelManage{
       callback(item)
     });
   }
+
+  // get all items count to unlock achievement where appropriate
+  getItemCount(callback, count) {
+    let path = [
+      this._path + "/" + "imageItem/maxTo", 
+      this._path + "/" + "textItem/maxTo", 
+      this._path + "/" + "videoItem/maxTo"
+    ];
+    let total = 0;
+    // get count and update callback
+    firebase.database().ref(path[0]).once("value").then((snapshot1) => {
+      total += snapshot1.val();
+      firebase.database().ref(path[1]).once("value").then((snapshot2) => {
+        total += snapshot2.val();
+        firebase.database().ref(path[2]).once("value").then((snapshot3) => {
+          total += snapshot3.val();
+          if (total === count) {
+            callback(true);
+          } else {
+            callback(false);
+          }
+        });
+      });
+    });
+  }
 }
 
 // item
@@ -98,4 +123,4 @@ export class Item{
 }
 
 
-export default ItemModelManage
+export default ItemModelManage;

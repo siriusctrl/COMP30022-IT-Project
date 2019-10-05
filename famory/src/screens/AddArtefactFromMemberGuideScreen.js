@@ -87,7 +87,6 @@ export default class ArtGuide extends Component{
                 chosenMemberAllArtefactsAreHere: Object.values(membersArtefacts)
               }
             )
-            alert(this.state.chosenMemberAllArtefactsAreHere)
           }
         )
         this._changeStage(false)
@@ -330,8 +329,8 @@ export default class ArtGuide extends Component{
     MemberModelManage.getInstance().passItem(()=>{
       this.state.memberModel.updateSelf(
         (updatedMember) => {
-          this.props.navigation.getParam("profileScreen", null).setModel(updatedMember)
-          this.props.navigation.goBack()
+          this.props.navigation.getParam("profileScreen", null).setModel(updatedMember);
+          this.props.navigation.navigate('MemberProfile', {prevScreen: 'ArtefactGuide'});
         }
       )
     }, this.state.memberModel, this.state.chosenArtefact);
