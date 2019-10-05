@@ -6,8 +6,9 @@ import Carousel from "react-native-snap-carousel";
 import ArtCard from "../components/ArtCard";
 import { TouchableNativeFeedback } from "react-native-gesture-handler";
 import FamilyAccountModelManage from "../controller/FamilyAccountModel"
-import { Button, Body, Icon } from 'native-base';
+import { Button, Icon } from 'native-base';
 import Empty from "../components/Empty";
+
 import { CommunityModelManage } from "../controller/CommunityModel";
 
 export default class CommunityAddArtefactScreen extends Component {
@@ -22,9 +23,9 @@ export default class CommunityAddArtefactScreen extends Component {
     currentPurpose: "addArtefact",
     chosenArtefact: {},
     chosenMemberAllArtefactsAreHere: [],
-    name: "",
-    description: "",
-    location: "",
+    name: "Artefact",
+    description: "Great memories!",
+    location: "Earth",
   }
 
   componentDidMount(){
@@ -248,8 +249,19 @@ export default class CommunityAddArtefactScreen extends Component {
               </Button>
             </TouchableNativeFeedback>
           </View>
-        </View>: <View style={{flex: 4, flexDirection: "column", paddingTop: 23}}>
+        </View>: (
+        <View style={{flex: 4, flexDirection: "column", paddingTop: 23}}>
+          <Text style={{textAlign: 'center', fontSize: 22, textAlignVertical: 'center', width: '93%'}}>Sorry, no image artefact is available for this member.</Text>
+          <View style={guideStyle.bottomButtonCn}>
+            <TouchableNativeFeedback style={{borderRadius: 2, elevation: 1}}>
+              <Button style={guideStyle.bottomButtonLeft} iconLeft light onPress={() => this._changeStage(true)}>
+                <Icon name='arrow-back' />
+                <Text style={{color: colors.COMMUNITY, textAlign: "center", textAlignVertical: "center", fontSize: 16, marginHorizontal: 8}}>BACK</Text>
+              </Button>
+            </TouchableNativeFeedback>
+          </View>
         </View>
+        )
       }
       ,
       "next": {
@@ -413,9 +425,8 @@ export default class CommunityAddArtefactScreen extends Component {
 
   // finished guide
   _finish = (purpose) => {
-    alert("finished" + purpose);
     CommunityModelManage.getInstance().setPost((newIndex) => { 
-      alert(newIndex);
+      this.props.navigation.navigate('CommunityMain', {prevScreen: 'CommunityAdd'});
     }, {
       title: this.state.name,
       location: this.state.location,

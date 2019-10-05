@@ -32,6 +32,22 @@ export class CommunityModelManage{
     });
   }
 
+  // get comments
+  getComments(callback, id) {
+    let communityRef = firebase.database().ref(this._path + '/' + id + '/replies');
+    communityRef.once("value").then((snapshot) => {
+
+      let posts = [];
+      // for each post, get object and put to array of posts
+      objectlist = snapshot.val();
+      for (let i = 0; i < objectlist.length; i++) {
+        posts.push(objectlist[i.toString()]);
+      }
+
+      callback(posts);
+    });
+  }
+
   // update like + 1
   increaseLike(callback, id) {
 
@@ -49,6 +65,16 @@ export class CommunityModelManage{
     likeRef.once("value").then((snapshot) => {
       // set like
       likeRef.set(snapshot.val() - 1);
+    });
+  }
+
+  // made comment, update replies
+  makeComment(callback, id, myComment) {
+    let commRef = firebase.database().ref(this._path + '/' + id + '/replies/3');
+    commRef.once("value").then((snapshot) => {
+      // set commented
+      commRef.set(myComment);
+      callback(myComment);
     });
   }
 
@@ -96,6 +122,9 @@ export class Post {
     this.replies.push(post["replies"]["0"]);
     this.replies.push(post["replies"]["1"]);
     this.replies.push(post["replies"]["2"]);
+    if (post["replies"].length === 4) {
+      this.replies.push(post["replies"]["3"]);
+    }
   }
 
   toObject() {
@@ -111,6 +140,4 @@ export class Post {
 }
 
 
-export default communityModel = {
-  CommunityModelManage: CommunityModelManage
-}
+export default CommunityModelManage;
