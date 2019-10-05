@@ -20,6 +20,8 @@ import { ActionSheetCustom as ActionSheet } from 'react-native-actionsheet';
 
 import * as FileSystem from 'expo-file-system';
 import * as Permissions from 'expo-permissions';
+import * as Font from 'expo-font';
+import { Ionicons } from '@expo/vector-icons';
 
 const optionDropdown = {
   flexDirection: 'row', 
@@ -28,6 +30,7 @@ const optionDropdown = {
   justifyContent: 'center',
   marginLeft: 15,
 }
+
 
 let options = [
   'Cancel', 
@@ -64,6 +67,17 @@ export default class ArtefactItem extends Component{
     width: 300,
     height: 350,
     arVisible: false,
+    fontLoaded: false,
+  }
+
+  componentDidMount() {
+    Font.loadAsync({
+      "snell": require('../assets/fonts/SnellRoundhand.ttf'),
+      "snell-bold": require('../assets/fonts/SnellRoundhand-Bold.ttf'),
+      ...Ionicons.font,
+    }).then(() => {
+      this.setState({fontLoaded : true});
+    });
   }
 
   // display action sheet
@@ -108,6 +122,9 @@ export default class ArtefactItem extends Component{
   };
 
   render() {
+    if(this.state.fontLoaded === false){
+      return null;
+    }
 
     return(
       <View style={{flex: 1}}>
@@ -158,7 +175,7 @@ export default class ArtefactItem extends Component{
                 <Text style={{lineHeight: 32, fontSize: 23, color: "#6c6c6c"}}>
                   {this.state.artefactItem.name}
                 </Text>
-                <Text style={{lineHeight: 32, fontSize: 18, color: "#6c6c6c", marginTop: 32}}>
+                <Text style={{lineHeight: 32, fontSize: 22, color: "#6c6c6c", marginTop: 32, fontFamily:"snell-bold", letterSpacing:1.5, textDecorationLine:"underline"}}>
                   {this.state.artefactItem.content}
                 </Text>
                 <Text style={{color: colors.AGRAY, marginTop: 36, fontStyle: "italic"}}>{this.state.artefactItem.description}</Text>
