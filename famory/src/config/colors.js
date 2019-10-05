@@ -21,11 +21,6 @@ const colors = {
     RINGLIGHTORANGE: "#eb9c4d",
     RINGBLUE: "#1091c4",
     RINGDOGER: "#61aee8"
-
-
-
-
-
   };
   
 export default colors;

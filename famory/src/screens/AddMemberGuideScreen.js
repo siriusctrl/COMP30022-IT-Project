@@ -9,6 +9,7 @@ import {_pickImage, _uploadToFirebase} from "../controller/fileUtilitiesSync"
 
 import { TouchableNativeFeedback } from "react-native-gesture-handler";
 import Calendar from "../assets/icons/calendarDate";
+import LottieView from "lottie-react-native";
 
 // guide page for adding a member
 export default class AddMemberGuide extends Component{
@@ -41,9 +42,10 @@ export default class AddMemberGuide extends Component{
   componentDidMount(){
     // get generation and family account
     if (this.props.navigation.getParam("gen", null)){
+      let gen = this.props.navigation.getParam("gen", "gen 0");
       this.setState(
         {
-          gen: Number(this.props.navigation.getParam("gen", "0")[this.props.navigation.getParam("gen", "0").length - 1])
+          gen: Number(gen[gen.length - 1])
         }
       )
     }
@@ -56,11 +58,7 @@ export default class AddMemberGuide extends Component{
       )
     }else{
       FamilyAccountModelManage.getInstance().getFamilyAccount(
-        (familyModel) => {
-          this.setState(
-            {familyAccount: familyModel}
-          )
-        }
+        (familyModel) => {this.setState({familyAccount: familyModel})}
       )
     }
   }
@@ -72,13 +70,13 @@ export default class AddMemberGuide extends Component{
   nativeRipple = TouchableNativeFeedback.Ripple(colors.MISCHKA, true)
 
   setDate = (event, date) => {
-    this.setState({
-      dateBirth: date
-    });
+    this.setState({dateBirth: date});
   }
 
   getStringDate = (date) => {
-    return date.getFullYear().toString() + "-" + (date.getMonth() + 1).toString() + "-" + (date.getDate()).toString()
+    return date.getFullYear().toString() + "-" + 
+              (date.getMonth() + 1).toString() + "-" + 
+                  (date.getDate()).toString()
   }
 
   generalBottom = () => {
@@ -87,12 +85,12 @@ export default class AddMemberGuide extends Component{
       <TouchableNativeFeedback style={{borderRadius: 2, elevation: 1}}>
         <Button style={guideStyle.bottomButtonLeft} iconLeft light onPress={() => this._changeStage(true)}>
           <Icon name='arrow-back' />
-          <Text style={{color: colors.DODGER_BLUE, textAlign: "center", textAlignVertical: "center", fontSize: 16, marginHorizontal: 8}}>BACK</Text>
+          <Text style={guideStyle.bottomButtonAnother}>BACK</Text>
         </Button>
       </TouchableNativeFeedback>
       <TouchableNativeFeedback style={{borderRadius: 2, elevation: 1}}>
         <Button style={guideStyle.bottomButtonRight} iconRight light onPress={() => this._changeStage(false)}>
-          <Text style={{color: colors.DODGER_BLUE, textAlign: "center", textAlignVertical: "center", fontSize: 16, marginHorizontal: 8}}>NEXT</Text>
+          <Text style={guideStyle.bottomButtonAnother}>NEXT</Text>
           <Icon name='arrow-forward' style={{marginRight: 15}} />
         </Button>
       </TouchableNativeFeedback>
@@ -155,7 +153,7 @@ export default class AddMemberGuide extends Component{
       <View style={{... guideStyle.bottomButtonCn, justifyContent: "flex-end"}}>
         <TouchableNativeFeedback style={{borderRadius: 2, elevation: 1}}>
           <Button style={guideStyle.bottomButtonRight} iconRight light onPress={() => this._changeStage(false)}>
-            <Text style={{color: colors.DODGER_BLUE, textAlign: "center", textAlignVertical: "center", fontSize: 16, marginHorizontal: 8}}>NEXT</Text>
+            <Text style={guideStyle.bottomButtonAnother}>NEXT</Text>
             <Icon name='arrow-forward' style={{marginRight: 15}} />
           </Button>
         </TouchableNativeFeedback>
@@ -291,7 +289,19 @@ export default class AddMemberGuide extends Component{
     },
     "addMemberAvatar": {
       "title": "How does the member look like?",
-      "view": () =>
+      "view": () => (this.state.finishedAdd? 
+        <KeyboardAvoidingView behavior="height" enabled style={{flex: 4, flexDirection: "column", justifyContent: "center", alignItems: "center"}}>
+          <LottieView
+            autoPlay={true}
+              ref={animation => {
+                this.addingMemberAnimation = animation;
+              }}
+              loop={true}
+              source={require('../assets/animation/addingMember.json')}
+              style={{width: 86, height: 86}}
+            />
+            <Text style={{fontSize: 18, paddingHorizontal: 29, paddingLeft: 32, color: colors.BLACK}}>Adding member..</Text>
+          </KeyboardAvoidingView>:
         <KeyboardAvoidingView behavior="height" enabled style={{flex: 4, flexDirection: "column", paddingTop: 42}}>
           <View style={{paddingHorizontal: 29, flex: 6, paddingLeft: 32, marginTop: -40}}>
            <View style={{width: 196, height: 196, borderRadius: 98, borderWidth: 12, overflow: "hidden", borderColor: this.state.ringColor}}>
@@ -317,6 +327,7 @@ export default class AddMemberGuide extends Component{
           </View>
           
         </KeyboardAvoidingView>
+      )
       ,
       "next": {
         "addMember": FINISH,
@@ -325,23 +336,23 @@ export default class AddMemberGuide extends Component{
         "addMember": "addMemberRole",
       },
       bottomButton: () => (this.state.finishedAdd? 
-        <View style={guideStyle.bottomButtonCn}>
-          <Text style={{fontSize: 18, width: "87%", paddingHorizontal: 29, paddingLeft: 32, color: colors.HOMESCREENLIGHTBLUE}}>Adding member..</Text>
-
-        </View>:
+        []
+        :
         <View style={guideStyle.bottomButtonCn}>
 
         <TouchableNativeFeedback style={{borderRadius: 2, elevation: 1}}>
           <Button style={guideStyle.bottomButtonLeft} iconLeft light onPress={() => this._changeStage(true)}>
             <Icon name='arrow-back' />
-            <Text style={{color: colors.DODGER_BLUE, textAlign: "center", textAlignVertical: "center", fontSize: 16, marginHorizontal: 8}}>BACK</Text>
+            <Text style={guideStyle.bottomButtonAnother}>BACK</Text>
           </Button>
         </TouchableNativeFeedback>
+
         <TouchableNativeFeedback style={{borderRadius: 2, elevation: 1}}>
           <Button iconRight success onPress={() => this._changeStage(false)}>
             <Text style={guideStyle.finishButton}>FINISH</Text>
           </Button>
         </TouchableNativeFeedback>
+
       </View>
       )
       
@@ -448,7 +459,7 @@ export default class AddMemberGuide extends Component{
           <View style={{flex: 5, width: "100%", flexDirection: "column", paddingLeft: 2}}>
             <View style={{paddingHorizontal: 28, flex: 1, flexDirection:"column", justifyConytent: "center", alignItems: "flex-start", paddingBottom: 16}}>
               <Text style={{flex: 1, width: "85%", textAlignVertical: "center", fontSize: 28, color: colors.HOMESCREENLIGHTBLUE}}>
-                {this.stages[this.state.currentStage]["title"]}
+                {this.state.finishedAdd? "":this.stages[this.state.currentStage]["title"]}
               </Text>
             </View>
             {this.stages[this.state.currentStage]["view"]()}
@@ -473,6 +484,7 @@ const guideStyle = StyleSheet.create(
       color: colors.DODGER_BLUE, 
       fontSize: 16
     },
+    bottomButtonAnother: {color: colors.DODGER_BLUE, textAlign: "center", textAlignVertical: "center", fontSize: 16, marginHorizontal: 8},
     bottomButtonCn: {
       paddingHorizontal: 26, 
       paddingBottom: 26, 

@@ -44,7 +44,7 @@ export class MemberModelManage{
         .ref(this._path + "/" + "curMember/").set((Number(maxId) + 1))
       let member = new Member(details, newMemberId);
 
-      familyAccountModel.member[nextId] = member;
+      familyAccountModel.member[newMemberId] = member;
       familyAccountModel.familyMember[nextId] = newMemberId;
 
       callback(familyAccountModel)
