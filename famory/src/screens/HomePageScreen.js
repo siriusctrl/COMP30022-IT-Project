@@ -344,7 +344,6 @@ export default class HomePageScreen extends Component{
 
         <Modal
           isVisible={this.state.isAchievementVisible}
-          onBackdropPress={() => {this.setState({isAchievementVisible: false})}}
           animationIn="fadeInUp"
           animationOut="fadeOutDown"
           style={styles.achievementModalStyle}
