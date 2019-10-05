@@ -23,9 +23,9 @@ export default class AddMemberGuide extends Component{
     
     currentStage: "addMemberInitial",
     currentPurpose: "addMember",
-    memberName: "",
-    gender: "",
-    role: "",
+    memberName: "Anynymous",
+    gender: "N/A",
+    role: "Member",
     gen: "",
     familyAccount: null,
     memberAddFamily: "Nizaari",
