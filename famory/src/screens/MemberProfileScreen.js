@@ -184,9 +184,17 @@ export default class MemberProfile extends Component{
                           </Text>
                         </View>
                         <View style={{backgroundColor: colors.DTPURPLE, ... styles.bdg}}>
-                          <Text style={styles.dbgText}>
-                            {Object.keys(this.state.memberModel.item).length + " " + "Artefacts"}
-                          </Text>
+                          {
+                            (Object.keys(this.state.memberModel.item).length > 1) ? (
+                              <Text style={styles.dbgText}>
+                                {Object.keys(this.state.memberModel.item).length + " " + "Artefacts"}
+                              </Text>
+                            ) : (
+                              <Text style={styles.dbgText}>
+                                {Object.keys(this.state.memberModel.item).length + " " + "Artefact"}
+                              </Text>
+                            )
+                          }
                         </View>
                       </View>
                     </View>
