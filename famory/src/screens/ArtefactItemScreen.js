@@ -202,6 +202,8 @@ export default class ArtefactItem extends Component{
           onBackdropPress={() => this.toggleModal()}
           animationIn="slideInUp"
           animationOut="fadeOutDown"
+          animationInTiming={600}
+          animationOutTiming={600}
           style={styles.modalStyle}
         >
           <View style={{flex:1, justifyContent:"center", alignItems:"center", flexDirection:"row"}}>
