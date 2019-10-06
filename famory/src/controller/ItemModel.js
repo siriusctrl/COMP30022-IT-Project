@@ -39,6 +39,7 @@ export class ItemModelManage{
     })
   }
 
+  
   setItem(callback, details, memberModel, type){
 
     let path = {
