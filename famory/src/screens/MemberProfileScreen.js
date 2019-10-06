@@ -13,7 +13,10 @@ import ItemModelManage from "../controller/ItemModel";
 import AchievementModelManage from "../controller/AchievementModel";
 import LottieView from "lottie-react-native";
 
+
 export default class MemberProfile extends Component{
+
+  // navigation
   static navigationOptions = {
     headerStyle: {
       backgroundColor: "rgba(106, 84, 166, 0)", 
@@ -25,6 +28,7 @@ export default class MemberProfile extends Component{
     headerTintColor: colors.HOMESCREENLIGHTBLUE
   }
 
+  
   state = {
     profileMemberArtefactItem: [],
     itemAll: -1,
@@ -32,7 +36,11 @@ export default class MemberProfile extends Component{
     isAchievementVisible: false,
   }
 
+
+  // The screen need a model
+  // need a MemberModel to build up the screen
   setModel = (model) => {
+
     this.setState(
       {
         memberModel: model,
@@ -40,14 +48,17 @@ export default class MemberProfile extends Component{
         itemAll: Object.keys(model.item).length
       }
     )
-    model.getItems((k) => {
+
+    model.getItems((items) => {
       this.setState(
         {
-          profileMemberArtefactItem: Object.values(k),
-          itemHas: Object.keys(k).length
+          profileMemberArtefactItem: Object.values(items),
+          itemHas: Object.keys(items).length
         })
     })
+
   }
+
 
   componentDidMount() {
     // listener to add item achievement update
@@ -93,6 +104,7 @@ export default class MemberProfile extends Component{
     }
   }
 
+
   componentWillUnmount () {
     this.focusListener.remove();
   }
@@ -104,6 +116,7 @@ export default class MemberProfile extends Component{
     this.forceUpdate();
     this.props.navigation.navigate('Achievement');
   };
+
 
   // render a artefact card in screen
   _renderRow = ({item, index}) => {
@@ -117,18 +130,23 @@ export default class MemberProfile extends Component{
     )
   }
 
+
   // to artefact detail page's function
   toItem(item){
-    this.props.navigation.navigate("ArtefactItem", {item: item, "profileScreen": this, member: this.state.memberModel})
+    this.props.navigation.navigate("ArtefactItem", 
+      {item: item, "profileScreen": this, member: this.state.memberModel})
   }
+
 
   // press Avatar and navigate to the EditProfile page
   _onPressAvatar = () => {
-    this.props.navigation.navigate("EditProfile", {memberModel: this.state.memberModel, profileScreen: this});
+    this.props.navigation.navigate("EditProfile", 
+      {memberModel: this.state.memberModel, profileScreen: this});
   };
 
-  render() {
 
+  render() {
+    // drop down menu
     const optionDropdown = {
       flexDirection: 'row', 
       flex: 1, 
@@ -139,19 +157,27 @@ export default class MemberProfile extends Component{
       paddingBottom: 32, 
     }
 
+    let dropDownTextStyle = {fontSize: 18, fontWeight: '400', lineHeight: 32}
+    let dropDownItemStyle = {flexDirection: 'column', flex: 1}
+
     let options = [
       'Cancel', 
       <View style={optionDropdown}>
-        <View style={{flexDirection: 'column', flex: 1}}>
-          <Text style={{fontSize: 18, fontWeight: '400', lineHeight: 32}}>Add new artefact</Text>
+        <View style={dropDownItemStyle}>
+          <Text style={dropDownTextStyle}>
+            Add new artefact
+          </Text>
         </View>
       </View>, 
       <View style={optionDropdown}>
-        <View style={{flexDirection: 'column', flex: 1}}>
-          <Text style={{fontSize: 18, fontWeight: '400', lineHeight: 32}}>Add artefact from other member</Text>
+        <View style={dropDownItemStyle}>
+          <Text style={dropDownTextStyle}>
+            Add artefact from other member
+          </Text>
         </View>
       </View>,
     ]
+
 
     return (
       <View style={{flex:1}}>
@@ -160,20 +186,19 @@ export default class MemberProfile extends Component{
             <View style={{height: "100%", flex: 8, padding:12, elevation: 6}}>
                 {
                   this.state.isMemberReady? 
-                  <View style={{height: "100%", flex: 1, flexDirection: "row"}}>
-                    <View style={{flex: 2, overflow: "hidden", justifyContent: "center", alignItems: "center"}}>
-                      <TouchableNativeFeedback
-                        onPress={this._onPressAvatar}>
+                  <View style={styles.profileTopTitle}>
+                    <View style={styles.ava}>
+                      <TouchableNativeFeedback onPress={this._onPressAvatar}>
                         <Image source={{uri: this.state.memberModel.profileImage}}
                                style={{width: 68, height: 68, borderRadius: 34}} />
                       </TouchableNativeFeedback>
                     </View>
-                    <View style={{flex: 6, paddingLeft: 12, flexDirection: "column", marginTop: 6}}>
-                      <Text style={{marginTop: 6, fontSize: 26, color: colors.HOMESCREENLIGHTBLUE, marginLeft: 2}}>
+                    <View style={styles.nameAndBdgContainer}>
+                      <Text style={styles.name}>
                         {this.state.memberModel.firstName + " " + this.state.memberModel.lastName}
                       </Text>
-                      <View style={{flexDirection: "row", alignItems: "flex-start", marginTop: 3}}>
-                      <View style={{backgroundColor: this.state.memberModel.ringColor, ... styles.bdg}}>
+                      <View style={styles.bdgWrapper}>
+                        <View style={{backgroundColor: this.state.memberModel.ringColor, ... styles.bdg}}>
                           <Text style={styles.dbgText}>
                             {this.state.memberModel.role}
                           </Text>
@@ -185,11 +210,11 @@ export default class MemberProfile extends Component{
                         </View>
                         <View style={{backgroundColor: colors.DTPURPLE, ... styles.bdg}}>
                           {
-                            (Object.keys(this.state.memberModel.item).length > 1) ? (
-                              <Text style={styles.dbgText}>
+                            (Object.keys(this.state.memberModel.item).length > 1) ? 
+                            (<Text style={styles.dbgText}>
                                 {Object.keys(this.state.memberModel.item).length + " " + "Artefacts"}
                               </Text>
-                            ) : (
+                            ):(
                               <Text style={styles.dbgText}>
                                 {Object.keys(this.state.memberModel.item).length + " " + "Artefact"}
                               </Text>
@@ -198,102 +223,92 @@ export default class MemberProfile extends Component{
                         </View>
                       </View>
                     </View>
-                  </View>: 
-                  <View style={{height: "100%", flex: 1, flexDirection: "row"}}>
-                    <View style={{flex: 2, overflow: "hidden", justifyContent: "center", alignItems: "center"}}>
+                  </View>
+                  :
+                  <View style={styles.profileTopTitle}>
+                    <View style={styles.ava}>
                       <Image style={{width: 68, height: 68, borderRadius: 34}}></Image>
                     </View>
-                    <View style={{flex: 7, paddingLeft: 12, flexDirection: "column", marginTop: 6}}>
-                      <Text style={{marginTop: 6, fontSize: 26, color: colors.BLACK, marginLeft: 2}}>...</Text>
-                      <View style={{flexDirection: "row", alignItems: "flex-start", marginTop: 3}}>
+                    <View style={styles.nameAndBdgContainer}>
+                      <Text style={styles.name}>...</Text>
+                      <View style={styles.bdgWrapper}>
                       </View>
                     </View>
                   </View>
                 }
             </View>
-
             <View style={{height: "100%", flex: 1}}>
-              <TouchableNativeFeedback></TouchableNativeFeedback>
             </View>
-
           </View>
         </View>
         
 
         <View style={{justifyContent: "center", alignItems: "center", zIndex: 1}}>
-          <View style={{justifyContent: "center", alignItems: "center", width: "100%", overflow: "visible", minHeight: 480, paddingTop: 38}}>
+          <View style={styles.artefactWrapper}>
           {
-              this.state.itemAll == 0? <Text style={{marginTop: 118, fontSize: 18, color: colors.SILVER}}>No artefacts, click + to add a new one!</Text>:[]
-            }
-            {this.state.itemAll == this.state.itemHas? 
-              <Carousel
-                ref={(c) => { this._carousel = c; }}
-                data={(() => {return this.state.profileMemberArtefactItem;})()}
-                renderItem={this._renderRow}
-                sliderHeight={450}
-                itemHeight={350}
-                vertical={true}
-                layout={"stack"}
+            this.state.itemAll == 0? 
+            <Text style={{marginTop: 118, fontSize: 18, color: colors.SILVER}}>
+              No artefacts, click + to add a new one!
+            </Text>:[]
+          }
+          {
+            this.state.itemAll == this.state.itemHas? 
+            <Carousel
+              ref={(c) => { this._carousel = c; }}
+              data={(() => {return this.state.profileMemberArtefactItem;})()}
+              renderItem={this._renderRow}
+              sliderHeight={450}
+              itemHeight={350}
+              vertical={true}
+              layout={"stack"}
 
-                slideInterpolatedStyle={(index, animatedValue, carouselProps) => {
-                  const sizeRef = carouselProps.vertical ? 
-                    carouselProps.itemHeight : carouselProps.itemWidth;
-                  const translateProp = carouselProps.vertical ? 'translateY' : 'translateX';
-                  return (
-                    {
-                      // zIndex: carouselProps.data.length - index,
-                      opacity: animatedValue.interpolate({
-                          inputRange: [-3, -2, -1, 0, 1, 2],
-                          outputRange: [0, 0.5, 0.8, 1, 0.3, 0]
-                      }),
-                      transform: [
-                        {rotate: animatedValue.interpolate({
-                          inputRange: [-2, -1, 0, 1],
-                          outputRange: ["2deg","-3deg", "0deg", "-5deg"],
-                          extrapolate: 'clamp'
-                        })},{
-                          [translateProp]: animatedValue.interpolate({
-                              inputRange: [-3, -2, -1, 0, 1],
-                              outputRange: [
-                                  sizeRef * 3,
-                                  sizeRef * 1.9,
-                                  sizeRef * 0.9,
-                                  0,
-                                  -sizeRef*0.000003,
-                              ],
-                              extrapolate: 'clamp'
-                          }),
-                          
-                        },
-                        {["translateX"]: animatedValue.interpolate({
-                              inputRange: [-2, -1, 0, 1],
-                              outputRange: [0,7,0, -sizeRef * 0.01],
-                              extrapolate: 'clamp'
-                          })
-                        }
-                      ],
-                      elevation: animatedValue.interpolate({
-                              inputRange: [-3, -2, -1, 0, 1],
-                              outputRange: [
-                                  1,
-                                  3,
-                                  6,
-                                  12,
-                                  9,
-                              ],
-                              extrapolate: 'clamp'
-                          }),
-                    }
-                  )
-                }}
-                
-                firstItem={this.state.profileMemberArtefactItem.length - 1}
-                inactiveSlideScale={0.85}
-                containerCustomStyle={{overflow: "visible", width: "100%"}}
-                contentContainerCustomStyle={{alignItems: "center", flexDirection: "column"}}
-                slideStyle={{width: "87%", elevation: 5, borderRadius: 6, overflow: "visible"}}
-              />: <View></View>
-            }
+              slideInterpolatedStyle={(index, animatedValue, carouselProps) => {
+                const sizeRef = carouselProps.vertical ? 
+                  carouselProps.itemHeight : carouselProps.itemWidth;
+                const translateProp = carouselProps.vertical ? 'translateY' : 'translateX';
+                return (
+                  {
+                    // zIndex: carouselProps.data.length - index,
+                    opacity: animatedValue.interpolate({
+                        inputRange: [-3, -2, -1, 0, 1, 2],
+                        outputRange: [0, 0.5, 0.8, 1, 0.3, 0]
+                    }),
+                    transform: [
+                      {rotate: animatedValue.interpolate({
+                        inputRange: [-2, -1, 0, 1],
+                        outputRange: ["2deg","-3deg", "0deg", "-5deg"],
+                        extrapolate: 'clamp'
+                      })},
+                      {[translateProp]: animatedValue.interpolate({
+                            inputRange: [-3, -2, -1, 0, 1],
+                            outputRange: [
+                                sizeRef * 3,
+                                sizeRef * 1.9,
+                                sizeRef * 0.9,
+                                0,
+                                -sizeRef*0.000003,
+                            ],
+                            extrapolate: 'clamp'
+                        })},
+                      {["translateX"]: animatedValue.interpolate({
+                            inputRange: [-2, -1, 0, 1],
+                            outputRange: [0,7,0, -sizeRef * 0.01],
+                            extrapolate: 'clamp'
+                        })}],
+                    elevation: animatedValue.interpolate({
+                            inputRange: [-3, -2, -1, 0, 1],
+                            outputRange: [1,3,6,12,9],
+                            extrapolate: 'clamp'
+                        }),})
+              }}
+              
+              firstItem={this.state.profileMemberArtefactItem.length - 1}
+              inactiveSlideScale={0.85}
+              containerCustomStyle={{overflow: "visible", width: "100%"}}
+              contentContainerCustomStyle={{alignItems: "center", flexDirection: "column"}}
+              slideStyle={{width: "87%", elevation: 5, borderRadius: 6, overflow: "visible"}}
+            />: <View></View>
+          }
           </View>
         </View>
 
@@ -306,11 +321,13 @@ export default class MemberProfile extends Component{
           onPress={(index) => { 
             switch (index) {
               case 1:
-                this.props.navigation.navigate("ArtefactGuide", {member: this.state.memberModel, profileScreen: this});
+                this.props.navigation.navigate("ArtefactGuide", 
+                  {member: this.state.memberModel, profileScreen: this});
                 break;
               case 2:
                 // share on facebook or twitter
-                this.props.navigation.navigate("AddArtefactFromMember", {member: this.state.memberModel, profileScreen: this})
+                this.props.navigation.navigate("AddArtefactFromMember", 
+                  {member: this.state.memberModel, profileScreen: this})
                 break;
               default:
                 // nothing
@@ -319,12 +336,11 @@ export default class MemberProfile extends Component{
         />
 
         <View style={styles.floatButton}>
-          <TouchableNativeFeedback style={{height: 72, width: 72, borderRadius: 36, justifyContent: "center", alignItems:"center"}} 
+          <TouchableNativeFeedback style={styles.addButton} 
             background={TouchableNativeFeedback.Ripple(colors.WHITE, true)} 
             onPress={() => {this.ActionSheet.show()}}>
             <Icon name="add" size={32} color={colors.WHITE} />
           </TouchableNativeFeedback>
-
         </View>
 
         <Modal
@@ -347,11 +363,14 @@ export default class MemberProfile extends Component{
           />
 
           <TouchableOpacity onPress={this.handleAchievementPress}>
-            <Text style={{textAlign: 'center', fontSize: 22, color: '#fff', marginTop: 200,}}>You have unlocked an</Text>
-            <Text style={{textAlign: 'center', fontSize: 22, color: '#FFD700'}}>Achievement!</Text>
+            <Text style={{textAlign: 'center', fontSize: 22, color: '#fff', marginTop: 200,}}>
+              You have unlocked an
+            </Text>
+            <Text style={{textAlign: 'center', fontSize: 22, color: '#FFD700'}}>
+              Achievement!
+            </Text>
           </TouchableOpacity>
         </Modal>
-
       </View>
     );
   }
@@ -412,4 +431,11 @@ const styles = StyleSheet.create({
     marginHorizontal: 30,
     backgroundColor: 'transparent',
   },
+  profileTopTitle: {height: "100%", flex: 1, flexDirection: "row"},
+  ava: {flex: 2, overflow: "hidden", justifyContent: "center", alignItems: "center"},
+  nameAndBdgContainer: {flex: 6, paddingLeft: 12, flexDirection: "column", marginTop: 6},
+  name: {marginTop: 6, fontSize: 26, color: colors.HOMESCREENLIGHTBLUE, marginLeft: 2},
+  bdgWrapper: {flexDirection: "row", alignItems: "flex-start", marginTop: 3},
+  artefactWrapper: {justifyContent: "center", alignItems: "center", width: "100%", overflow: "visible", minHeight: 480, paddingTop: 38},
+  addButton: {height: 72, width: 72, borderRadius: 36, justifyContent: "center", alignItems:"center"}
 });
