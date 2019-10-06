@@ -1,15 +1,12 @@
+import { Body, ListItem } from 'native-base';
 import React, { Component } from 'react';
-import {StyleSheet, Image, Alert, View, Text, TextInput} from 'react-native';
-import { ListItem, Body } from 'native-base';
-import Modal from "react-native-modal";
+import { Image, StyleSheet, Text, TextInput, View } from 'react-native';
 import DatePicker from 'react-native-datepicker';
-
-import CheckButton from "../components/CheckButton"
-import { MemberModelManage } from "../controller/MemberModel";
-import { _pickImage, _uploadItem } from "../controller/fileUtilitiesSync";
+import Modal from "react-native-modal";
 import CheckMark from "../assets/icons/checkedMark";
-import colors from "../config/colors";
-
+import CheckButton from "../components/CheckButton";
+import { _pickImage, _uploadItem } from "../controller/fileUtilitiesSync";
+import { MemberModelManage } from "../controller/MemberModel";
 
 export default class EditProfileScreen extends Component {
 

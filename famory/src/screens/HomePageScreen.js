@@ -7,7 +7,6 @@ import IconButtonWithText from "../components/IconButtonWithText";
 import Empty from "../components/Empty";
 import ImageButton from "../components/ImageButton";
 import { Avatar } from "react-native-elements";
-import Button from "../components/Button";
 import TouchableScale from 'react-native-touchable-scale';
 import { Icon } from 'react-native-elements'
 

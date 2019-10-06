@@ -2,7 +2,6 @@ import firebase from "firebase";
 import firebaseContainer from "./firebaseConfig";
 import * as ImagePicker from 'expo-image-picker';
 
-
 // picks image from local file system
 // we do not upload here because user need to 'confirm' to upload artefact
 export const _pickImage = async () => {

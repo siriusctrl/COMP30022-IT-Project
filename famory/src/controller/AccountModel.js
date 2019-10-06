@@ -7,7 +7,7 @@ export class AccountModelManage {
   static _managePart = null;
   _accountPath = "FamilyAccount";
 
-  // get instance of Account model manager and---
+  // get instance of Account model manager
   static getInstance() {
     firebaseContainer.getInstance().justStart();
     if (this._managePart == null) {
@@ -44,7 +44,7 @@ export class AccountModelManage {
 
 }
 
-export class Family{
+export class Family {
 
   familyName = "";
   dateCreated = "Jan 01, 1970";
@@ -63,7 +63,6 @@ export class Family{
       avatar: this.avatar,
     }
   }
-
 }
 
 export default accountModel = {
