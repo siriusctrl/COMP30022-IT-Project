@@ -31,7 +31,9 @@ export class MemberModelManage{
 
   // TODO add member
   setMember(callback, details, familyAccountModel){
-    familyMemberId = Object.keys(familyAccountModel.familyMember).length
+    memberIds = Object.keys(familyAccountModel.familyMember).map((a) => Number(a))
+
+    familyMemberId = Math.max.apply(null, memberIds) + 1
     nextId = familyMemberId
     firebase.database().ref(this._path + "/" + "curMember/").once("value").then((maxMember) => {
       let maxId = maxMember.val()
@@ -39,13 +41,13 @@ export class MemberModelManage{
       firebase.database()
         .ref(this._path + "/" + newMemberId).set(details)
       firebase.database()
-        .ref(familyAccountModel._path + "/familyMember" + "/" + nextId).set(newMemberId)
+        .ref(familyAccountModel._path + "/familyMember" + "/" + nextId.toString()).set(newMemberId)
       firebase.database()
         .ref(this._path + "/" + "curMember/").set((Number(maxId) + 1))
       let member = new Member(details, newMemberId);
 
       familyAccountModel.member[newMemberId] = member;
-      familyAccountModel.familyMember[nextId] = newMemberId;
+      familyAccountModel.familyMember[nextId.toString()] = newMemberId;
 
       callback(familyAccountModel)
     });
