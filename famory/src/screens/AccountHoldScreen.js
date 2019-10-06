@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import {TouchableHighlight, StyleSheet, Image, Alert, View, Text, TouchableOpacity, TextInput} from 'react-native';
-import { Container, Header, Content, ListItem, Icon, Left, Body, Right, Switch, Separator } from 'native-base';
+import { StyleSheet, Image, View, Text } from 'react-native';
+import { Container, ListItem, Left, Body, Right } from 'native-base';
 import Dialog, { DialogContent, DialogTitle, DialogFooter, DialogButton, SlideAnimation } from 'react-native-popup-dialog';
 
 import strings from "../config/strings";
@@ -13,10 +13,8 @@ import Setting from "../assets/icons/setting";
 import Accountmail from "../assets/icons/accountmail";
 
 import { AccountModelManage } from "../controller/AccountModel";
-import colors from "../config/colors";
 import Spinner from 'react-native-loading-spinner-overlay';
 import { StackActions, NavigationActions } from 'react-navigation';
-import CheckButton from "../components/CheckButton";
 import { _pickImage, _uploadItem } from "../controller/fileUtilitiesSync";
 
 
@@ -268,5 +266,4 @@ const styles = StyleSheet.create({
   spinnerTextStyle: {
     color: '#FFF'
   },
-
 });

@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import { Text, Image, StyleSheet, View, KeyboardAvoidingView, ImageBackground, TouchableWithoutFeedback, Linking, Dimensions} from "react-native";
+import { Text, StyleSheet, View, KeyboardAvoidingView, TouchableWithoutFeedback, Linking, Dimensions} from "react-native";
 import { Video } from 'expo-av';
 import firebase from "firebase";
 import firebaseConfig from "../controller/firebaseConfig";
@@ -8,8 +8,6 @@ import Button from "../components/Button";
 import FormTextInput from "../components/FormTextInput";
 import Spinner from 'react-native-loading-spinner-overlay';
 import AlertPro from "react-native-alert-pro";
-
-import darkimg from "../assets/images/dark.png"
 
 import colors from "../config/colors";
 import strings from "../config/strings";
