@@ -80,27 +80,49 @@ export default class HomePageScreen extends Component{
     this.props.navigation.navigate('Achievement');
   };
 
+
+  // set the maibn familyAccountModel that used in the page
   setModel = (familyAccount) => {
     this.setState({familyAccount: familyAccount});
-      this.setState({familyName: familyAccount.name + "'s Family"});
-      familyAccount.getMembers((members) => {
-        this.setState({avatars: []})
-        if(this.state.mode === "edit"){
-          this.setState({mode: "view"});
-        }
-        for(let member of Object.values(members)){
-            while (this.state.avatars.length <= member.generation){              
-              this.state.avatars.push({});
-            }
+    this.setState({familyName: familyAccount.name + "'s Family"});
 
-            temp = this.state.avatars[member.generation];
-            temp.gen = "GEN " + member.generation;
-            // add member objects to each columns
-            temp.members == null ? temp.members = [member] : temp.members.push(member);
-  
-        }
-        this.setState({memberRdy:true});
-      });
+    // get all members
+    familyAccount.getMembers((members) => {
+      this.setState({avatars: []})
+
+      if(this.state.mode === "edit"){
+        this.setState({mode: "view"});
+      }
+
+      // build the main data model used in the page
+      let maxGeneration = 0;
+      const maxGenLimit = 10;
+      for(let member of Object.values(members)){
+          while (this.state.avatars.length <= member.generation){              
+            this.state.avatars.push({});
+          }
+
+          temp = this.state.avatars[member.generation];
+          temp.gen = "GEN " + member.generation;
+
+          if (Number(member.generation) > maxGeneration){
+            maxGeneration = Number(member.generation)
+          }
+
+          // add member objects to each columns
+          temp.members == null ? 
+            temp.members = [member] : 
+            temp.members.push(member);
+      }
+
+      maxGeneration = maxGeneration + 1;
+
+      if(maxGeneration < maxGenLimit){
+        this.state.avatars[maxGeneration.toString()] = {gen: "GEN " + maxGeneration.toString(), members: []}
+      }
+
+      this.setState({memberRdy:true});
+    });
   }
 
 
@@ -110,10 +132,12 @@ export default class HomePageScreen extends Component{
     });
   }
 
+
   // the function will be load here
   _loadMembers = () => {
     this.getMembers();
   }
+
 
   // Item separator
   FlatListItemSeparator = () => {
@@ -151,21 +175,18 @@ export default class HomePageScreen extends Component{
               Alert.alert(
                 'Delete member ' + m.firstName + " " + m.lastName + " ?",
                 m.firstName + " " + m.lastName + " and his " + Object.keys(m.item).length + " Artefacts will be gone.",
-                [
-                  {
+                [{
                     text: 'Cancel',
                     style: 'cancel',
                   },
                   {text: 'OK', onPress: () => {this.state.familyAccount.delMember(
                       (familyAccount) => {
                         this.setModel(familyAccount);
-                      }, m.memberId
-                    )}
-                  },
-                ],
+                      }, m.memberId)}
+                  }],
                 {cancelable: false},
-              )}} style={{position: "absolute", right: 0, Top: 0, width: 30, height: 30, borderRadius: 15, elevation: 6}}>
-              <View style={{backgroundColor: colors.TORCH_RED, width: 30, height: 30, borderRadius: 15, borderColor: colors.WHITE, borderWidth: 2, justifyContent: "center", alignItems: "center"}}>
+              )}} style={styles.deleteButtonWrapper}>
+              <View style={styles.deleteButtonUp}>
                 <Icon name='clear' size={17} color={colors.WHITE}/>
               </View>
             </TouchableOpacity>:[]}
@@ -205,7 +226,7 @@ export default class HomePageScreen extends Component{
             </Text>
           </View>
 
-          <View style={{flex: 4.3, flexDirection: "row", justifyContent: "flex-start", flexWrap:"wrap", alignContent:"space-around", paddingTop: 16}}>
+          <View style={styles.rowAvas}>
            {this.avatarConstructor(item)}
           </View>
         </View>
@@ -218,13 +239,13 @@ export default class HomePageScreen extends Component{
   _renderEditText = () => {
     if (this.state.mode === "view"){
       return(
-        <Text style={{fontSize:15, flex: 1, color: colors.DODGER_BLUE, height: 32, textAlignVertical: "center"}} onPress={this._handleEditPress}>
+        <Text style={styles.editButton} onPress={this._handleEditPress}>
           EDIT
         </Text>
       );
     } else {
       return(
-        <Text style={{fontSize:15, flex: 1, color: colors.DODGER_BLUE, height: 32, textAlignVertical: "center"}} onPress={this._handleEditPress}>
+        <Text style={styles.editButton} onPress={this._handleEditPress}>
           DONE
         </Text>
       );
@@ -267,7 +288,7 @@ export default class HomePageScreen extends Component{
     let topBarHeight = 89
 
     Animated.timing(this.state.familyListMarTop, {
-      toValue: 32, // 目标值
+      toValue: 32, 
       duration: 1200,
       easing: Easing.out(Easing.exp)
     }).start();
@@ -275,7 +296,7 @@ export default class HomePageScreen extends Component{
     return (
       <View style={{flex: 1, backgroundColor: colors.HOMESCREENLIGHTBLUE}}>
 
-        <Animated.View style={[{flex: 1, flexDirection: "column", justifyContent: "center", alignItems: "center", paddingBottom: 76, borderTopRightRadius: 12, borderTopLeftRadius: 12, overflow: "hidden", backgroundColor: colors.WHITE, elevation: 12}, {marginTop: this.state.familyListMarTop}]}>
+        <Animated.View style={[styles.mainListView, {marginTop: this.state.familyListMarTop}]}>
           <View style={{width: "100%", height: topBarHeight, position:'absolute', top: 0}}>
             <View style={{flex:1, flexDirection:"row", paddingLeft: 17, alignItems: "center"}}>
               <Text style={{fontSize:25, backgroundColor:"transparent", flex: 7, color: colors.BLACK}}>
@@ -286,7 +307,7 @@ export default class HomePageScreen extends Component{
           </View>
           <FlatList 
             //data={this.avatar}
-            data={this.state.avatars}
+            data={this.state.mode == "edit"? this.state.avatars: this.state.avatars.slice(0, this.state.avatars.length - 1)}
             extraData={this.state}
             renderItem={this._renderItem}
             ItemSeparatorComponent={this.FlatListItemSeparator}
@@ -296,7 +317,7 @@ export default class HomePageScreen extends Component{
 
         
         
-        <View style={{width: "100%", height: 76, position:'absolute', bottom:0, elevation: 52, backgroundColor: colors.HOMESCREENLIGHTBLUE}}>
+        <View style={styles.bottomButtonWrapper}>
 
           <View style={styles.buttonContainer}>
             <Empty/>
@@ -392,4 +413,21 @@ const styles = StyleSheet.create({
     marginHorizontal: 30,
     backgroundColor: 'transparent',
   },
+  mainListView: {
+    flex: 1, 
+    flexDirection: "column", 
+    justifyContent: "center", 
+    alignItems: "center", 
+    paddingBottom: 76, 
+    borderTopRightRadius: 12, 
+    borderTopLeftRadius: 12, 
+    overflow: "hidden", 
+    backgroundColor: colors.WHITE, 
+    elevation: 12
+  },
+  bottomButtonWrapper: {width: "100%", height: 76, position:'absolute', bottom:0, elevation: 52, backgroundColor: colors.HOMESCREENLIGHTBLUE},
+  editButton: {fontSize:15, flex: 1, color: colors.DODGER_BLUE, height: 32, textAlignVertical: "center"},
+  rowAvas: {flex: 4.3, flexDirection: "row", justifyContent: "flex-start", flexWrap:"wrap", alignContent:"space-around", paddingTop: 16},
+  deleteButtonWrapper: {position: "absolute", right: 0, top: 0, width: 30, height: 30, borderRadius: 15, elevation: 6},
+  deleteButtonUp: {backgroundColor: colors.TORCH_RED, width: 30, height: 30, borderRadius: 15, borderColor: colors.WHITE, borderWidth: 2, justifyContent: "center", alignItems: "center"}
 });

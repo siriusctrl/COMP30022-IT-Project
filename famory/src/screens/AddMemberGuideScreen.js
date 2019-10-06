@@ -21,7 +21,6 @@ export default class AddMemberGuide extends Component{
   defaultAvatar = "https://firebasestorage.googleapis.com/v0/b/fir-one-28de9.appspot.com/o/defaultavatar.png?alt=media&token=931ffe40-d430-4755-8b4a-4c43162da079"
 
   state = {
-    
     currentStage: "addMemberInitial",
     currentPurpose: "addMember",
     memberName: "Anynymous",
@@ -79,9 +78,10 @@ export default class AddMemberGuide extends Component{
                   (date.getDate()).toString()
   }
 
+
+  // normal bottom buttons
   generalBottom = () => {
     return(<View style={guideStyle.bottomButtonCn}>
-
       <TouchableNativeFeedback style={{borderRadius: 2, elevation: 1}}>
         <Button style={guideStyle.bottomButtonLeft} iconLeft light onPress={() => this._changeStage(true)}>
           <Icon name='arrow-back' />
@@ -97,6 +97,9 @@ export default class AddMemberGuide extends Component{
     </View>)
   }
 
+
+  // color picker in the last page of addmemberGuide
+  // return a view contains pickers
   ringColorPicker = (chosen) => {
     let rings = [
       colors.RINGBLUE,
@@ -109,29 +112,38 @@ export default class AddMemberGuide extends Component{
 
     let render = []
     for(let i = 0; i < rings.length; i ++){
+      // style for other colors that are not chosen
       let style = { ... guideStyle.colorPi, backgroundColor: rings[i]}
+      // style for the chosen color
       if (chosen == i){
-        style = {... guideStyle.colorPi, ... guideStyle.colorPicked, backgroundColor: rings[i]}
+        style = {
+          ... guideStyle.colorPi, 
+          ... guideStyle.colorPicked, 
+          backgroundColor: rings[i]
+        }
       }
       render.push(
         <View style={style}>
-                <TouchableNativeFeedback onPress={() => this.setState({
-                  picked: i,
-                  ringColor: rings[i]
-                })}>
-                  <Image style={{... guideStyle.imagePick, backgroundColor: rings[i]}}>
-                  </Image>
-                </TouchableNativeFeedback>
-              
-              </View>
+          <TouchableNativeFeedback onPress={() => this.setState({
+                picked: i,
+                ringColor: rings[i]})}>
+            <Image style={{... guideStyle.imagePick, backgroundColor: rings[i]}}>
+            </Image>
+          </TouchableNativeFeedback>
+        </View>
       )
     }
-
     return render
   }
 
+
+  // guide stages
+  // each has a title shown at the upper
+  // and a view function to render the main content of the stage
+  // also a bottom button render function
   stages = {
-    "addMemberInitial": {
+    "addMemberInitial": 
+    {
       "title": "Add a member to your family",
       "view": () =>
         <View style={{flex: 4, flexDirection: "column", paddingTop: 86}}>
@@ -143,7 +155,6 @@ export default class AddMemberGuide extends Component{
               {this.state.familyAccount.name}'s family
             </Text>
           </View>
-          
         </View>
       ,
       "next": {
@@ -158,9 +169,10 @@ export default class AddMemberGuide extends Component{
           </Button>
         </TouchableNativeFeedback>
       </View>
-      
     },
-    "addMemberName": {
+
+    "addMemberName": 
+    {
       "title": "What's the Name?",
       "view": () =>
         <KeyboardAvoidingView behavior="height" enabled style={{flex: 4, flexDirection: "column", paddingTop: 48}}>
@@ -178,13 +190,13 @@ export default class AddMemberGuide extends Component{
               What's the Last Name?
              </Text>
              <TextInput 
-             placeholder={this.state.memberAddFamily} 
-             onChangeText={
+              placeholder={this.state.memberAddFamily} 
+              onChangeText={
               (lastName) => {this._changeText({lastName: lastName})}
-            }
-             style={guideStyle.blackText} />
+              }
+              style={guideStyle.blackText} />
           </View>
-          
+
         </KeyboardAvoidingView>
       ,
       "next": {
@@ -194,9 +206,10 @@ export default class AddMemberGuide extends Component{
         "addMember": "addMemberInitial",
       },
       bottomButton: this.generalBottom
-
     },
-    "addMemberGender": {
+
+    "addMemberGender": 
+    {
       "title": "What's the Gender?",
       "view": () =>
         <KeyboardAvoidingView behavior="height" enabled style={{flex: 4, flexDirection: "column", paddingTop: 69}}>
@@ -205,10 +218,10 @@ export default class AddMemberGuide extends Component{
               We support any gender you like
              </Text>
              <TextInput 
-             placeholder={"N/A"} 
-             onChangeText={
-              (gr) => {this._changeText({gender: gr})}
-            }
+              placeholder={"N/A"} 
+              onChangeText={
+                (gr) => {this._changeText({gender: gr})}
+              }
              style={guideStyle.blackText} />
           </View>
           
@@ -289,8 +302,10 @@ export default class AddMemberGuide extends Component{
     },
     "addMemberAvatar": {
       "title": "How does the member look like?",
-      "view": () => (this.state.finishedAdd? 
-        <KeyboardAvoidingView behavior="height" enabled style={{flex: 4, flexDirection: "column", justifyContent: "center", alignItems: "center"}}>
+      "view": () => (
+        this.state.finishedAdd? 
+        <KeyboardAvoidingView behavior="height" enabled 
+          style={{flex: 4, flexDirection: "column", justifyContent: "center", alignItems: "center"}}>
           <LottieView
             autoPlay={true}
               ref={animation => {
@@ -300,28 +315,37 @@ export default class AddMemberGuide extends Component{
               source={require('../assets/animation/addingMember.json')}
               style={{width: 86, height: 86}}
             />
-            <Text style={{fontSize: 18, paddingHorizontal: 29, paddingLeft: 32, color: colors.BLACK}}>Adding member..</Text>
-          </KeyboardAvoidingView>:
-        <KeyboardAvoidingView behavior="height" enabled style={{flex: 4, flexDirection: "column", paddingTop: 42}}>
+          <Text style={{fontSize: 18, paddingHorizontal: 29, paddingLeft: 32, color: colors.BLACK}}>Adding member..</Text>
+        </KeyboardAvoidingView>
+        :
+        <KeyboardAvoidingView behavior="height" enabled 
+          style={{flex: 4, flexDirection: "column", paddingTop: 42}}>
           <View style={{paddingHorizontal: 29, flex: 6, paddingLeft: 32, marginTop: -40}}>
-           <View style={{width: 196, height: 196, borderRadius: 98, borderWidth: 12, overflow: "hidden", borderColor: this.state.ringColor}}>
-             <TouchableNativeFeedback onPress={
-               async () => {
-                 let image = await _pickImage();
-                 if (!image.cancelled) {
-                  this.setState({avatar: image.uri})
-                 }
-               }
-             }>
-              <Image source={{uri: this.state.avatar? this.state.avatar: this.defaultAvatar}} style={{width: "100%", height: "100%", backgroundColor: colors.WHITE}} />
-             </TouchableNativeFeedback>
-           </View>
+            <View 
+              style={{width: 196, height: 196, borderRadius: 98, borderWidth: 12, overflow: "hidden", borderColor: this.state.ringColor}}>
+              <TouchableNativeFeedback 
+                onPress={
+                async () => {
+                  let image = await _pickImage();
+                  if (!image.cancelled) {
+                    this.setState({avatar: image.uri})
+                  }}
+                }>
+                <Image 
+                  source={{uri: this.state.avatar? this.state.avatar: this.defaultAvatar}} 
+                  style={{width: "100%", height: "100%", backgroundColor: colors.WHITE}} />
+              </TouchableNativeFeedback>
+            </View>
 
-           <Text style={{fontSize: 19, marginTop: 25, width: "97%", fontWeight: 'normal'}}>
+            <Text style={{fontSize: 19, marginTop: 25, width: "97%", fontWeight: 'normal'}}>
               Choose their exclusive color!
-             </Text>
+            </Text>
            
-           <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} padingEnabled={true} style={{width: "100%", height: 56, marginTop: 25, flexDirection: "row", }}>
+           <ScrollView 
+            horizontal={true} 
+            showsHorizontalScrollIndicator={false} 
+            padingEnabled={true} 
+            style={{width: "100%", height: 56, marginTop: 25, flexDirection: "row", }}>
               {this.ringColorPicker(this.state.picked)}
             </ScrollView>
           </View>
@@ -335,7 +359,8 @@ export default class AddMemberGuide extends Component{
       "back": {
         "addMember": "addMemberRole",
       },
-      bottomButton: () => (this.state.finishedAdd? 
+      bottomButton: () => (
+        this.state.finishedAdd? 
         []
         :
         <View style={guideStyle.bottomButtonCn}>
@@ -355,7 +380,6 @@ export default class AddMemberGuide extends Component{
 
       </View>
       )
-      
     },
   }
 
@@ -368,17 +392,17 @@ export default class AddMemberGuide extends Component{
     }
 
     // get next stage that needs to be shown up
-    ge = this.stages[this.state.currentStage][now][this.state.currentPurpose]
+    nextStage = this.stages[this.state.currentStage][now][this.state.currentPurpose]
 
     // if not finish then change stage
-    if(ge && ge != FINISH){
+    if(nextStage && nextStage != FINISH){
         this.setState(
           {
             ... this.state,
-            currentStage: ge,
+            currentStage: nextStage,
           }
         );
-    }else if(ge == FINISH){
+    }else if(nextStage == FINISH){
       //else then do something after
       this._finish(this.state.currentPurpose);
     }else{
@@ -386,16 +410,20 @@ export default class AddMemberGuide extends Component{
     }
   }
 
+
   // after finishing guide
   _finish = (purpose) => {
     
+    // finishing
     this.setState({
       finishedAdd: true
     })
 
     let imageURI = this.defaultAvatar;
+
     if(this.state.avatar != ""){
 
+      // upload profile image
       _uploadToFirebase(this.state.avatar, (imageURI) => {
 
         let memberDetails = {
@@ -410,12 +438,15 @@ export default class AddMemberGuide extends Component{
           role: this.state.role
         }
 
+        // then build member
         MemberModelManage.getInstance().setMember((familyAccount) => {
           this.props.navigation.getParam("homePageScreen", null).setModel(familyAccount);
           this.props.navigation.navigate('HomePage', {prevScreen: 'AddMemberGuide'});
-      }, memberDetails, this.state.familyAccount);
-    })
+        }, memberDetails, this.state.familyAccount);
+      })
     }else{
+
+      // if no avatar chosen in the guide
       let memberDetails = {
         dob: this.getStringDate(this.state.dateBirth),
         firstName: this.state.memberName,
@@ -435,27 +466,28 @@ export default class AddMemberGuide extends Component{
     }
   }
 
+
   // onChange for any text input in the guide
-  _changeText = (te) => {
+  _changeText = (text) => {
     this.setState(
       {
         ... this.state,
-        ... te
+        ... text
       }
     );
-
   }
 
+  
   render(){
     return(
       <KeyboardAvoidingView behavior="padding" enabled style={{flexDirection: "column", flex: 1}}>
-
-        <View style={{paddingTop: 26, paddingHorizontal: 26, flex: 1, justifyContent: "flex-start", alignItems: "center", flexDirection: "row"}}>
+        <View style={guideStyle.topNav}>
           <TouchableNativeFeedback onPress={() => this.props.navigation.goBack()}>
             <Icon name='clear' size={30} />
           </TouchableNativeFeedback>
         </View>
-        {this.state.familyAccount? 
+        {
+          this.state.familyAccount? 
           <View style={{flex: 5, width: "100%", flexDirection: "column", paddingLeft: 2}}>
             <View style={{paddingHorizontal: 28, flex: 1, flexDirection:"column", justifyConytent: "center", alignItems: "flex-start", paddingBottom: 16}}>
               <Text style={{flex: 1, width: "85%", textAlignVertical: "center", fontSize: 28, color: colors.HOMESCREENLIGHTBLUE}}>
@@ -464,8 +496,9 @@ export default class AddMemberGuide extends Component{
             </View>
             {this.stages[this.state.currentStage]["view"]()}
             {this.stages[this.state.currentStage]["bottomButton"]()}
-          
-          </View>:<View style={{flex: 5}}></View>
+          </View>
+          :
+          <View style={{flex: 5}}></View>
         }
       </KeyboardAvoidingView>
     )
@@ -517,6 +550,7 @@ const guideStyle = StyleSheet.create(
     },
     colorPicked: {borderWidth: 5, borderColor: colors.HOMESCREENLIGHTBLUE,},
     colorPi: {width: 56, height: 56, borderRadius: 28, backgroundColor: colors.HOMESCREENLIGHTBLUE, overflow: "hidden", marginRight: 19},
-    imagePick: {width: "100%", height: "100%", backgroundColor: colors.HOMESCREENLIGHTBLUE}
+    imagePick: {width: "100%", height: "100%", backgroundColor: colors.HOMESCREENLIGHTBLUE},
+    topNav: {paddingTop: 26, paddingHorizontal: 26, flex: 1, justifyContent: "flex-start", alignItems: "center", flexDirection: "row"}
   }
 )
