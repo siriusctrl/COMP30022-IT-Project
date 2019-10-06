@@ -1,15 +1,14 @@
 import React, { Component } from 'react';
-import {StyleSheet, Image, Alert, View, Text, TextInput, Button, Modal} from 'react-native';
+import {StyleSheet, Image, Alert, View, Text, TextInput} from 'react-native';
 import { ListItem, Body } from 'native-base';
-
-import LottieView from "lottie-react-native";
+import Modal from "react-native-modal";
 import DatePicker from 'react-native-datepicker';
 
 import CheckButton from "../components/CheckButton"
 import { MemberModelManage } from "../controller/MemberModel";
 import { _pickImage, _uploadItem } from "../controller/fileUtilitiesSync";
-import Spinner from 'react-native-loading-spinner-overlay';
-
+import CheckMark from "../assets/icons/checkedMark";
+import colors from "../config/colors";
 
 
 export default class EditProfileScreen extends Component {
@@ -43,7 +42,7 @@ export default class EditProfileScreen extends Component {
 
   /*
     use state to record profile information, including first name, last name
-    date of birth and profile image.f
+    date of birth and profile image
    */
   state = {
     firstName: "",
@@ -52,6 +51,7 @@ export default class EditProfileScreen extends Component {
     image: null,
     imageuploaded: false,
     result: null,
+    modalVisible: false,
   };
 
   componentDidMount () {
@@ -70,6 +70,8 @@ export default class EditProfileScreen extends Component {
 
   // submit firstName, lastName, date of birth and profile image to the database
   _handleSubmit = async () => {
+    setTimeout(this.toggleButton, 500);
+    setTimeout(this.toggleButton, 2500);
     // upload to firebase storage
     let model = this.props.navigation.state.params.memberModel;
     model.firstName = this.state.firstName;
@@ -78,7 +80,6 @@ export default class EditProfileScreen extends Component {
     if (this.state.imageuploaded) {
       _uploadItem(this.state.result, (firebaseUri) => {
         model.profileImage = firebaseUri;
-        alert(model.profileImage);
         MemberModelManage.getInstance().setProfile(() => {
           model.updateSelf((newModel) => {
             this.props.navigation.getParam("profileScreen", null).setModel(newModel)
@@ -94,7 +95,15 @@ export default class EditProfileScreen extends Component {
         //this.props.navigation.goBack();
       }, model);
     }
+
   };
+
+  // toggle modal
+  toggleButton = () => {
+    this.state.modalVisible = !this.state.modalVisible;
+    this.forceUpdate();
+  };
+
 
   // upload image from local system
   _uploadImage = async () => {
@@ -184,6 +193,22 @@ export default class EditProfileScreen extends Component {
           </ListItem>
         </View>
 
+        <Modal
+          style={styles.uploadingModalStyle}
+          isVisible={this.state.modalVisible}
+          animationIn="fadeInDown"
+          animationInTiming={600}
+          animationOutTiming={600}
+          animationOut="fadeOutUp"
+          >
+          <View style={styles.modalContainer}>
+            <CheckMark />
+            <Text style={{fontSize: 20, fontWeight: "normal", textAlign: 'center', textAlignVertical: 'center', marginLeft: 10,}}>
+              Successfully Saved
+            </Text>
+          </View>
+        </Modal>
+
       </View>
     );
 
@@ -216,5 +241,21 @@ const styles = StyleSheet.create({
     height: 30,
     borderBottomColor: "lightgrey",
     borderBottomWidth: 1
-  }
+  },
+  uploadingModalStyle: {
+    marginTop: 100,
+    marginHorizontal: 30,
+    color: "#ffffff",
+    backgroundColor: '#fff',
+    borderRadius: 15,
+    justifyContent: "center",
+    marginBottom: 510,
+  },
+  modalContainer: {
+    flex:1,
+    justifyContent:"center",
+    alignItems:"center",
+    color: "#fff",
+    flexDirection: 'row',
+  },
 });
