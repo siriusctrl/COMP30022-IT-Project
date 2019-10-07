@@ -230,7 +230,6 @@ const styles = StyleSheet.create({
   avatar: {
     width: 120,
     height: 120,
-    resizeMode: "contain",
     alignSelf: "center",
     marginTop: 20,
     marginBottom: 20,
