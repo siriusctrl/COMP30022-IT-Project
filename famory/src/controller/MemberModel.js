@@ -17,7 +17,6 @@ export class MemberModelManage{
     return this._managePart;
   }
 
-
   // get member by id, then call callBack
   // callBack should be a function that takes a memberModel
   getMember(callBack, id){
@@ -29,7 +28,7 @@ export class MemberModelManage{
     });
   }
 
-  // TODO add member
+  // add member
   setMember(callback, details, familyAccountModel){
     memberIds = Object.keys(familyAccountModel.familyMember).map((a) => Number(a))
 
