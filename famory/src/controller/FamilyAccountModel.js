@@ -54,6 +54,15 @@ export class FamilyAccountModelManage{
     });
   }
 
+  // set photo
+  setPhoto(callback, newPhoto) {
+    let photoRef = firebase.database().ref(this._accountPath + '/avatar/');
+    photoRef.once("value").then((snapshot) => {
+      // set like
+      photoRef.set(newPhoto);
+    });
+  }
+
 }
 
 
