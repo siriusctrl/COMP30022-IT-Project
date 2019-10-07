@@ -1,15 +1,10 @@
-import React, {Component} from "react";
-import { Text, Image, StyleSheet, View , Alert, KeyboardAvoidingView, ImageBackground} from "react-native";
-import { Icon } from 'react-native-elements'
+import * as VideoThumbnails from 'expo-video-thumbnails';
+import React, { Component } from "react";
+import { Image, StyleSheet, Text, View } from "react-native";
+import { Icon } from 'react-native-elements';
+import stamp from "../assets/images/stamp.png";
 import colors from "../config/colors";
 
-import { TouchableNativeFeedback } from "react-native-gesture-handler";
-
-import Carousel from "react-native-snap-carousel";
-import * as VideoThumbnails from 'expo-video-thumbnails';
-
-
-import stamp from "../assets/images/stamp.png"
 const getAssetImagePath = (imagePh) => {
   return ("../assets/images/" + imagePh)
 };

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { StyleSheet, View, TouchableOpacity, Text, Animated } from "react-native";
+import { StyleSheet, View } from "react-native";
 import Button from "../components/Button";
 
 export default class TestScreen extends Component {

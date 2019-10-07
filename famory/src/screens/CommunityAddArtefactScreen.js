@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import { Text, Image, StyleSheet, View, FlatList, TextInput } from "react-native";
+import { Text, StyleSheet, View, FlatList, TextInput } from "react-native";
 import colors from "../config/colors";
 import { ListItem } from 'react-native-elements'
 import Carousel from "react-native-snap-carousel";

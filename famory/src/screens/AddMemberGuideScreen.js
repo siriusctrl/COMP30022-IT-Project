@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import { Text, TextInput, Image, StyleSheet, View, KeyboardAvoidingView, DatePickerAndroid, ScrollView} from "react-native";
+import { Text, TextInput, Image, StyleSheet, View, KeyboardAvoidingView, DatePickerAndroid, ScrollView } from "react-native";
 import colors from "../config/colors";
 import { Icon } from 'react-native-elements'
 import { Button } from 'native-base';
