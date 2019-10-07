@@ -12,7 +12,7 @@ import Achievement from "../assets/icons/achievement";
 import Setting from "../assets/icons/setting";
 import Accountmail from "../assets/icons/accountmail";
 
-import { AccountModelManage } from "../controller/AccountModel";
+import { FamilyAccountModelManage } from "../controller/FamilyAccountModel";
 import colors from "../config/colors";
 import Spinner from 'react-native-loading-spinner-overlay';
 import { StackActions, NavigationActions } from 'react-navigation';
@@ -27,15 +27,16 @@ export default class AccountHoldScreen extends Component {
     return {
       title: 'Account',
       headerStyle: {
-        backgroundColor: '#4E91C4',
+        backgroundColor: colors.WHITE,
       },
+
+      headerTintColor: '#4E91C4',
 
       headerTitleStyle: {
         fontWeight: 'bold',
-        marginLeft: 90,
+        color: '#4E91C4',
         flex: 1,
       },
-      headerTintColor: '#FFFFFF',
     };
   };
 
@@ -50,11 +51,12 @@ export default class AccountHoldScreen extends Component {
 
   // get account family name and date of Creation
   getAccount = async () => {
-    await AccountModelManage.getInstance().getAccount((familyName, dateCreated, avatar) => {
+    await FamilyAccountModelManage.getInstance().getFamilyAccount((familyAccount) => {
+
       this.setState({
-        familyName: familyName,
-        dateCreated: dateCreated,
-        accountAvatar: avatar,
+        familyName: familyAccount.name,
+        dateCreated: familyAccount.dateCreated,
+        accountAvatar: familyAccount.avatar,
       })
     });
   };
@@ -95,7 +97,7 @@ export default class AccountHoldScreen extends Component {
       _uploadItem(result, (uri) => {
         console.log(uri);
         // upload to firebase
-        AccountModelManage.getInstance().setPhoto(() => {}, uri);
+        FamilyAccountModelManage.getInstance().setPhoto(() => {}, uri);
       });
     }
   };
@@ -117,7 +119,7 @@ export default class AccountHoldScreen extends Component {
 
     return (
 
-      <Container>
+      <Container style={{flexDirection: "column", alignItems: "center"}}>
 
         <View style={{alignItems: "center", }}>
           {(this.state.accountAvatar == null) ? null : (
@@ -130,7 +132,7 @@ export default class AccountHoldScreen extends Component {
 
         </View>
 
-        <View>
+        <View style={{width: "96%"}}>
 
           <ListItem icon noBorder>
             <Left>
@@ -214,12 +216,12 @@ export default class AccountHoldScreen extends Component {
           </ListItem>
 
         </View>
-        <View>
+        <View style={{width: "92%"}}>
           <Button
             title="Log Out"
             label={strings.LOGOUT}
             onPress={this.handleLogOutPress}
-            extraStyles={{width: "80%", marginTop: 60, alignSelf: 'center'}}>
+            extraStyles={{width: "100%", marginTop: 60, alignSelf: 'center'}}>
           </Button>
         </View>
 
