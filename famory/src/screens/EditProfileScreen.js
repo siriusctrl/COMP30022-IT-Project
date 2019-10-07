@@ -126,9 +126,8 @@ export default class EditProfileScreen extends Component {
       <View style={{flex: 1}}>
         <View style={{alignItems: "center"}}>
 
-          {(this.state.image == null) ? null : (
-            <Image source={{uri: this.state.image}}  style={styles.avatar} />
-          )}
+          <Image source={(this.state.image == null) ? null : ({uri: this.state.image})}  style={styles.avatar} />
+        
 
           <Text style={{fontSize: 15, color: '#347ED3'}} onPress={this._uploadImage}>
             Change Profile Photo
@@ -217,7 +216,6 @@ const styles = StyleSheet.create({
   avatar: {
     width: 120,
     height: 120,
-    resizeMode: "contain",
     alignSelf: "center",
     marginTop: 15,
     marginBottom: 15,
