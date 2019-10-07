@@ -7,7 +7,6 @@ import IconButtonWithText from "../components/IconButtonWithText";
 import Empty from "../components/Empty";
 import ImageButton from "../components/ImageButton";
 import { Avatar } from "react-native-elements";
-import Button from "../components/Button";
 import TouchableScale from 'react-native-touchable-scale';
 import { Icon } from 'react-native-elements'
 
@@ -144,7 +143,7 @@ export default class HomePageScreen extends Component{
     return (
       <View style={{alignItems:"center", justifyContent:"center"}}>
         <View
-          style={{height: 0.5, width: '100%', backgroundColor: '#C8C8C8'}}
+          style={{height: StyleSheet.hairlineWidth, width: '100%', backgroundColor: '#C8C8C8'}}
         />
       </View>
     );
@@ -168,7 +167,7 @@ export default class HomePageScreen extends Component{
             activeScale={0.95}
             fraction={3}
             tension={100}
-            style={{width: 64, height: 64}}
+            style={{width: 54, height: 54}}
           />
           {this.state.mode==="edit"? 
             <TouchableOpacity onPress={() => {
@@ -196,11 +195,11 @@ export default class HomePageScreen extends Component{
 
     if(this.state.mode==="edit"){
       jsx.push(
-        <View style={{marginBottom:16, width: 64, height: 64}}>
+        <View style={{marginBottom:16, width: 54, height: 54}}>
           <Avatar
             icon={{name:"add", type:"ion-icon"}}
             rounded
-            size={64}
+            size={54}
             onPress={() => {this._handleAddPressed(item)}}
             activeOpacity={0.7}
             Component={TouchableScale}
@@ -360,7 +359,7 @@ export default class HomePageScreen extends Component{
             }}
             loop={false}
             source={require('../assets/animation/trophy.json')}
-            style={{marginTop: -50,}}
+            style={{marginTop: -54,}}
           />
 
           <TouchableOpacity onPress={this.handleAchievementPress}>

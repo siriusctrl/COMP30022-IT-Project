@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import {TouchableHighlight, StyleSheet, Image, Alert, View, Text, TouchableOpacity, TextInput} from 'react-native';
-import { Container, Header, Content, ListItem, Icon, Left, Body, Right, Switch, Separator } from 'native-base';
+import { StyleSheet, Image, View, Text } from 'react-native';
+import { Container, ListItem, Left, Body, Right } from 'native-base';
 import Dialog, { DialogContent, DialogTitle, DialogFooter, DialogButton, SlideAnimation } from 'react-native-popup-dialog';
 
 import strings from "../config/strings";
@@ -14,9 +14,9 @@ import Accountmail from "../assets/icons/accountmail";
 
 import { FamilyAccountModelManage } from "../controller/FamilyAccountModel";
 import colors from "../config/colors";
+
 import Spinner from 'react-native-loading-spinner-overlay';
 import { StackActions, NavigationActions } from 'react-navigation';
-import CheckButton from "../components/CheckButton";
 import { _pickImage, _uploadItem } from "../controller/fileUtilitiesSync";
 
 
@@ -27,14 +27,15 @@ export default class AccountHoldScreen extends Component {
     return {
       title: 'Account',
       headerStyle: {
-        backgroundColor: colors.WHITE,
+        backgroundColor: '#4E91C4',
       },
 
-      headerTintColor: '#4E91C4',
+      headerTintColor: colors.WHITE,
 
       headerTitleStyle: {
         fontWeight: 'bold',
-        color: '#4E91C4',
+        color: colors.WHITE,
+        paddingLeft: 90,
         flex: 1,
       },
     };
@@ -121,7 +122,7 @@ export default class AccountHoldScreen extends Component {
 
       <Container style={{flexDirection: "column", alignItems: "center"}}>
 
-        <View style={{alignItems: "center", }}>
+        <View style={{alignItems: "center", paddingVertical: 18}}>
           {(this.state.accountAvatar == null) ? null : (
             <Image source={{uri: this.state.accountAvatar}}  style={styles.avatar} />
           )}
@@ -234,7 +235,6 @@ const styles = StyleSheet.create({
   avatar: {
     width: 120,
     height: 120,
-    resizeMode: "contain",
     alignSelf: "center",
     marginTop: 20,
     marginBottom: 20,
@@ -270,5 +270,4 @@ const styles = StyleSheet.create({
   spinnerTextStyle: {
     color: '#FFF'
   },
-
 });

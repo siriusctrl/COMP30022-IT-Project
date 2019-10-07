@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import { Text, StyleSheet, View , KeyboardAvoidingView, ImageBackground, Modal, Dimensions} from "react-native";
+import { Text, StyleSheet, View , KeyboardAvoidingView, Dimensions} from "react-native";
 import Spinner from 'react-native-loading-spinner-overlay';
 import {validate} from "email-validator";
 import AlertPro from "react-native-alert-pro";
@@ -10,14 +10,13 @@ import colors from "../config/colors";
 import strings from "../config/strings";
 import Empty from "../components/Empty";
 
-import darkimg from "../assets/images/dark.png";
 import { Video } from 'expo-av';
 import Glass from "../assets/icons/glass";
 import Mail from "../assets/icons/mail";
 import PwdLock from "../assets/icons/pwdlock";
 import background from "../assets/videos/background.mp4"
 
-import {CheckBox} from 'native-base';
+import { CheckBox } from 'native-base';
 import firebase from "firebase";
 import firebaseConfig from "../controller/firebaseConfig";
 

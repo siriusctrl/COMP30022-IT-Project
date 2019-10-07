@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {View, StyleSheet, Text, Image, TouchableOpacity, Clipboard, CameraRoll} from 'react-native';
+import {View, StyleSheet, Text, TouchableOpacity, Clipboard, CameraRoll} from 'react-native';
 import Modal from "react-native-modal";
 import colors from "../config/colors";
 import strings from "../config/strings";
