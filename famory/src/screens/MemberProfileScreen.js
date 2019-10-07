@@ -117,6 +117,8 @@ export default class MemberProfile extends Component{
     this.props.navigation.navigate('Achievement');
   };
 
+  nativeRipple = TouchableNativeFeedback.Ripple(colors.MISCHKA, true)
+
 
   // render a artefact card in screen
   _renderRow = ({item, index}) => {
@@ -188,7 +190,7 @@ export default class MemberProfile extends Component{
                   this.state.isMemberReady? 
                   <View style={styles.profileTopTitle}>
                     <View style={styles.ava}>
-                      <TouchableNativeFeedback onPress={this._onPressAvatar}>
+                      <TouchableNativeFeedback onPress={this._onPressAvatar} background={this.nativeRipple}>
                         <Image source={{uri: this.state.memberModel.profileImage}}
                                style={{width: 68, height: 68, borderRadius: 34}} />
                       </TouchableNativeFeedback>
@@ -432,7 +434,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
   },
   profileTopTitle: {height: "100%", flex: 1, flexDirection: "row"},
-  ava: {flex: 2, overflow: "hidden", justifyContent: "center", alignItems: "center"},
+  ava: {flex: 2, overflow: "visible", justifyContent: "center", alignItems: "center"},
   nameAndBdgContainer: {flex: 6, paddingLeft: 12, flexDirection: "column", marginTop: 6},
   name: {marginTop: 6, fontSize: 26, color: colors.HOMESCREENLIGHTBLUE, marginLeft: 2},
   bdgWrapper: {flexDirection: "row", alignItems: "flex-start", marginTop: 3},

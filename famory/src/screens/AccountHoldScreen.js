@@ -12,7 +12,9 @@ import Achievement from "../assets/icons/achievement";
 import Setting from "../assets/icons/setting";
 import Accountmail from "../assets/icons/accountmail";
 
-import { AccountModelManage } from "../controller/AccountModel";
+import { FamilyAccountModelManage } from "../controller/FamilyAccountModel";
+import colors from "../config/colors";
+
 import Spinner from 'react-native-loading-spinner-overlay';
 import { StackActions, NavigationActions } from 'react-navigation';
 import { _pickImage, _uploadItem } from "../controller/fileUtilitiesSync";
@@ -28,12 +30,14 @@ export default class AccountHoldScreen extends Component {
         backgroundColor: '#4E91C4',
       },
 
+      headerTintColor: colors.WHITE,
+
       headerTitleStyle: {
         fontWeight: 'bold',
-        marginLeft: 90,
+        color: colors.WHITE,
+        paddingLeft: 90,
         flex: 1,
       },
-      headerTintColor: '#FFFFFF',
     };
   };
 
@@ -48,11 +52,12 @@ export default class AccountHoldScreen extends Component {
 
   // get account family name and date of Creation
   getAccount = async () => {
-    await AccountModelManage.getInstance().getAccount((familyName, dateCreated, avatar) => {
+    await FamilyAccountModelManage.getInstance().getFamilyAccount((familyAccount) => {
+
       this.setState({
-        familyName: familyName,
-        dateCreated: dateCreated,
-        accountAvatar: avatar,
+        familyName: familyAccount.name,
+        dateCreated: familyAccount.dateCreated,
+        accountAvatar: familyAccount.avatar,
       })
     });
   };
@@ -93,7 +98,7 @@ export default class AccountHoldScreen extends Component {
       _uploadItem(result, (uri) => {
         console.log(uri);
         // upload to firebase
-        AccountModelManage.getInstance().setPhoto(() => {}, uri);
+        FamilyAccountModelManage.getInstance().setPhoto(() => {}, uri);
       });
     }
   };
@@ -115,9 +120,9 @@ export default class AccountHoldScreen extends Component {
 
     return (
 
-      <Container>
+      <Container style={{flexDirection: "column", alignItems: "center"}}>
 
-        <View style={{alignItems: "center", }}>
+        <View style={{alignItems: "center", paddingVertical: 6}}>
           {(this.state.accountAvatar == null) ? null : (
             <Image source={{uri: this.state.accountAvatar}}  style={styles.avatar} />
           )}
@@ -128,7 +133,9 @@ export default class AccountHoldScreen extends Component {
 
         </View>
 
-        <View>
+        <View style={{paddingHorizontal: 8, width: "100%"}}>
+            
+          <Text style={{fontSize: 15, color: colors.SILVER, marginLeft: 16, marginBottom: 2}}>DETAIL</Text>
 
           <ListItem icon noBorder>
             <Left>
@@ -136,7 +143,7 @@ export default class AccountHoldScreen extends Component {
               </Homeicon>
             </Left>
             <Body>
-            <Text style={{fontSize: 16}}>Family Name</Text>
+              <Text style={{fontSize: 16}}>Family Name</Text>
             </Body>
             <Right>
               <Text>{this.state.familyName}</Text>
@@ -149,7 +156,7 @@ export default class AccountHoldScreen extends Component {
               </Calendar>
             </Left>
             <Body>
-            <Text style={{fontSize: 16, marginLeft: 3}}>Date of Creation</Text>
+              <Text style={{fontSize: 16, marginLeft: 3}}>Date of Creation</Text>
             </Body>
             <Right>
               <Text>{this.state.dateCreated}</Text>
@@ -162,11 +169,12 @@ export default class AccountHoldScreen extends Component {
               </Achievement>
             </Left>
             <Body>
-            <Text style={{fontSize: 16, marginLeft: 4}}>Achievement</Text>
+              <Text style={{fontSize: 16, marginLeft: 4}}>Achievement</Text>
             </Body>
           </ListItem>
 
           <View style={styles.separators} />
+          <Text style={{fontSize: 16, color: colors.SILVER, marginLeft: 16, marginBottom: 2}}>ACTION</Text>
 
           <ListItem icon noBorder onPress={() => {this.props.navigation.navigate("ForgetPassword")}}>
             <Left>
@@ -200,6 +208,7 @@ export default class AccountHoldScreen extends Component {
                   <DialogButton
                     text="DISMISS"
                     onPress={() => {this.setState({ contactVisible: false });}}
+                    style={{color: colors.LIGHTBLUE}}
                   />
                 </DialogFooter>
               }
@@ -212,13 +221,18 @@ export default class AccountHoldScreen extends Component {
           </ListItem>
 
         </View>
-        <View>
-          <Button
-            title="Log Out"
-            label={strings.LOGOUT}
-            onPress={this.handleLogOutPress}
-            extraStyles={{width: "80%", marginTop: 60, alignSelf: 'center'}}>
-          </Button>
+        <View style={{paddingHorizontal: 8, width: "100%"}}>
+          <ListItem icon noBorder onPress={this.handleLogOutPress}>
+            <Left>
+              <Setting title = "setting" style={{marginLeft: 3}}>
+              </Setting>
+            </Left>
+            <Body>
+              <Text style={{fontSize: 16, marginLeft: 3}}>Log Out</Text>
+            </Body>
+
+          </ListItem>
+          
         </View>
 
       </Container>
