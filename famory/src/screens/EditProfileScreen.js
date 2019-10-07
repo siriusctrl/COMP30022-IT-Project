@@ -124,7 +124,7 @@ export default class EditProfileScreen extends Component {
 
     return (
       <View style={{flex: 1}}>
-        <View style={{alignItems: "center", paddingVertical: 18}}>
+        <View style={{alignItems: "center", paddingVertical: 12}}>
 
           <Image source={(this.state.image == null) ? null : ({uri: this.state.image})}  style={styles.avatar} />
         
