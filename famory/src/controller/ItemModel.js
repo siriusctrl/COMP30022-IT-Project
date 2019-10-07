@@ -1,7 +1,6 @@
 import firebase from "firebase";
 import firebaseContainer from "./firebaseConfig";
 
-
 // manage class
 // singleton, call getInstance() to get an instace
 export class ItemModelManage{
@@ -25,7 +24,6 @@ export class ItemModelManage{
     return this._managePart;
   }
 
-
   // get a item using its description store in member
   // cb is callback function that is called after getting the item
   // cb should take a itemModel
@@ -39,7 +37,6 @@ export class ItemModelManage{
     })
   }
 
-  
   setItem(callback, details, memberModel, type){
 
     let path = {
@@ -122,6 +119,5 @@ export class Item{
     }
   }
 }
-
 
 export default ItemModelManage;

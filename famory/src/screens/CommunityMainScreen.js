@@ -3,6 +3,7 @@ import { Image, StyleSheet, View, Modal } from 'react-native';
 import { Container, DeckSwiper, Card, CardItem, Text } from 'native-base';
 import LottieView from "lottie-react-native";
 import colors from "../config/colors";
+import Spinner from 'react-native-loading-spinner-overlay';
 
 import AddNew from "../assets/icons/addNew";
 import ChatIcon from "../assets/icons/chat";
@@ -136,20 +137,16 @@ export default class CommunityMainScreen extends Component {
   render() {
 
     if (this.state.ready === false) return (
-      <Container>
-        <Modal style={styles.animationContainer} transparent={true} visible={true}
-          onShow={()=>{ 
-            this.animation.play();
-            }}>
-            <LottieView
-              ref={animation => {
-                this.animation = animation;
-              }}
-              loop={true}
-              source={require('../assets/animation/loading.json')}
-            />
-        </Modal>
-      </Container>
+      <View>
+        <Spinner
+          visible={true}
+          textStyle={styles.spinnerTextStyle}
+          cancelable={false}
+          overlayColor={"rgb(0, 0, 0, 0)"}
+          color={'#4E91C4'}
+          size={'large'}
+        />
+      </View>
     );
 
     return (

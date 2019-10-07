@@ -1,15 +1,12 @@
+import { Body, ListItem } from 'native-base';
 import React, { Component } from 'react';
-import {StyleSheet, Image, Alert, View, Text, TextInput} from 'react-native';
-import { ListItem, Body } from 'native-base';
-import Modal from "react-native-modal";
+import { Image, StyleSheet, Text, TextInput, View } from 'react-native';
 import DatePicker from 'react-native-datepicker';
-
-import CheckButton from "../components/CheckButton"
-import { MemberModelManage } from "../controller/MemberModel";
-import { _pickImage, _uploadItem } from "../controller/fileUtilitiesSync";
+import Modal from "react-native-modal";
 import CheckMark from "../assets/icons/checkedMark";
-import colors from "../config/colors";
-
+import CheckButton from "../components/CheckButton";
+import { _pickImage, _uploadItem } from "../controller/fileUtilitiesSync";
+import { MemberModelManage } from "../controller/MemberModel";
 
 export default class EditProfileScreen extends Component {
 
@@ -129,9 +126,8 @@ export default class EditProfileScreen extends Component {
       <View style={{flex: 1}}>
         <View style={{alignItems: "center"}}>
 
-          {(this.state.image == null) ? null : (
-            <Image source={{uri: this.state.image}}  style={styles.avatar} />
-          )}
+          <Image source={(this.state.image == null) ? null : ({uri: this.state.image})}  style={styles.avatar} />
+        
 
           <Text style={{fontSize: 15, color: '#347ED3'}} onPress={this._uploadImage}>
             Change Profile Photo
@@ -220,7 +216,6 @@ const styles = StyleSheet.create({
   avatar: {
     width: 120,
     height: 120,
-    resizeMode: "contain",
     alignSelf: "center",
     marginTop: 15,
     marginBottom: 15,

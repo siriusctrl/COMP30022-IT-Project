@@ -1,15 +1,11 @@
-import React, {Component} from "react";
-import { Text, Image, StyleSheet, View , Alert, KeyboardAvoidingView, ImageBackground, Button} from "react-native";
-import firebaseContainer from "../controller/firebaseConfig"
-import firebase from "firebase";
-
-import FamilyAccountModelManage from "../controller/FamilyAccountModel"
-import MemberModelManage from "../controller/MemberModel"
-import RNTextDetector from "react-native-text-detector";
-import {_pickImagea} from "../controller/fileUtilitiesSync"
-
+import React, { Component } from "react";
+import { Button, Text, View } from "react-native";
 import RNTesseractOcr from 'react-native-tesseract-ocr';
-
+import RNTextDetector from "react-native-text-detector";
+import FamilyAccountModelManage from "../controller/FamilyAccountModel";
+import { _pickImagea } from "../controller/fileUtilitiesSync";
+import firebaseContainer from "../controller/firebaseConfig";
+import MemberModelManage from "../controller/MemberModel";
 
 export default class TestFirebase extends Component{
 

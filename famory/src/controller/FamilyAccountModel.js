@@ -1,7 +1,5 @@
 import firebase from "firebase";
 import firebaseContainer from "./firebaseConfig";
-import ItemModelManage from "./ItemModel";
-
 import MemberModelManage from "./MemberModel";
 
 // manage class
@@ -93,7 +91,6 @@ export class FamilyAccount{
     }
   }
 
-
   // get all members
   // callback is called after getting them
   // callback should be a function that takes a list of memberModel
@@ -128,6 +125,5 @@ export class FamilyAccount{
       }
   }
 }
-
 
 export default FamilyAccountModelManage;

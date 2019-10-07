@@ -1,18 +1,16 @@
-import React, {Component} from "react";
-import { Text, Image, StyleSheet, View, FlatList, TouchableOpacity} from "react-native";
-import { Icon, ListItem } from 'react-native-elements';
+import LinearGradient from 'expo-linear-gradient';
 import { Button } from 'native-base';
+import React, { Component } from "react";
+import { FlatList, Image, StyleSheet, Text, View } from "react-native";
+import { Icon, ListItem } from 'react-native-elements';
 import { TouchableNativeFeedback } from "react-native-gesture-handler";
 import Carousel from "react-native-snap-carousel";
 import TouchableScale from 'react-native-touchable-scale';
-import LinearGradient from 'expo-linear-gradient';
-
 import ArtCard from "../components/ArtCard";
-import colors from "../config/colors";
-import FamilyAccountModelManage from "../controller/FamilyAccountModel"
-import MemberModelManage from "../controller/MemberModel";
 import Empty from "../components/Empty";
-
+import colors from "../config/colors";
+import FamilyAccountModelManage from "../controller/FamilyAccountModel";
+import MemberModelManage from "../controller/MemberModel";
 
 export default class ArtGuide extends Component{
 

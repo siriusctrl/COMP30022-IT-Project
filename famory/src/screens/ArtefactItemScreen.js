@@ -6,7 +6,7 @@ import * as WebBrowser from "expo-web-browser";
 import { Icon } from 'native-base';
 import Modal from "react-native-modal";
 
-import { Entypo, AntDesign, FontAwesome, MaterialIcons } from '@expo/vector-icons';
+import { Entypo, AntDesign, MaterialIcons } from '@expo/vector-icons';
 import Wechat from "../assets/icons/wechat";
 import Messenger from "../assets/icons/messenger";
 import GMail from "../assets/icons/gmail";
