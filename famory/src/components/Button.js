@@ -19,15 +19,15 @@ const styles = StyleSheet.create({
         alignItems: "center",
         justifyContent: "center",
         backgroundColor: colors.LIGHTBLUE,
-        marginTop: 12,
-        paddingVertical: 12,
-        borderRadius: 10,
+        height: 54,
+        borderRadius: 27,
         elevation: 8,
         width: "80%",
     },
     text: {
         color: colors.WHITE,
         textAlign: "center",
+        fontSize: 16,
         height: 20,
     }
 });
