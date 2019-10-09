@@ -59,7 +59,7 @@ export default class LoginScreen extends Component{
         ins.setState({password:"", wrongPwd:true, errorTitle:"Password Error", errorMessage:"Password is incorrect, please check again"});
         ins.AlertPro.open();
       } else if (errorCode === "auth/invalid-email"){
-        ins.setState({email:"", password:"", wrongEmail:true, errorTitle:"Email error", errorMessage:"Invalid email, please check again"});
+        ins.setState({ email:"", password:"", wrongEmail:true, errorTitle:"Email error", errorMessage:"Invalid email, please check again" });
         ins.AlertPro.open();
       } else {
         ins.setState({ email: "", password: "", errorTitle:"Error", errorMessage:errorMessage });
@@ -124,7 +124,7 @@ export default class LoginScreen extends Component{
               <View style={{flexDirection: 'row'}}>
                 <Mail style={styles.mail}>{mail}</Mail>
                 <FormTextInput
-                  value={this.state.Email}
+                  value={this.state.email}
                   onChangeText={this.handleEmailChanges}
                   placeholder={this.state.wrongEmail?"Invalid Email":strings.EMAIL_PLACEHOLDER}
                   placeholderTextColor={this.state.wrongEmail?colors.TORCH_RED:null}
