@@ -3,14 +3,12 @@ import { StyleSheet, Image, View, Text } from 'react-native';
 import { Container, ListItem, Left, Body, Right } from 'native-base';
 import Dialog, { DialogContent, DialogTitle, DialogFooter, DialogButton, SlideAnimation } from 'react-native-popup-dialog';
 
-import strings from "../config/strings";
-import Button from "../components/Button";
-
 import Homeicon from "../assets/icons/homeicon";
 import Calendar from "../assets/icons/calendar";
 import Achievement from "../assets/icons/achievement";
 import Setting from "../assets/icons/setting";
 import Accountmail from "../assets/icons/accountmail";
+import Leave from "../assets/icons/leave";
 
 import { FamilyAccountModelManage } from "../controller/FamilyAccountModel";
 import colors from "../config/colors";
@@ -28,6 +26,7 @@ export default class AccountHoldScreen extends Component {
       title: 'Account',
       headerStyle: {
         backgroundColor: '#4E91C4',
+        height: 46,
       },
 
       headerTintColor: colors.WHITE,
@@ -35,7 +34,7 @@ export default class AccountHoldScreen extends Component {
       headerTitleStyle: {
         fontWeight: 'bold',
         color: colors.WHITE,
-        paddingLeft: 90,
+        paddingLeft: 74,
         flex: 1,
       },
     };
@@ -135,7 +134,7 @@ export default class AccountHoldScreen extends Component {
 
         <View style={{paddingHorizontal: 8, width: "100%"}}>
             
-          <Text style={{fontSize: 15, color: colors.SILVER, marginLeft: 16, marginBottom: 2}}>DETAIL</Text>
+          <Text style={{fontSize: 14, color: colors.SILVER, marginLeft: 16, marginBottom: 2}}>DETAIL</Text>
 
           <ListItem icon noBorder>
             <Left>
@@ -174,12 +173,11 @@ export default class AccountHoldScreen extends Component {
           </ListItem>
 
           <View style={styles.separators} />
-          <Text style={{fontSize: 16, color: colors.SILVER, marginLeft: 16, marginBottom: 2}}>ACTION</Text>
+          <Text style={{fontSize: 14, color: colors.SILVER, marginLeft: 16, marginBottom: 2}}>ACTION</Text>
 
           <ListItem icon noBorder onPress={() => {this.props.navigation.navigate("ForgetPassword")}}>
             <Left>
-              <Setting title = "setting" style={{marginLeft: 3}}>
-              </Setting>
+              <Setting title = "setting" style={{marginLeft: 3}} />
             </Left>
             <Body>
             <Text style={{fontSize: 16, marginLeft: 3}}>Reset Password</Text>
@@ -224,11 +222,10 @@ export default class AccountHoldScreen extends Component {
         <View style={{paddingHorizontal: 8, width: "100%"}}>
           <ListItem icon noBorder onPress={this.handleLogOutPress}>
             <Left>
-              <Setting title = "setting" style={{marginLeft: 3}}>
-              </Setting>
+              <Leave style={{marginLeft: 6}}/>
             </Left>
             <Body>
-              <Text style={{fontSize: 16, marginLeft: 3}}>Log Out</Text>
+              <Text style={{fontSize: 16}}>Log Out</Text>
             </Body>
 
           </ListItem>
