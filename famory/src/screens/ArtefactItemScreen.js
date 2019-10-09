@@ -6,7 +6,7 @@ import * as WebBrowser from "expo-web-browser";
 import { Icon } from 'native-base';
 import Modal from "react-native-modal";
 
-import { Entypo, AntDesign, MaterialIcons } from '@expo/vector-icons';
+import { Entypo, AntDesign, MaterialIcons, Ionicons } from '@expo/vector-icons';
 import Wechat from "../assets/icons/wechat";
 import Messenger from "../assets/icons/messenger";
 import GMail from "../assets/icons/gmail";
@@ -21,7 +21,6 @@ import { ActionSheetCustom as ActionSheet } from 'react-native-actionsheet';
 import * as FileSystem from 'expo-file-system';
 import * as Permissions from 'expo-permissions';
 import * as Font from 'expo-font';
-import { Ionicons } from '@expo/vector-icons';
 
 const optionDropdown = {
   flexDirection: 'row', 
