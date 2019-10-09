@@ -55,15 +55,15 @@ export default class LoginScreen extends Component{
       // Handle Errors here.
       let errorCode = error.code;
       let errorMessage = error.message;
-      console.log(errorMessage);
       if (errorCode === 'auth/wrong-password') {
-        alert('Wrong password.');
-        ins.setState({password:"", wrongPwd:true});
+        ins.setState({password:"", wrongPwd:true, errorTitle:"Password Error", errorMessage:"Password is incorrect, please check again"});
+        ins.AlertPro.open();
       } else if (errorCode === "auth/invalid-email"){
-        alert('Invalid email');
-        ins.setState({email:"", password:"", wrongEmail:true});
+        ins.setState({email:"", password:"", wrongEmail:true, errorTitle:"Email error", errorMessage:"Invalid email, please check again"});
+        ins.AlertPro.open();
       } else {
-        alert(errorMessage);
+        ins.setState({ email: "", password: "", errorTitle:"Error", errorMessage:errorMessage });
+        ins.AlertPro.open();
       }
     });
   }
@@ -79,6 +79,9 @@ export default class LoginScreen extends Component{
   handleLoginPress = () => {
     if (this.state.email.length === 0){
       this.setState({ errorTitle:"Email Error", errorMessage:"Email Should not be empty" });
+      this.AlertPro.open();
+    } else if (this.state.password.length === 0){
+      this.setState({ errorTitle: "Password Error", errorMessage: "Password Should not be empty" });
       this.AlertPro.open();
     } else if (validate(this.state.email)){
       this._verifyEmail(this);
