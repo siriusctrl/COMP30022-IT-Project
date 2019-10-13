@@ -249,12 +249,10 @@ export default class MemberProfile extends Component{
           <View style={styles.artefactWrapper}>
           {
             this.state.itemAll == 0? 
-            <Text style={{marginTop: 118, fontSize: 18, color: colors.SILVER}}>
+            <Text style={{fontSize: 18, marginTop: -120, color: colors.SILVER}}>
               No artefacts, click + to add a new one!
-            </Text>:[]
-          }
-          {
-            this.state.itemAll == this.state.itemHas? 
+            </Text>:
+            this.state.itemAll == this.state.itemHas && this.state.itemAll != 0? 
             <Carousel
               ref={(c) => { this._carousel = c; }}
               data={(() => {return this.state.profileMemberArtefactItem;})()}
@@ -310,6 +308,7 @@ export default class MemberProfile extends Component{
               contentContainerCustomStyle={{alignItems: "center", flexDirection: "column"}}
               slideStyle={{width: "87%", elevation: 5, borderRadius: 6, overflow: "visible"}}
             />: <View></View>
+            
           }
           </View>
         </View>
