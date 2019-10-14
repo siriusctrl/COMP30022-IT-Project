@@ -53,7 +53,9 @@ export class MemberModelManage{
   }
 
   passItem(callback, newMemberModel, itemModel){
-    let itemId = Object.keys(newMemberModel.item).length
+    itemIds = Object.keys(newMemberModel.item).map((a) => Number(a))
+
+    let itemId = Math.max.apply(null, itemIds) + 1
     firebase.database().ref(newMemberModel._path + "/" + "item/" + itemId.toString() + "/").set(
       {id: itemModel.itemId, type: itemModel.type}).then( () => callback()
     )
