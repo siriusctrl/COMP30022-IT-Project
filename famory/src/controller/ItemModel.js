@@ -44,8 +44,11 @@ export class ItemModelManage{
       "text": "textItem",
       "video": "videoItem"
     }[type]
+
+    itemIds = Object.keys(memberModel.item).map((a) => Number(a))
+
+    itemId = Math.max.apply(null, itemIds) + 1
     
-    itemId = Object.keys(memberModel.item).length
     nextId = itemId
     firebase.database().ref(this._path + "/" + path + "/" + "maxTo/").once("value").then((maxMember) => {
       let maxId = maxMember.val()

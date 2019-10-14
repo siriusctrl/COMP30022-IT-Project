@@ -344,7 +344,6 @@ export default class ArtGuide extends Component{
 
   // finished guide
   _finish = (purpose) => {
-    alert("finished" + purpose);
     MemberModelManage.getInstance().passItem(()=>{
       this.state.memberModel.updateSelf(
         (updatedMember) => {

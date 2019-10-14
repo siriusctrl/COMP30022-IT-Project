@@ -1,9 +1,11 @@
 import React, { Component } from "react";
 import { Button, Text, View } from "react-native";
+import { RNCamera } from 'react-native-camera';
+import {Camera} from "expo";
 import RNTesseractOcr from 'react-native-tesseract-ocr';
 import RNTextDetector from "react-native-text-detector";
 import FamilyAccountModelManage from "../controller/FamilyAccountModel";
-import { _pickImagea } from "../controller/fileUtilitiesSync";
+import { _pickImage } from "../controller/fileUtilitiesSync";
 import firebaseContainer from "../controller/firebaseConfig";
 import MemberModelManage from "../controller/MemberModel";
 
@@ -18,15 +20,20 @@ export default class TestFirebase extends Component{
   }
 
   detectText = async () => {
-    const tessOptions = {
-      whitelist: null, 
-      blacklist: '1234567890\'!"#$%&/()={}[]+*-_:;<>'
-    };
-    const { uri } = await _pickImagea();
-    alert(uri)
-    let result = await RNTesseractOcr.recognize(uri, "LANG_ENGLISH", tessOptions)
-    this.setState({ ocrResult: await result });
-  }
+    try {
+      const options = {
+        quality: 0.8,
+        base64: true,
+        skipProcessing: true,
+      };
+      const { uri } = await _pickImage();
+      alert(uri)
+      const visionResp = await RNTextDetector.detectFromUri(uri);
+      alert(visionResp);
+    } catch (e) {
+      alert(e);
+    }
+  };
 
   detectTexta = async () => {
     try {
