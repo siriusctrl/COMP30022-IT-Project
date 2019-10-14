@@ -6,8 +6,9 @@ import MemberModelManage from "./MemberModel";
 // singleton, call getInstance() to get an instace
 export class FamilyAccountModelManage{
 
-  static _managePart = null
-  _path = "FamilyAccount"
+  static _managePart = null;
+  _path = "FamilyAccount";
+  _accountPath = "FamilyAccount";
 
   // get instance
   static getInstance(){
