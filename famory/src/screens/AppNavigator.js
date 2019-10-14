@@ -55,9 +55,8 @@ const AppNavigator = createStackNavigator({
   ForgetPassword: {screen: ForgetPasswordScreen},
   Achievement: {screen: Achievement},
 }, {
-      // should be debug
-      initialRouteName: "Debug",
-      transitionConfig: (screens) => handleCustomTransition(screens)
+    initialRouteName: "Welcome",
+    transitionConfig: (screens) => handleCustomTransition(screens)
 }, {
   defaultNavigationOptions:{
     header:null

@@ -20,7 +20,12 @@ const colors = {
     RINGPINK: "#eda6ed",
     RINGLIGHTORANGE: "#eb9c4d",
     RINGBLUE: "#1091c4",
-    RINGDOGER: "#61aee8"
+    RINGDOGER: "#61aee8",
+    FAMORYBLUE: "#4E91C4",
+    PHOTOBLUE: "#347ED3",
+    ACHIEVEMENTBLUE: "#51AADD",
+    ACHIEVEMENTRED: "#DD5751",
+    HEADERBLUE: "#8DC3FA",
   };
   
 export default colors;

@@ -25,7 +25,7 @@ export default class AccountHoldScreen extends Component {
     return {
       title: 'Account',
       headerStyle: {
-        backgroundColor: '#4E91C4',
+        backgroundColor: colors.FAMORYBLUE,
         height: 46,
       },
 
@@ -40,7 +40,8 @@ export default class AccountHoldScreen extends Component {
     };
   };
 
-  // state to control pop up menu
+  // state to store the information of family name, date of creation and account avatar
+  // state to control pop up menu and spinner
   state = {
     familyName: "",
     dateCreated: "",
@@ -49,7 +50,7 @@ export default class AccountHoldScreen extends Component {
     spinner: true,
   };
 
-  // get account family name and date of Creation
+  // get account family name, date of Creation and avatar
   getAccount = async () => {
     await FamilyAccountModelManage.getInstance().getFamilyAccount((familyAccount) => {
 
@@ -61,7 +62,8 @@ export default class AccountHoldScreen extends Component {
     });
   };
 
-  // update page when mount
+  // update page
+  // loading spinner before loading the information of page
   async componentDidMount() {
     await this.getAccount();
     await setTimeout(() => {
@@ -75,7 +77,8 @@ export default class AccountHoldScreen extends Component {
     this.props.navigation.navigate('Achievement');
   };
 
-  // function for log out, jumps to Welcome page
+  // function for log out
+  // After click log out button, navigate to Welcome page and clear stacks
   handleLogOutPress = () => {
     const resetAction = StackActions.reset({
       index: 0,
@@ -96,7 +99,6 @@ export default class AccountHoldScreen extends Component {
       this.forceUpdate();
       _uploadItem(result, (uri) => {
         console.log(uri);
-        // upload to firebase
         FamilyAccountModelManage.getInstance().setPhoto(() => {}, uri);
       });
     }
@@ -105,16 +107,13 @@ export default class AccountHoldScreen extends Component {
   render() {
 
     if (this.state.spinner === true) return (
-      <Container>
-        <Spinner
-          visible={true}
-          textStyle={styles.spinnerTextStyle}
-          cancelable={false}
-          overlayColor={"rgb(0, 0, 0, 0)"}
-          color={'#4E91C4'}
-          size={'large'}
-        />
-      </Container>
+      <Spinner
+        visible={this.state.spinner}
+        cancelable={false}
+        overlayColor={"rgba(0, 0, 0, 0)"}
+        color={colors.FAMORYBLUE}
+        size={'large'}
+      />
     );
 
     return (
@@ -122,11 +121,19 @@ export default class AccountHoldScreen extends Component {
       <Container style={{flexDirection: "column", alignItems: "center"}}>
 
         <View style={{alignItems: "center", paddingVertical: 6}}>
-          {(this.state.accountAvatar == null) ? null : (
-            <Image source={{uri: this.state.accountAvatar}}  style={styles.avatar} />
-          )}
-
-          <Text style={{fontSize: 15, color: '#347ED3', marginBottom: 20}} onPress={this._uploadAccountAvatar}>
+          <View style={styles.photoContainer}>
+            <Spinner
+              visible={this.state.spinner}
+              cancelable={false}
+              overlayColor={"rgba(0, 0, 0, 0)"}
+              color={colors.FAMORYBLUE}
+              size={'large'}
+            />
+            {(this.state.accountAvatar == null) ? null : (
+              <Image source={{uri: this.state.accountAvatar}}  style={styles.avatar} />
+            )}
+          </View>
+          <Text style={{fontSize: 15, color: colors.PHOTOBLUE, marginBottom: 20}} onPress={this._uploadAccountAvatar}>
             Change Account Photo
           </Text>
 
@@ -212,8 +219,8 @@ export default class AccountHoldScreen extends Component {
               }
             >
               <DialogContent>
-                <Text style={styles.contactText}>Name: <Text style={{color: '#347ED3'}}>Miley Zhang</Text></Text>
-                <Text style={styles.contactText}>E-mail: <Text style={{color: '#347ED3'}}>mileyzha@gmail.com</Text></Text>
+                <Text style={styles.contactText}>Name: <Text style={{color: colors.PHOTOBLUE}}>Miley Zhang</Text></Text>
+                <Text style={styles.contactText}>E-mail: <Text style={{color: colors.PHOTOBLUE}}>mileyzha@gmail.com</Text></Text>
               </DialogContent>
             </Dialog>
           </ListItem>
@@ -237,6 +244,7 @@ export default class AccountHoldScreen extends Component {
   }
 }
 
+// styles here
 const styles = StyleSheet.create({
   avatar: {
     width: 120,
@@ -251,7 +259,7 @@ const styles = StyleSheet.create({
     flex:1,
     flexDirection: 'row',
     borderWidth: 7,
-    borderColor: "#fff",
+    borderColor: colors.WHITE,
   },
   contactText: {
     fontSize: 17,
@@ -273,7 +281,9 @@ const styles = StyleSheet.create({
     marginLeft: 3,
     marginRight: 80,
   },
-  spinnerTextStyle: {
-    color: '#FFF'
+  photoContainer: {
+    width: 160,
+    height: 160,
+    alignSelf: "center",
   },
 });

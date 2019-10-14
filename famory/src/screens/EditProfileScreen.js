@@ -7,15 +7,17 @@ import CheckMark from "../assets/icons/checkedMark";
 import CheckButton from "../components/CheckButton";
 import { _pickImage, _uploadItem } from "../controller/fileUtilitiesSync";
 import { MemberModelManage } from "../controller/MemberModel";
+import colors from "../config/colors";
 
 export default class EditProfileScreen extends Component {
 
   // navigation header here
+  // click save button can update information to firebase
   static navigationOptions = ({ navigation }) => {
     return {
       title: 'Edit Profile',
       headerStyle: {
-        backgroundColor: '#4E91C4',
+        backgroundColor: colors.FAMORYBLUE,
       },
 
       headerTitleStyle: {
@@ -24,7 +26,7 @@ export default class EditProfileScreen extends Component {
         textAlign: 'center',
         flex: 1,
       },
-      headerTintColor: '#FFFFFF',
+      headerTintColor: colors.WHITE,
       headerRight: (
         <CheckButton
           onPress={navigation.getParam('updateProfile')}
@@ -51,6 +53,8 @@ export default class EditProfileScreen extends Component {
     modalVisible: false,
   };
 
+  // update pages and handel submit function
+  // get information of first name, last name, date of birth and image from backend
   componentDidMount () {
     this.props.navigation.setParams({ updateProfile: this._handleSubmit });
     let model = this.props.navigation.state.params.memberModel;
@@ -74,6 +78,8 @@ export default class EditProfileScreen extends Component {
     model.firstName = this.state.firstName;
     model.lastName = this.state.lastName;
     model.dob = this.state.dob;
+    // upload image to firebase
+    // use callback
     if (this.state.imageuploaded) {
       _uploadItem(this.state.result, (firebaseUri) => {
         model.profileImage = firebaseUri;
@@ -81,7 +87,6 @@ export default class EditProfileScreen extends Component {
           model.updateSelf((newModel) => {
             this.props.navigation.getParam("profileScreen", null).setModel(newModel)
           });
-          //this.props.navigation.goBack();
         }, model);
       });
     } else {
@@ -89,7 +94,6 @@ export default class EditProfileScreen extends Component {
         model.updateSelf((newModel) => {
           this.props.navigation.getParam("profileScreen", null).setModel(newModel)
         });
-        //this.props.navigation.goBack();
       }, model);
     }
 
@@ -129,7 +133,7 @@ export default class EditProfileScreen extends Component {
           <Image source={(this.state.image == null) ? null : ({uri: this.state.image})}  style={styles.avatar} />
         
 
-          <Text style={{fontSize: 15, color: '#347ED3'}} onPress={this._uploadImage}>
+          <Text style={{fontSize: 15, color: colors.PHOTOBLUE}} onPress={this._uploadImage}>
             Change Profile Photo
           </Text>
         </View>
@@ -240,8 +244,8 @@ const styles = StyleSheet.create({
   uploadingModalStyle: {
     marginTop: 100,
     marginHorizontal: 30,
-    color: "#ffffff",
-    backgroundColor: '#fff',
+    color: colors.WHITE,
+    backgroundColor: colors.WHITE,
     borderRadius: 15,
     justifyContent: "center",
     marginBottom: 510,
@@ -250,7 +254,7 @@ const styles = StyleSheet.create({
     flex:1,
     justifyContent:"center",
     alignItems:"center",
-    color: "#fff",
+    color: colors.WHITE,
     flexDirection: 'row',
   },
 });
