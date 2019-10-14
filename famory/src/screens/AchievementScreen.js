@@ -54,7 +54,7 @@ export default class AchievementScreen extends Component {
   static navigationOptions = {
     title: 'Achievements',
     headerStyle: {
-      backgroundColor: '#8DC3FA',
+      backgroundColor: colors.HEADERBLUE,
       elevation: 0,
     },
 
@@ -63,7 +63,7 @@ export default class AchievementScreen extends Component {
       marginLeft: 63,
       flex: 1,
     },
-    headerTintColor: '#FFFFFF',
+    headerTintColor: colors.WHITE,
 
   }
 
@@ -139,6 +139,7 @@ export default class AchievementScreen extends Component {
       default:
         // nothing
     }
+    // clipboard texts
     Clipboard.setString("I have unlocked a " + this.state.cliptext[id] + " medal in Famory, " +
       "the best family artefact register app in the world! Check the app out! " + strings.DOWNLOADLINK);
     await FileSystem.downloadAsync(trophy,FileSystem.documentDirectory + 'artefact.png')
@@ -168,7 +169,7 @@ export default class AchievementScreen extends Component {
     return (
       <View style={styles.container}>
         <LinearGradient
-          colors={['#8DC3FA', colors.LIGHTBLUE]}
+          colors={[colors.HEADERBLUE, colors.LIGHTBLUE]}
           style={{
             position: 'absolute',
             left: 0,
@@ -183,9 +184,9 @@ export default class AchievementScreen extends Component {
             <Text style={styles.achievementText}>Hello Famory</Text>
             <Text style={styles.achievementTextCompleted}>
               {(helloCompleted === 3) ? (
-                <Text style={{color: '#51AADD'}}>0{helloCompleted}</Text>
+                <Text style={{color: colors.ACHIEVEMENTBLUE}}>0{helloCompleted}</Text>
               ) : (
-                <Text style={{color: '#DD5751'}}>0{helloCompleted}</Text>
+                <Text style={{color: colors.ACHIEVEMENTRED}}>0{helloCompleted}</Text>
               )}
               {" "}/{" "}03
             </Text>
@@ -218,9 +219,9 @@ export default class AchievementScreen extends Component {
             <Text style={styles.achievementText}>Community Elite</Text>
             <Text style={styles.achievementTextCompleted}>
               {(communityCompleted === 3) ? (
-                <Text style={{color: '#51AADD'}}>0{communityCompleted}</Text>
+                <Text style={{color: colors.ACHIEVEMENTBLUE}}>0{communityCompleted}</Text>
               ) : (
-                <Text style={{color: '#DD5751'}}>0{communityCompleted}</Text>
+                <Text style={{color: colors.ACHIEVEMENTRED}}>0{communityCompleted}</Text>
               )}
               {" "}/{" "}03
             </Text>
@@ -253,9 +254,9 @@ export default class AchievementScreen extends Component {
             <Text style={styles.achievementText}>Treasury Family</Text>
             <Text style={styles.achievementTextCompleted}>
               {(familyCompleted === 3) ? (
-                <Text style={{color: '#51AADD'}}>0{familyCompleted}</Text>
+                <Text style={{color: colors.ACHIEVEMENTBLUE}}>0{familyCompleted}</Text>
               ) : (
-                <Text style={{color: '#DD5751'}}>0{familyCompleted}</Text>
+                <Text style={{color: colors.ACHIEVEMENTRED}}>0{familyCompleted}</Text>
               )}
               {" "}/{" "}03
             </Text>
@@ -290,9 +291,9 @@ export default class AchievementScreen extends Component {
         <Text style={styles.totalCount}>
           Total:{" "}
           {(completed === 9) ? (
-            <Text style={{color: '#51AADD'}}>0{completed}</Text>
+            <Text style={{color: colors.ACHIEVEMENTBLUE}}>0{completed}</Text>
           ) : (
-            <Text style={{color: '#DD5751'}}>0{completed}</Text>
+            <Text style={{color: colors.ACHIEVEMENTRED}}>0{completed}</Text>
           )}
           {" "}/{" "}09
         </Text>
@@ -633,7 +634,7 @@ const styles = StyleSheet.create({
     flex: 1,
     fontSize: 20,
     fontWeight: "bold",
-    color: "#fff",
+    color: colors.WHITE,
     marginTop: 5,
   },
   modalStyle: {
