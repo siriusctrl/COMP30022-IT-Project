@@ -273,7 +273,18 @@ export default class ArtGuide extends Component{
               </Button>
             </TouchableNativeFeedback>
           </View>
-        </View>: <View style={{flex: 4, flexDirection: "column", paddingTop: 23}}>
+        </View>: <View style={{flex: 6, flexDirection: "column", paddingTop: 2}}>
+          <View style={{flex: 7, justifyContent: "flex-start"}}>
+          <View style={{flex: 11, width: "100%", alignItems: "center", overflow: "hidden"}}></View>
+        <View style={guideStyle.bottomButtonCn}>
+            <TouchableNativeFeedback style={{borderRadius: 2, elevation: 1}}>
+              <Button style={guideStyle.bottomButtonLeft} iconLeft light onPress={() => this._changeStage(true)}>
+                <Icon name='arrow-back' />
+                <Text style={{color: colors.DODGER_BLUE, textAlign: "center", textAlignVertical: "center", fontSize: 16, marginHorizontal: 8}}>BACK</Text>
+              </Button>
+            </TouchableNativeFeedback>
+          </View>
+          </View>
         </View>
       }
       ,
