@@ -47,7 +47,12 @@ export class ItemModelManage{
 
     itemIds = Object.keys(memberModel.item).map((a) => Number(a))
 
-    itemId = Math.max.apply(null, itemIds) + 1
+
+    if(Object.keys(memberModel.item).length != 0){
+      itemId = Math.max.apply(null, itemIds) + 1
+    }else{
+      itemId = 0
+    }
     
     nextId = itemId
     firebase.database().ref(this._path + "/" + path + "/" + "maxTo/").once("value").then((maxMember) => {

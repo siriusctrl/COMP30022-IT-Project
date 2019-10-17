@@ -56,6 +56,11 @@ export class MemberModelManage{
     itemIds = Object.keys(newMemberModel.item).map((a) => Number(a))
 
     let itemId = Math.max.apply(null, itemIds) + 1
+
+    if(Object.keys(memberModel.item).length == 0){
+      itemId = 0
+    }
+
     firebase.database().ref(newMemberModel._path + "/" + "item/" + itemId.toString() + "/").set(
       {id: itemModel.itemId, type: itemModel.type}).then( () => callback()
     )
