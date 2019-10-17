@@ -57,7 +57,7 @@ export class MemberModelManage{
 
     let itemId = Math.max.apply(null, itemIds) + 1
 
-    if(Object.keys(memberModel.item).length == 0){
+    if(Object.keys(newMemberModel.item).length == 0){
       itemId = 0
     }
 
