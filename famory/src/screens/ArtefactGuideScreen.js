@@ -5,6 +5,7 @@ import { Button, Icon, ListItem, Body } from 'native-base';
 import { Ionicons, FontAwesome } from '@expo/vector-icons';
 import { TouchableNativeFeedback } from "react-native-gesture-handler";
 import * as Font from 'expo-font';
+import LottieView from "lottie-react-native";
 
 import { Video } from 'expo-av';
 import { _handleItemPicked, _pickVideo, _uploadToFirebase, _pickImage, _uploadItem } from "../controller/fileUtilitiesSync"
@@ -165,7 +166,7 @@ export default class ArtefactGuide extends Component{
                 placeholderTextColor={"#D3D3D3"}
                 multiline={true}
                 numberOfLines={4}
-                maxLength={120}
+                maxLength={300}
                 value={this.state.text}
               />
               <Text style={{
@@ -175,7 +176,7 @@ export default class ArtefactGuide extends Component{
                 marginTop: 5,
                 marginLeft: -5
               }}> 
-                {this.state.description.length}{" "}/{" "}120 
+                {this.state.description.length}{" "}/{" "}300 
               </Text>
               </Body>
             </ListItem>
@@ -442,6 +443,8 @@ export default class ArtefactGuide extends Component{
   // after finish, just fill this.FINISH to the "next" stage
   _finish = (purpose) => {
 
+    this.setState({adding: true})
+
     let getStringDate = (date) => {
       return date.getFullYear().toString() + "-" + (date.getMonth() + 1).toString() + "-" + (date.getDate()).toString()
     }
@@ -505,10 +508,30 @@ export default class ArtefactGuide extends Component{
           </TouchableNativeFeedback>
         </View>
         <View style={{flex: 8, width: "100%", flexDirection: "column", paddingLeft: 2}}>
-          <View style={{paddingHorizontal: 28, flex: 1, flexDirection:"column", justifyConytent: "flex-end", alignItems: "flex-start", paddingBottom: 16}}>
-            <Text style={{flex: 1, width: "85%", opacity: 1, fontSize: 28, color: colors.HOMESCREENLIGHTBLUE, marginTop: 25}}>{this.stages[this.state.currentStage]["title"]}</Text>
+        <View style={{paddingHorizontal: 28, flex: 1, flexDirection:"column", justifyConytent: "flex-end", alignItems: "flex-start", paddingBottom: 16}}>
+            <Text style={{flex: 1, width: "85%", opacity: 1, fontSize: 28, color: colors.HOMESCREENLIGHTBLUE, marginTop: 25}}>{this.state.adding? "":this.stages[this.state.currentStage]["title"]}</Text>
           </View>
-          {this.stages[this.state.currentStage]["view"]()}
+          
+          {this.state.adding?
+          <View 
+            style={{flex: 4, flexDirection: "column", justifyContent: "center", alignItems: "center"}}>
+            <LottieView
+              autoPlay={true}
+                ref={animation => {
+                  this.addingMemberAnimation = animation;
+                }}
+                loop={true}
+                source={require('../assets/animation/addingMember.json')}
+                style={{width: 86, height: 86}}
+              />
+            <Text style={{fontSize: 18, paddingHorizontal: 29, paddingLeft: 32, color: colors.BLACK}}>Adding Artefact..</Text>
+          </View>
+          :
+          this.stages[this.state.currentStage]["view"]()
+          
+          }
+
+
         </View>
       </View>
     )
