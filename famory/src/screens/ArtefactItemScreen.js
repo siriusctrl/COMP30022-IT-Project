@@ -155,7 +155,7 @@ export default class ArtefactItem extends Component{
                   }}
                   style={{width: this.state.width, height: this.state.height}}
                 />
-                <Text style={{color: colors.AGRAY, marginTop: 36, fontStyle: "italic"}}>{this.state.artefactItem.description}</Text>
+                <Text style={{color: colors.AGRAY, marginTop: 36, fontStyle: "italic", fontSize: 16}}>{this.state.artefactItem.description}</Text>
                 <View style={{marginTop: 58}}>
                   <Text style={{color: colors.AGRAY}}>DETAIL</Text>
                   <View
@@ -177,7 +177,7 @@ export default class ArtefactItem extends Component{
                 <Text style={{lineHeight: 32, fontSize: 22, color: "#6c6c6c", marginTop: 32, fontFamily:"snell-bold", letterSpacing:1.5, textDecorationLine:"underline"}}>
                   {this.state.artefactItem.content}
                 </Text>
-                <Text style={{color: colors.AGRAY, marginTop: 36, fontStyle: "italic"}}>{this.state.artefactItem.description}</Text>
+                <Text style={{color: colors.AGRAY, marginTop: 36, fontStyle: "italic", fontSize: 16}}>{this.state.artefactItem.description}</Text>
                 <View style={{marginTop: 58}}>
                   <Text style={{color: colors.AGRAY}}>DETAIL</Text>
                   <View
@@ -195,7 +195,7 @@ export default class ArtefactItem extends Component{
               :
               <View style={{marginHorizontal: 29, marginVertical: 19, flexDirection: "column", minHeight: 870, overflow: "visible"}}>
                 <ArtCard item={this.state.artefactItem} style={styles.artCard}/>
-                <Text style={{color: colors.AGRAY, marginTop: 36, fontStyle: "italic"}}>{this.state.artefactItem.description}</Text>
+                <Text style={{color: colors.AGRAY, marginTop: 36, fontStyle: "italic", fontSize: 16}}>{this.state.artefactItem.description}</Text>
                 <View style={{marginTop: 58}}>
                   <Text style={{color: colors.AGRAY}}>DETAIL</Text>
                   <View
