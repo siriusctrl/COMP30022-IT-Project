@@ -2,7 +2,7 @@
 
 This is part of the overall documentation of app _Famory_.
 
-<img src=".gitbook/assets/bian-zu.svg" style="width:200px;height:200px"/>
+<img src=".gitbook/assets/bian-zu.svg" style="width:80px;height:80px"/>
 
 ## What's in this documentation?
 
