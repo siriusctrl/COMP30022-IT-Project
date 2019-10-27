@@ -20,7 +20,7 @@ Kevin and his family.
 
 
 ### Notice
-Based on the requirement of our client, the app will be an Android app only.
+Based on the requirement of our client, the app is an Android app.
 
 
 ## Table of contents
