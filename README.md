@@ -1,19 +1,22 @@
 # Intro
 
-This is part of the overall documentation of app _Famory_.
+The project is an app _Famory_ built by team _Ctrl_, for the subject _COMP30022 IT Project_.
 
 <p align="center">
   <img src=".gitbook/assets/bian-zu.svg" height=160/>
 </p>
 
-## What's in this documentation?
+For more documentation like architectures, please head to _documentation_ folder.
 
-The documentation is divided in two parts: concepts and development.
+Main technique stack:
+- React Native for front end
+- Firebase for back end
 
-Concept part is about the requirement, the concept, design and all upper stuffs about the app and client side requirements.
+## Client
+Kevin and his family.
 
-Development part is the cookbook of APIs for the developers, which contains model APIs, 
-
+## Notice
+Based on the requirement of our client, the app will be an Android app only.
 
 ## Table of contents
 
