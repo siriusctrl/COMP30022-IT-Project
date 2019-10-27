@@ -23,9 +23,7 @@ Kevin and his family.
 Based on the requirement of our client, the app is an Android app.
 
 
-## Table of contents
-
-* [Intro](README.md)
+## Table of contents (legacy development documentation)
 
 
 ### Concepts <a id="concepts-1"></a>
