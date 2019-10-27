@@ -1,6 +1,6 @@
-# Intro
+# Introduction to the project
 
-The project is an app _Famory_ built by team _Ctrl_, for the subject _COMP30022 IT Project_.
+The project is an app ***Famory*** built by team ***Ctrl***, for the subject _COMP30022 IT Project_.
 
 <p align="center">
   <img src=".gitbook/assets/bian-zu.svg" height=160/>
@@ -24,11 +24,12 @@ Based on the requirement of our client, the app is an Android app.
 
 
 ## Table of contents (legacy development documentation)
+---
 
-
-### Concepts <a id="concepts-1"></a>
+### Concepts of the project <a id="concepts-1"></a>
 
 * [Concepts](concepts-1/concepts.md)
+* [Rules](concepts-1/rules.md)
 * [Design](concepts-1/design.md)
 * [Testing](concepts-1/testing.md)
 
