@@ -24,7 +24,6 @@ Based on the requirement of our client, the app is an Android app.
 
 
 ## Table of contents (legacy development documentation)
----
 
 ### Concepts of the project <a id="concepts-1"></a>
 
