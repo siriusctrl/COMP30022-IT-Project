@@ -6,27 +6,34 @@ The project is an app _Famory_ built by team _Ctrl_, for the subject _COMP30022 
   <img src=".gitbook/assets/bian-zu.svg" height=160/>
 </p>
 
-For more documentation like architectures, please head to _documentation_ folder.
 
 Main technique stack:
 - React Native for front end
 - Firebase for back end
 
-## Client
+### For More Documentation
+For more documentation like architectures, please head to _documentation_ folder.
+
+
+### Client
 Kevin and his family.
 
-## Notice
+
+### Notice
 Based on the requirement of our client, the app will be an Android app only.
+
 
 ## Table of contents
 
 * [Intro](README.md)
+
 
 ### Concepts <a id="concepts-1"></a>
 
 * [Concepts](concepts-1/concepts.md)
 * [Design](concepts-1/design.md)
 * [Testing](concepts-1/testing.md)
+
 
 ### Development
 
