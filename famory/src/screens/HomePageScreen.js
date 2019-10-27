@@ -80,7 +80,7 @@ export default class HomePageScreen extends Component{
   };
 
 
-  // set the maibn familyAccountModel that used in the page
+  // set the main familyAccountModel that used in the page
   setModel = (familyAccount) => {
     this.setState({familyAccount: familyAccount});
     this.setState({familyName: familyAccount.name + "'s Family"});
