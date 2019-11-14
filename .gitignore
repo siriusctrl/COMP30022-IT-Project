@@ -16,3 +16,7 @@ famory/yarn-error.log
 node_modules/
 
 .expo/
+
+bfg.jar
+
+famory/src/controller/firebaseConfig.js
